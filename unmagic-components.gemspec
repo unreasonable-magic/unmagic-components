@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.files = Dir["lib/**/*", "app/**/*", "config/**/*", "README.md", "LICENSE", "CHANGELOG.md"]
   spec.require_paths = [ "lib" ]
 
-  spec.required_ruby_version = ">= 3.2"
+  spec.required_ruby_version = ">= 3.3"
 
   spec.add_dependency "activesupport", ">= 7.0"
   spec.add_dependency "actionview", ">= 7.0"
