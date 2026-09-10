@@ -1,0 +1,45 @@
+<section>
+  <h2>table_for — sortable, numeric, aligned, with companion rows</h2>
+  <%= table_for @things do |table|
+        table.column("Name", :name, sort: :name, width: "34%")
+        table.column("Role", :role, sort: :role, width: "22%")
+        table.column("Score", :score, numeric: true, width: "14%")
+        table.column("Centred", :role, align: :center, width: "16%")
+        table.column("Right", :score, align: :right, width: "14%")
+        table.details { |thing| thing.note }
+      end %>
+</section>
+
+<section>
+  <h2>table_for — empty</h2>
+  <%= table_for [] do |table|
+        table.empty "No people yet."
+        table.column("Name", :name)
+      end %>
+</section>
+
+<section>
+  <h2>table_tag — a static table, no records</h2>
+  <%= table_tag [ "Metric", "Value" ],
+        [ [ "Requests", { content: "1,204", class: "is-right is-numeric" } ],
+          [ "Errors", { content: "3", class: "is-right is-numeric" } ] ],
+        widths: [ "70%", "30%" ] %>
+</section>
+
+<section>
+  <h2>detail_list — inline</h2>
+  <%= detail_list do |list|
+        list.item "Name", "Ada Lovelace"
+        list.item "Role", "Engineer"
+        list.item "Notes", nil
+      end %>
+</section>
+
+<section>
+  <h2>detail_list — stacked</h2>
+  <%= detail_list variant: :stacked do |list|
+        list.item "Client ID", "abc123"
+        list.item "Scopes", "read write"
+        list.item("Redirect URIs", span: :full) { tag.div("https://example.com/callback") }
+      end %>
+</section>

@@ -1,0 +1,382 @@
+/* unmagic-components
+ *
+ * Plain CSS on purpose. Tailwind only generates classes it can see and it does
+ * not scan installed gems, so any utility written inside this gem's Ruby would
+ * silently render unstyled in a host app. Owning the CSS here also means the
+ * components work in an app that doesn't use Tailwind at all.
+ *
+ * Theming is one layer of custom properties. Every value falls back to a
+ * Tailwind palette default, so the components look right with no configuration;
+ * a host overrides by setting --unmagic-* wherever its own theme is defined:
+ *
+ *   :root {
+ *     --unmagic-surface: var(--surface);
+ *     --unmagic-border:  var(--border);
+ *   }
+ *
+ * Dark mode needs nothing here. Host tokens that already flip carry these with
+ * them, which is why this file declares no dark variant of its own and makes no
+ * assumption about how the host selects a theme.
+ */
+
+/* ------------------------------------------------------------------ Table */
+
+/* Content-sized by default, so a Markdown table wearing this class hugs its
+   content rather than stretching. table_tag adds the --full modifier, which is
+   what an index table wants. */
+.UnmagicTable {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--unmagic-text, var(--color-neutral-900, #171717));
+  background-color: var(--unmagic-surface, var(--color-white, #fff));
+  border: 1px solid var(--unmagic-border, var(--color-neutral-200, #e5e5e5));
+  border-radius: 0.75rem;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+}
+
+.UnmagicTable--full {
+  width: 100%;
+}
+
+.UnmagicTable--fixed {
+  table-layout: fixed;
+}
+
+.UnmagicTable__caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.UnmagicTable thead th {
+  padding: 0.75rem 1rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+  color: var(--unmagic-text-2, var(--color-neutral-600, #525252));
+  background-color: var(--unmagic-surface-2, var(--color-neutral-50, #fafafa));
+  border-bottom: 1px solid var(--unmagic-border, var(--color-neutral-200, #e5e5e5));
+}
+
+.UnmagicTable tbody td {
+  padding: 0.75rem 1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--unmagic-border, var(--color-neutral-200, #e5e5e5));
+}
+
+/* The border rides on the cells rather than the row: with border-collapse
+   separate, a border set on a <tr> is not painted. */
+.UnmagicTable tbody tr:last-child > td {
+  border-bottom: 0;
+}
+
+.UnmagicTable tbody tr:hover > td {
+  background-color: var(--unmagic-hover, var(--color-neutral-50, #fafafa));
+}
+
+/* A row carrying a companion details row below it drops its bottom border, so
+   the pair reads as one row. */
+.UnmagicTable tbody tr.has-details > td {
+  border-bottom: 0;
+}
+
+.UnmagicTable tbody tr.UnmagicTable__details > td {
+  padding-top: 0;
+}
+
+.UnmagicTable .is-right {
+  text-align: right;
+}
+
+.UnmagicTable .is-center {
+  text-align: center;
+}
+
+.UnmagicTable .is-numeric {
+  font-variant-numeric: tabular-nums;
+}
+
+.UnmagicTable__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.UnmagicTable__sort:hover {
+  color: var(--unmagic-text, var(--color-neutral-900, #171717));
+}
+
+/* --------------------------------------------------------------- Skeleton */
+
+.UnmagicSkeleton {
+  position: relative;
+  height: 1rem;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  background-color: var(--unmagic-skeleton, var(--color-neutral-200, #e5e5e5));
+}
+
+.UnmagicSkeleton.is-right {
+  margin-left: auto;
+}
+
+/* The shimmer is a translated ::after so it stays on the compositor; the radius
+   and sizing stay on the element itself, which clips the band to the shape. */
+.UnmagicSkeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    var(--unmagic-skeleton-shimmer, rgb(255 255 255 / 0.7)),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: unmagic-skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes unmagic-skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .UnmagicSkeleton::after {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------ Empty state */
+
+.UnmagicEmptyState {
+  padding: 2rem;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--unmagic-text-3, var(--color-neutral-500, #737373));
+  border: 1px dashed var(--unmagic-border-strong, var(--color-neutral-300, #d4d4d4));
+  border-radius: 0.5rem;
+}
+
+/* ------------------------------------------------------------- Pagination */
+
+.UnmagicPagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.UnmagicPagination__link {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--unmagic-text, var(--color-neutral-900, #171717));
+  text-decoration: none;
+  background-color: var(--unmagic-surface, var(--color-white, #fff));
+  border: 1px solid var(--unmagic-border-strong, var(--color-neutral-300, #d4d4d4));
+  border-radius: 0.375rem;
+}
+
+.UnmagicPagination__link:hover {
+  background-color: var(--unmagic-hover, var(--color-neutral-50, #fafafa));
+}
+
+.UnmagicPagination__link[aria-disabled="true"] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* -------------------------------------------------------- Description list */
+
+.UnmagicDescriptionList {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.5rem 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.UnmagicDescriptionList dt {
+  grid-column: 1;
+  color: var(--unmagic-text-2, var(--color-neutral-600, #525252));
+}
+
+.UnmagicDescriptionList dd {
+  grid-column: 2;
+  margin: 0;
+  color: var(--unmagic-text, var(--color-neutral-900, #171717));
+}
+
+/* The stacked variant is a different layout, not a restyle of the inline one:
+   small caps labels above their values, in two columns once there is room. */
+.UnmagicDescriptionList--stacked {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem 2rem;
+}
+
+@media (min-width: 40rem) {
+  .UnmagicDescriptionList--stacked {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .UnmagicDescriptionList--stacked > .is-full {
+    grid-column: span 2 / span 2;
+  }
+}
+
+.UnmagicDescriptionList--stacked dt {
+  grid-column: auto;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  color: var(--unmagic-text-3, var(--color-neutral-400, #a3a3a3));
+}
+
+.UnmagicDescriptionList--stacked dd {
+  grid-column: auto;
+  margin-top: 0.25rem;
+  color: var(--unmagic-text, var(--color-neutral-900, #171717));
+}
+
+/* ------------------------------------------------------------------- Forms */
+
+/* Structure only. What a control itself looks like is left to the host: apps
+   style inputs in incompatible ways — a class on every input, or a bare-element
+   rule — and picking one here would be wrong in the other. */
+
+.UnmagicField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin-bottom: 1rem;
+}
+
+.UnmagicField--in-row {
+  flex: 1 1 0%;
+  margin-bottom: 0;
+}
+
+.UnmagicField--inline {
+  margin-bottom: 0;
+}
+
+.UnmagicFieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 40rem) {
+  .UnmagicFieldGroup {
+    flex-direction: row;
+  }
+}
+
+.UnmagicFieldGroup--inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.UnmagicLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--unmagic-text-2, var(--color-neutral-600, #525252));
+}
+
+.UnmagicLabel__required {
+  color: var(--unmagic-bad, var(--color-red-500, #ef4444));
+}
+
+.UnmagicHint {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--unmagic-text-3, var(--color-neutral-500, #737373));
+}
+
+.UnmagicError {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--unmagic-bad, var(--color-red-600, #dc2626));
+}
+
+.UnmagicFormErrors {
+  margin-bottom: 1rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  border-radius: 0.375rem;
+  color: var(--unmagic-bad, var(--color-red-700, #b91c1c));
+  border: 1px solid var(--unmagic-bad-border, var(--color-red-200, #fecaca));
+  background-color: var(--unmagic-bad-surface, var(--color-red-50, #fef2f2));
+}
+
+.UnmagicCheckField {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.UnmagicCheckField__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.UnmagicCheckField__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--unmagic-text, var(--color-neutral-900, #171717));
+}
+
+.UnmagicCheckList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.UnmagicCheckList--inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+
+/* A plain, unobtrusive button, so an unconfigured form still has one that looks
+   deliberate. Most apps point config.submit_class at their own button helper. */
+.UnmagicButton {
+  padding: 0.375rem 0.875rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  border: 1px solid var(--unmagic-border-strong, var(--color-neutral-300, #d4d4d4));
+  background-color: var(--unmagic-surface, var(--color-white, #fff));
+  color: var(--unmagic-text, var(--color-neutral-900, #171717));
+}
+
+.UnmagicButton--primary {
+  border-color: transparent;
+  background-color: var(--unmagic-accent, var(--color-neutral-900, #171717));
+  color: var(--unmagic-on-accent, var(--color-white, #fff));
+}

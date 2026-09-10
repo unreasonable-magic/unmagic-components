@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# The component preview server — see config.ru.
+bundle exec rackup -s puma -p 5701 -o 0.0.0.0

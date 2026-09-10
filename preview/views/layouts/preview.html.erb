@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="<%= params[:theme] == "dark" ? "dark" : "light" %>">
+  <head>
+    <title>unmagic-components preview</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= stylesheet_link_tag "unmagic/components" %>
+    <%= javascript_include_tag "turbo", type: "module" %>
+    <style>
+      /* The preview's own chrome, not the components'. Kept apart on purpose so
+         it is obvious which styling comes from the gem. */
+      :root { --page: #fbfaf7; --ink: #16132e; --muted: #6b6875; }
+      [data-theme="dark"] {
+        --page: #0d0c12; --ink: #f0eff5; --muted: #817e8d;
+
+        /* Exactly what a host does to theme the components: point the knobs at
+           its own tokens. Light mode uses the gem's built-in fallbacks. */
+        --unmagic-surface: #15141c;
+        --unmagic-surface-2: #1b1a23;
+        --unmagic-hover: #1d1c26;
+        --unmagic-border: #292833;
+        --unmagic-border-strong: #38364a;
+        --unmagic-text: #f0eff5;
+        --unmagic-text-2: #b4b1c0;
+        --unmagic-text-3: #817e8d;
+        --unmagic-skeleton: #22212c;
+        --unmagic-skeleton-shimmer: rgba(255, 255, 255, 0.06);
+      }
+      body {
+        margin: 0; padding: 3rem 2rem; background: var(--page); color: var(--ink);
+        font-family: ui-sans-serif, system-ui, sans-serif;
+      }
+      main { max-width: 64rem; margin: 0 auto; display: grid; gap: 3rem; }
+      h1 { font-size: 1.25rem; margin: 0; }
+      h2 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em;
+           color: var(--muted); margin: 0 0 0.75rem; font-weight: 600; }
+      header { display: flex; justify-content: space-between; align-items: baseline;
+               max-width: 64rem; margin: 0 auto 2.5rem; }
+      nav a { color: var(--muted); font-size: 0.875rem; margin-left: 1rem; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>unmagic-components</h1>
+      <nav>
+        <% dark = params[:theme] == "dark" %>
+        <% suffix = dark ? "?theme=dark" : "" %>
+        <%= link_to "Loaded", "/#{suffix}" %>
+        <%= link_to "Deferred", "/deferred#{suffix}" %>
+        <%= link_to dark ? "Light" : "Dark", "#{request.path}?theme=#{dark ? "light" : "dark"}" %>
+      </nav>
+    </header>
+    <main><%= yield %></main>
+  </body>
+</html>

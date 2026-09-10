@@ -1,0 +1,6 @@
+inherit_gem:
+  rubocop-rails-omakase: rubocop.yml
+
+# Uncomment to add project-specific overrides.
+# Layout/LineLength:
+#   Max: 120

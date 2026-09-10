@@ -1,0 +1,13 @@
+<section>
+  <h2>table_for defer: true — the skeleton, then the rows</h2>
+  <p style="color: var(--muted); font-size: 0.875rem;">
+    The first render never touches the collection. Reload to watch the skeleton
+    swap for the rows without the columns shifting.
+  </p>
+  <%= table_for @things, defer: true, id: "preview_table" do |table|
+        table.column("Name", :name, width: "34%")
+        table.column("Role", :role, width: "26%")
+        table.column("Score", :score, numeric: true, width: "20%")
+        table.column("Right", :score, align: :right, width: "20%")
+      end %>
+</section>
