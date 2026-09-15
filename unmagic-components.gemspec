@@ -7,13 +7,14 @@ Gem::Specification.new do |spec|
   spec.version     = Unmagic::Components::VERSION
   spec.authors     = [ "Keith Pitt" ]
   spec.email       = [ "keith@unreasonable-magic.com" ]
-  spec.summary     = "Declarative table, detail-list and form builders for Rails views"
-  spec.description = "Server-rendered view builders in the spirit of form_for. table_for " \
-                     "for index tables — sortable headers, deferred turbo-frame loading with a " \
-                     "matching skeleton, empty states, pagination, and rows a Turbo Stream can " \
-                     "keep up to date. detail_list for description lists, and a form builder for " \
-                     "the chrome around a control. Plain Rails helpers, themed through CSS " \
-                     "custom properties."
+  spec.summary     = "Server-rendered UI components for Rails: tables, forms, dialogs, toasts and more"
+  spec.description = "UI components for Rails views in the spirit of form_for. Builders for index " \
+                     "tables (sortable, deferred, kept live by Turbo Streams), detail lists, forms, " \
+                     "cards, page headers and loading skeletons; a Turbo Frame modal, a confirm " \
+                     "dialog and flash toasts; menus, tabs, tooltips, local times, copy buttons, " \
+                     "autogrowing textareas and UUID inputs as self-registering custom elements. " \
+                     "Plain helpers and CSS themed through custom properties, with no Tailwind or " \
+                     "Stimulus required."
   spec.homepage    = "https://github.com/unreasonable-magic/unmagic-components"
   spec.license     = "MIT"
 

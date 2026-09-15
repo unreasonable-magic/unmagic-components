@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-09-16
+
 ### Added
 
 - Dialogs, each a native `<dialog>` sharing one panel (a titled header with a
@@ -118,5 +120,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configurable empty-state, pagination and Pagy seams so the gem depends on neither
   Pagy nor any host helper.
 
-[Unreleased]: https://github.com/unreasonable-magic/unmagic-components/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/unreasonable-magic/unmagic-components/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/unreasonable-magic/unmagic-components/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/unreasonable-magic/unmagic-components/releases/tag/v0.1.0
