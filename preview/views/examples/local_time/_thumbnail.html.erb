@@ -1,0 +1,14 @@
+<div class="grid w-56 gap-1.5 text-xs">
+  <div class="flex justify-between gap-4">
+    <span class="text-neutral-500">Commented</span>
+    <%= local_time_tag @now - 5.minutes, format: :relative %>
+  </div>
+  <div class="flex justify-between gap-4">
+    <span class="text-neutral-500">Deployed</span>
+    <%= local_time_tag @now - 3.hours, format: :relative, compact: true %>
+  </div>
+  <div class="flex justify-between gap-4">
+    <span class="text-neutral-500">Due</span>
+    <%= local_time_tag @now + 2.days, format: :date %>
+  </div>
+</div>

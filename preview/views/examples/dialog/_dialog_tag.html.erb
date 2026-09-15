@@ -1,0 +1,8 @@
+<%= dialog_button "What's a scope?", dialog: "scopes_help", class: button_classes %>
+
+<%= dialog_tag "scopes_help", title: "Scopes" do |dialog| %>
+  <p>A scope limits what a token can do. Grant the fewest that get the job done.</p>
+  <% dialog.footer do %>
+    <%= tag.button "Got it", type: "button", class: button_classes(:primary), data: { unmagic_dialog_close: "" } %>
+  <% end %>
+<% end %>

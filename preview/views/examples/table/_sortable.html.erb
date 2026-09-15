@@ -1,0 +1,8 @@
+<%= table_for @things do |table| %>
+  <% table.column "Name", :name, sort: :name, width: "34%" %>
+  <% table.column "Role", :role, sort: :role, width: "22%" %>
+  <% table.column "Score", :score, numeric: true, width: "14%" %>
+  <% table.column "Centred", :role, align: :center, width: "16%" %>
+  <% table.column "Right", :score, align: :right, width: "14%" %>
+  <% table.details { |thing| thing.note } %>
+<% end %>

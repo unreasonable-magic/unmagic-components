@@ -1,0 +1,11 @@
+<%= form_with model: @invalid_profile, url: request.path, method: :get,
+      builder: Unmagic::Components::FormBuilder do |form| %>
+  <%= form.field :name, "Name", required: true %>
+  <%= form.field :role, "Role", disabled: true, hint: "Set by your administrator." %>
+<% end %>
+
+<%= form_with model: @profile, url: request.path, method: :get, namespace: :locked,
+      builder: Unmagic::Components::FormBuilder do |form| %>
+  <%= form.field :role, "Role (read-only)", readonly: true %>
+  <%= form.check_box_field :name, "Locked option", disabled: true, checked: true %>
+<% end %>

@@ -1,0 +1,18 @@
+<%= tabs id: "preview_tabs" do |tabs| %>
+  <% tabs.tab "Body" %>
+  <% tabs.tab "Headers" %>
+  <% tabs.tab "Preview", disabled: "HTML only" %>
+  <% tabs.tab "Timing" %>
+  <% tabs.panel do %>
+    <pre class="m-0">{ "ok": true }</pre>
+  <% end %>
+  <% tabs.panel do %>
+    <%= detail_list do |list| %>
+      <% list.item "Content-Type", "application/json" %>
+      <% list.item "Cache-Control", "no-store" %>
+    <% end %>
+  <% end %>
+  <% tabs.panel do %>
+    Took 42ms.
+  <% end %>
+<% end %>

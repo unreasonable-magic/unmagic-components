@@ -4,9 +4,29 @@
    preview/builds/tailwind.css.
 
    The dark variant follows the preview's data-theme toggle rather than the
-   system setting, the way a host with its own theme switch would set it up. */
+   system setting, the way a host with its own theme switch would set it up.
+
+   The preview's own pages are styled with utilities, so preview/ is scanned.
+   The gem itself never is: its CSS arrives through the import below. */
 @import "tailwindcss" source(none);
+@source "..";
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @import "../../app/assets/tailwind/unmagic_components/engine.css";
+
+/* An example's Preview/Code switch is the gem's tabs, lifted beside the
+   example's heading rather than above its panels. */
+.PreviewExample {
+  position: relative;
+}
+
+.PreviewExample__tabs > .UnmagicTabs__list {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.PreviewExample__tabs > .UnmagicTabs__panel {
+  padding-top: 0;
+}

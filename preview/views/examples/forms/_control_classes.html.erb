@@ -1,0 +1,54 @@
+<div class="grid gap-4">
+  <div class="flex flex-wrap items-center gap-2">
+    <%= search_field_tag "people[q]", nil, placeholder: "Search people", "aria-label": "Search people",
+          class: control_classes(:input, size: :small) %>
+    <%= select_tag "people[status]", options_for_select(%w[Active Invited Removed]), "aria-label": "Status",
+          class: control_classes(:select, size: :small) %>
+    <%= tag.button "Filter", type: "button", class: button_classes(:default, size: :small) %>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-2">
+    <%= text_field_tag "key[slug]", "deploy-key", "aria-label": "Slug", class: control_classes(:input) %>
+    <%= select_tag "key[scope]", options_for_select([ "Read", "Read and write" ]), "aria-label": "Scope",
+          class: control_classes(:select) %>
+    <%= tag.button "Save", type: "button", class: button_classes(:primary) %>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-2">
+    <%= text_field_tag "report[title]", "Quarterly review", "aria-label": "Title",
+          class: control_classes(:input, size: :large) %>
+    <%= tag.button "Publish", type: "button", class: button_classes(:primary, size: :large) %>
+  </div>
+
+  <fieldset class="m-0 border-0 p-0">
+    <legend class="UnmagicLabel mb-2">Notify me</legend>
+    <div class="UnmagicCheckList--inline">
+      <% [ "Immediately", "Daily", "Never" ].each_with_index do |choice, index| %>
+        <label class="UnmagicCheckField">
+          <%= radio_button_tag "notify", choice.downcase, index.zero?, class: control_classes(:radio) %>
+          <span class="UnmagicCheckField__label"><%= choice %></span>
+        </label>
+      <% end %>
+      <label class="UnmagicCheckField">
+        <%= radio_button_tag "notify", "paused", false, disabled: true, class: control_classes(:radio) %>
+        <span class="UnmagicCheckField__label">Paused (disabled)</span>
+      </label>
+    </div>
+  </fieldset>
+
+  <div class="UnmagicCheckList--inline">
+    <label class="UnmagicCheckField">
+      <%= check_box_tag "all_teams", "1", false, id: "control_classes_all_teams", class: control_classes(:check) %>
+      <span class="UnmagicCheckField__label">All teams (indeterminate)</span>
+    </label>
+    <label class="UnmagicCheckField">
+      <%= check_box_tag "archived", "1", true, id: "control_classes_archived", class: control_classes(:check),
+            "aria-invalid": "true" %>
+      <span class="UnmagicCheckField__label">Invalid</span>
+    </label>
+  </div>
+
+  <%= javascript_tag nonce: true do %>
+    document.getElementById("control_classes_all_teams").indeterminate = true
+  <% end %>
+</div>

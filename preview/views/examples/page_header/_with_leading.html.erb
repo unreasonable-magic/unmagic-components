@@ -1,0 +1,14 @@
+<%= page_header back: { text: "People", path: request.path } do |header| %>
+  <% header.leading do %>
+    <span class="flex size-12 shrink-0 items-center justify-center rounded-full bg-indigo-100 text-sm font-semibold text-indigo-700">AL</span>
+  <% end %>
+  <% header.title { "Ada Lovelace" } %>
+  <% header.description do %>
+    Engineer · London · joined <strong>10 December 1815</strong>
+  <% end %>
+  <% header.badge "Admin", tone: :accent %>
+  <%= menu do |menu| %>
+    <% menu.link "Edit", request.path %>
+    <% menu.link "Send a message", request.path %>
+  <% end %>
+<% end %>

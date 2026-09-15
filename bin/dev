@@ -4,20 +4,20 @@
 #
 # The styles are Tailwind source, so they're compiled first:
 # preview/tailwind/application.css imports the gem's engine.css the way a host's
-# build does. Then they're recompiled whenever either file changes. Tailwind's
-# own --watch doesn't follow that @import out to engine.css, so this checks the
-# files' contents once a second instead.
+# build does, and scans preview/ for the utilities its pages use. Then they're
+# recompiled whenever any of that changes. Tailwind's own --watch doesn't follow
+# the @import out to engine.css, so this checks the files' contents once a second
+# instead.
 set -e
 cd "$(dirname "$0")/.."
-
-sources=(preview/tailwind/application.css app/assets/tailwind/unmagic_components/engine.css)
 
 tailwind() {
   bundle exec tailwindcss -i preview/tailwind/application.css -o preview/builds/tailwind.css
 }
 
 checksum() {
-  cat "${sources[@]}" | cksum
+  find app/assets/tailwind preview -type f \( -name "*.css" -o -name "*.erb" -o -name "*.rb" \) \
+    -not -path "preview/builds/*" -print0 2>/dev/null | sort -z | xargs -0 cat | cksum
 }
 
 tailwind

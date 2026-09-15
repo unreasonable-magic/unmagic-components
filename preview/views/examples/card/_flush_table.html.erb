@@ -1,0 +1,6 @@
+<%= card title: "Usage this month", flush: true do %>
+  <%= table_tag [ "Metric", "Value" ],
+        [ [ "Requests", { content: "1,204", class: "is-right is-numeric" } ],
+          [ "Errors", { content: "3", class: "is-right is-numeric" } ] ],
+        aligns: [ nil, :right ] %>
+<% end %>

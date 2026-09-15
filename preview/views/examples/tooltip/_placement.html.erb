@@ -1,0 +1,8 @@
+<div class="flex flex-wrap justify-between gap-2">
+  <%= tooltip text: "Shown below, flipping above when there's no room.", placement: :bottom do %>
+    <button type="button" class="<%= button_classes %>">placement: :bottom</button>
+  <% end %>
+  <%= tooltip text: "Clamped so it never runs off the edge of the screen, however long the hint happens to get." do %>
+    <button type="button" class="<%= button_classes %>">Near the right edge</button>
+  <% end %>
+</div>

@@ -1,0 +1,6 @@
+<%= table_for @things, defer: true, id: "preview_table", row_id: ->(thing) { "deferred_thing_#{thing.id}" } do |table| %>
+  <% table.column "Name", :name, width: "34%" %>
+  <% table.column "Role", :role, width: "26%" %>
+  <% table.column "Score", :score, numeric: true, width: "20%" %>
+  <% table.column "Right", :score, align: :right, width: "20%" %>
+<% end %>

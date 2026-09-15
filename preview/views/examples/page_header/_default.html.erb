@@ -1,0 +1,7 @@
+<%= page_header title: "Deploy keys", back: { text: "Settings", path: request.path },
+      description: "Keys that can pull from this repository. Anyone holding one can read every branch, " \
+                   "so revoke a key as soon as the machine using it is retired." do |header| %>
+  <% header.badge "3 active", tone: :good %>
+  <% header.badge "Beta", tone: :info %>
+  <%= tag.button "Add key", type: "button", class: button_classes(:primary) %>
+<% end %>

@@ -1,0 +1,10 @@
+<%= dialog_button "Open a dialog", dialog: "toast_over_dialog", class: button_classes %>
+
+<%= dialog_tag "toast_over_dialog", title: "A dialog" do %>
+  <p>
+    A toast streamed from in here shows above the dialog, not under its backdrop. It can't be
+    hovered or dismissed until the dialog closes, but it still times out on its own.
+  </p>
+  <%= button_to "Stream a toast", "/toasts/stream", params: { tone: "info", message: "Above the dialog." },
+        class: button_classes(:primary) %>
+<% end %>

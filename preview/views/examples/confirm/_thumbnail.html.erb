@@ -1,0 +1,7 @@
+<%= dialog title: "Reset the profile?", close: false, class: "w-60 origin-center scale-[0.8] text-xs shadow-md" do |dialog| %>
+  This can't be undone.
+  <% dialog.footer do %>
+    <%= tag.span "Cancel", class: button_classes(:default, size: :small) %>
+    <%= tag.span "Reset", class: button_classes(:danger, size: :small) %>
+  <% end %>
+<% end %>

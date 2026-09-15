@@ -1,0 +1,10 @@
+<%= detail_list do |list| %>
+  <% list.item "Name", @profile.name %>
+  <% list.item "Role", @profile.role %>
+<% end %>
+
+<div class="mt-4 flex flex-wrap gap-2">
+  <%= modal_link_to "Edit profile", "/dialogs/profile", class: button_classes(:primary) %>
+  <%= modal_link_to "Slow (skeleton)", "/dialogs/slow", class: button_classes %>
+  <%= modal_link_to "Forbidden (error)", "/dialogs/forbidden", class: button_classes %>
+</div>

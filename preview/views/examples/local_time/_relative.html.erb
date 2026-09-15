@@ -1,0 +1,14 @@
+<%= table_tag [ "Rendered for", "format: :relative", "compact: true" ],
+      [
+        [ "10 seconds ago", @now - 10.seconds ],
+        [ "5 minutes ago", @now - 5.minutes ],
+        [ "3 hours ago", @now - 3.hours ],
+        [ "1 day ago", @now - 1.day ],
+        [ "3 days ago", @now - 3.days ],
+        [ "40 days ago", @now - 40.days ],
+        [ "In 2 hours", @now + 2.hours ],
+        [ "In 400 days", @now + 400.days ]
+      ].map { |label, at|
+        [ label, local_time_tag(at, format: :relative), local_time_tag(at, format: :relative, compact: true) ]
+      },
+      widths: [ "30%", "40%", "30%" ] %>

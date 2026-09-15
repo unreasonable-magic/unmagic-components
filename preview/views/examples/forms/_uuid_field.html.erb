@@ -1,0 +1,9 @@
+<%= form_with url: request.path, method: :get, scope: :message, builder: Unmagic::Components::FormBuilder do |form| %>
+  <%= form.uuid_field :id %>
+  <%= form.field :body, "Message", hint: "Submits with a client-minted id; resetting the form mints another." %>
+
+  <div class="flex gap-2">
+    <%= form.submit "Send" %>
+    <button type="reset" class="<%= button_classes %>">Reset the form</button>
+  </div>
+<% end %>

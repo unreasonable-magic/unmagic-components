@@ -1,0 +1,7 @@
+<div class="w-80">
+  <%= card title: "Members" do |card| %>
+    <% card.actions { tag.button "Invite", type: "button", class: button_classes(:default, size: :small) } %>
+    <% card.footer { "3 of 5 seats used" } %>
+    Ada, Grace and Katherine can see everything in this workspace.
+  <% end %>
+</div>

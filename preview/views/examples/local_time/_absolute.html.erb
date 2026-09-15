@@ -1,0 +1,5 @@
+<%= table_tag [ "format:", "Rendered" ],
+      %i[short medium long full date time].map { |format|
+        [ tag.code(":#{format}"), local_time_tag(@now, format: format) ]
+      },
+      widths: [ "30%", "70%" ] %>

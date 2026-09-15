@@ -23,6 +23,7 @@ require_relative "lib/unmagic/components"
 require_relative "preview/thing"
 require_relative "preview/pager"
 require_relative "preview/profile"
+require_relative "preview/catalog"
 
 module ComponentsPreview
   class Application < Rails::Application
@@ -43,24 +44,27 @@ module ComponentsPreview
     config.importmap.paths << File.expand_path("preview/importmap.rb", __dir__)
 
     routes.append do
-      root to: "preview#index"
-      get "/deferred", to: "preview#deferred"
+      root to: "preview#overview"
+      get "/installation", to: "preview#installation"
+      get "/theming", to: "preview#theming"
+      get "/components/:slug", to: "preview#component"
 
-      get "/dialogs", to: "preview#dialogs"
+      # What the dialog and toast examples talk to.
       get "/dialogs/profile", to: "preview#edit_profile"
       patch "/dialogs/profile", to: "preview#update_profile"
       delete "/dialogs/profile", to: "preview#destroy_profile"
       get "/dialogs/slow", to: "preview#slow_dialog"
       get "/dialogs/forbidden", to: "preview#forbidden_dialog"
-
-      get "/primitives", to: "preview#primitives"
-      get "/elements", to: "preview#elements"
-      get "/skeletons", to: "preview#skeletons"
-      get "/forms", to: "preview#forms"
-
-      get "/toasts", to: "preview#toasts"
       post "/toasts/flash", to: "preview#flash_toast"
       post "/toasts/stream", to: "preview#stream_toast"
+
+      # The old one-page-per-group URLs.
+      {
+        "deferred" => "table", "dialogs" => "dialog", "toasts" => "toast", "primitives" => "card",
+        "elements" => "tooltip", "skeletons" => "skeleton", "forms" => "forms"
+      }.each do |old, slug|
+        get "/#{old}", to: redirect("/components/#{slug}")
+      end
     end
   end
 end

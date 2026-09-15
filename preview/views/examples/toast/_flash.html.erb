@@ -1,0 +1,13 @@
+<div class="flex flex-wrap gap-2">
+  <%= button_to "Notice", "/toasts/flash", params: { type: "notice", message: "Changes saved." },
+        class: button_classes(:primary) %>
+  <%= button_to "Alert", "/toasts/flash", params: { type: "alert", message: "Couldn't save your changes." },
+        class: button_classes %>
+  <%= button_to "Warning", "/toasts/flash", params: { type: "warning", message: "Your trial ends in 3 days." },
+        class: button_classes %>
+  <%= button_to "Info", "/toasts/flash", params: { type: "info", message: "A new version is available." },
+        class: button_classes %>
+  <%= button_to "Long", "/toasts/flash",
+        params: { type: "notice", message: "Imported 1,204 contacts from contacts-export-2026-09-16-final-final.csv into the Sales pipeline." },
+        class: button_classes %>
+</div>

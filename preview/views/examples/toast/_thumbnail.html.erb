@@ -1,0 +1,10 @@
+<%# A static stand-in: a real toast only shows once <unmagic-toasts> opens it. %>
+<div class="flex w-60 flex-col gap-2 text-xs">
+  <% { good: "Changes saved.", bad: "Couldn't reach Slack." }.each do |tone, message| %>
+    <%= tag.div class: "UnmagicToast UnmagicToast--#{tone}", data: { open: "" } do %>
+      <%= Unmagic::Components::Icons.svg(self, Unmagic::Components::Icons::TONE_ICONS.fetch(tone),
+            class: "UnmagicToast__icon size-3.5") %>
+      <%= tag.div message, class: "UnmagicToast__message" %>
+    <% end %>
+  <% end %>
+</div>

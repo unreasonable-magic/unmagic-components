@@ -1,0 +1,4 @@
+<%= form_with url: request.path, method: :get, scope: :note, builder: Unmagic::Components::FormBuilder do |form| %>
+  <%= form.field :body, "Message", as: :autogrow_text_area, rows: 2, class: "max-h-40",
+        placeholder: "Type a few lines, then keep going past ten rems…" %>
+<% end %>

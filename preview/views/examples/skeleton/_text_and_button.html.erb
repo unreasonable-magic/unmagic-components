@@ -1,0 +1,17 @@
+<div class="grid items-start gap-6 sm:grid-cols-2">
+  <div>
+    <p class="m-0">One line of body text.</p>
+    <p class="m-0"><%= skeleton_text width: "45%" %></p>
+    <p class="mt-4 mb-0 text-2xl font-semibold">A larger heading</p>
+    <p class="m-0 text-2xl"><%= skeleton_text width: "60%" %></p>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-2">
+    <%= tag.button "Small", type: "button", class: button_classes(:default, size: :small) %>
+    <%= skeleton_button size: :small %>
+    <%= tag.button "Default", type: "button", class: button_classes %>
+    <%= skeleton_button %>
+    <%= tag.button "Large", type: "button", class: button_classes(:default, size: :large) %>
+    <%= skeleton_button size: :large %>
+  </div>
+</div>

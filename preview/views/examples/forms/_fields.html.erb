@@ -1,0 +1,28 @@
+<%= form_with url: request.path, method: :get, scope: :person, builder: Unmagic::Components::FormBuilder do |form| %>
+  <%= form.group do %>
+    <%= form.field :first_name, "First name", required: true, placeholder: "Ada" %>
+    <%= form.field :last_name, "Last name", placeholder: "Lovelace" %>
+  <% end %>
+
+  <%= form.field :email, "Email", as: :email_field, placeholder: "ada@example.com",
+        hint: "Only used to sign you in." %>
+
+  <%= form.group do %>
+    <%= form.field :password, "Password", as: :password_field %>
+    <%= form.field :starts_on, "Starts on", as: :date_field %>
+  <% end %>
+
+  <%= form.field :role, "Role" do %>
+    <%= form.select :role, [ "Engineer", "Designer", "Manager" ], include_blank: "Choose a role" %>
+  <% end %>
+
+  <%= form.field :bio, "Bio", as: :text_area, rows: 3, placeholder: "A line or two about yourself." %>
+
+  <div class="mb-4 grid gap-3">
+    <%= form.check_box_field :releases, "Email me about new releases", hint: "Roughly once a month." %>
+    <%= form.check_box_collection :teams, [ [ 1, "Platform" ], [ 2, "Billing" ], [ 3, "Growth" ] ],
+          :first, :last, inline: true %>
+  </div>
+
+  <%= form.submit "Save" %>
+<% end %>

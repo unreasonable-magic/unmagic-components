@@ -1,0 +1,15 @@
+<div class="grid items-start gap-6 sm:grid-cols-2">
+  <%= detail_list do |list|
+        list.item "Name", "Ada Lovelace"
+        list.item "Role", "Engineer"
+        list.item "Joined", "10 December 1815"
+        list.item "Location", "London"
+      end %>
+
+  <%= detail_list skeleton: true do |list|
+        list.item "Name"
+        list.item "Role"
+        list.item "Joined"
+        list.item "Location"
+      end %>
+</div>

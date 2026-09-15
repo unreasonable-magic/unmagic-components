@@ -1,0 +1,14 @@
+<%# A static open menu: the real one starts closed, and its element closes it on connect.
+    The trigger and panel share a positioned wrapper, so the panel hangs off the trigger. %>
+<div class="h-28 w-44 text-xs">
+  <div class="relative inline-block">
+    <%= tag.span class: button_classes(:default, size: :small) do %>
+      Options <%= Unmagic::Components::Icons.svg(self, :chevron_down, class: "size-3") %>
+    <% end %>
+    <div class="UnmagicMenu__panel UnmagicMenu__panel--start min-w-36">
+      <span class="UnmagicMenu__item text-xs">Edit</span>
+      <hr class="UnmagicMenu__divider">
+      <span class="UnmagicMenu__item UnmagicMenu__item--danger text-xs">Delete</span>
+    </div>
+  </div>
+</div>

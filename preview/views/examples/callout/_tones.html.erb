@@ -1,0 +1,14 @@
+<div class="grid gap-3">
+  <%= callout "DNS verified", tone: :good do %>
+    Mail from this domain is signed and will land in inboxes.
+  <% end %>
+  <%= callout "DNS isn't verified", tone: :warn, badge: "Pending" do %>
+    Add the TXT record below, then check again. Changes can take an hour to spread.
+  <% end %>
+  <%= callout "Webhook failing", tone: :bad, badge: "12 errors" do %>
+    The last delivery returned 500. We'll retry for another 24 hours.
+  <% end %>
+  <%= callout "How scopes work", tone: :info do %>
+    A scope limits what a token can do.
+  <% end %>
+</div>

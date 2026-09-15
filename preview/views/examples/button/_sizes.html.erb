@@ -1,0 +1,12 @@
+<div class="flex flex-col items-center gap-3">
+  <div class="flex flex-wrap items-center gap-2">
+    <%= tag.button "Small", type: "button", class: button_classes(:default, size: :small) %>
+    <%= tag.button "Default", type: "button", class: button_classes %>
+    <%= tag.button "Large", type: "button", class: button_classes(:default, size: :large) %>
+  </div>
+  <div class="flex flex-wrap items-center gap-2">
+    <%= tag.button "Small", type: "button", class: button_classes(:primary, size: :small) %>
+    <%= tag.button "Default", type: "button", class: button_classes(:primary) %>
+    <%= tag.button "Large", type: "button", class: button_classes(:primary, size: :large) %>
+  </div>
+</div>

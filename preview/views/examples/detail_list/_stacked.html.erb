@@ -1,0 +1,7 @@
+<%= detail_list variant: :stacked do |list| %>
+  <% list.item "Client ID", "abc123", class: "font-mono" %>
+  <% list.item "Scopes", "read write" %>
+  <% list.item "Redirect URIs", span: :full do %>
+    https://example.com/callback
+  <% end %>
+<% end %>

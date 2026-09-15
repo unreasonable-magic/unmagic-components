@@ -1,0 +1,6 @@
+<div class="flex flex-wrap gap-2">
+  <%= button_to "Stream a toast", "/toasts/stream", params: { tone: "good", message: "Copied to your clipboard." },
+        class: button_classes %>
+  <%= button_to "Stream a bad toast", "/toasts/stream", params: { tone: "bad", message: "Couldn't reach Slack." },
+        class: button_classes(:danger) %>
+</div>
