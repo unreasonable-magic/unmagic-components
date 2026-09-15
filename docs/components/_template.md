@@ -53,9 +53,13 @@ Which native element it builds on, and why.
 
 ## Styling
 
-- CSS section name and its BEM elements and modifiers.
+- CSS section name in `engine.css`, and its BEM elements and modifiers.
 - Which attributes drive state (`[aria-expanded]`, `[data-open]`).
-- Tokens it uses, and any **new** token with its reason and fallback.
+- Colours: the palette colours it uses, each with its `dark:` pair. There are
+  no new theme variables.
+- What is `@apply`, and what needs plain declarations with theme variables
+  (a `clip-path`, a gradient, a `calc()`).
+- Knobs (`--unmagic-<component>-<property>` set through `style:`), if any.
 - Motion, and what `prefers-reduced-motion` switches off.
 
 ## Behaviour (JavaScript)

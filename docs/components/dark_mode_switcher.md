@@ -11,7 +11,8 @@ and makes **no assumption about how the host selects one**:
 
 - The switcher only writes the choice to an attribute (or class) the host
   names, on an element the host names, and remembers it.
-- The host's own tokens do the flipping, as the stylesheet header describes.
+- The components' `dark:` variants do the flipping, through the host's own
+  `dark` variant definition.
 
 **Placement:** core CSS. It is application settings chrome.
 
@@ -76,10 +77,11 @@ or set once as `config.theme`. See the proposed principle changes.
 
 - **Section:** `Theme switcher`.
 - **Elements:** `__list`, `__option`.
-- **Look:** the segmented look reuses the `Tabs` track tokens (`surface-3`
-  track, `raised` for `[aria-checked="true"]`).
+- **Look:** the segmented look reuses the `Tabs` track colours
+  (`neutral-100`/`dark:neutral-800` track, `white`/`dark:neutral-700` for
+  `[aria-checked="true"]`).
 - **Icons:** add `sun`, `moon` and `monitor` Lucide paths to `Icons::PATHS`.
-- **Focus** uses `focus`.
+- **Focus** uses the `neutral-400`/`dark:neutral-500` ring.
 - **Motion:** none, and the colour change itself isn't animated. The note
   recommends that hosts don't transition every colour.
 
@@ -116,7 +118,8 @@ It also:
 `preview/views/layouts/preview.html.erb` uses `?theme=dark` links and
 `data-theme` on `<html>`. It would switch to
 `<html lang="en" <%= theme_attributes %>>` and `<%= theme_switcher %>` in the
-header nav, and the `[data-theme="dark"]` token block stays exactly as it is.
+header nav, and its `@custom-variant dark` on `[data-theme="dark"]` stays exactly
+as it is.
 It is the host-style example of pointing the switcher at attributes the host
 already styles. Keep `?theme=` as an override for screenshot links.
 

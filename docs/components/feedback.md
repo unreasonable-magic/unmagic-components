@@ -13,7 +13,7 @@ button.
 
 The gem renders the form. It doesn't store anything and ships no controller.
 
-**Placement:** a core `Feedback` section in `components.css`. It lives inside
+**Placement:** a core `Feedback` section in the gem's Tailwind `engine.css`. It lives inside
 applications (docs, settings, post-checkout), and it's built from form controls
 the gem styles. Placement is decided: marketing-style components live in the
 core stylesheet.
@@ -81,13 +81,12 @@ core stylesheet.
 
 - **Section:** `Feedback`.
 - **Elements:** `__rating`, `__choice`, `__comment`, `__thanks`.
-- **Selected state:** `.UnmagicFeedback__choice:has(:checked)` uses `accent`
-  and `surface-3`.
+- **Selected state:** `.UnmagicFeedback__choice:has(:checked)` uses `neutral-900`/`dark:white`
+  and `neutral-100`/`dark:neutral-800`.
 - **Five-star scale:** fills up to the checked one with
   `:has(~ :checked)` sibling logic on reversed DOM order, and uses the
-  `--unmagic-rating` theme token (accepted, shared with `testimonial`), falling
-  back to `--color-amber-400, #fbbf24`. It goes in the README Theming list and
-  in the preview layout's dark block.
+  palette's `amber-400` in both themes (accepted, shared with `testimonial`).
+  It is a palette choice, not a theme variable.
 - **Comment reveal:** `.UnmagicFeedback:not(:has(.UnmagicFeedback__rating :checked)) .UnmagicFeedback__comment { display: none }`.
 - **Controls:** the comment textarea is styled by the gem through
   `config.control_class` (`:text_area`, giving `UnmagicInput`), like every

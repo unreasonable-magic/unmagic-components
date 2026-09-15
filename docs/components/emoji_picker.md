@@ -129,11 +129,11 @@ Section `/* Emoji pickers */`.
   (`"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji"`) after
   `inherit`.
 - **State:** `__emoji[aria-pressed="true"]` (form mode's current value) uses
-  `surface-3` and a ring. `:hover` and `:focus-visible` use `hover` and the
-  focus outline.
+  `neutral-100`/`dark:neutral-800` and a ring. `:hover` and `:focus-visible` use
+  `neutral-50`/`dark:neutral-800/50` and the focus outline.
 - **Panel:** the menu panel's surface, border, radius and shadow; popover UA
   defaults are reset, as `UnmagicTooltip__popup` does.
-- **Tokens:** no new ones.
+- **Colour:** palette with `dark:` variants only, nothing new.
 - **Motion:** none.
 
 ## Behaviour (JavaScript)

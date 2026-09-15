@@ -119,12 +119,13 @@ put it. Placement is the only thing the element must add, and it comes from
   - `.UnmagicPopover__panel[data-side] { position: fixed; inset: auto; margin: 0 }`,
     with the host-type reset `.UnmagicTooltip__popup` and
     `.UnmagicMenu__panel` use
-  - `surface`, `border`, 0.5rem radius and the menu panel's shadow
+  - `white`/`dark:neutral-900`, a `neutral-200`/`dark:neutral-800` border, 0.5rem
+    radius and the menu panel's shadow
 - **State:** `.UnmagicPopover__panel:popover-open`, and `[data-side="top"|"bottom"]`
   (written by `position.js`) for the entry offset.
 - **Motion:** a 120ms fade and a 4px offset via `@starting-style`, switched off
   under reduced motion.
-- **Tokens:** existing only.
+- **Colour:** palette with `dark:` variants only, as the menu panel.
 
 ## Behaviour (JavaScript)
 

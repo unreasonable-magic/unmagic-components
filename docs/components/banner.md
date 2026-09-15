@@ -103,16 +103,18 @@ CSS section: `Banners`.
   - No radius and no side borders, so it bleeds edge to edge.
   - A bottom border.
 - **Tones** reuse callout colours:
-  - `--unmagic-<tone>-surface` / `-border` for good, warn and bad
-  - info: `--unmagic-surface-2`
-  - neutral: `--unmagic-surface-3`
-  - accent: `--unmagic-accent` with `--unmagic-on-accent`
+  - good: `green-50`/`dark:green-400/10` with a `green-200`/`dark:green-400/30` border
+  - warn: `amber-50`/`dark:amber-400/10` with an `amber-200`/`dark:amber-400/30` border
+  - bad: `red-50`/`dark:red-400/10` with a `red-200`/`dark:red-400/30` border
+  - info: `neutral-50`/`dark:neutral-800/50`
+  - neutral: `neutral-100`/`dark:neutral-800`
+  - accent: `neutral-900`/`dark:white` with `white`/`dark:neutral-900`
 - **Action:** `font-weight: 500`, underlined, `color: inherit`.
 - **Dismiss button:** `margin-left: auto`, `color: inherit`.
 - **Before the element upgrades:**
   `unmagic-banner:not(:defined) .UnmagicBanner__dismiss { display: none }`,
   so a dismiss that can't work never shows.
-- No new tokens and no motion.
+- Palette colours with `dark:` variants only, and no motion.
 
 ## Behaviour (JavaScript)
 

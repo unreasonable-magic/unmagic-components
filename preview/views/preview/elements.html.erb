@@ -103,7 +103,7 @@
   <%= form_with url: "/elements", method: :get, builder: Unmagic::Components::FormBuilder, id: "grow_form" do |form| %>
     <%= form.field :message, "Message", as: :autogrow_text_area, rows: 2,
           placeholder: "Type a few lines, then keep going past ten rems…",
-          style: "width: 100%; max-height: 10rem; box-sizing: border-box; padding: 0.5rem; font: inherit; border: 1px solid var(--unmagic-border-strong, #d4d4d4); border-radius: 0.375rem;" %>
+          style: "max-height: 10rem;" %>
     <%= form.uuid_field :id %>
     <button type="reset" class="<%= button_classes %>">Reset the form</button>
   <% end %>

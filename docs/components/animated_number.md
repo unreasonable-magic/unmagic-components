@@ -76,7 +76,7 @@ The accessible value is always the final one.
     `ch`, while animating, so surrounding text doesn't shift
 - **State:** `[data-animating]` is available to hosts, but the gem doesn't
   style it.
-- **No new tokens and no colour.**
+- **No colour** of its own; it inherits the text colour.
 
 ## Behaviour (JavaScript)
 

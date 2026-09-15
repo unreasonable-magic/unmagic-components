@@ -133,16 +133,17 @@ because a table may already contain `button_to` forms, and forms can't nest.
   - `UnmagicBulkActions`, `__form`, `__count`, `__actions`
   - `UnmagicTable__select`: a narrow centred cell, and the column's `width`
 - `.UnmagicBulkActions[data-selected] .UnmagicBulkActions__count` uses
-  `--unmagic-text`, and `--unmagic-text-3` when nothing is selected.
+  `neutral-900`/`dark:neutral-100`, and `neutral-500` when nothing is selected.
 - **The checkboxes** use the shared `UnmagicCheck` rule from **Forms**, with
   states from `:checked`, `:indeterminate`, `:disabled`, `[aria-invalid=true]`
   and `:focus-visible`. This section adds nothing to the checkbox itself.
 - **A selected row** is styled from
   `.UnmagicTable tbody tr:has(> .UnmagicTable__select > [data-unmagic-bulk-row]:checked)`
-  with `--unmagic-hover`, so no state class drifts from the checkbox.
+  with `neutral-50`/`dark:neutral-800/50`, so no state class drifts from the checkbox.
   - The attribute hook is used rather than the look class, so the highlight
     still works when a host opts out of `UnmagicCheck`.
-- Tokens: existing only (`text`, `text-3`, `hover`, `border`).
+- Colours: palette with `dark:` variants only (`neutral-900`/`dark:neutral-100`,
+  `neutral-500`, `neutral-50`/`dark:neutral-800/50`, `neutral-200`/`dark:neutral-800`).
 - Motion: none.
 
 ## Behaviour (JavaScript)

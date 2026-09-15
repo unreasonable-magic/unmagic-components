@@ -209,11 +209,13 @@ Section `/* Comboboxes */`.
   - A host that returns `nil` from the seam gets an unstyled control. The
     chips and listbox are still styled, because they are the component, not a
     control.
-- **Tokens (no new ones):**
-  - `surface` and `border` for the control and popup
-  - `surface-3` for chips and the active option
-  - `text-3` for placeholders and group labels
-  - `focus`, and `bad` with `aria-invalid`
+- **Colours** (palette with `dark:` variants, nothing new):
+  - `white`/`dark:neutral-900` and `neutral-200`/`dark:neutral-800` for the
+    control and popup
+  - `neutral-100`/`dark:neutral-800` for chips and the active option
+  - `neutral-500` for placeholders and group labels
+  - the `neutral-400`/`dark:neutral-500` focus ring, and `red-600`/`dark:red-400`
+    with `aria-invalid`
 - **Popup:** the menu panel's radius (0.5rem) and shadow, and
   `max-height: 18rem` with scrolling. The active option is scrolled into view
   with `block: "nearest"`.

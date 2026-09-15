@@ -114,7 +114,7 @@ trigger button:
     space
 - **The panel keeps the menu's look:** surface, border, radius, shadow and
   min-width.
-- **No new tokens.** **Motion:** none, as for `menu`.
+- **Colour:** the menu's palette and `dark:` variants. **Motion:** none, as for `menu`.
 
 ## Behaviour (JavaScript)
 

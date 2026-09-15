@@ -98,7 +98,7 @@ opacity.
     colour through the hex field, which is also how the native picker's result
     is shown.
 - **Check contrast:** the check icon's colour is picked from the swatch's
-  luminance (white or `text`), computed in Ruby, so it is correct before
+  luminance (white or `neutral-900`), computed in Ruby, so it is correct before
   script.
 - **Invalid hex:** the native `pattern` reports it on submit, and
   `aria-invalid` comes from `field` errors.
@@ -117,8 +117,8 @@ Section `/* Colour pickers */`.
   `__custom`, `__native`, `__hex`.
 - **Swatches:**
   - A swatch is a 1.75rem circle with `background: var(--swatch)` and an inset
-    `border`-token ring, so white swatches stay visible.
-  - `[aria-pressed="true"]` shows `__check` and a 2px ring in `text`.
+    `neutral-200`/`dark:neutral-800` ring, so white swatches stay visible.
+  - `[aria-pressed="true"]` shows `__check` and a 2px ring in `neutral-900`/`dark:neutral-100`.
   - `:focus-visible` uses the standard focus outline.
 - **Native input:** a 1.75rem square with its UA padding and border reset,
   shown as a chip next to the hex field.
@@ -127,8 +127,8 @@ Section `/* Colour pickers */`.
   width (`9ch`), a monospace font and tabular numerals.
 - **Native colour input** is drawn by the gem as a chip matching the control's
   height and radius.
-- **Custom property:** `--swatch` is set inline per swatch. It is a value, not
-  a theme token, so it isn't added to the Theming list.
+- **Custom property:** `--swatch` is set inline per swatch. It is a
+  per-instance value, not a theme colour.
 - **Motion:** the ring transition runs at 100ms and is off under reduced
   motion.
 
@@ -172,7 +172,7 @@ Section `/* Colour pickers */`.
 - **Swatches:**
   - a button per swatch with `data-value`, `--swatch`, `aria-label` from the
     name, and `aria-pressed` true only for the current value (case-insensitive)
-  - the check icon's colour class chosen by luminance (white on dark, `text` on
+  - the check icon's colour class chosen by luminance (white on dark, `neutral-900` on
     light)
 - **Custom inputs:**
   - the hex input has the name, `pattern` and the current value

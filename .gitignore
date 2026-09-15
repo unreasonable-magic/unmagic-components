@@ -8,5 +8,8 @@
 /log/
 *.gem
 
+# The preview's compiled Tailwind build (bin/dev writes it).
+/preview/builds/
+
 mise.local.toml
 .claude

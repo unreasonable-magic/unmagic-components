@@ -7,7 +7,7 @@
     <%= csrf_meta_tags %>
     <%= turbo_refresh_method_tag :morph %>
     <%= turbo_refresh_scroll_tag :preserve %>
-    <%= stylesheet_link_tag "unmagic/components" %>
+    <%= stylesheet_link_tag "tailwind" %>
     <%= javascript_importmap_tags "unmagic/components" %>
     <style>
       /* The preview's own chrome, not the components'. Kept apart on purpose so
@@ -18,35 +18,8 @@
         /* Native parts (a date input's calendar icon, scrollbars) follow this. */
         color-scheme: dark;
 
-        /* Exactly what a host does to theme the components: point the knobs at
-           its own tokens. Light mode uses the gem's built-in fallbacks. */
-        --unmagic-surface: #15141c;
-        --unmagic-surface-2: #1b1a23;
-        --unmagic-surface-3: #24232e;
-        --unmagic-raised: #34333f;
-        --unmagic-hover: #1d1c26;
-        --unmagic-border: #292833;
-        --unmagic-border-strong: #38364a;
-        --unmagic-text: #f0eff5;
-        --unmagic-text-2: #b4b1c0;
-        --unmagic-text-3: #817e8d;
-        --unmagic-skeleton: #22212c;
-        --unmagic-skeleton-shimmer: rgba(255, 255, 255, 0.06);
-        --unmagic-accent: #f0eff5;
-        --unmagic-on-accent: #15141c;
-        --unmagic-bad: #f87171;
-        --unmagic-bad-surface: rgba(248, 113, 113, 0.1);
-        --unmagic-bad-border: rgba(248, 113, 113, 0.3);
-        --unmagic-good: #4ade80;
-        --unmagic-good-surface: #0f1f16;
-        --unmagic-good-border: #1f4a2e;
-        --unmagic-warn: #fbbf24;
-        --unmagic-warn-surface: #221a0b;
-        --unmagic-warn-border: #4a3a12;
-        --unmagic-tooltip: #2e2d3a;
-        --unmagic-on-tooltip: #f0eff5;
-        --unmagic-focus: #817e8d;
-        --unmagic-backdrop: rgba(0, 0, 0, 0.6);
+        /* The components' own dark styles come from Tailwind's dark variant,
+           which preview/tailwind/application.css points at this attribute. */
       }
       body {
         margin: 0; padding: 3rem 2rem; background: var(--page); color: var(--ink);

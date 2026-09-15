@@ -1,4 +1,38 @@
 #!/usr/bin/env bash
 
 # The component preview server — see config.ru.
+#
+# The styles are Tailwind source, so they're compiled first:
+# preview/tailwind/application.css imports the gem's engine.css the way a host's
+# build does. Then they're recompiled whenever either file changes. Tailwind's
+# own --watch doesn't follow that @import out to engine.css, so this checks the
+# files' contents once a second instead.
+set -e
+cd "$(dirname "$0")/.."
+
+sources=(preview/tailwind/application.css app/assets/tailwind/unmagic_components/engine.css)
+
+tailwind() {
+  bundle exec tailwindcss -i preview/tailwind/application.css -o preview/builds/tailwind.css
+}
+
+checksum() {
+  cat "${sources[@]}" | cksum
+}
+
+tailwind
+
+(
+  last=$(checksum)
+  while sleep 1; do
+    now=$(checksum)
+    if [ "$now" != "$last" ]; then
+      last=$now
+      tailwind || true
+    fi
+  done
+) &
+watcher=$!
+trap 'kill "$watcher" 2>/dev/null' EXIT
+
 bundle exec rackup -s puma -p 5701 -o 0.0.0.0

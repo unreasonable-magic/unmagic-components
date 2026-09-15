@@ -21,14 +21,13 @@ module Unmagic
         end
       end
 
-      # The components' stylesheet is a plain CSS file, deliberately not part of any
-      # Tailwind build: Tailwind only generates classes it can see, and it does not
-      # scan installed gems. Serving it through the asset pipeline keeps the gem's
-      # look self-contained and themeable through --unmagic-* custom properties.
+      # The components' JavaScript, served through the asset pipeline. There is no
+      # stylesheet to serve: the styles are Tailwind source in
+      # app/assets/tailwind/unmagic_components/engine.css, which tailwindcss-rails
+      # finds by this engine's name and the host's own Tailwind build compiles.
       initializer "unmagic_components.assets" do |app|
         next unless app.config.respond_to?(:assets)
 
-        app.config.assets.paths << Engine.root.join("app/assets/stylesheets")
         app.config.assets.paths << Engine.root.join("app/assets/javascripts")
       end
 

@@ -79,8 +79,8 @@ The step states (`aria-current="step"` for current, and a visually hidden
 
 - **Section:** `Onboarding`.
 - **Elements:** `__progress`, `__count`, `__bar`.
-- **Progress bar:** `appearance: none`, a 0.375rem track in `surface-3`, and
-  the fill in `accent` (styled via `::-webkit-progress-value` and
+- **Progress bar:** `appearance: none`, a 0.375rem track in `neutral-100`/`dark:neutral-800`, and
+  the fill in `neutral-900`/`dark:white` (styled via `::-webkit-progress-value` and
   `::-moz-progress-bar`). If a standalone `progress` component is built, this
   should use it instead.
 - **Everything else** comes from the `Card` and `Steps` sections.

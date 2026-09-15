@@ -117,7 +117,8 @@ All selectors are classes, never bare elements.
     `letter-spacing: 0.3em`
 - **After upgrade** (`.UnmagicOneTimeCode[data-ready]`):
   - the cells are an inline grid of `length` columns, each `2.5rem × 3rem`,
-    styled like `UnmagicInput` (`border`, 0.5rem radius, `surface`), with
+    styled like `UnmagicInput` (`neutral-300`/`dark:neutral-700` border, 0.5rem
+    radius, `white`/`dark:neutral-900`), with
     1.25rem tabular text
   - `.UnmagicOneTimeCode[data-ready] .UnmagicOneTimeCode__input` is stretched
     over them with `position: absolute; inset: 0`
@@ -129,9 +130,9 @@ All selectors are classes, never bare elements.
   `:disabled`, `[aria-invalid=true]` and `:focus-visible` exactly as a plain
   `UnmagicInput` does:
   - **Focus:** `.UnmagicOneTimeCode:has(.UnmagicOneTimeCode__input:focus-visible) .UnmagicOneTimeCode__cell[data-active]`
-    gets the `--unmagic-focus` outline and a blinking caret bar (`::after`).
+    gets the `neutral-400`/`dark:neutral-500` outline and a blinking caret bar (`::after`).
   - **Invalid:** `:has(.UnmagicOneTimeCode__input[aria-invalid="true"])`
-    recolours every cell border with `--unmagic-bad`.
+    recolours every cell border with `red-600`/`dark:red-400`.
   - **Disabled:** `:has(.UnmagicOneTimeCode__input:disabled)` dims the cells
     and sets `cursor: not-allowed`.
 - **Host opts out:** if the seam returns `nil`, the cells still render the
@@ -139,8 +140,7 @@ All selectors are classes, never bare elements.
   is left to the host.
 - **Motion:** the caret blink is switched off under reduced motion (a solid
   bar instead).
-- **Tokens:** existing only (`surface`, `border`, `border-strong`, `text`,
-  `focus`, `bad`).
+- **Colours:** the `UnmagicInput` palette and `dark:` variants only.
 
 ## Behaviour (JavaScript)
 

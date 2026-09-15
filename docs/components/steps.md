@@ -106,19 +106,19 @@ CSS section: `Steps`.
   state classes.
 - **Marker:**
   - 1.5rem circle, 0.75rem weight-600 numerals.
-  - upcoming: `--unmagic-surface` with a `--unmagic-border-strong` border
-  - current: `--unmagic-accent` border, `--unmagic-text`
-  - complete: filled `--unmagic-accent` with an `--unmagic-on-accent` check
-  - error: `--unmagic-bad-surface` fill with `--unmagic-bad`
-- **Label:** 0.875rem weight 500. Upcoming is `--unmagic-text-3`, others
-  `--unmagic-text`. Description is 0.75rem `--unmagic-text-3`.
+  - upcoming: `white`/`dark:neutral-900` with a `neutral-300`/`dark:neutral-700` border
+  - current: `neutral-900`/`dark:white` border, `neutral-900`/`dark:neutral-100`
+  - complete: filled `neutral-900`/`dark:white` with an `white`/`dark:neutral-900` check
+  - error: `red-50`/`dark:red-400/10` fill with `red-600`/`dark:red-400`
+- **Label:** 0.875rem weight 500. Upcoming is `neutral-500`, others
+  `neutral-900`/`dark:neutral-100`. Description is 0.75rem `neutral-500`.
 - **Connector:**
   - Horizontal: a 1px line (`::after` on each step but the last) in
-    `--unmagic-border`, turning `--unmagic-accent` after complete steps.
+    `neutral-200`/`dark:neutral-800`, turning `neutral-900`/`dark:white` after complete steps.
   - Vertical: the same line running down beside the markers.
 - **Responsive:** `@media (max-width: 40rem)` makes `--horizontal` lay out like
   `--vertical`.
-- No new tokens and no motion.
+- Palette colours with `dark:` variants only, and no motion.
 
 ## Behaviour (JavaScript)
 

@@ -1,9 +1,9 @@
 # unmagic-components
 
 Server-rendered UI components for Rails views: plain Ruby classes behind
-ActionView helpers, one plain CSS file themed with `--unmagic-*` custom
-properties, and self-registering custom elements. There is no Tailwind and no
-Stimulus.
+ActionView helpers, one Tailwind CSS v4 source file the host's Tailwind build
+compiles, and self-registering custom elements. Tailwind v4 is required, and
+there is no Stimulus.
 
 ## Building or changing a component
 
@@ -25,7 +25,8 @@ each component from scratch to these principles.
 
 - `lib/unmagic/components/`: component classes, `action_view_helpers.rb`,
   `form_builder.rb`, `configuration.rb`
-- `app/assets/stylesheets/unmagic/components.css`: every component's styles
+- `app/assets/tailwind/unmagic_components/engine.css`: every component's
+  styles, as Tailwind component CSS (`@apply`, palette colours with `dark:`)
 - `app/assets/javascripts/unmagic/components/`: one custom element per file,
   imported by `components.js`
 - `spec/unmagic/components/`: RSpec and Nokogiri specs (`build_view`, `html`)
@@ -36,5 +37,5 @@ each component from scratch to these principles.
 ```sh
 bundle exec rspec      # specs
 bundle exec rubocop    # lint
-bin/dev                # preview at http://localhost:5701 (?theme=dark for dark)
+bin/dev                # builds the Tailwind CSS, then the preview at http://localhost:5701 (?theme=dark for dark)
 ```

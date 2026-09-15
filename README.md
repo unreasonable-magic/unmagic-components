@@ -44,10 +44,29 @@ the spirit of `form_for`: describe the columns, get the chrome.
 gem "unmagic-components"
 ```
 
-Add the stylesheet to your layout:
+The components are styled with **Tailwind CSS v4, which your app needs**. The
+gem's styles are a Tailwind source file,
+`app/assets/tailwind/unmagic_components/engine.css`, that your own Tailwind
+build compiles. Markup inside an installed gem is never scanned, so the gem
+hands Tailwind its CSS instead of relying on scanning.
 
-```erb
-<%= stylesheet_link_tag "unmagic/components" %>
+With tailwindcss-rails, import the engine's entry file after Tailwind itself in
+`app/assets/tailwind/application.css`:
+
+```css
+@import "tailwindcss";
+@import "../builds/tailwind/unmagic_components";
+```
+
+tailwindcss-rails generates that entry file on every build and watch, or on
+demand with `bin/rails tailwindcss:engines`.
+
+With the Tailwind CLI or an npm build, import the gem's file by path. `bundle
+show unmagic-components` prints where the gem is installed:
+
+```css
+@import "tailwindcss";
+@import "/path/to/unmagic-components/app/assets/tailwind/unmagic_components/engine.css";
 ```
 
 The engine mixes the helpers into ActionView automatically — no initializer
@@ -57,63 +76,36 @@ to your application.js (see [Dialogs](#dialogs)).
 
 ## Theming
 
-The stylesheet is plain CSS driven by custom properties, and every value falls
-back to a Tailwind palette default, so the components look right unconfigured.
-To match your own design, set the `--unmagic-*` knobs wherever your theme lives:
+The components use Tailwind's own palette (neutral for surfaces, borders and
+text, and red, green and amber for tones), with a `dark:` variant for every
+colour. They look right with Tailwind's defaults and follow your theme from
+there.
+
+**Dark mode** follows your app's `dark` variant. Tailwind's default is the
+visitor's system setting. To switch on a class or an attribute instead, redefine
+the variant in your Tailwind input file and the components switch with it:
 
 ```css
-:root {
-  --unmagic-surface:       var(--surface);
-  --unmagic-surface-2:     var(--surface-2);
-  --unmagic-surface-3:     var(--surface-3);    /* neutral badges, tab tracks */
-  --unmagic-raised:        var(--surface);      /* the selected tab */
-  --unmagic-hover:         var(--hover);
-  --unmagic-border:        var(--border);
-  --unmagic-border-strong: var(--border-strong);
-  --unmagic-text:          var(--text);
-  --unmagic-text-2:        var(--text-2);
-  --unmagic-text-3:        var(--text-3);
-  --unmagic-skeleton:      var(--surface-3);
-  --unmagic-accent:        var(--primary);      /* primary buttons */
-  --unmagic-on-accent:     var(--on-primary);
-  --unmagic-bad:           var(--danger);       /* errors, danger buttons */
-  --unmagic-bad-surface:   var(--danger-surface);
-  --unmagic-bad-border:    var(--danger-border);
-  --unmagic-good:          var(--success);      /* good toasts */
-  --unmagic-good-surface:  var(--success-surface);
-  --unmagic-good-border:   var(--success-border);
-  --unmagic-warn:          var(--warning);      /* warn toasts */
-  --unmagic-warn-surface:  var(--warning-surface);
-  --unmagic-warn-border:   var(--warning-border);
-  --unmagic-tooltip:       var(--inverse);      /* tooltips */
-  --unmagic-on-tooltip:    var(--on-inverse);
-  --unmagic-focus:         var(--focus-ring);
-  --unmagic-backdrop:      rgb(0 0 0 / 0.5);    /* behind dialogs */
+@custom-variant dark (&:where(.dark, .dark *));
+```
+
+**Colours, radii and fonts** come from your theme, so change them there and the
+components follow:
+
+```css
+@theme {
+  --color-neutral-900: oklch(0.21 0.03 265);
+  --radius-md: 0.25rem;
 }
 ```
 
-In a dark theme, set `--unmagic-accent` too. Its fallback is near-black, which
-disappears against a dark dialog.
+**One component** takes utilities through `class:`, like any other option.
+The gem's rules sit in `@layer components`, which Tailwind orders before
+`@layer utilities`, so your utilities win:
 
-Dark mode needs nothing extra. If your own tokens already flip, these flip with
-them — the gem ships no dark variant and makes no assumption about how you
-select a theme.
-
-The CSS is deliberately **not** part of any Tailwind build. Tailwind only
-generates classes it can see and it does not scan installed gems, so a component
-library that emitted utilities from Ruby would render unstyled in your app
-unless you pointed `@source` at the gem's install path.
-
-If you do want Tailwind utilities from these tokens, map them with `@theme
-inline` — not plain `@theme`. A non-inline theme variable makes the utility emit
-`var(--color-unmagic-surface)`, which resolves *where that variable is defined*,
-so an override scoped to a subtree (a themed preview pane, a `.dark` region)
-would be invisible to it:
-
-```css
-@theme inline {
-  --color-unmagic-surface: var(--unmagic-surface);
-}
+```erb
+<%= card title: "Members", class: "rounded-none shadow-none" do %>…<% end %>
+<%= form.field :email, "Email", class: "font-mono" %>
 ```
 
 ## Configuration
@@ -304,8 +296,9 @@ config.control_class = ->(_view, kind) { kind == :select ? "form-select" : "form
 config.control_class = ->(_view, _kind) { nil }
 ```
 
-The controls use the same tokens as the rest of the gem. A checked box or radio
-wears `--unmagic-accent`, and an invalid control wears `--unmagic-bad`.
+The controls use the same palette as the rest of the gem. A checked box or radio
+is neutral-900 (neutral-100 in dark mode), and an invalid control has a red
+border.
 
 The submit button's classes come from a seam, so it wears your own button:
 

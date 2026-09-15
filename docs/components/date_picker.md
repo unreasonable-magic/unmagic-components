@@ -134,12 +134,12 @@ Section `/* Date pickers */`.
 - **Control:**
   - The visible input gets `config.control_class.call(view, :date)`
     (`UnmagicInput` by default), so it matches the gem's other inputs.
-  - `::-webkit-calendar-picker-indicator` is tinted `text-3` and nothing
+  - `::-webkit-calendar-picker-indicator` is tinted `neutral-500` and nothing
     more, because the native calendar is kept.
   - The clear button sits inside the control's right padding.
 - **State:** `__clear[hidden]`. Validity is styled by the host's own
   `:invalid` styles.
-- **Tokens:** `text-3` for the clear icon. No new tokens.
+- **Colour:** `neutral-500` for the clear icon; nothing new.
 - **Motion:** none.
 
 ## Behaviour (JavaScript)

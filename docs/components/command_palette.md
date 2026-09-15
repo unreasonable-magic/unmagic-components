@@ -153,12 +153,12 @@ and entry animation, and every `UnmagicCombobox__*` option style.
     `width: min(40rem, 100vw - 2rem)`
   - `__search`: a large input row with a bottom border; the input is 1rem,
     borderless
-  - `__shortcut`: right-aligned `kbd` hints, `text-3`
+  - `__shortcut`: right-aligned `kbd` hints, `neutral-500`
   - `__target` and `__form`: the target fills the option, with `display: contents`
     for the form, as `UnmagicMenu__form` has
 - **Modifier:** `UnmagicCombobox--inline` makes the listbox static,
   `max-height: 60vh`, with no popup shadow.
-- **Tokens:** no new ones.
+- **Colour:** palette with `dark:` variants only, nothing new.
 - **Motion:** the dialog's existing entry transition, off under reduced motion.
 
 ## Behaviour (JavaScript)

@@ -79,7 +79,7 @@ CSS section: `Spinners`, placed after `Skeleton`.
 - **Elements and modifiers:** `UnmagicSpinner`, with `--small`, `--medium`,
   `--large`, `__ring` and `__text`.
 - **Root:** `inline-flex`, `align-items: center`, `gap: 0.5rem`, 0.875rem text
-  in `--unmagic-text-3`.
+  in `neutral-500`.
 - **Ring:**
   - `currentColor`, so it inherits a button's colour.
   - Sized by the modifier, overriding `UnmagicIcon`'s 1rem.
@@ -91,7 +91,7 @@ CSS section: `Spinners`, placed after `Skeleton`.
     something is happening.
   - The principles allow an opacity change that doesn't move anything under
     reduced motion. A frozen arc would read as broken.
-- No new tokens.
+- Palette colours with `dark:` variants only.
 
 ## Behaviour (JavaScript)
 

@@ -12,7 +12,7 @@ short quotes, "trusted by" rows on a landing or sign-in page.
 Not for anything a user must read in order to act. Status messages belong in a
 `callout` or a toast, and navigation belongs in `tabs` or `navbar`.
 
-**Placement (decided):** a core `Marquee` section in `components.css`, shipped
+**Placement (decided):** a core `Marquee` section in the gem's Tailwind `engine.css`, shipped
 like every other component. Marketing-style components live in the core
 stylesheet.
 
@@ -77,12 +77,11 @@ stylesheet.
   (40s/25s/15s via `--unmagic-marquee-duration`), and `--fade`, which uses
   `mask-image` with a linear gradient.
 - **Gap:** `--unmagic-marquee-gap`, falling back to 3rem.
-- **Knobs, not theme tokens.** `--unmagic-marquee-duration` and
-  `--unmagic-marquee-gap` are per-instance knobs (`--unmagic-<component>-<property>`).
-  The modifiers set them, or a caller can set them with `style:`. They're
-  documented in the component's README section and never listed under
-  Theming.
-- **Colour:** it uses no colour tokens; it inherits colour.
+- **Knobs, not theme colours.** `--unmagic-marquee-duration` and
+  `--unmagic-marquee-gap` are per-instance knobs. The modifiers set them, or a
+  caller can set them with `style:`. They're documented in the component's
+  README section.
+- **Colour:** none of its own; it inherits colour.
 
 ## Behaviour (JavaScript)
 

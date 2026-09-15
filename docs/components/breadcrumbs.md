@@ -92,15 +92,15 @@ CSS section: `Breadcrumbs`.
     `ol` and `nav a`.
 - **Type and colour:**
   - 0.875rem.
-  - Links are `--unmagic-text-3`, turning `--unmagic-text` on hover, with no
+  - Links are `neutral-500`, turning `neutral-900`/`dark:neutral-100` on hover, with no
     underline.
-  - The current crumb is `--unmagic-text` at weight 500.
-  - The separator is `--unmagic-text-3` at 0.875rem.
+  - The current crumb is `neutral-900`/`dark:neutral-100` at weight 500.
+  - The separator is `neutral-500` at 0.875rem.
 - **Long trails:** each `__link` gets `max-width: 16rem`, an ellipsis, and a
   `title` with the full name.
 - **Inside `page_header`:** the crumbs take the same margin as
   `UnmagicPageHeader__back`.
-- No new tokens and no motion.
+- Palette colours with `dark:` variants only, and no motion.
 
 ## Behaviour (JavaScript)
 

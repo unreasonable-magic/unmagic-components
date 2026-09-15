@@ -1,0 +1,1164 @@
+/* unmagic-components
+ *
+ * The components' styles, written for Tailwind CSS v4 and compiled by the host
+ * application's own Tailwind build. The Ruby renders stable classes
+ * (UnmagicCard, UnmagicInput, …); this file gives those classes their look
+ * with @apply and Tailwind's theme, so nothing in the gem needs scanning.
+ *
+ * With tailwindcss-rails, the first build writes an entry point for this file
+ * to app/assets/builds/tailwind/unmagic_components.css. Import it after
+ * Tailwind in app/assets/tailwind/application.css:
+ *
+ *   @import "tailwindcss";
+ *   @import "../builds/tailwind/unmagic_components";
+ *
+ * With the npm package or the standalone CLI, import this file by its path
+ * inside the installed gem instead (bundle show unmagic-components).
+ *
+ * Every rule sits in @layer components, below Tailwind's utilities, so a
+ * utility passed to a component wins over the gem's own style:
+ *
+ *   <%= card class: "rounded-none" do %>…<% end %>
+ *
+ * Colours come from the host's theme palette (neutral, red, green, amber), so
+ * redefining those in @theme restyles the components too. Dark mode uses the
+ * host's `dark` variant, whether that is the default prefers-color-scheme or a
+ * @custom-variant keyed to a class or attribute.
+ */
+
+@layer components {
+  /* ------------------------------------------------------------------ Table */
+
+  /* Content-sized by default, so a Markdown table wearing this class hugs its
+     content rather than stretching. table_tag adds the --full modifier, which is
+     what an index table wants. */
+  .UnmagicTable {
+    @apply overflow-hidden rounded-xl border border-separate border-spacing-0 border-neutral-200 bg-white text-sm text-neutral-900;
+    @apply dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicTable--full {
+    @apply w-full;
+  }
+
+  .UnmagicTable--fixed {
+    @apply table-fixed;
+  }
+
+  .UnmagicTable__caption {
+    @apply sr-only;
+  }
+
+  .UnmagicTable thead th {
+    @apply border-b border-neutral-200 bg-neutral-50 px-4 py-3 text-left text-xs font-semibold whitespace-nowrap text-neutral-600;
+    @apply dark:border-neutral-800 dark:bg-neutral-800/50 dark:text-neutral-400;
+  }
+
+  .UnmagicTable tbody td {
+    @apply border-b border-neutral-200 px-4 py-3 align-middle dark:border-neutral-800;
+  }
+
+  /* The border rides on the cells rather than the row: with border-collapse
+     separate, a border set on a <tr> is not painted. */
+  .UnmagicTable tbody tr:last-child > td {
+    @apply border-b-0;
+  }
+
+  .UnmagicTable tbody tr:hover > td {
+    @apply bg-neutral-50 dark:bg-neutral-800;
+  }
+
+  /* A row carrying a companion details row below it drops its bottom border, so
+     the pair reads as one row. */
+  .UnmagicTable tbody tr.has-details > td {
+    @apply border-b-0;
+  }
+
+  .UnmagicTable tbody tr.UnmagicTable__details > td {
+    @apply pt-0;
+  }
+
+  .UnmagicTable .is-right {
+    @apply text-right;
+  }
+
+  .UnmagicTable .is-center {
+    @apply text-center;
+  }
+
+  .UnmagicTable .is-numeric {
+    @apply tabular-nums;
+  }
+
+  .UnmagicTable__sort {
+    @apply inline-flex items-center gap-1 no-underline;
+    color: inherit;
+  }
+
+  .UnmagicTable__sort:hover {
+    @apply text-neutral-900 dark:text-neutral-100;
+  }
+
+  /* --------------------------------------------------------------- Skeleton */
+
+  .UnmagicSkeleton {
+    @apply relative h-4 overflow-hidden rounded-sm bg-neutral-200 dark:bg-neutral-800;
+  }
+
+  .UnmagicSkeleton.is-right {
+    @apply ml-auto;
+  }
+
+  /* The shimmer is a translated ::after so it stays on the compositor; the radius
+     and sizing stay on the element itself, which clips the band to the shape. */
+  .UnmagicSkeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(90deg, transparent, --alpha(var(--color-white) / 70%), transparent);
+    transform: translateX(-100%);
+    animation: unmagic-skeleton-shimmer 1.5s ease-in-out infinite;
+  }
+
+  /* A fainter band on a dark shape. After the rule above, which it ties with on
+     specificity. */
+  .UnmagicSkeleton {
+    @variant dark {
+      &::after {
+        background-image: linear-gradient(90deg, transparent, --alpha(var(--color-white) / 5%), transparent);
+      }
+    }
+  }
+
+  @keyframes unmagic-skeleton-shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .UnmagicSkeleton::after {
+      animation: none;
+    }
+  }
+
+  /* Shapes for blocking out an interface (skeleton, skeleton_text, …). Each is sized
+     from what it stands in for, so nothing moves when the real content arrives: a
+     text line takes exactly one line box of the font around it, and a button shape
+     the height of a real .UnmagicButton. Width and height set on the element win. */
+  /* Exactly one line box tall, with the thinner bar centred inside; margins around
+     the bar would collapse through its container and lose the height. */
+  .UnmagicSkeletonLine {
+    @apply flex max-w-full items-center;
+    height: 1.2em;
+    height: 1lh;
+  }
+
+  .UnmagicSkeleton--text {
+    @apply w-full rounded-sm;
+    height: 0.7em;
+  }
+
+  .UnmagicSkeletonText {
+    @apply block max-w-full;
+  }
+
+  .UnmagicSkeleton--circle {
+    @apply block shrink-0 rounded-full;
+  }
+
+  .UnmagicSkeleton--block {
+    @apply block w-full max-w-full rounded-lg;
+  }
+
+  /* A button's height is its vertical padding, its line height and a 1px border
+     each side; these match .UnmagicButton at each size. */
+  .UnmagicSkeleton--button {
+    @apply inline-block w-22 rounded-md align-middle;
+    height: calc(2rem + 2px);
+  }
+
+  .UnmagicSkeleton--button.UnmagicSkeleton--small {
+    @apply w-18;
+    height: calc(1.5rem + 2px);
+  }
+
+  .UnmagicSkeleton--button.UnmagicSkeleton--large {
+    @apply w-28 rounded-lg;
+    height: calc(2.75rem + 2px);
+  }
+
+  /* ------------------------------------------------------------ Empty state */
+
+  .UnmagicEmptyState {
+    @apply rounded-lg border border-dashed border-neutral-300 p-8 text-center text-sm text-neutral-500 dark:border-neutral-700;
+  }
+
+  /* ------------------------------------------------------------- Pagination */
+
+  .UnmagicPagination {
+    @apply mt-5 flex items-center justify-center gap-4;
+  }
+
+  .UnmagicPagination__link {
+    @apply rounded-md border border-neutral-300 bg-white px-3 py-1 text-sm text-neutral-900 no-underline;
+    @apply dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicPagination__link:hover {
+    @apply bg-neutral-50 dark:bg-neutral-800;
+  }
+
+  .UnmagicPagination__link[aria-disabled="true"] {
+    @apply pointer-events-none opacity-50;
+  }
+
+  /* -------------------------------------------------------- Description list */
+
+  .UnmagicDescriptionList {
+    @apply grid grid-cols-[max-content_1fr] gap-x-6 gap-y-2 text-sm;
+  }
+
+  .UnmagicDescriptionList dt {
+    @apply col-start-1 text-neutral-600 dark:text-neutral-400;
+  }
+
+  .UnmagicDescriptionList dd {
+    @apply col-start-2 m-0 text-neutral-900 dark:text-neutral-100;
+  }
+
+  /* The stacked variant is a different layout, not a restyle of the inline one:
+     small caps labels above their values, in two columns once there is room. */
+  .UnmagicDescriptionList--stacked {
+    @apply grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2;
+  }
+
+  .UnmagicDescriptionList--stacked > .is-full {
+    @apply sm:col-span-2;
+  }
+
+  .UnmagicDescriptionList--stacked dt {
+    @apply col-auto text-xs font-medium tracking-wide text-neutral-400 uppercase dark:text-neutral-500;
+  }
+
+  .UnmagicDescriptionList--stacked dd {
+    @apply col-auto mt-1 text-neutral-900 dark:text-neutral-100;
+  }
+
+  /* ------------------------------------------------------------------- Forms */
+
+  /* The field's structure, then the controls themselves. Controls are styled by
+     class — UnmagicInput, UnmagicSelect, UnmagicCheck, UnmagicRadio — and never by
+     bare element, so an input the gem didn't render is left as the app has it. The
+     builder puts the class on through config.control_class, which an app with input
+     styles of its own points at those instead. */
+
+  .UnmagicField {
+    @apply mb-4 flex flex-col gap-1.5;
+  }
+
+  .UnmagicField--in-row {
+    @apply mb-0 flex-1;
+  }
+
+  .UnmagicField--inline {
+    @apply mb-0;
+  }
+
+  .UnmagicFieldGroup {
+    @apply mb-4 flex flex-col gap-4 sm:flex-row;
+  }
+
+  .UnmagicFieldGroup--inline {
+    @apply flex flex-wrap items-center gap-2;
+  }
+
+  /* Label, hint and error set only the font size, keeping the line height of the
+     text around them. */
+  .UnmagicLabel {
+    @apply font-medium text-neutral-600 dark:text-neutral-400;
+    font-size: var(--text-sm);
+  }
+
+  .UnmagicLabel__required {
+    @apply text-red-500 dark:text-red-400;
+  }
+
+  .UnmagicHint {
+    @apply m-0 text-neutral-500;
+    font-size: var(--text-sm);
+  }
+
+  .UnmagicError {
+    @apply m-0 text-red-600 dark:text-red-400;
+    font-size: var(--text-sm);
+  }
+
+  .UnmagicFormErrors {
+    @apply mb-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-red-700;
+    @apply dark:border-red-400/30 dark:bg-red-400/10 dark:text-red-400;
+    font-size: var(--text-sm);
+  }
+
+  .UnmagicCheckField {
+    @apply flex cursor-pointer items-start gap-3;
+  }
+
+  .UnmagicCheckField__text {
+    @apply flex flex-col gap-0.5;
+  }
+
+  .UnmagicCheckField__label {
+    @apply font-medium text-neutral-900 dark:text-neutral-100;
+    font-size: var(--text-sm);
+  }
+
+  .UnmagicCheckList {
+    @apply flex flex-col gap-2;
+  }
+
+  .UnmagicCheckList--inline {
+    @apply flex flex-wrap gap-x-6 gap-y-2;
+  }
+
+  /* Boxes: text, password, date and textarea inputs, and selects. Padding and type
+     match an UnmagicButton of the same size, so the two sit level in a row. */
+  .UnmagicInput,
+  .UnmagicSelect {
+    font: inherit;
+    @apply m-0 box-border max-w-full rounded-md border border-neutral-300 bg-white px-3 py-1.5 text-sm text-neutral-900 shadow-xs;
+    @apply dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100;
+  }
+
+  /* A field stretches its control; an inline one (a filter toolbar) lets it size
+     itself. :where keeps these as easy to override as the class alone. Rails wraps
+     an invalid control in a field_with_errors div, hence a descendant selector. */
+  .UnmagicField :where(.UnmagicInput, .UnmagicSelect) {
+    @apply w-full;
+  }
+
+  .UnmagicField--inline :where(.UnmagicInput, .UnmagicSelect) {
+    @apply w-auto;
+  }
+
+  .UnmagicInput::placeholder {
+    @apply text-neutral-500 opacity-100;
+  }
+
+  .UnmagicInput:focus-visible,
+  .UnmagicSelect:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicInput[aria-invalid="true"],
+  .UnmagicSelect[aria-invalid="true"] {
+    @apply border-red-600 dark:border-red-400;
+  }
+
+  .UnmagicInput[aria-invalid="true"]:focus-visible,
+  .UnmagicSelect[aria-invalid="true"]:focus-visible {
+    @apply outline-red-600 dark:outline-red-400;
+  }
+
+  .UnmagicInput[readonly],
+  .UnmagicInput:disabled,
+  .UnmagicSelect:disabled {
+    @apply bg-neutral-50 shadow-none dark:bg-neutral-800/50;
+  }
+
+  .UnmagicInput:disabled,
+  .UnmagicSelect:disabled {
+    @apply cursor-not-allowed text-neutral-500 dark:text-neutral-500;
+  }
+
+  textarea.UnmagicInput {
+    @apply resize-y;
+  }
+
+  /* Safari centres a date's value, and collapses an empty one to no height. */
+  .UnmagicInput::-webkit-date-and-time-value {
+    min-height: 1.25rem;
+    text-align: start;
+  }
+
+  /* The native arrow is replaced by one drawn in the text colour, so it follows the
+     theme: two gradient triangles, since a select can't hold a pseudo-element. */
+  .UnmagicSelect {
+    @apply appearance-none pr-8;
+    background-image:
+      linear-gradient(45deg, transparent 50%, currentColor 50%),
+      linear-gradient(135deg, currentColor 50%, transparent 50%);
+    background-position: calc(100% - 1.125rem) 50%, calc(100% - 0.8125rem) 50%;
+    background-size: 0.3125rem 0.3125rem;
+    background-repeat: no-repeat;
+  }
+
+  /* A list box shows its options, so it has no arrow to make room for. */
+  .UnmagicSelect[multiple],
+  .UnmagicSelect[size]:not([size="1"]) {
+    @apply pr-3;
+    background-image: none;
+  }
+
+  .UnmagicInput--small,
+  .UnmagicSelect--small {
+    @apply py-1 pl-2.5 text-xs;
+  }
+
+  .UnmagicInput--small {
+    @apply pr-2.5;
+  }
+
+  .UnmagicSelect--small {
+    @apply pr-7;
+  }
+
+  .UnmagicInput--large,
+  .UnmagicSelect--large {
+    @apply rounded-lg py-2.5 pl-4 text-base;
+  }
+
+  .UnmagicInput--large {
+    @apply pr-4;
+  }
+
+  .UnmagicSelect--large {
+    @apply pr-9;
+  }
+
+  /* Checkboxes and radios stay real inputs, drawn with CSS: the box, and a mark
+     that shows once checked. Nothing animates, so reduced motion has nothing to
+     switch off. The border is darker than a text box's: a box this small is
+     identified by its edge alone, so the edge needs 3:1 against the surface. */
+  .UnmagicCheck,
+  .UnmagicRadio {
+    @apply m-0 box-border inline-grid size-4 flex-none cursor-pointer appearance-none place-content-center rounded-sm border border-neutral-500 bg-white dark:bg-neutral-900;
+    vertical-align: -0.125rem;
+  }
+
+  .UnmagicRadio {
+    @apply rounded-full;
+  }
+
+  /* Beside a label, level the box with the label's first line. */
+  .UnmagicCheckField :is(.UnmagicCheck, .UnmagicRadio) {
+    @apply mt-0.5;
+  }
+
+  .UnmagicCheck::before,
+  .UnmagicRadio::before {
+    @apply invisible bg-white;
+    content: "";
+  }
+
+  .UnmagicCheck::before {
+    @apply size-2.5;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0, 43% 62%);
+  }
+
+  .UnmagicRadio::before {
+    @apply size-1.5 rounded-full;
+  }
+
+  /* The mark's dark colour. A dark variant can't sit on the pseudo-element itself
+     (a pseudo-element must end its selector), so it hangs off the box. It has to
+     come after the rule above: :where() adds no specificity, so the two tie and
+     the later one wins. */
+  .UnmagicCheck,
+  .UnmagicRadio {
+    @variant dark {
+      &::before {
+        @apply bg-neutral-900;
+      }
+    }
+  }
+
+  .UnmagicCheck:checked,
+  .UnmagicCheck:indeterminate,
+  .UnmagicRadio:checked {
+    @apply border-neutral-900 bg-neutral-900 dark:border-white dark:bg-white;
+  }
+
+  .UnmagicCheck:checked::before,
+  .UnmagicCheck:indeterminate::before,
+  .UnmagicRadio:checked::before {
+    @apply visible;
+  }
+
+  /* A bar rather than a tick, for a box standing for some of several. */
+  .UnmagicCheck:indeterminate::before {
+    @apply h-0.5;
+    clip-path: none;
+  }
+
+  .UnmagicCheck:focus-visible,
+  .UnmagicRadio:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicCheck[aria-invalid="true"],
+  .UnmagicRadio[aria-invalid="true"] {
+    @apply border-red-600 dark:border-red-400;
+  }
+
+  .UnmagicCheck:disabled,
+  .UnmagicRadio:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  /* Forced colours drop the gradient arrow and repaint the checked box, which
+     would hide the mark; hand both back to the system. */
+  @media (forced-colors: active) {
+    .UnmagicSelect {
+      appearance: auto;
+      padding-right: 0.75rem;
+      background-image: none;
+    }
+
+    .UnmagicCheck::before,
+    .UnmagicRadio::before {
+      forced-color-adjust: none;
+      background-color: CanvasText;
+    }
+  }
+
+  /* ---------------------------------------------------------------- Buttons */
+
+  /* A plain, unobtrusive button, so an unconfigured form still has one that looks
+     deliberate. Most apps point config.submit_class at their own button helper. */
+  .UnmagicButton {
+    font: inherit;
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-md border border-neutral-300 bg-white px-3.5 py-1.5 text-sm font-medium whitespace-nowrap text-neutral-900 no-underline;
+    @apply dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicButton:hover {
+    @apply bg-neutral-50 dark:bg-neutral-800;
+  }
+
+  .UnmagicButton:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicButton:disabled,
+  .UnmagicButton[aria-disabled="true"] {
+    @apply pointer-events-none opacity-50;
+  }
+
+  .UnmagicButton--primary {
+    @apply border-transparent bg-neutral-900 text-white dark:border-transparent dark:bg-white dark:text-neutral-900;
+  }
+
+  .UnmagicButton--primary:hover {
+    @apply bg-neutral-900 opacity-90 dark:bg-white;
+  }
+
+  .UnmagicButton--ghost {
+    @apply border-transparent bg-transparent dark:border-transparent dark:bg-transparent;
+  }
+
+  /* Styled like the default so the two sit level in an actions row; only the label
+     and the hover carry the warning. */
+  .UnmagicButton--danger {
+    @apply text-red-600 dark:text-red-400;
+  }
+
+  .UnmagicButton--danger:hover {
+    @apply bg-red-50 dark:bg-red-400/10;
+  }
+
+  .UnmagicButton--icon {
+    @apply border-transparent bg-transparent p-1.5 text-neutral-500;
+    @apply dark:border-transparent dark:bg-transparent dark:text-neutral-500;
+  }
+
+  .UnmagicButton--icon:hover {
+    @apply text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicButton--small {
+    @apply px-2.5 py-1 text-xs;
+  }
+
+  .UnmagicButton--large {
+    @apply rounded-lg px-5 py-2.5 text-base;
+  }
+
+  /* ------------------------------------------------------------------ Icons */
+
+  .UnmagicIcon {
+    @apply size-4 shrink-0;
+  }
+
+  .UnmagicVisuallyHidden {
+    @apply sr-only;
+  }
+
+  /* ---------------------------------------------------------------- Dialogs */
+
+  /* The <dialog> itself is only a transparent positioning box; the panel inside is
+     the visible surface. overflow stays visible so a dropdown inside a dialog form
+     isn't clipped, which means a dialog keeps its content short enough to fit. */
+  .UnmagicDialogBox {
+    @apply m-auto max-h-[90dvh] max-w-[calc(100vw-2rem)] overflow-visible border-0 bg-transparent p-0;
+    color: inherit;
+  }
+
+  .UnmagicDialogBox:focus {
+    @apply outline-none;
+  }
+
+  .UnmagicDialogBox::backdrop {
+    @apply bg-black/50;
+    backdrop-filter: blur(var(--blur-xs));
+  }
+
+  /* Darker behind a dark panel. After the rule above, which it ties with on
+     specificity. */
+  .UnmagicDialogBox {
+    @variant dark {
+      &::backdrop {
+        @apply bg-black/60;
+      }
+    }
+  }
+
+  .UnmagicDialogBox[open] {
+    animation: unmagic-dialog-in 150ms ease-out;
+  }
+
+  @keyframes unmagic-dialog-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem) scale(0.98);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .UnmagicDialogBox[open] {
+      animation: none;
+    }
+  }
+
+  .UnmagicDialog {
+    @apply w-[min(100vw-2rem,32rem)] rounded-xl border border-neutral-200 bg-white text-sm leading-normal text-neutral-900 shadow-xl;
+    @apply dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicDialog--wide {
+    @apply w-[min(100vw-2rem,48rem)];
+  }
+
+  /* margin is reset because this is a <header>, and hosts often style bare
+     header elements for their page chrome. */
+  .UnmagicDialog__header {
+    @apply m-0 flex items-center justify-between gap-3 px-5 pt-4 pb-2;
+  }
+
+  .UnmagicDialog__title {
+    @apply m-0 text-base font-semibold;
+  }
+
+  /* Pushed right even when the panel has no title beside it. */
+  .UnmagicDialog__close {
+    @apply -mr-1.5 ml-auto;
+  }
+
+  .UnmagicDialog__body {
+    @apply px-5 py-4;
+  }
+
+  .UnmagicDialog__body > :first-child {
+    @apply mt-0;
+  }
+
+  .UnmagicDialog__body > :last-child {
+    @apply mb-0;
+  }
+
+  .UnmagicDialog__footer {
+    @apply flex items-center justify-end gap-3 px-5 pt-2 pb-4;
+  }
+
+  .UnmagicDialog__error {
+    @apply flex items-start gap-3 text-neutral-600 dark:text-neutral-400;
+  }
+
+  .UnmagicDialog__error > .UnmagicIcon {
+    @apply mt-0.5 text-red-500 dark:text-red-400;
+  }
+
+  .UnmagicDialog__error > p {
+    @apply m-0;
+  }
+
+  .UnmagicDialog__skeleton-field {
+    @apply mb-5 grid gap-2;
+  }
+
+  .UnmagicDialog__skeleton-title {
+    @apply h-5 w-40;
+  }
+
+  .UnmagicDialog__skeleton-label {
+    @apply h-3 w-24;
+  }
+
+  .UnmagicDialog__skeleton-input {
+    @apply h-9 rounded-md;
+  }
+
+  .UnmagicDialog__skeleton-button {
+    @apply h-9 w-24 rounded-md;
+  }
+
+  /* ----------------------------------------------------------------- Toasts */
+
+  /* The stack is a manual popover, so the popover defaults (centred, bordered,
+     painted) are undone here. It never takes pointer events itself; the toasts
+     inside it do. */
+  .UnmagicToasts__stack {
+    @apply pointer-events-none fixed z-60 m-0 flex w-[min(100vw-2rem,24rem)] flex-col gap-2 overflow-visible border-0 bg-transparent p-0;
+    inset: 1rem 1rem auto auto;
+    color: inherit;
+  }
+
+  .UnmagicToast {
+    @apply pointer-events-auto flex items-start gap-2 rounded-lg border border-neutral-200 bg-white px-3 py-2.5 text-sm text-neutral-900 opacity-0 shadow-lg;
+    @apply dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-100;
+    transform: translateY(-0.5rem);
+    transition: opacity 200ms ease, transform 200ms ease;
+  }
+
+  .UnmagicToast[data-open] {
+    @apply opacity-100;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .UnmagicToast {
+      transform: none;
+      transition: none;
+    }
+  }
+
+  .UnmagicToast__icon {
+    @apply mt-0.5;
+  }
+
+  .UnmagicToast__message {
+    @apply min-w-0 flex-auto wrap-anywhere;
+  }
+
+  .UnmagicToast__dismiss {
+    @apply -my-0.5 mr-[-0.25rem] ml-0 inline-flex shrink-0 cursor-pointer rounded-sm border-0 bg-transparent p-1 opacity-60;
+    color: inherit;
+  }
+
+  .UnmagicToast__dismiss:hover,
+  .UnmagicToast__dismiss:focus-visible {
+    @apply opacity-100;
+  }
+
+  .UnmagicToast__dismiss .UnmagicIcon {
+    @apply size-3.5;
+  }
+
+  /* A toast floats over the page, so its dark tone surfaces are opaque rather
+     than the translucent tints a callout uses in place. */
+  .UnmagicToast--good {
+    @apply border-green-200 bg-green-50 text-green-700;
+    @apply dark:border-green-900 dark:bg-green-950 dark:text-green-400;
+  }
+
+  .UnmagicToast--warn {
+    @apply border-amber-200 bg-amber-50 text-amber-700;
+    @apply dark:border-amber-900 dark:bg-amber-950 dark:text-amber-400;
+  }
+
+  .UnmagicToast--bad {
+    @apply border-red-200 bg-red-50 text-red-700;
+    @apply dark:border-red-900 dark:bg-red-950 dark:text-red-400;
+  }
+
+  .UnmagicToast--info .UnmagicToast__icon {
+    @apply text-neutral-500;
+  }
+
+  /* ----------------------------------------------------------------- Badges */
+
+  .UnmagicBadge {
+    @apply inline-flex items-center gap-1 rounded-full bg-neutral-100 px-2 py-0.5 text-xs font-medium whitespace-nowrap text-neutral-600;
+    @apply dark:bg-neutral-800 dark:text-neutral-400;
+  }
+
+  .UnmagicBadge--good {
+    @apply bg-green-50 text-green-700 dark:bg-green-400/10 dark:text-green-400;
+  }
+
+  .UnmagicBadge--warn {
+    @apply bg-amber-50 text-amber-700 dark:bg-amber-400/10 dark:text-amber-400;
+  }
+
+  .UnmagicBadge--bad {
+    @apply bg-red-50 text-red-700 dark:bg-red-400/10 dark:text-red-400;
+  }
+
+  /* Neutral, but outlined, so it reads as a note rather than a state. */
+  .UnmagicBadge--info {
+    @apply bg-transparent inset-ring inset-ring-neutral-300 dark:bg-transparent dark:inset-ring-neutral-700;
+  }
+
+  .UnmagicBadge--accent {
+    @apply bg-neutral-900 text-white dark:bg-white dark:text-neutral-900;
+  }
+
+  /* ------------------------------------------------------------------ Cards */
+
+  /* No overflow: hidden, so a dropdown inside a card isn't clipped; the footer
+     rounds its own corners instead. A column whose body grows, so a card stretched
+     to its row's height in a grid keeps its footer on the bottom edge. */
+  .UnmagicCard {
+    @apply flex flex-col rounded-xl border border-neutral-200 bg-white text-neutral-900;
+    @apply dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicCard--link {
+    @apply no-underline;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+
+  .UnmagicCard--link:hover {
+    @apply border-neutral-300 dark:border-neutral-700;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.08);
+  }
+
+  .UnmagicCard--link:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicCard__header {
+    @apply m-0 flex items-center justify-between gap-3 px-4 pt-4 pb-0;
+  }
+
+  .UnmagicCard__title {
+    @apply m-0 text-base font-semibold;
+  }
+
+  .UnmagicCard__actions {
+    @apply ml-auto flex items-center gap-2;
+  }
+
+  .UnmagicCard__body {
+    @apply flex-auto p-4 text-sm leading-normal;
+  }
+
+  .UnmagicCard__body--flush {
+    @apply p-0;
+  }
+
+  .UnmagicCard__header + .UnmagicCard__body--flush {
+    @apply mt-4;
+  }
+
+  /* A table in a flush card borrows the card's edge rather than drawing its own. */
+  .UnmagicCard__body--flush > .UnmagicTable {
+    @apply rounded-none border-0;
+  }
+
+  .UnmagicCard__footer {
+    @apply flex items-center justify-end gap-3 border-t border-neutral-200 bg-neutral-50 px-4 py-3 text-neutral-600;
+    @apply dark:border-neutral-800 dark:bg-neutral-800/50 dark:text-neutral-400;
+    font-size: var(--text-sm);
+    border-radius: 0 0 calc(var(--radius-xl) - 1px) calc(var(--radius-xl) - 1px);
+  }
+
+  /* ----------------------------------------------------------- Page headers */
+
+  .UnmagicPageHeader {
+    @apply mx-0 mt-0 mb-6 p-0;
+  }
+
+  .UnmagicPageHeader__back {
+    @apply mb-2 inline-flex items-center gap-1 text-neutral-500 no-underline;
+    font-size: var(--text-sm);
+  }
+
+  .UnmagicPageHeader__back:hover {
+    @apply text-neutral-900 dark:text-neutral-100;
+  }
+
+  /* The title column shrinks and wraps, so a long description sits beside the
+     actions rather than pushing them onto a row of their own — until there's no
+     room, when the actions drop below. */
+  .UnmagicPageHeader__row {
+    @apply flex flex-wrap items-start justify-between gap-4;
+  }
+
+  .UnmagicPageHeader__main {
+    @apply min-w-0 flex-[1_1_20rem];
+  }
+
+  .UnmagicPageHeader__heading {
+    @apply flex flex-wrap items-center gap-3;
+  }
+
+  .UnmagicPageHeader__title {
+    @apply m-0 text-2xl font-semibold text-neutral-900 dark:text-neutral-100;
+    letter-spacing: -0.01em;
+  }
+
+  .UnmagicPageHeader__description {
+    @apply mt-1 max-w-2xl text-sm leading-normal text-neutral-500;
+  }
+
+  .UnmagicPageHeader__actions {
+    @apply flex shrink-0 items-center gap-3;
+  }
+
+  /* --------------------------------------------------------------- Callouts */
+
+  .UnmagicCallout {
+    @apply flex items-start gap-3 rounded-lg border border-neutral-200 p-4 text-sm leading-normal text-neutral-600;
+    @apply dark:border-neutral-800 dark:text-neutral-400;
+  }
+
+  .UnmagicCallout__icon {
+    @apply mt-0.5;
+  }
+
+  .UnmagicCallout__content {
+    @apply min-w-0 flex-auto;
+  }
+
+  .UnmagicCallout__heading {
+    @apply mb-1 flex flex-wrap items-center gap-2;
+  }
+
+  .UnmagicCallout__title {
+    @apply m-0 font-semibold text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicCallout__body > :first-child {
+    @apply mt-0;
+  }
+
+  .UnmagicCallout__body > :last-child {
+    @apply mb-0;
+  }
+
+  .UnmagicCallout--good {
+    @apply border-green-200 bg-green-50 dark:border-green-400/30 dark:bg-green-400/10;
+  }
+
+  .UnmagicCallout--good .UnmagicCallout__icon {
+    @apply text-green-700 dark:text-green-400;
+  }
+
+  .UnmagicCallout--warn {
+    @apply border-amber-200 bg-amber-50 dark:border-amber-400/30 dark:bg-amber-400/10;
+  }
+
+  .UnmagicCallout--warn .UnmagicCallout__icon {
+    @apply text-amber-700 dark:text-amber-400;
+  }
+
+  .UnmagicCallout--bad {
+    @apply border-red-200 bg-red-50 dark:border-red-400/30 dark:bg-red-400/10;
+  }
+
+  .UnmagicCallout--bad .UnmagicCallout__icon {
+    @apply text-red-700 dark:text-red-400;
+  }
+
+  .UnmagicCallout--info {
+    @apply bg-neutral-50 dark:bg-neutral-800/50;
+  }
+
+  .UnmagicCallout--info .UnmagicCallout__icon {
+    @apply text-neutral-500;
+  }
+
+  /* --------------------------------------------------------------- Tooltips */
+
+  /* A term explains itself, so it looks like one before the script upgrades it. */
+  .UnmagicTooltip--term {
+    @apply cursor-help decoration-neutral-500 underline-offset-[0.2em];
+    text-decoration-line: underline;
+    text-decoration-style: dashed;
+  }
+
+  .UnmagicTooltip--term:focus-visible {
+    @apply rounded-xs outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  /* A manual popover, placed by the element; the popover defaults are undone and
+     the host's type styles reset, since the hint inherits from wherever it sits. */
+  .UnmagicTooltip__popup {
+    @apply pointer-events-none fixed m-0 w-max max-w-[min(20rem,calc(100vw-1rem))] rounded-md border-0 bg-neutral-900 px-2.5 py-1.5 text-left text-xs font-normal tracking-normal whitespace-normal text-white normal-case not-italic opacity-0 shadow-md;
+    @apply dark:bg-neutral-700 dark:text-neutral-100;
+    inset: auto;
+    line-height: 1.4;
+    transition: opacity 100ms ease;
+  }
+
+  .UnmagicTooltip__popup[data-open] {
+    @apply opacity-100;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .UnmagicTooltip__popup {
+      transition: none;
+    }
+  }
+
+  /* ------------------------------------------------------------------ Menus */
+
+  .UnmagicMenu {
+    @apply relative inline-block;
+  }
+
+  .UnmagicMenu__trigger {
+    @apply list-none;
+  }
+
+  .UnmagicMenu__trigger::-webkit-details-marker {
+    display: none;
+  }
+
+  .UnmagicMenu__panel {
+    @apply absolute z-50 flex min-w-44 flex-col rounded-lg border border-neutral-200 bg-white p-1 shadow-lg;
+    @apply dark:border-neutral-800 dark:bg-neutral-900;
+    top: calc(100% + 0.25rem);
+  }
+
+  .UnmagicMenu__panel--end {
+    @apply right-0;
+  }
+
+  .UnmagicMenu__panel--start {
+    @apply left-0;
+  }
+
+  /* button_to wraps each button in a form; this keeps it out of the column's way. */
+  .UnmagicMenu__form {
+    @apply contents;
+  }
+
+  .UnmagicMenu__item {
+    font: inherit;
+    @apply flex w-full cursor-pointer items-center gap-2 rounded-md border-0 bg-transparent px-2.5 py-1.5 text-left text-sm whitespace-nowrap text-neutral-900 no-underline;
+    @apply dark:text-neutral-100;
+  }
+
+  .UnmagicMenu__item:hover,
+  .UnmagicMenu__item:focus-visible {
+    @apply bg-neutral-100 outline-none dark:bg-neutral-800;
+  }
+
+  .UnmagicMenu__item .UnmagicIcon {
+    @apply text-neutral-500;
+  }
+
+  .UnmagicMenu__item--danger,
+  .UnmagicMenu__item--danger .UnmagicIcon {
+    @apply text-red-600 dark:text-red-400;
+  }
+
+  .UnmagicMenu__item--danger:hover,
+  .UnmagicMenu__item--danger:focus-visible {
+    @apply bg-red-50 dark:bg-red-400/10;
+  }
+
+  .UnmagicMenu__divider {
+    @apply -mx-1 my-1 border-0 border-t border-neutral-200 dark:border-neutral-800;
+  }
+
+  /* ------------------------------------------------------------------- Tabs */
+
+  /* A segmented control: an inset track with the selected tab raised out of it.
+     In a dark theme the selected tab raises by lightening, rather than by staying
+     the page's own surface colour. */
+  .UnmagicTabs {
+    @apply block;
+  }
+
+  .UnmagicTabs__list {
+    @apply inline-flex flex-wrap gap-1 rounded-lg bg-neutral-100 p-1 dark:bg-neutral-800;
+  }
+
+  /* margin is reset because link tabs sit in a <nav>, and hosts often style bare
+     nav links for their page chrome. */
+  .UnmagicTabs__tab {
+    font: inherit;
+    @apply m-0 inline-flex cursor-pointer items-center gap-1.5 rounded-md border-0 bg-transparent px-3 py-1.5 text-sm font-medium whitespace-nowrap text-neutral-500 no-underline;
+  }
+
+  .UnmagicTabs__tab:hover {
+    @apply text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicTabs__tab[aria-selected="true"],
+  .UnmagicTabs__tab[aria-current="page"] {
+    @apply bg-white text-neutral-900 dark:bg-neutral-700 dark:text-neutral-100;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.08);
+  }
+
+  .UnmagicTabs__tab:focus-visible,
+  .UnmagicTabs__panel:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicTabs__tab[aria-disabled="true"] {
+    @apply cursor-not-allowed;
+    opacity: 0.55;
+  }
+
+  .UnmagicTabs__tab[aria-disabled="true"]:hover {
+    @apply text-neutral-500 dark:text-neutral-500;
+  }
+
+  .UnmagicTabs__reason {
+    @apply font-normal;
+  }
+
+  .UnmagicTabs__panel {
+    @apply rounded-sm pt-4;
+  }
+
+  /* -------------------------------------------------------------- Clipboard */
+
+  .UnmagicClipboard {
+    @apply inline-flex align-middle;
+  }
+
+  .UnmagicClipboard__done {
+    @apply hidden;
+  }
+
+  .UnmagicClipboard[data-copied] .UnmagicClipboard__idle {
+    @apply hidden;
+  }
+
+  .UnmagicClipboard[data-copied] .UnmagicClipboard__done {
+    @apply block;
+  }
+
+  .UnmagicClipboard[data-copied] .UnmagicClipboard__button {
+    @apply text-green-700 dark:text-green-400;
+  }
+
+  /* ------------------------------------------------------- Autogrow textarea */
+
+  /* The element sets the height, so a manual resize handle would only fight it. Give
+     the textarea a max-height to cap the growth. A descendant rather than a child
+     selector: Rails wraps an invalid control in a field_with_errors div, inside the
+     element. */
+  .UnmagicAutogrow {
+    @apply block;
+  }
+
+  .UnmagicAutogrow textarea {
+    @apply resize-none overflow-y-hidden;
+  }
+}

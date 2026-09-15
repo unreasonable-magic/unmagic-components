@@ -29,10 +29,10 @@ styled with CSS `appearance: base-select` where the browser supports it. It is
    Two scripted dropdowns with overlapping keyboard models would be worse than
    one.
 3. **Customisable select is shipping.** `appearance: base-select` gives a
-   stylable button and a top-layer picker in Chromium. Other browsers get a
-   select with the gem's border, radius, padding and colours around their
-   native arrow. The progressive path costs nothing now and improves with no
-   gem change.
+   stylable button and a top-layer picker in Chromium. Every other browser
+   already gets the closed select that shipped with the form-control styling:
+   the gem's box, and an arrow drawn in the text colour. The progressive path
+   only adds the open picker's look.
 4. **It needs no wrapper and no script.** The class sits on the `<select>`
    itself, so `form.select`, `select_tag` and a host's hand-written select all
    style the same way.
@@ -93,25 +93,34 @@ It is entirely native: role, keyboard, type-ahead and announcements. Keep:
 
 - **Section:** `Select`, part of the new form-controls group with `Input`,
   `Check` and `Radio`. It shares their box rules.
-- **Modifiers:** `--small`.
-- **Base (all browsers):**
+- **Modifiers:** `--small` and `--large`, matching `button_classes` sizes.
+- **Base (all browsers):** already built in `engine.css`; this note only adds
+  the customisable-select layer below.
   - padding and 0.875rem type matching `UnmagicInput`
-  - `surface` background, `border` border, 0.375rem radius, `text` colour
-  - `:focus-visible` in `focus`
-  - `[aria-invalid="true"]` uses `bad-border`
-  - `:disabled` uses 0.55 opacity
-  - The native arrow is kept (no `appearance: none`), so there is nothing to
-    reposition and no chevron to draw.
+  - `white`/`dark:neutral-900` background, `neutral-300`/`dark:neutral-700`
+    border, 0.375rem radius, `neutral-900`/`dark:neutral-100` text
+  - `:focus-visible` in `neutral-400`/`dark:neutral-500`
+  - `[aria-invalid="true"]` uses `red-600`/`dark:red-400`
+  - `:disabled` uses a `neutral-50`/`dark:neutral-800/50` background and
+    `neutral-500` text
+  - `appearance: none` with an arrow drawn from two `currentColor` gradient
+    triangles, so it follows the text colour in both themes (a select can't
+    hold a pseudo-element)
+  - `[multiple]` and a `size` above 1 drop the arrow
+  - under `forced-colors: active`, the native arrow comes back
+    (`appearance: auto`)
 - **Customisable select:** under `@supports (appearance: base-select)`:
   - `.UnmagicSelect, .UnmagicSelect::picker(select) { appearance: base-select }`
-  - `::picker-icon` is coloured `text-3`, and rotates while `:open`.
-  - The picker gets the `UnmagicMenu__panel` look: `surface`, `border`, 0.5rem
+  - `::picker-icon` is coloured `neutral-500`, and rotates while `:open`.
+  - The picker gets the `UnmagicMenu__panel` look: `white`/`dark:neutral-900`,
+    `neutral-200`/`dark:neutral-800`, 0.5rem
     radius, and the menu shadow.
   - `option` gets the `UnmagicMenu__item` padding and radius; `option:hover`
-    and `:checked` use `surface-3`; `option::checkmark` uses `accent`.
+    and `:checked` use `neutral-100`/`dark:neutral-800`; `option::checkmark` uses
+    `neutral-900`/`dark:white`.
 - **Motion:** a 100ms picker fade and icon rotation, removed under reduced
   motion.
-- **Tokens:** only existing ones.
+- **Colour:** palette with `dark:` variants only.
 
 ## Behaviour (JavaScript)
 
@@ -139,11 +148,11 @@ None. The caller supplies the `include_blank` and `prompt` text.
 
 ## Preview
 
-- **Page:** the `primitives` forms area, and the `dialogs` profile form (where
-  `role` becomes a select).
+- **Page:** the `forms` page, which already shows builder and `select_tag`
+  selects in every size.
 - **Hand-check:**
-  - Chromium (base-select picker), Safari and Firefox (native arrow with the
-    gem's box).
+  - Chromium (base-select picker), and Safari and Firefox (the gem's box and
+    drawn arrow).
   - Keyboard type-ahead.
   - Mobile picker.
   - Invalid state.

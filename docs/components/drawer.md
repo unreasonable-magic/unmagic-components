@@ -111,7 +111,8 @@ Added to the existing **Dialogs** section:
   `translateX(100%)` (mirrored for `start`, and flipped under
   `:dir(rtl)`) over 200ms. It is switched off under reduced motion, like
   `unmagic-dialog-in`.
-- Tokens: existing only (`surface`, `border`, `backdrop`).
+- Colours: `white`/`dark:neutral-900`, `neutral-200`/`dark:neutral-800`, and the
+  dialogs' `black/50`/`dark:black/60` backdrop.
 
 ## Behaviour (JavaScript)
 

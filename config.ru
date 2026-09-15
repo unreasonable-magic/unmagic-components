@@ -34,7 +34,9 @@ module ComponentsPreview
     config.logger = Logger.new($stdout)
     config.middleware.delete Rack::Lint
 
-    config.assets.paths << Unmagic::Components::Engine.root.join("app/assets/stylesheets")
+    # The Tailwind build bin/dev compiles from preview/tailwind/application.css,
+    # which imports the gem's engine.css as a host's build would.
+    config.assets.paths << File.expand_path("preview/builds", __dir__)
 
     # The gem's own pins arrive through the engine, as in a host. Turbo's pin is the
     # one a host's config/importmap.rb would carry.

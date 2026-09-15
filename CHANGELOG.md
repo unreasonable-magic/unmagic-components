@@ -24,6 +24,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Breaking: the styles are Tailwind CSS v4, and your app needs Tailwind v4.**
+  - The gem's styles are now a Tailwind source file,
+    `app/assets/tailwind/unmagic_components/engine.css`, compiled by your app's
+    own Tailwind build.
+  - It uses Tailwind's palette with `dark:` variants, so dark mode follows your
+    app's `dark` variant.
+  - The rules sit in `@layer components`, so utilities passed as `class:`
+    override them.
+  - `unmagic/components.css` and every `--unmagic-*` theming variable are
+    removed.
+  - To migrate: drop `stylesheet_link_tag "unmagic/components"`, and add
+    `@import "../builds/tailwind/unmagic_components";` after
+    `@import "tailwindcss";` in `app/assets/tailwind/application.css`. Then move
+    any `--unmagic-*` overrides into your `@theme` colours or your `dark`
+    variant.
 - **Form controls now carry a class, and the gem's CSS styles them.** An app
   that styles its inputs itself keeps its own look with
   `config.control_class = ->(_view, _kind) { nil }`, or points the seam at its

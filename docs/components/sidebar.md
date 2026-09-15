@@ -117,18 +117,18 @@ Without JavaScript the whole thing still works: popovers and details are HTML.
   - Modifiers: `UnmagicSidebar--below-md`, `--below-lg`, `--never`.
   - `UnmagicSidebarToggle` is hidden above the breakpoint.
 - **State:**
-  - `[aria-current="page"]` gives `--unmagic-surface-3` and `--unmagic-text`.
-  - Hover uses `--unmagic-hover`.
+  - `[aria-current="page"]` gives `neutral-100`/`dark:neutral-800` and `neutral-900`/`dark:neutral-100`.
+  - Hover uses `neutral-50`/`dark:neutral-800/50`.
   - `details[open]` rotates the chevron.
   - `:popover-open` slides the sheet in from the inline start.
 - **Below the breakpoint the sheet is:**
   - `position: fixed; inset: 0 auto 0 0; width: min(18rem, 85vw)`
-  - on `--unmagic-surface`, with a shadow
-  - backdrop `::backdrop { background: var(--unmagic-backdrop) }`
+  - on `white`/`dark:neutral-900`, with a shadow
+  - a `::backdrop` in `black/50`/`dark:black/60`, as dialogs use
 - **Above it:** `display: flex; position: static` and `inset: auto`, filling
   the column the layout gives it.
 - **Motion:** a 150ms transform on open, removed under reduced motion.
-- **No new tokens.**
+- **Colour:** palette with `dark:` variants only.
 
 ## Behaviour (JavaScript)
 

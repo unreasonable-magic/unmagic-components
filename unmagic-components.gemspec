@@ -13,8 +13,8 @@ Gem::Specification.new do |spec|
                      "cards, page headers and loading skeletons; a Turbo Frame modal, a confirm " \
                      "dialog and flash toasts; menus, tabs, tooltips, local times, copy buttons, " \
                      "autogrowing textareas and UUID inputs as self-registering custom elements. " \
-                     "Plain helpers and CSS themed through custom properties, with no Tailwind or " \
-                     "Stimulus required."
+                     "Plain helpers styled with Tailwind CSS v4 (required; the host's build " \
+                     "compiles the gem's component CSS), with no Stimulus."
   spec.homepage    = "https://github.com/unreasonable-magic/unmagic-components"
   spec.license     = "MIT"
 

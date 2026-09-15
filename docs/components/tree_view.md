@@ -108,19 +108,19 @@ CSS section: `Trees`.
   as in `UnmagicMenu__trigger`.
 - **Row:**
   - `flex`, `gap: 0.375rem`, `padding: 0.25rem 0.5rem`, radius 0.375rem,
-    0.875rem type in `--unmagic-text-2`, no underline.
-  - Hover: `--unmagic-hover`.
-  - `[aria-current=page]`: `--unmagic-surface-3` with `--unmagic-text` at
+    0.875rem type in `neutral-600`/`dark:neutral-400`, no underline.
+  - Hover: `neutral-50`/`dark:neutral-800/50`.
+  - `[aria-current=page]`: `neutral-100`/`dark:neutral-800` with `neutral-900`/`dark:neutral-100` at
     weight 500.
   - A `:focus-visible` ring.
 - **Toggle:** `[open] > summary .UnmagicTree__toggle` rotates 90°.
-- **Icons:** `--unmagic-text-3`.
+- **Icons:** `neutral-500`.
 - **Children:** `margin-left: 0.75rem` and `padding-left: 0.5rem`. With
-  `--guides`, `border-left: 1px solid var(--unmagic-border, …)`.
+  `--guides`, a 1px `neutral-200`/`dark:neutral-800` left border.
 - **Labels:** truncate with an ellipsis. `title` carries the full text for
   string labels.
 - **Reduced motion:** the toggle's rotation transition is off.
-- No new tokens.
+- Palette colours with `dark:` variants only.
 
 ## Behaviour (JavaScript)
 

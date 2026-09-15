@@ -103,11 +103,11 @@ CSS section: `Keys`.
   - Sized in `em`, so it scales with the text around it: `min-width: 1.5em`,
     `padding: 0 0.375em`, `font: 500 0.75em/1.75 ui-monospace, monospace`,
     centred text.
-  - `--unmagic-text-2` on `--unmagic-surface-2`.
-  - A 1px border in `--unmagic-border`, with a 1px bottom box-shadow in
-    `--unmagic-border-strong` for the key-cap edge.
+  - `neutral-600`/`dark:neutral-400` on `neutral-50`/`dark:neutral-800/50`.
+  - A 1px border in `neutral-200`/`dark:neutral-800`, with a 1px bottom box-shadow in
+    `neutral-300`/`dark:neutral-700` for the key-cap edge.
   - Radius 0.25rem.
-- **`__joiner`:** `--unmagic-text-3`, 0.75em.
+- **`__joiner`:** `neutral-500`, 0.75em.
 - **`__mod`, `__mod--apple` and `__mod--other`** follow the platform modifier
   rule:
   - **Server default:**
@@ -120,8 +120,8 @@ CSS section: `Keys`.
       `display: inline-flex`, and the `--other` variant is `display: none`.
     - For `"other"` it is the reverse.
 - **Inside a dark tooltip:** `.UnmagicTooltip__popup .UnmagicKbd__key` switches
-  to a translucent surface, so keys stay legible on `--unmagic-tooltip`.
-- No new tokens and no motion.
+  to a translucent surface, so keys stay legible on `neutral-900`/`dark:neutral-700`.
+- Palette colours with `dark:` variants only, and no motion.
 
 ## Behaviour (JavaScript)
 

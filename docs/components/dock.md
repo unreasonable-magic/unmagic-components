@@ -12,7 +12,7 @@ macOS dock. Good for a portfolio, a landing page or a playful app launcher.
 Not for primary application navigation. Use `navbar` or `sidebar`, whose text
 labels are always visible.
 
-**Placement (decided):** a core `Dock` section in `components.css`, with its
+**Placement (decided):** a core `Dock` section in the gem's Tailwind `engine.css`, with its
 script in `components/dock.js`, shipped like every other component.
 Marketing-style components live in the core stylesheet.
 
@@ -77,12 +77,12 @@ Without script it is a plain row of icon links with tooltips.
 - **Modifiers:** `--bottom`.
 - **Magnification** is `transform: scale(var(--unmagic-dock-scale, 1))` on the
   action, `transform-origin: bottom`, with a 150ms transition.
-  `--unmagic-dock-scale` is a per-instance knob
-  (`--unmagic-<component>-<property>`), written by the script. It is not a
-  theme token and is never listed under Theming.
+  `--unmagic-dock-scale` is a per-instance knob written by the script, not a
+  theme colour.
 - **Current state** is driven by `[aria-current="page"]`.
-- **Tokens:** `surface` (with `backdrop-filter` blur), `border`, `text-2`,
-  `hover`, `focus`.
+- **Colours:** `white/80`/`dark:neutral-900/80` (with `backdrop-filter` blur),
+  `neutral-200`/`dark:neutral-800`, `neutral-600`/`dark:neutral-400`,
+  `neutral-50`/`dark:neutral-800/50` on hover, and the focus ring.
 - **Reduced motion:** the transition is removed, and script doesn't set the
   scale.
 

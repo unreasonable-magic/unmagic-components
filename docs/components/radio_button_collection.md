@@ -115,13 +115,14 @@ CSS: in the `Forms` section, beside `UnmagicCheck` and `UnmagicSwitch`.
 - **`UnmagicRadio`**, a real input drawn with CSS:
   - `appearance: none`, `1rem` square, `margin: 0.125rem 0 0` (to align with
     the first line of label text), radius 9999px, `flex-shrink: 0`.
-  - A 1px `--unmagic-border-strong` border on `--unmagic-surface`.
-  - `:checked`: border `--unmagic-accent`, with the inner dot
-    `box-shadow: inset 0 0 0 0.25rem var(--unmagic-surface, …)` over an
-    `--unmagic-accent` background.
-  - `:focus-visible`: 2px `--unmagic-focus` outline with a 2px offset.
+  - A 1px `neutral-300`/`dark:neutral-700` border on `white`/`dark:neutral-900`.
+  - `:checked`: border `neutral-900`/`dark:white`, with the inner dot
+    `box-shadow: inset 0 0 0 0.25rem var(--color-white)` (`var(--color-neutral-900)`
+    under `dark:`) over a
+    `neutral-900`/`dark:white` background.
+  - `:focus-visible`: 2px `neutral-400`/`dark:neutral-500` outline with a 2px offset.
   - `:disabled`: opacity 0.5, `cursor: not-allowed`.
-  - `[aria-invalid="true"]`: border `--unmagic-bad`.
+  - `[aria-invalid="true"]`: border `red-600`/`dark:red-400`.
 - **`UnmagicChoiceGroup`:** resets the fieldset's `border`, `padding`, `margin`
   and `min-inline-size`, and adds `margin-bottom: 1rem` like `UnmagicField`.
   The legend has `margin-bottom: 0.375rem`.
@@ -129,10 +130,10 @@ CSS: in the `Forms` section, beside `UnmagicCheck` and `UnmagicSwitch`.
   `repeat(auto-fit, minmax(12rem, 1fr))` when `inline`, and a single column
   otherwise, with `gap: 0.5rem`.
 - **`UnmagicCheckField--card`:**
-  - `padding: 0.75rem 1rem`, a 1px `--unmagic-border` border, radius 0.5rem,
-    background `--unmagic-surface`.
-  - Hover: `--unmagic-border-strong`.
-  - `:has(:checked)`: border `--unmagic-accent` plus a 1px inset ring of the
+  - `padding: 0.75rem 1rem`, a 1px `neutral-200`/`dark:neutral-800` border, radius 0.5rem,
+    background `white`/`dark:neutral-900`.
+  - Hover: `neutral-300`/`dark:neutral-700`.
+  - `:has(:checked)`: border `neutral-900`/`dark:white` plus a 1px inset ring of the
     same colour.
   - `:has(:disabled)`: opacity 0.55.
   - The card doesn't redraw focus; the radio's own ring shows inside it.
@@ -140,7 +141,7 @@ CSS: in the `Forms` section, beside `UnmagicCheck` and `UnmagicSwitch`.
   reduced motion.
 - **Shared by checkboxes:** the `UnmagicChoiceGroup`, `--cards` and `--card`
   rules apply to `check_box_collection` unchanged.
-- No new tokens.
+- Palette colours with `dark:` variants only.
 
 ## Behaviour (JavaScript)
 

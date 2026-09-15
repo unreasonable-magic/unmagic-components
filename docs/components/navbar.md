@@ -88,11 +88,14 @@ top bar.
   `__links`, `__link`, `__actions`.
 - **Modifiers:** `--sticky`, `--collapse-sm|md|lg` (40rem/48rem/64rem media
   queries).
-- **Links** reuse the `Tabs` link look: `text-3` becoming `text` on hover and
+- **Links** reuse the `Tabs` link look: `neutral-500` becoming
+  `neutral-900`/`dark:neutral-100` on hover and
   when `[aria-current="page"]`. Reset `margin` and `text-decoration`, as `Tabs`
   does, against host `nav a` rules.
-- **Tokens:** `surface`, `border` (bottom border), `text`, `text-3`, `hover`,
-  `focus`, `accent` (current underline).
+- **Colours:** `white`/`dark:neutral-900`, a `neutral-200`/`dark:neutral-800`
+  bottom border, `neutral-900`/`dark:neutral-100` and `neutral-500` text,
+  `neutral-50`/`dark:neutral-800/50` on hover, the focus ring, and a
+  `neutral-900`/`dark:white` current underline.
 - **Mobile panel:** a full-width column below the bar, with a 150ms fade that
   is removed under reduced motion.
 

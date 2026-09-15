@@ -127,7 +127,7 @@ Without `reveal:`:
   `.UnmagicPassword:has(.UnmagicPassword__input:disabled)`.
 - **Icon swap:** `.UnmagicPassword[data-revealed] .UnmagicPassword__show { display: none }`,
   and the inverse for `__hide`.
-- **Tokens:** existing only (`text-3` for the icon, `focus`).
+- **Colours:** `neutral-500` for the icon, and the focus ring.
 - **Motion:** none.
 
 ## Behaviour (JavaScript)

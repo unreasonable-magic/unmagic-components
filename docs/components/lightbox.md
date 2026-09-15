@@ -106,21 +106,19 @@ video. Without JavaScript the thumbnail is a normal link to the full image.
   outline).
 - **The dialog:**
   - `width: 100vw; height: 100dvh; max-width: none; max-height: none`
-  - `::backdrop` at `--unmagic-backdrop`, the same token dialogs use
-  - its own background is also `--unmagic-backdrop`
+  - `::backdrop` at `black/50`/`dark:black/60`, the same colour dialogs use
+  - its own background is also `black/50`/`dark:black/60`
 - **The image:** `max-width: min(100%, 90vw); max-height: 80dvh;
   object-fit: contain`, centred in a grid.
 - **Controls:** fixed to the viewport edges, with a caption and counter
   underneath.
-- **No new tokens (decided).**
-  - The backdrop reuses `--unmagic-backdrop` (fallback `rgb(0 0 0 / 0.5)`).
-  - A dialog's own light backdrop is too thin to view an image against. The
-    full-viewport lightbox therefore paints the token twice, once on
-    `::backdrop` and once as the dialog's background, for roughly 75% dimming.
-  - A host that themes `--unmagic-backdrop` gets a matching, darker lightbox
-    without a second knob.
-  - The on-dark text and icon colours use `--unmagic-on-tooltip` (white), which
-    is already an inverse token.
+- **No new colours (decided).**
+  - The backdrop reuses the dialogs' `black/50`/`dark:black/60`.
+  - A dialog's own backdrop is too thin to view an image against. The
+    full-viewport lightbox therefore paints it twice, once on `::backdrop` and
+    once as the dialog's background, for roughly 75% dimming (84% in dark).
+  - If the dialogs' backdrop changes, the lightbox follows it.
+  - The on-dark text and icon colours are `white` in both themes.
 - **State:**
   - `[data-loading] .UnmagicLightbox__loading` shows the spinner.
   - `.UnmagicLightbox__image[data-ready]` fades in over 150ms, which is off
@@ -212,8 +210,8 @@ Hand checks:
 - VoiceOver reads the caption and "2 of 6".
 - Back after opening: the snapshot is closed.
 - Reduced motion.
-- Dark mode, where the doubled `--unmagic-backdrop` (0.6 in the preview's dark
-  block) should dim the page enough to view a light image.
+- Dark mode, where the doubled `dark:black/60` backdrop should dim the page
+  enough to view a light image.
 
 ## Open questions
 

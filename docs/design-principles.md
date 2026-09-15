@@ -32,13 +32,18 @@ index and detail pages), not marketing pages.
    (`autogrow.js`, `uuid_input.js`). Script fills the gaps the native element
    leaves, and its header comment says which gaps.
 
-3. **No Tailwind, no Stimulus, no host helpers.** Tailwind doesn't scan
-   installed gems, so a utility class written in this gem's Ruby would render
-   unstyled in the host (`components.css` header, `engine.rb`). Behaviour is
-   plain custom elements. Icons are inline SVG (`icons.rb`), so there is no
-   icon library. The only runtime dependencies are ActiveSupport, ActionView
-   and Railties (`unmagic-components.gemspec`). Turbo is optional unless a
-   component documents that it needs it.
+3. **Tailwind CSS v4 for styling; no Stimulus, no host helpers.**
+   - The host must use Tailwind v4. The gem's styles are component CSS written
+     with `@apply` in `app/assets/tailwind/unmagic_components/engine.css`, and
+     the host's Tailwind build compiles it.
+   - The markup keeps semantic `Unmagic*` classes rather than utilities.
+     Tailwind doesn't scan installed gems, so utilities written in this gem's
+     Ruby would never be generated. The host imports the CSS instead.
+   - Behaviour is plain custom elements.
+   - Icons are inline SVG (`icons.rb`), so there is no icon library.
+   - The only runtime Ruby dependencies are ActiveSupport, ActionView and
+     Railties (`unmagic-components.gemspec`).
+   - Turbo is optional unless a component documents that it needs it.
 
 4. **Seams, not options, for what the app owns.** When an app will already
    have its own version of something (an empty state, a pager, a submit
@@ -50,9 +55,12 @@ index and detail pages), not marketing pages.
    later. This is a design constraint, not a test afterthought. See the
    JavaScript section below.
 
-6. **Themeable, not themed.** One layer of `--unmagic-*` custom properties with
-   Tailwind-palette fallbacks. The gem ships no dark mode: the host's tokens
-   flip, and the gem's tokens flip with them.
+6. **Themed through Tailwind, overridable with utilities.**
+   - Colours come from Tailwind's palette with `dark:` variants, as Rails
+     Blocks does. The host's theme (`@theme` colours, radii, fonts) and its
+     `dark` variant flow into every component.
+   - Every rule sits in `@layer components`, so a utility passed as `class:`
+     overrides the gem's look for one instance.
 
 7. **Small surface, sharp defaults.** A component does the common case with no
    options. Enumerated options are few and validated. Anything else a caller
@@ -186,11 +194,21 @@ end
 
 ## CSS
 
-All styles live in `app/assets/stylesheets/unmagic/components.css`.
+All styles live in one Tailwind v4 source file,
+`app/assets/tailwind/unmagic_components/engine.css`, inside
+`@layer components { … }`. tailwindcss-rails finds it through the engine's
+name, and the host `@import`s it after `tailwindcss`.
 
 - **One section per component**, opened with the same right-aligned dash
   banner the others use (`/* ---- Tooltips */`). Place it next to related
   sections.
+- **`@apply` first.** Write a rule with utilities where they exist
+  (`@apply rounded-md border border-neutral-300 px-3 py-1.5 text-sm`). Use
+  plain declarations with theme variables where they don't: a `clip-path`, a
+  gradient, a `::-webkit-` part, `var(--spacing)` or `var(--color-red-600)` in
+  a `calc()`.
+- **Nest state and variants inside the rule** (`&:focus-visible { … }`,
+  `@variant dark { … }`), so each component reads top to bottom.
 - **Naming** is BEM with a PascalCase block: `UnmagicTooltip`,
   `UnmagicTooltip__popup`, `UnmagicTooltip--term`. Everything is prefixed, so
   nothing collides with host classes.
@@ -199,32 +217,35 @@ All styles live in `app/assets/stylesheets/unmagic/components.css`.
   `[aria-current="page"]`, `[data-open]`, `[data-copied]`, `[hidden]`
   (`Tabs`, `Tooltips`, `Clipboard`). The markup, the accessibility tree and the
   look then can't disagree.
-- **Every colour is a token with a fallback:**
-  `var(--unmagic-border, var(--color-neutral-200, #e5e5e5))`.
-  - Reuse the existing tokens: surface, surface-2/3, raised, hover, border,
-    border-strong, text, text-2/3, accent, on-accent, good/warn/bad and their
-    surface and border variants, tooltip, focus, backdrop, skeleton.
-  - A new token needs a reason. Add it to the README's Theming list and to the
-    dark block in `preview/views/layouts/preview.html.erb`.
-- **Theme tokens and per-component knobs are different things.**
-  - A *theme token* is a colour or surface the host sets once for its whole
-    theme (`--unmagic-border`). New ones need a reason, a README entry and a
-    dark value in the preview.
-  - A *knob* is a per-instance custom property the component's Ruby writes
-    through `style:`, e.g. `--unmagic-marquee-duration` and
-    `--unmagic-carousel-per-view`. Knobs are named
-    `--unmagic-<component>-<property>`, documented only in that component's
-    README section, and never listed under Theming.
-  - Before adding a token, prefer an existing one: a switch thumb can be
-    `--unmagic-raised`, and a lightbox backdrop `--unmagic-backdrop`.
-- **No dark variant, no theme selectors.** See the stylesheet header.
-- **Scale.** Match the existing components rather than inventing values:
-  - Type: 0.875rem/1.25rem for body text, 0.75rem/1rem for small labels.
-  - Radii: 0.375rem (items), 0.5rem (panels), 0.75rem (cards and tables).
-  - Shadows: the existing tailwind-shaped `box-shadow` values.
-  - Spacing in rem.
-- **Focus** is
-  `:focus-visible { outline: 2px solid var(--unmagic-focus, …); outline-offset: 2px }`.
+- **Every colour is a palette colour with its `dark:` pair.** Surfaces,
+  borders and text are neutral (`bg-white dark:bg-neutral-900`,
+  `border-neutral-200 dark:border-neutral-800`). Tones use red (bad), green
+  (good), amber (warn) and blue (info).
+  - Don't add theme variables of the gem's own. A new need (an avatar colour, a
+    rating star, a backdrop) picks palette colours.
+  - Never write a theme selector (`.dark`, `[data-theme]`). `@variant dark`
+    follows whatever the host configured.
+- **Knobs are allowed.** A knob is a per-instance custom property the
+  component's Ruby writes through `style:`, e.g. `--unmagic-marquee-duration`
+  or `--unmagic-carousel-per-view`. Knobs are named
+  `--unmagic-<component>-<property>` and documented only in that component's
+  README section. They carry layout values for one instance, never colours.
+- **Scale.** Use Tailwind's scale, matched to the existing components:
+  - Type: `text-sm` for body text, `text-xs` for small labels.
+  - Radii: `rounded-md` (items and controls), `rounded-lg` (panels),
+    `rounded-xl` (cards and tables).
+  - Shadows: `shadow-xs` to `shadow-lg`.
+  - Spacing on the spacing scale, not ad-hoc rem values.
+- **Focus** is `outline-2 outline-offset-2 outline-neutral-400` on
+  `:focus-visible` (`dark:outline-neutral-500`).
+- **A dark override for a pseudo-element hangs off its element, after the base
+  rule.**
+  - A pseudo-element must end its selector, so `dark:` can't go on `::before`
+    itself. Nest `@variant dark { &::before { … } }` inside the element instead.
+  - `:where()` adds no specificity, so the dark rule ties with the base
+    `.X::before` rule and only wins if it comes later in the file.
+  - Put it after the base rule, or the light value shows in dark mode. See the
+    checkbox mark, the skeleton shimmer and the dialog backdrop in `engine.css`.
 - **Motion** is short (100–200ms), and every movement (translate, scale,
   rotate, scroll animation) is switched off under
   `@media (prefers-reduced-motion: reduce)`. An indicator that would otherwise
@@ -234,6 +255,9 @@ All styles live in `app/assets/stylesheets/unmagic/components.css`.
   to leak in. Reset `margin` on links in a `<nav>` (`Tabs`), and type styles in
   top-layer content (`Tooltips`).
 - **Visually hidden** text uses `UnmagicVisuallyHidden`.
+- **Forced colours.** Where CSS draws what the platform would (a checkbox's
+  tick, a select's arrow), add an `@media (forced-colors: active)` fallback
+  that hands it back to system colours.
 - **Comments explain why** a rule exists, especially a workaround. See the
   `.UnmagicTable tbody tr` border comment.
 
@@ -444,13 +468,13 @@ http://localhost:5701.
   - an action in `preview/preview_controller.rb`
   - a nav link in `preview/views/layouts/preview.html.erb`
 - **Check light and dark** (`?theme=dark`), keyboard-only use, and reduced
-  motion.
+  motion. The preview compiles the gem's Tailwind file with its own `dark`
+  variant, set on `[data-theme="dark"]`, exactly as a host would.
 
 ## Documentation
 
 - A README section for the helper, under the matching heading. Copy the
-  helper's comment, with its import line and I18n keys.
-- New tokens go in the README's Theming list.
+  helper's comment, with its import line, I18n keys and any knobs.
 - A bullet in `CHANGELOG.md` for the next release.
 - Update the gemspec `description` when the component is headline-worthy.
 
@@ -458,14 +482,15 @@ http://localhost:5701.
 
 1. The design note `docs/components/<name>.md` is written and reviewed.
 2. Ruby class, require, helper (or `FormBuilder` method) with its doc comment.
-3. CSS section: tokens with fallbacks, attribute-driven state, focus, reduced
+3. CSS section in `engine.css`, inside `@layer components`: `@apply` with
+   palette colours and `dark:` pairs, attribute-driven state, focus, reduced
    motion.
 4. Custom element with a header comment, Turbo-safe, registered in
    `components.js`, if the component needs script.
 5. Spec covering structure, ARIA, passthrough options and `ArgumentError`.
 6. Preview section, checked in light and dark, by keyboard, and with reduced
    motion.
-7. README, CHANGELOG and, if needed, the Theming list.
+7. README and CHANGELOG.
 8. `bundle exec rspec` and `bundle exec rubocop` pass.
 
 ## Open decisions
@@ -475,6 +500,14 @@ Settled ones stay listed, struck through, so the reasoning isn't lost.
 
 ### Decided in the component design review
 
+- **Tailwind CSS v4 is required, as with Rails Blocks.**
+  - The styles are Tailwind-authored component CSS (`@apply` in
+    `app/assets/tailwind/unmagic_components/engine.css`), compiled by the
+    host's build.
+  - The markup is unchanged: it keeps its semantic `Unmagic*` classes.
+  - Colours are Tailwind's palette with `dark:` variants.
+  - The plain `unmagic/components.css` and the `--unmagic-*` theming variables
+    are removed.
 - **Shared placement, and `menu` on the Popover API.**
   - Anchored placement moves out of `tooltip.js` into a `position.js` module,
     which tooltip, popover, menu, context menu and combobox all use.
@@ -489,9 +522,11 @@ Settled ones stay listed, struck through, so the reasoning isn't lost.
 - **Combobox remote search requires Turbo** (a Turbo Frame), documented in its
   import line.
 - **Emoji picker** ships curated emoji only; the gem bundles no emoji dataset.
-- **New theme tokens accepted:** the avatar palette `--unmagic-avatar-1..6`
-  and `--unmagic-rating`. The switch thumb reuses `--unmagic-raised`, and the
-  lightbox reuses `--unmagic-backdrop`.
+- **Colours for new needs come from Tailwind's palette,** not new tokens:
+  - the avatar palette (six palette hues)
+  - the rating stars (amber)
+  - the switch thumb (white, neutral in dark mode)
+  - the lightbox backdrop (a darker neutral)
 - **Smaller defaults:**
   - The bulk selection method is `table.selectable`.
   - A banner remembers its dismissal in localStorage, with optional
@@ -507,7 +542,7 @@ Settled ones stay listed, struck through, so the reasoning isn't lost.
    controls.** See [Forms](#forms).
 2. ~~Where marketing-style components belong.~~ **Decided: the core
    stylesheet.** Marquee, testimonial, dock and feedback get ordinary sections
-   in `components.css` and follow the same rules as everything else. Rails
+   in `engine.css` and follow the same rules as everything else. Rails
    Blocks doesn't separate them either.
 3. **Pickers that duplicate native inputs** (date, colour, emoji). **Decided:
    build a custom picker only if it is clearly better than the native input.**

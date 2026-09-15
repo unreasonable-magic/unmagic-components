@@ -109,14 +109,14 @@ gem's application-UI focus.
 - **Track:** `gap: 1rem`, `scrollbar-width: none` once upgraded (`:defined`),
   visible before, and `overscroll-behavior-x: contain`.
 - **State:**
-  - `.UnmagicCarousel__dot[aria-current="true"]` fills with `--unmagic-text`.
-  - Other dots use `--unmagic-border-strong`.
+  - `.UnmagicCarousel__dot[aria-current="true"]` fills with `neutral-900`/`dark:neutral-100`.
+  - Other dots use `neutral-300`/`dark:neutral-700`.
   - `[aria-disabled="true"]` sits at 0.4 opacity.
 - **Focus:** the standard `:focus-visible` outline on the track and buttons.
 - **Motion:** `scroll-behavior: smooth` on the track, switched to `auto` under
   reduced motion.
-- **No new tokens.** `--unmagic-carousel-per-view` is internal, not a theme
-  token.
+- **Colour:** palette with `dark:` variants only. `--unmagic-carousel-per-view`
+  is a per-instance knob, set through `style:`.
 
 ## Behaviour (JavaScript)
 

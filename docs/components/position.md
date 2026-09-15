@@ -192,7 +192,7 @@ The module has no CSS section of its own. It relies on this contract:
   `@supports not selector(:popover-open) { .UnmagicMenu__panel { display: none } }`,
   so the panel doesn't show permanently. The Popover API is already required
   by `tooltip` and `toasts`, so there is no new floor.
-- **Tokens:** none new. **Motion:** none, as today.
+- **Colour:** the menu's existing palette and `dark:` variants. **Motion:** none, as today.
 
 ## Behaviour (JavaScript)
 

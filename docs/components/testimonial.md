@@ -11,7 +11,7 @@ optional rating or logo. For landing, pricing and sign-up pages.
 
 Not for in-app comments or activity feeds; those are the host's own markup.
 
-**Placement (decided):** a core `Testimonial` section in `components.css`,
+**Placement (decided):** a core `Testimonial` section in the gem's Tailwind `engine.css`,
 shipped like every other component. Marketing-style components live in the core
 stylesheet.
 
@@ -70,11 +70,11 @@ stylesheet.
 - **Elements:** `__quote`, `__rating`, `__author`, `__name`, `__role`.
 - **Modifiers:** `--card` (surface, border, 0.75rem radius, like `UnmagicCard`)
   and `--large` (1.25rem quote).
-- **Tokens:** `text`, `text-2`, `text-3`, `surface`, `border`.
-- **Stars** use `--unmagic-rating`, a new theme token (accepted) falling back
-  to `--color-amber-400, #fbbf24`. Its reason: the warn tone reads as a
-  warning, not a star. It is shared with `feedback_form`. Add it to the README
-  Theming list and give it a dark value in the preview layout's dark block.
+- **Colours:** `neutral-900`/`dark:neutral-100`, `neutral-600`/`dark:neutral-400`,
+  `neutral-500`, `white`/`dark:neutral-900` and `neutral-200`/`dark:neutral-800`.
+- **Stars** use `amber-400` in both themes (accepted): a palette choice rather
+  than the warn tone, which reads as a warning, not a star. It is shared with
+  `feedback_form`.
 - **Icons:** a `star` Lucide path added to `Icons::PATHS`.
 
 ## Behaviour (JavaScript)

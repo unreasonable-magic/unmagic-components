@@ -102,29 +102,25 @@ CSS section: `Avatars`.
   - Sizes set `width`, `height` and the initials' `font-size` (0.625rem,
     0.75rem, 0.875rem), and match `skeleton_circle`'s `size:`.
 - **Colour:**
-  - Neutral (`tint: false`): initials in `--unmagic-text-2` on
-    `--unmagic-surface-3`.
-  - Tinted: `UnmagicAvatar--tint-1` … `--tint-6` set
-    `background-color: var(--unmagic-avatar-N, …)`, with initials in
-    `--unmagic-text-2`. The fallbacks are Tailwind 100 shades chosen for
-    contrast with neutral-600 text:
-    - 1: `--color-sky-100`, `#e0f2fe`
-    - 2: `--color-emerald-100`, `#d1fae5`
-    - 3: `--color-amber-100`, `#fef3c7`
-    - 4: `--color-rose-100`, `#ffe4e6`
-    - 5: `--color-violet-100`, `#ede9fe`
-    - 6: `--color-teal-100`, `#ccfbf1`
+  - Neutral (`tint: false`): initials in `neutral-600`/`dark:neutral-400` on
+    `neutral-100`/`dark:neutral-800`.
+  - Tinted: `UnmagicAvatar--tint-1` … `--tint-6` each pair a palette hue's
+    light tint with a dark counterpart, chosen for readable initials:
+    - 1: `bg-sky-100 text-sky-700 dark:bg-sky-400/15 dark:text-sky-300`
+    - 2: `bg-emerald-100 text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-300`
+    - 3: `bg-amber-100 text-amber-700 dark:bg-amber-400/15 dark:text-amber-300`
+    - 4: `bg-rose-100 text-rose-700 dark:bg-rose-400/15 dark:text-rose-300`
+    - 5: `bg-violet-100 text-violet-700 dark:bg-violet-400/15 dark:text-violet-300`
+    - 6: `bg-teal-100 text-teal-700 dark:bg-teal-400/15 dark:text-teal-300`
   - The square shape uses radius 0.375rem.
-- **New theme tokens (accepted): `--unmagic-avatar-1` … `--unmagic-avatar-6`.**
-  - These are theme tokens, not per-avatar knobs, so they go in the README
-    Theming list, commented "initials tints".
-  - They also go in the preview layout's dark block, as six muted dark tints
-    that keep `--unmagic-text-2` readable.
+- **Tint colours (accepted)** are palette choices, not theme variables. A host
+  recolours them by overriding those palette colours in its `@theme`, or by
+  overriding `UnmagicAvatar--tint-N` in its own CSS.
 - **Group:**
   - Overlap with a negative inline margin (−0.375rem at small).
-  - A 2px ring in `--unmagic-surface` (box-shadow) separates the faces.
-  - `__more` has the same box as an avatar, in `--unmagic-surface-2` with
-    `--unmagic-text-3`.
+  - A 2px ring in `white`/`dark:neutral-900` (box-shadow) separates the faces.
+  - `__more` has the same box as an avatar, in `neutral-50`/`dark:neutral-800/50` with
+    `neutral-500`.
 - No motion.
 
 ## Behaviour (JavaScript)

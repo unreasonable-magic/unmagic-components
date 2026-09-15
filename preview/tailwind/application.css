@@ -1,0 +1,12 @@
+/* The preview's Tailwind build: what a host's app/assets/tailwind/application.css
+   holds, except that the gem's CSS is imported by path rather than through the
+   entry file tailwindcss-rails generates. bin/dev compiles it into
+   preview/builds/tailwind.css.
+
+   The dark variant follows the preview's data-theme toggle rather than the
+   system setting, the way a host with its own theme switch would set it up. */
+@import "tailwindcss" source(none);
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@import "../../app/assets/tailwind/unmagic_components/engine.css";

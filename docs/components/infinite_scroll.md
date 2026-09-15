@@ -119,12 +119,12 @@ What each piece does:
   - `UnmagicInfinite`: the list; no styles of its own, only a hook for the host
   - `UnmagicInfinite__more`: a centred block with padding
   - `UnmagicInfinite__link`: `button_classes(:ghost)` look
-  - `UnmagicInfinite__end`: `--unmagic-text-3`, 0.75rem
+  - `UnmagicInfinite__end`: `neutral-500`, 0.75rem
 - **State:**
   - `turbo-frame[aria-busy="true"] .UnmagicInfinite__link` hides the link and
     shows the spinner.
   - `turbo-frame[complete]` collapses the frame once it has loaded.
-- **No new tokens.**
+- **Colour:** palette with `dark:` variants only.
 
 ## Behaviour (JavaScript)
 

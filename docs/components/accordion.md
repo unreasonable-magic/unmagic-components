@@ -106,11 +106,11 @@ CSS sections: `Disclosures` and `Accordions`.
   - `list-style: none`, with the `::-webkit-details-marker` hidden, as
     `.UnmagicMenu__trigger` does.
   - `inline-flex`, `gap: 0.375rem`, 0.875rem weight 500 in
-    `--unmagic-text-2`, turning `--unmagic-text` on hover.
+    `neutral-600`/`dark:neutral-400`, turning `neutral-900`/`dark:neutral-100` on hover.
   - A `:focus-visible` ring.
 - **Panel:** `padding-top: 0.5rem`.
 - **Accordion:**
-  - A `--unmagic-surface` box with a `--unmagic-border` border and radius
+  - A `white`/`dark:neutral-900` box with a `neutral-200`/`dark:neutral-800` border and radius
     0.5rem.
   - Items are divided by a top border (`--in-accordion + --in-accordion`).
   - The summary is `flex`, full width, `padding: 0.75rem 1rem`, with
@@ -121,7 +121,7 @@ CSS sections: `Disclosures` and `Accordions`.
   opacity transition of 150ms.
 - **Reduced motion:** the chevron rotation transition and the content
   transition are off.
-- No new tokens.
+- Palette colours with `dark:` variants only.
 
 ## Behaviour (JavaScript)
 

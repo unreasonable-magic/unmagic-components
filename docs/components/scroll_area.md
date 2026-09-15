@@ -66,22 +66,20 @@ JS-driven scrollbar.
   - `max-height: var(--unmagic-scroll-area-max-height, none)`
   - `scrollbar-gutter: stable`
   - `scrollbar-width: thin`
-  - `scrollbar-color: var(--unmagic-border-strong, …) transparent`
+  - `scrollbar-color: var(--color-neutral-300) transparent`, with
+    `var(--color-neutral-700)` under `dark:`
   - `overscroll-behavior: contain`
 - **Shadows are CSS only**, using the scroll-bound background technique: two
-  `background-attachment: local` covers in `surface` over two
+  `background-attachment: local` covers in `white`/`dark:neutral-900` over two
   `background-attachment: scroll` radial shadows. The shadows show only where
   content is hidden, with no script.
-- **Tokens:** the existing `surface`, `border-strong` and `focus`; there is no
-  new theme token.
-  - The shadow covers use `--unmagic-surface`, so they match a container on the
-    surface colour.
-  - A scroll area on a different background sets `--unmagic-surface` on itself
-    through `style:` or a host class.
-- **Knob:** `--unmagic-scroll-area-max-height` is a per-instance knob
-  (`--unmagic-<component>-<property>`), written through `style:` by
-  `max_height:`. It is documented in the README section, never listed under
-  Theming.
+- **Colours:** palette with `dark:` variants only, nothing new.
+  - The shadow covers use `white`/`dark:neutral-900`, so they match a container
+    on the default surface.
+  - A scroll area on a different background overrides the cover colour in the
+    host's own CSS.
+- **Knob:** `--unmagic-scroll-area-max-height` is a per-instance knob, written
+  through `style:` by `max_height:`. It is documented in the README section.
 
 ## Behaviour (JavaScript)
 

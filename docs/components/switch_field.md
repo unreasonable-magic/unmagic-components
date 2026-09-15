@@ -93,29 +93,29 @@ CSS: in the `Forms` section, next to `UnmagicCheck` and `UnmagicRadio`.
 - **Track:**
   - `appearance: none`, `2.25rem × 1.25rem`, `margin: 0`, radius 9999px,
     `flex-shrink: 0`, `cursor: pointer`.
-  - Off: background `--unmagic-text-3`, not `--unmagic-border-strong`.
-    - In the preview's dark theme, `--unmagic-raised` (#34333f) on
-      `--unmagic-border-strong` (#38364a) is nearly invisible.
-    - `--unmagic-text-3` gives the thumb contrast in both themes: white on
-      neutral-500 in light, and #34333f on #817e8d in dark.
-  - `:checked`: `--unmagic-accent`.
+  - Off: background `neutral-500`, not `neutral-300`/`dark:neutral-700`.
+    - In dark mode a `neutral-700` thumb on a `neutral-700` track would be
+      invisible.
+    - `neutral-500` separates the `white`/`dark:neutral-700` thumb from the
+      track in both themes; the dark pairing is on the hand-check list below.
+  - `:checked`: `neutral-900`/`dark:white`.
 - **Thumb:** a 1rem circle drawn with
-  `radial-gradient(circle, var(--unmagic-raised, var(--unmagic-surface, var(--color-white, #fff))) 0.5rem, transparent calc(0.5rem + 0.5px))`.
+  `radial-gradient(circle, var(--color-white) 0.5rem, transparent calc(0.5rem + 0.5px))`,
+  with `var(--color-neutral-700)` under `dark:`.
   `background-size` is the height; `background-position` runs from left to
   right when `:checked`.
 - **States:**
-  - `:focus-visible`: 2px `--unmagic-focus` outline with a 2px offset.
+  - `:focus-visible`: 2px `neutral-400`/`dark:neutral-500` outline with a 2px offset.
   - `:disabled`: opacity 0.5, `cursor: not-allowed`.
-  - `[aria-invalid="true"]`: a 2px box-shadow ring in `--unmagic-bad`.
+  - `[aria-invalid="true"]`: a 2px box-shadow ring in `red-600`/`dark:red-400`.
 - **Motion:** a 150ms transition on `background-position` and
   `background-color`, off under reduced motion.
 - **Alignment:** `UnmagicCheckField--switch` sets `align-items: center` when
   there is no hint and keeps `flex-start` with one, matching checkboxes.
-- **No new tokens (decided).**
-  - The thumb reuses `--unmagic-raised`, the "lifted out of a track" surface
-    the selected tab already uses. It falls back to `--unmagic-surface`, then
-    white.
-  - The off-track colour above is chosen so that surface shows against it.
+- **No new colours (decided).**
+  - The thumb uses `white`/`dark:neutral-700`, the "lifted out of a track"
+    colour the selected tab already uses.
+  - The off-track colour above is chosen so that the thumb shows against it.
 
 ## Behaviour (JavaScript)
 
@@ -164,8 +164,8 @@ The form on the `dialogs` page ("edit profile"), plus a settings `card` on
 - Click and Space toggle it; the label click toggles it.
 - The focus ring shows.
 - `form.reset()` restores it.
-- Thumb contrast in the dark theme, on and off: `--unmagic-raised` against
-  `--unmagic-text-3` and against `--unmagic-accent`.
+- Thumb contrast in the dark theme, on and off: `white`/`dark:neutral-700` against
+  `neutral-500` and against `neutral-900`/`dark:white`.
 - No transition under reduced motion.
 - Forced-colours mode (Windows High Contrast emulation in DevTools) still shows
   the state.
