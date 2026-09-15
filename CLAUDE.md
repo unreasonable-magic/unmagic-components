@@ -1,0 +1,40 @@
+# unmagic-components
+
+Server-rendered UI components for Rails views: plain Ruby classes behind
+ActionView helpers, one plain CSS file themed with `--unmagic-*` custom
+properties, and self-registering custom elements. There is no Tailwind and no
+Stimulus.
+
+## Building or changing a component
+
+1. Read [`docs/design-principles.md`](docs/design-principles.md). It covers how
+   the Ruby, CSS, JavaScript, accessibility, specs, preview and docs are done
+   here.
+2. Write the component's design note first. Copy
+   [`docs/components/_template.md`](docs/components/_template.md) to
+   `docs/components/<name>.md`, or refresh the existing note. Get it reviewed
+   before writing code.
+3. Build it to the note, then follow the checklist at the end of the
+   principles.
+
+Component ideas can come from other libraries, such as Rails Blocks, but only
+as a list of what's missing. Never copy their markup, classes or code: design
+each component from scratch to these principles.
+
+## Layout
+
+- `lib/unmagic/components/`: component classes, `action_view_helpers.rb`,
+  `form_builder.rb`, `configuration.rb`
+- `app/assets/stylesheets/unmagic/components.css`: every component's styles
+- `app/assets/javascripts/unmagic/components/`: one custom element per file,
+  imported by `components.js`
+- `spec/unmagic/components/`: RSpec and Nokogiri specs (`build_view`, `html`)
+- `preview/` and `config.ru`: the preview app
+
+## Commands
+
+```sh
+bundle exec rspec      # specs
+bundle exec rubocop    # lint
+bin/dev                # preview at http://localhost:5701 (?theme=dark for dark)
+```

@@ -1,0 +1,105 @@
+# Component design notes
+
+One note per component, written and reviewed **before** the component is built.
+Each follows [`_template.md`](_template.md) and is held to the
+[design principles](../design-principles.md).
+
+This round of components comes from comparing the gem with the Rails Blocks
+catalogue. Rails Blocks was used only as a list of what's missing; every design
+here is original to this gem.
+
+Status is `draft` until reviewed, then `reviewed`, then `built`.
+
+## Already shipped
+
+These are documented in the README and have no notes here:
+- `table_for`, `row_for`, `table_tag`
+- `detail_list`
+- `FormBuilder`
+- `button_classes`, `badge`, `callout`, `card`, `page_header`, `empty_state`
+- skeletons
+- `modal_frame`, `dialog`, `dialog_tag`, the confirm dialog
+- `flash_toasts`
+- `local_time_tag`, `tooltip`, `menu`, `tabs`, `copy_button`
+- `autogrow_text_area`, `uuid_field`
+
+## Tier 1: markup and CSS
+
+| Note | Rails Blocks gap | Status |
+|---|---|---|
+| [avatar](avatar.md) | Avatar | draft |
+| [breadcrumbs](breadcrumbs.md) | Breadcrumb | draft |
+| [kbd](kbd.md) | KBD & Hotkey (the key hint) | draft |
+| [spinner](spinner.md) | Loading Indicator | draft |
+| [steps](steps.md) | Stepper | draft |
+| [accordion](accordion.md) | Accordion, Collapsible | draft |
+| [tree_view](tree_view.md) | Tree View | draft |
+| [banner](banner.md) | Banner | draft |
+| [switch_field](switch_field.md) | Switch | draft |
+| [radio_button_collection](radio_button_collection.md) | Radio | draft |
+
+## Tier 2: small custom elements
+
+| Note | Rails Blocks gap | Status |
+|---|---|---|
+| [bulk_select](bulk_select.md) | Checkbox Select All | draft |
+| [drawer](drawer.md) | Drawer, Slideover | draft |
+| [popover](popover.md) | Popover | draft |
+| [password_field](password_field.md) | Password | draft |
+| [one_time_code_field](one_time_code_field.md) | Two Factor | draft |
+| [infinite_scroll](infinite_scroll.md) | Infinite Scroll | draft |
+| [sidebar](sidebar.md) | Sidebar | draft |
+| [context_menu](context_menu.md) | Context Menu | draft |
+| [animated_number](animated_number.md) | Animated Number | draft |
+| [hotkey](hotkey.md) | KBD & Hotkey (the shortcut) | draft |
+| [position](position.md) | (infrastructure) shared placement and `menu` on the Popover API; build before popover, context_menu and combobox | draft |
+
+## Tier 3: large or dependency-heavy
+
+| Note | Rails Blocks gap | Status |
+|---|---|---|
+| [combobox](combobox.md) | Combobox (Multi-select), Autocomplete | draft |
+| [command_palette](command_palette.md) | Command Palette | draft |
+| [carousel](carousel.md) | Carousel | draft |
+| [lightbox](lightbox.md) | Lightbox | draft |
+| [date_picker](date_picker.md) | Date Picker | draft |
+| [color_picker](color_picker.md) | Color Picker | draft |
+| [emoji_picker](emoji_picker.md) | Emoji Picker | draft |
+
+## Marketing, and the rest
+
+Where marketing-style components belong is open decision 2 in the principles.
+
+| Note | Rails Blocks gap | Status |
+|---|---|---|
+| [navbar](navbar.md) | Navbar | draft |
+| [dark_mode_switcher](dark_mode_switcher.md) | Dark Mode Switcher | draft |
+| [scroll_area](scroll_area.md) | Scroll Area | draft |
+| [select](select.md) | Select | draft |
+| [onboarding_checklist](onboarding_checklist.md) | Onboarding Checklist | draft |
+| [feedback](feedback.md) | Feedback | draft |
+| [dock](dock.md) | Dock Menu | draft |
+| [marquee](marquee.md) | Marquee | draft |
+| [testimonial](testimonial.md) | Testimonial | draft |
+
+## Covered by existing components
+
+| Rails Blocks | Here |
+|---|---|
+| Alert | `callout` |
+| Autogrow | `autogrow_text_area` |
+| Badge | `badge` |
+| Buttons | `button_classes` |
+| Card | `card` |
+| Checkbox | `FormBuilder#check_box_field`, `#check_box_collection` |
+| Clipboard | `copy_button` |
+| Confirmation | the confirm dialog |
+| Datatable, Table | `table_for`, `table_tag` |
+| Dropdown | `menu` |
+| Forms | `FormBuilder` |
+| Modal | `modal_frame`, `dialog`, `dialog_tag` |
+| Pagination | the pagination seam |
+| Skeleton | `skeleton` |
+| Tabs | `tabs` |
+| Toast | `flash_toasts`, `turbo_stream.toast` |
+| Tooltip | `tooltip` |
