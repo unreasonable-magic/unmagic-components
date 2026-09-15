@@ -13,6 +13,14 @@ module Unmagic
         end
       end
 
+      # turbo_stream.toast. turbo-rails runs this hook when its tag builder loads, so
+      # an app without Turbo never sees it.
+      initializer "unmagic_components.turbo_streams" do
+        ActiveSupport.on_load(:turbo_streams_tag_builder) do
+          include Unmagic::Components::TurboStreamActions
+        end
+      end
+
       # The components' stylesheet is a plain CSS file, deliberately not part of any
       # Tailwind build: Tailwind only generates classes it can see, and it does not
       # scan installed gems. Serving it through the asset pipeline keeps the gem's
@@ -24,10 +32,11 @@ module Unmagic
         app.config.assets.paths << Engine.root.join("app/assets/javascripts")
       end
 
-      # The one piece of JavaScript here: the `upsert` Turbo Stream action a live
-      # table's broadcasts use. Pinned rather than served so the host imports it by
-      # name; importmap-rails is optional, and an app without it simply never sees
-      # the pin (and cannot broadcast into a table).
+      # The components' JavaScript: custom elements and the `upsert` Turbo Stream
+      # action. Pinned rather than served so the host imports each by name
+      # ("unmagic/components", or "unmagic/components/modal"). importmap-rails is
+      # optional; an app without it never sees the pins and wires the files up its
+      # own way.
       initializer "unmagic_components.importmap", before: "importmap" do |app|
         next unless app.config.respond_to?(:importmap)
 

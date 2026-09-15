@@ -7,7 +7,25 @@ module Unmagic
     # library. An app that already owns these concerns points them at its own
     # versions in an initializer.
     class Configuration
-      attr_writer :empty_state, :pagination, :pagy_for, :submit_class
+      attr_writer :empty_state, :pagination, :pagy_for, :submit_class, :modal_frame_id, :flash_tones
+
+      # The tone each flash type's toast wears, keyed by the flash type as a string.
+      # A type that isn't listed is :info.
+      def flash_tones
+        @flash_tones ||= {
+          "notice" => :good, "success" => :good,
+          "alert" => :bad, "error" => :bad,
+          "warning" => :warn,
+          "info" => :info
+        }
+      end
+
+      # The id of the turbo frame the shared modal loads into — what modal_link_to
+      # targets, and what a `dialog` checks to know it is being rendered into the
+      # modal.
+      def modal_frame_id
+        @modal_frame_id ||= "modal"
+      end
 
       # Renders a table's blank slate. Called with (view, content), where content
       # is already-captured markup or a plain string.

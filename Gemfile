@@ -24,4 +24,13 @@ group :development, :test do
   gem "puma"
   gem "rackup"
   gem "propshaft"
+
+  # The preview loads the gem's JavaScript through importmap-rails, exactly as a
+  # host does — the engine's pins resolve the component elements by name.
+  gem "importmap-rails"
+
+  # json 3 takes JSON.parse options as keywords only, and ActiveSupport 8.1.3.1
+  # still passes a positional hash, so every request carrying a session cookie
+  # raises ArgumentError in the preview.
+  gem "json", "< 3"
 end

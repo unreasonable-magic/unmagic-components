@@ -1,0 +1,49 @@
+<%# Rows of buttons are divs, not <p>s: button_to renders a <form>, and a form
+    inside a paragraph makes the parser close the paragraph first. %>
+<section>
+  <h2>modal_frame + dialog — a form loaded into the shared modal</h2>
+  <%= detail_list do |list|
+        list.item "Name", @profile.name
+        list.item "Role", @profile.role
+      end %>
+  <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
+    <%= modal_link_to "Edit profile", "/dialogs/profile", class: button_classes(:primary) %>
+    <%= modal_link_to "Slow (skeleton)", "/dialogs/slow", class: button_classes %>
+    <%= modal_link_to "Forbidden (error)", "/dialogs/forbidden", class: button_classes %>
+  </div>
+  <p style="color: var(--muted); font-size: 0.875rem;">
+    Clear the name and save to see a 422 keep the dialog open. A good save closes it
+    in the same render as the morph refresh.
+  </p>
+</section>
+
+<section>
+  <h2>dialog_tag + dialog_button — already on the page, no request</h2>
+  <%= dialog_button "What's a scope?", dialog: "scopes_help", class: button_classes %>
+  <%= dialog_tag "scopes_help", title: "Scopes" do |dialog| %>
+    <p>A scope limits what a token can do. Grant the fewest that get the job done.</p>
+    <% dialog.footer { tag.button "Got it", type: "button", class: button_classes(:primary), data: { unmagic_dialog_close: "" } } %>
+  <% end %>
+</section>
+
+<section>
+  <h2>confirm — data-turbo-confirm in a dialog</h2>
+  <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+    <%= button_to "Reset profile", "/dialogs/profile", method: :delete, class: button_classes(:danger),
+          form: { data: { turbo_confirm: "Reset the profile to its defaults?",
+                          turbo_confirm_accept: "Reset", turbo_confirm_variant: "danger" } } %>
+    <%= button_to "Reset (plain confirm)", "/dialogs/profile", method: :delete, class: button_classes,
+          form: { data: { turbo_confirm: "Reset the profile?" } } %>
+  </div>
+</section>
+
+<section>
+  <h2>button_classes</h2>
+  <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+    <% %i[default primary ghost danger].each do |variant| %>
+      <%= tag.button variant.to_s.capitalize, type: "button", class: button_classes(variant) %>
+    <% end %>
+    <%= tag.button "Small", type: "button", class: button_classes(:primary, size: :small) %>
+    <%= tag.button "Large", type: "button", class: button_classes(:default, size: :large) %>
+  </div>
+</section>

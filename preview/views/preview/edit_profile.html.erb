@@ -1,0 +1,9 @@
+<%= dialog title: "Edit profile",
+      form: { model: @profile, url: "/dialogs/profile", method: :patch, builder: Unmagic::Components::FormBuilder } do |dialog, form| %>
+  <%= form.field :name, "Name", required: true, autofocus: true %>
+  <%= form.field :role, "Role", hint: "Shown beside the name." %>
+  <% dialog.footer do %>
+    <%= tag.button "Cancel", type: "button", class: button_classes, data: { unmagic_dialog_close: "" } %>
+    <%= form.submit "Save" %>
+  <% end %>
+<% end %>

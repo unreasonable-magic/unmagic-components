@@ -133,6 +133,30 @@ module Unmagic
         @template.content_tag(:button, options) { block ? @template.capture(&block) : value }
       end
 
+      # A textarea that grows with what's typed, from its rows up to its CSS
+      # max-height, then scrolls. Works as a field's control too:
+      #
+      #   <%= form.field :body, "Message", as: :autogrow_text_area, rows: 2 %>
+      #
+      # Needs import "unmagic/components/autogrow".
+      def autogrow_text_area(method, options = {})
+        Components::Autogrow.wrap(@template, text_area(method, options))
+      end
+
+      # A hidden field holding a fresh, time-ordered UUIDv7, so the form submits an
+      # id the client already knows: to match an optimistically rendered element to
+      # the record the server creates under the same id.
+      #
+      #   <%= form.uuid_field :id %>
+      #
+      # A new id is minted when the element upgrades and every time the form is
+      # reset, so a form that clears itself after each submit sends a fresh one.
+      # Without the script the server's own id is sent. Needs import
+      # "unmagic/components/uuid_input".
+      def uuid_field(method, options = {})
+        Components::UuidInput.new(@template, field_name(method), **options).render
+      end
+
       # The value to show for a field, whether the object is a model or something
       # hash-ish (a JSON Schema instance, a params object). Reads what the user
       # actually typed when the object tracks that, so a rejected cast still shows

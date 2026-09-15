@@ -3,8 +3,12 @@
   <head>
     <title>unmagic-components preview</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:,">
+    <%= csrf_meta_tags %>
+    <%= turbo_refresh_method_tag :morph %>
+    <%= turbo_refresh_scroll_tag :preserve %>
     <%= stylesheet_link_tag "unmagic/components" %>
-    <%= javascript_include_tag "turbo", type: "module" %>
+    <%= javascript_importmap_tags "unmagic/components" %>
     <style>
       /* The preview's own chrome, not the components'. Kept apart on purpose so
          it is obvious which styling comes from the gem. */
@@ -16,6 +20,8 @@
            its own tokens. Light mode uses the gem's built-in fallbacks. */
         --unmagic-surface: #15141c;
         --unmagic-surface-2: #1b1a23;
+        --unmagic-surface-3: #24232e;
+        --unmagic-raised: #34333f;
         --unmagic-hover: #1d1c26;
         --unmagic-border: #292833;
         --unmagic-border-strong: #38364a;
@@ -24,6 +30,21 @@
         --unmagic-text-3: #817e8d;
         --unmagic-skeleton: #22212c;
         --unmagic-skeleton-shimmer: rgba(255, 255, 255, 0.06);
+        --unmagic-accent: #f0eff5;
+        --unmagic-on-accent: #15141c;
+        --unmagic-bad: #f87171;
+        --unmagic-bad-surface: rgba(248, 113, 113, 0.1);
+        --unmagic-bad-border: rgba(248, 113, 113, 0.3);
+        --unmagic-good: #4ade80;
+        --unmagic-good-surface: #0f1f16;
+        --unmagic-good-border: #1f4a2e;
+        --unmagic-warn: #fbbf24;
+        --unmagic-warn-surface: #221a0b;
+        --unmagic-warn-border: #4a3a12;
+        --unmagic-tooltip: #2e2d3a;
+        --unmagic-on-tooltip: #f0eff5;
+        --unmagic-focus: #817e8d;
+        --unmagic-backdrop: rgba(0, 0, 0, 0.6);
       }
       body {
         margin: 0; padding: 3rem 2rem; background: var(--page); color: var(--ink);
@@ -31,11 +52,12 @@
       }
       main { max-width: 64rem; margin: 0 auto; display: grid; gap: 3rem; }
       h1 { font-size: 1.25rem; margin: 0; }
-      h2 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em;
+      /* Scoped to the section headings, so it doesn't restyle a dialog's title. */
+      section > h2 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em;
            color: var(--muted); margin: 0 0 0.75rem; font-weight: 600; }
-      header { display: flex; justify-content: space-between; align-items: baseline;
+      body > header { display: flex; justify-content: space-between; align-items: baseline;
                max-width: 64rem; margin: 0 auto 2.5rem; }
-      nav a { color: var(--muted); font-size: 0.875rem; margin-left: 1rem; }
+      body > header nav a { color: var(--muted); font-size: 0.875rem; margin-left: 1rem; }
     </style>
   </head>
   <body>
@@ -46,9 +68,17 @@
         <% suffix = dark ? "?theme=dark" : "" %>
         <%= link_to "Loaded", "/#{suffix}" %>
         <%= link_to "Deferred", "/deferred#{suffix}" %>
+        <%= link_to "Dialogs", "/dialogs#{suffix}" %>
+        <%= link_to "Toasts", "/toasts#{suffix}" %>
+        <%= link_to "Primitives", "/primitives#{suffix}" %>
+        <%= link_to "Elements", "/elements#{suffix}" %>
+        <%= link_to "Skeletons", "/skeletons#{suffix}" %>
         <%= link_to dark ? "Light" : "Dark", "#{request.path}?theme=#{dark ? "light" : "dark"}" %>
       </nav>
     </header>
     <main><%= yield %></main>
+    <%= modal_frame %>
+    <%= confirm_dialog_template %>
+    <%= flash_toasts %>
   </body>
 </html>

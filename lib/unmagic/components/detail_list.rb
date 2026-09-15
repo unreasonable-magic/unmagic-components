@@ -7,13 +7,17 @@ module Unmagic
     class DetailList
       VARIANTS = %i[inline stacked].freeze
 
-      def initialize(view, variant:, **options)
+      # Values vary in length, so a skeleton's bars do too.
+      SKELETON_WIDTHS = %w[55% 40% 70% 35% 60%].freeze
+
+      def initialize(view, variant:, skeleton: false, **options)
         unless VARIANTS.include?(variant)
           raise ArgumentError, "unknown detail_list variant #{variant.inspect} (expected one of #{VARIANTS.inspect})"
         end
 
         @view = view
         @variant = variant
+        @skeleton = skeleton
         @classes = options[:class]
         @items = []
       end
@@ -30,9 +34,12 @@ module Unmagic
           @classes,
         )
 
-        tag.dl class: classes do
+        list = tag.dl class: classes do
           safe_join @items.map { |item| stacked? ? stacked_item(item) : inline_item(item) }
         end
+
+        # A <dl> may only hold its items, so the loading label goes around it.
+        @skeleton ? Skeleton.group(view) { list } : list
       end
 
       private
@@ -53,8 +60,11 @@ module Unmagic
         end
       end
 
+      # A skeleton keeps the real labels and stands a bar in for each value.
       def value(item)
-        if item.block
+        if @skeleton
+          Skeleton.new(view).text(width: SKELETON_WIDTHS[@items.index(item) % SKELETON_WIDTHS.size])
+        elsif item.block
           view.capture(&item.block).presence || "—"
         else
           item.value
