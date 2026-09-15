@@ -54,6 +54,7 @@ module ComponentsPreview
       get "/primitives", to: "preview#primitives"
       get "/elements", to: "preview#elements"
       get "/skeletons", to: "preview#skeletons"
+      get "/forms", to: "preview#forms"
 
       get "/toasts", to: "preview#toasts"
       post "/toasts/flash", to: "preview#flash_toast"

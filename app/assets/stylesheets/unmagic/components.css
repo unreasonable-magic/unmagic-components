@@ -318,9 +318,11 @@
 
 /* ------------------------------------------------------------------- Forms */
 
-/* Structure only. What a control itself looks like is left to the host: apps
-   style inputs in incompatible ways — a class on every input, or a bare-element
-   rule — and picking one here would be wrong in the other. */
+/* The field's structure, then the controls themselves. Controls are styled by
+   class — UnmagicInput, UnmagicSelect, UnmagicCheck, UnmagicRadio — and never by
+   bare element, so an input the gem didn't render is left as the app has it. The
+   builder puts the class on through config.control_class, which an app with input
+   styles of its own points at those instead. */
 
 .UnmagicField {
   display: flex;
@@ -419,6 +421,236 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 1.5rem;
+}
+
+/* Boxes: text, password, date and textarea inputs, and selects. Padding and type
+   match an UnmagicButton of the same size, so the two sit level in a row. */
+.UnmagicInput,
+.UnmagicSelect {
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: 0;
+  padding: 0.375rem 0.75rem;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--unmagic-text, var(--color-neutral-900, #171717));
+  background-color: var(--unmagic-surface, var(--color-white, #fff));
+  border: 1px solid var(--unmagic-border-strong, var(--color-neutral-300, #d4d4d4));
+  border-radius: 0.375rem;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+/* A field stretches its control; an inline one (a filter toolbar) lets it size
+   itself. :where keeps these as easy to override as the class alone. Rails wraps
+   an invalid control in a field_with_errors div, hence a descendant selector. */
+.UnmagicField :where(.UnmagicInput, .UnmagicSelect) {
+  width: 100%;
+}
+
+.UnmagicField--inline :where(.UnmagicInput, .UnmagicSelect) {
+  width: auto;
+}
+
+.UnmagicInput::placeholder {
+  color: var(--unmagic-text-3, var(--color-neutral-500, #737373));
+  opacity: 1;
+}
+
+.UnmagicInput:focus-visible,
+.UnmagicSelect:focus-visible {
+  outline: 2px solid var(--unmagic-focus, var(--color-neutral-400, #a3a3a3));
+  outline-offset: 2px;
+}
+
+.UnmagicInput[aria-invalid="true"],
+.UnmagicSelect[aria-invalid="true"] {
+  border-color: var(--unmagic-bad, var(--color-red-600, #dc2626));
+}
+
+.UnmagicInput[aria-invalid="true"]:focus-visible,
+.UnmagicSelect[aria-invalid="true"]:focus-visible {
+  outline-color: var(--unmagic-bad, var(--color-red-600, #dc2626));
+}
+
+.UnmagicInput[readonly],
+.UnmagicInput:disabled,
+.UnmagicSelect:disabled {
+  background-color: var(--unmagic-surface-2, var(--color-neutral-50, #fafafa));
+  box-shadow: none;
+}
+
+.UnmagicInput:disabled,
+.UnmagicSelect:disabled {
+  color: var(--unmagic-text-3, var(--color-neutral-500, #737373));
+  cursor: not-allowed;
+}
+
+textarea.UnmagicInput {
+  resize: vertical;
+}
+
+/* Safari centres a date's value, and collapses an empty one to no height. */
+.UnmagicInput::-webkit-date-and-time-value {
+  min-height: 1.25rem;
+  text-align: start;
+}
+
+/* The native arrow is replaced by one drawn in the text colour, so it follows the
+   theme: two gradient triangles, since a select can't hold a pseudo-element. */
+.UnmagicSelect {
+  appearance: none;
+  padding-right: 2rem;
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 1.125rem) 50%, calc(100% - 0.8125rem) 50%;
+  background-size: 0.3125rem 0.3125rem;
+  background-repeat: no-repeat;
+}
+
+/* A list box shows its options, so it has no arrow to make room for. */
+.UnmagicSelect[multiple],
+.UnmagicSelect[size]:not([size="1"]) {
+  padding-right: 0.75rem;
+  background-image: none;
+}
+
+.UnmagicInput--small,
+.UnmagicSelect--small {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  padding-left: 0.625rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.UnmagicInput--small {
+  padding-right: 0.625rem;
+}
+
+.UnmagicSelect--small {
+  padding-right: 1.75rem;
+}
+
+.UnmagicInput--large,
+.UnmagicSelect--large {
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+  padding-left: 1rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  border-radius: 0.5rem;
+}
+
+.UnmagicInput--large {
+  padding-right: 1rem;
+}
+
+.UnmagicSelect--large {
+  padding-right: 2.25rem;
+}
+
+/* Checkboxes and radios stay real inputs, drawn with CSS: the box, and a mark
+   that shows once checked. Nothing animates, so reduced motion has nothing to
+   switch off. */
+.UnmagicCheck,
+.UnmagicRadio {
+  appearance: none;
+  box-sizing: border-box;
+  display: inline-grid;
+  place-content: center;
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  vertical-align: -0.125rem;
+  background-color: var(--unmagic-surface, var(--color-white, #fff));
+  /* Darker than a text box's border: a box this small is identified by its edge
+     alone, so the edge needs 3:1 against the surface. */
+  border: 1px solid var(--unmagic-text-3, var(--color-neutral-500, #737373));
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.UnmagicRadio {
+  border-radius: 50%;
+}
+
+/* Beside a label, level the box with the label's first line. */
+.UnmagicCheckField :is(.UnmagicCheck, .UnmagicRadio) {
+  margin-top: 0.125rem;
+}
+
+.UnmagicCheck::before,
+.UnmagicRadio::before {
+  content: "";
+  visibility: hidden;
+  background-color: var(--unmagic-on-accent, var(--color-white, #fff));
+}
+
+.UnmagicCheck::before {
+  width: 0.625rem;
+  height: 0.625rem;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0, 43% 62%);
+}
+
+.UnmagicRadio::before {
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 50%;
+}
+
+.UnmagicCheck:checked,
+.UnmagicCheck:indeterminate,
+.UnmagicRadio:checked {
+  background-color: var(--unmagic-accent, var(--color-neutral-900, #171717));
+  border-color: var(--unmagic-accent, var(--color-neutral-900, #171717));
+}
+
+.UnmagicCheck:checked::before,
+.UnmagicCheck:indeterminate::before,
+.UnmagicRadio:checked::before {
+  visibility: visible;
+}
+
+/* A bar rather than a tick, for a box standing for some of several. */
+.UnmagicCheck:indeterminate::before {
+  height: 0.125rem;
+  clip-path: none;
+}
+
+.UnmagicCheck:focus-visible,
+.UnmagicRadio:focus-visible {
+  outline: 2px solid var(--unmagic-focus, var(--color-neutral-400, #a3a3a3));
+  outline-offset: 2px;
+}
+
+.UnmagicCheck[aria-invalid="true"],
+.UnmagicRadio[aria-invalid="true"] {
+  border-color: var(--unmagic-bad, var(--color-red-600, #dc2626));
+}
+
+.UnmagicCheck:disabled,
+.UnmagicRadio:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Forced colours drop the gradient arrow and repaint the checked box, which
+   would hide the mark; hand both back to the system. */
+@media (forced-colors: active) {
+  .UnmagicSelect {
+    appearance: auto;
+    padding-right: 0.75rem;
+    background-image: none;
+  }
+
+  .UnmagicCheck::before,
+  .UnmagicRadio::before {
+    forced-color-adjust: none;
+    background-color: CanvasText;
+  }
 }
 
 /* ---------------------------------------------------------------- Buttons */

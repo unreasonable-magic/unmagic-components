@@ -269,18 +269,43 @@ Set it as the default with `config.action_view.default_form_builder`, or pass
   Outside a form builder, use `uuid_input_tag`. Needs
   `import "unmagic/components/uuid_input"`.
 
-**What the control looks like is not decided here.** Apps style inputs in
-incompatible ways — a class on every input, or a bare-element rule — and a
-component library that picked one would be wrong in the other. So the builder emits
-structure and the gem's CSS styles only the label, hint and error. Point your own
-input rules at `.UnmagicField` to give its controls your look:
+**The controls are styled too.** Each control the builder makes wears a class for
+its kind, and the gem's CSS styles those classes, never bare elements, so an input
+the gem didn't render keeps whatever your app gives it:
 
-```css
-.field,
-.UnmagicField {
-  /* your existing input rules */
-}
+| Builder methods | Kind | Class |
+|---|---|---|
+| `text_field`, `email_field`, `number_field`, `url_field`, `search_field`, `telephone_field` | `:input` | `UnmagicInput` |
+| `password_field` | `:password` | `UnmagicInput` |
+| `text_area`, `autogrow_text_area` | `:text_area` | `UnmagicInput` |
+| `date_field`, `time_field`, `datetime_field`, `month_field`, `week_field` | `:date` | `UnmagicInput` |
+| `select`, `collection_select`, `grouped_collection_select`, `time_zone_select` | `:select` | `UnmagicSelect` |
+| `check_box_field`, `check_box_collection` | `:check` | `UnmagicCheck` |
+
+A class you pass (`class: "font-mono"`) is added after the gem's. Rails' own
+`check_box` and `radio_button` are left alone, as are the `*_tag` helpers. Give
+one of those the same look with `control_classes`:
+
+```erb
+<%= select_tag "status", options_for_select(%w[Open Closed]), class: control_classes(:select) %>
+<%= search_field_tag "q", params[:q], class: control_classes(:input, size: :small) %>
+<%= radio_button_tag "notify", "daily", class: control_classes(:radio) %>
 ```
+
+`control_classes(kind, size:)` takes the kinds above plus `:radio`. `size:
+:small` or `:large` sits a box level with a `button_classes` button of the same
+size.
+
+The classes come from a seam. If your app already styles its inputs, point it at
+your own classes, or return `nil` to leave the controls unstyled:
+
+```ruby
+config.control_class = ->(_view, kind) { kind == :select ? "form-select" : "form-input" }
+config.control_class = ->(_view, _kind) { nil }
+```
+
+The controls use the same tokens as the rest of the gem. A checked box or radio
+wears `--unmagic-accent`, and an invalid control wears `--unmagic-bad`.
 
 The submit button's classes come from a seam, so it wears your own button:
 

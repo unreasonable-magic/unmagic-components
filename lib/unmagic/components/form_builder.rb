@@ -15,10 +15,13 @@ module Unmagic
     #     <%= form.submit "Add label" %>
     #   <% end %>
     #
-    # What the control itself looks like is deliberately not decided here. Apps
-    # style inputs in incompatible ways — a class on every input, or a bare-element
-    # rule — and a component library that picked one would be wrong in the other. So
-    # the builder emits structure and leaves the control's own appearance alone.
+    # The controls it builds are styled too. Each wears a class for its kind —
+    # UnmagicInput, UnmagicSelect, UnmagicCheck — which comes from the
+    # control_class seam (see Control). The styles hang off those classes and never
+    # off bare elements, so an input the gem didn't render keeps whatever the app
+    # gives it, and an app with input styles of its own points the seam at them, or
+    # returns nil to opt out. Rails' check_box and radio_button are left as they
+    # are: a checkbox is styled where the builder lays it out beside its label.
     class FormBuilder < ::ActionView::Helpers::FormBuilder
       # Verbs the plain "drop a trailing -e, add -ing" rule gets wrong (consonant
       # doubling). Everything else the rule handles: Save -> Saving, Create ->
@@ -30,6 +33,51 @@ module Unmagic
         "log" => "Logging",
         "run" => "Running"
       }.freeze
+
+      # The builder's own controls and the kind each is styled as. Each keeps its
+      # Rails signature and gains the kind's class. Guarded because the set differs
+      # across Rails versions (textarea is Rails 8's name for text_area).
+      CONTROL_KINDS = {
+        text_field: :input, email_field: :input, number_field: :input, url_field: :input,
+        search_field: :input, telephone_field: :input, phone_field: :input,
+        password_field: :password,
+        text_area: :text_area, textarea: :text_area,
+        date_field: :date, time_field: :date, datetime_field: :date, datetime_local_field: :date,
+        month_field: :date, week_field: :date
+      }.freeze
+
+      CONTROL_KINDS.each do |name, kind|
+        next unless ::ActionView::Helpers::FormBuilder.method_defined?(name)
+
+        define_method(name) do |method, options = {}|
+          super(method, Components::Control.merge(@template, options, kind))
+        end
+      end
+
+      def select(method, choices = nil, options = {}, html_options = {}, &block)
+        super(method, choices, options, Components::Control.merge(@template, html_options, :select), &block)
+      end
+
+      def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
+        super(method, collection, value_method, text_method, options,
+          Components::Control.merge(@template, html_options, :select))
+      end
+
+      def grouped_collection_select(method, collection, group_method, group_label_method, option_key_method,
+        option_value_method, options = {}, html_options = {})
+        super(method, collection, group_method, group_label_method, option_key_method, option_value_method, options,
+          Components::Control.merge(@template, html_options, :select))
+      end
+
+      def time_zone_select(method, priority_zones = nil, options = {}, html_options = {})
+        super(method, priority_zones, options, Components::Control.merge(@template, html_options, :select))
+      end
+
+      if ::ActionView::Helpers::FormBuilder.method_defined?(:weekday_select)
+        def weekday_select(method, options = {}, html_options = {})
+          super(method, options, Components::Control.merge(@template, html_options, :select))
+        end
+      end
 
       # Label + control + hint + error, wrapped consistently. Pass a block to supply
       # a control the builder doesn't know how to make (a select, a file picker, two
@@ -91,7 +139,7 @@ module Unmagic
           text << @template.content_tag(:span, hint, class: "UnmagicHint") if hint
 
           @template.safe_join [
-            check_box(method, options),
+            check_box(method, Components::Control.merge(@template, options, :check)),
             @template.content_tag(:span, @template.safe_join(text), class: "UnmagicCheckField__text")
           ]
         end
@@ -103,7 +151,7 @@ module Unmagic
         body = collection_check_boxes(method, collection, value_method, text_method) do |check_box|
           @template.content_tag(:label, class: "UnmagicCheckField") do
             @template.safe_join [
-              check_box.check_box(options),
+              check_box.check_box(Components::Control.merge(@template, options, :check)),
               @template.content_tag(:span, check_box.text, class: "UnmagicCheckField__label")
             ]
           end

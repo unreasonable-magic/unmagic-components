@@ -8,6 +8,7 @@ require "active_support/core_ext/string/output_safety"
 
 require_relative "components/version"
 require_relative "components/configuration"
+require_relative "components/control"
 require_relative "components/renderers/empty_state"
 require_relative "components/renderers/pagination"
 require_relative "components/table_tag"

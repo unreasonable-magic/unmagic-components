@@ -34,6 +34,12 @@ RSpec.describe "autogrow textareas and uuid inputs" do
 
       expect([ textarea["name"], textarea["rows"], textarea.text.strip ]).to eq([ "note", "3", "Hello" ])
     end
+
+    it "styles the textarea like the builder's, keeping the caller's class" do
+      textarea = html(view.autogrow_text_area_tag("note", class: "font-mono")).at("textarea")
+
+      expect(textarea["class"]).to eq("UnmagicInput font-mono")
+    end
   end
 
   describe "FormBuilder#uuid_field" do

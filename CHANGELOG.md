@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Styled form controls:
+  - `FormBuilder`'s text-like fields (`text_field`, `email_field`,
+    `password_field`, `date_field`, `text_area` and the rest) wear
+    `UnmagicInput`.
+  - Its selects wear `UnmagicSelect`.
+  - `check_box_field` and `check_box_collection` wear `UnmagicCheck`.
+  - The classes come from the new `config.control_class` seam, called with
+    `(view, kind)`.
+- `control_classes(kind, size:)` gives a control outside the builder the same
+  classes, for a `select_tag` or a hand-written radio. It takes `:small` and
+  `:large` sizes that match `button_classes`.
+- A Forms page in the preview.
+
+### Changed
+
+- **Form controls now carry a class, and the gem's CSS styles them.** An app
+  that styles its inputs itself keeps its own look with
+  `config.control_class = ->(_view, _kind) { nil }`, or points the seam at its
+  own classes.
+
 ## [0.2.0] - 2026-09-16
 
 ### Added

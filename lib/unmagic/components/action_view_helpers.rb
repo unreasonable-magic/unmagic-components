@@ -164,6 +164,22 @@ module Unmagic
         Components::Button.classes(variant, size: size)
       end
 
+      # The class string for a form control outside a form builder, so a select_tag
+      # or a hand-written input matches the controls the builder styles.
+      #
+      #   <%= select_tag "status", options_for_select(%w[Open Closed]), class: control_classes(:select) %>
+      #   <%= search_field_tag "q", params[:q], class: control_classes(:input, size: :small) %>
+      #
+      # kind: :input, :text_area, :password, :date, :select, :check or :radio.
+      # size: :small or :large sits a box level with a button_classes button of the
+      # same size; a check or radio takes none. The classes come from
+      # config.control_class, so they follow the app's own when it has some, and
+      # size: only adds the gem's modifier while the gem's class is in use. Rails'
+      # own *_tag helpers are never restyled; this is how to opt one in.
+      def control_classes(kind, size: nil)
+        Components::Control.classes(self, kind, size: size)
+      end
+
       # Mounts the shared modal: a <dialog> around the turbo frame modal links load
       # into. Render it once, in the layout.
       #
@@ -483,7 +499,7 @@ module Unmagic
 
       # text_area_tag, growing with its content. See FormBuilder#autogrow_text_area.
       def autogrow_text_area_tag(name, content = nil, **options)
-        Components::Autogrow.wrap(self, text_area_tag(name, content, options))
+        Components::Autogrow.wrap(self, text_area_tag(name, content, Components::Control.merge(self, options, :text_area)))
       end
 
       # A hidden field holding a fresh UUIDv7, outside a form builder. See

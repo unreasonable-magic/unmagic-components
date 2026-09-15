@@ -7,7 +7,7 @@ module Unmagic
     # library. An app that already owns these concerns points them at its own
     # versions in an initializer.
     class Configuration
-      attr_writer :empty_state, :pagination, :pagy_for, :submit_class, :modal_frame_id, :flash_tones
+      attr_writer :empty_state, :pagination, :pagy_for, :submit_class, :control_class, :modal_frame_id, :flash_tones
 
       # The tone each flash type's toast wears, keyed by the flash type as a string.
       # A type that isn't listed is :info.
@@ -48,6 +48,13 @@ module Unmagic
       # app can hand back whatever its own button helper produces.
       def submit_class
         @submit_class ||= ->(_view, variant) { "UnmagicButton UnmagicButton--#{variant}" }
+      end
+
+      # The classes on a form control. Called with (view, kind), where kind is one
+      # of Control::CLASSES' keys (:input, :select, :check…); return an app's own
+      # classes, or nil to leave the control unstyled.
+      def control_class
+        @control_class ||= ->(_view, kind) { Control::CLASSES.fetch(kind) }
       end
     end
   end

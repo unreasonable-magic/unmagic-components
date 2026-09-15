@@ -360,9 +360,17 @@ So that this styling can't clash with a host's own inputs:
 - **Styles hang off classes, never bare element selectors.** Examples:
   `UnmagicInput`, `UnmagicSelect`, `UnmagicCheck`, `UnmagicRadio`,
   `UnmagicSwitch`. An `<input>` the gem didn't render is untouched.
-- **The builder adds the class.** `field`, every builder method and the `_tag`
-  helpers put the control class on what they build, so styling is on by default
-  wherever the builder is used.
+- **The builder adds the class.** Styling is on by default wherever the builder
+  is used. These put the control class on what they build:
+  - `field`
+  - the builder's own text, date and select methods
+  - the gem's composed methods (`check_box_field`, and future ones like
+    `switch_field`)
+  - the gem's own `_tag` helpers
+
+  Rails' plain `check_box`, `radio_button` and `*_tag` helpers are left alone.
+  A checkbox's look depends on the label beside it, and a host's own markup
+  must stay untouched.
 - **The class comes through a seam.** It is a callable on `Configuration`, like
   `submit_class`, called with the control kind:
   `config.control_class = ->(view, kind) { … }`. An app with its own input

@@ -154,6 +154,58 @@ RSpec.describe Unmagic::Components::FormBuilder do
     end
   end
 
+  describe "control classes" do
+    it "puts each kind's class on the controls the builder builds" do
+      doc = html(build_form do |form|
+        form.text_field(:name) + form.email_field(:email) + form.password_field(:name, id: "pw") +
+          form.text_area(:name) + form.date_field(:name, id: "day") + form.select(:name, %w[Ada Grace])
+      end)
+
+      expect(doc.at("input[type=text]")["class"]).to eq("UnmagicInput")
+      expect(doc.at("input[type=email]")["class"]).to eq("UnmagicInput")
+      expect(doc.at("input#pw")["class"]).to eq("UnmagicInput")
+      expect(doc.at("textarea")["class"]).to eq("UnmagicInput")
+      expect(doc.at("input#day")["class"]).to eq("UnmagicInput")
+      expect(doc.at("select")["class"]).to eq("UnmagicSelect")
+    end
+
+    it "styles a field's control, keeping the caller's class after the gem's" do
+      input = html(build_form { |form| form.field :email, "Email", as: :email_field, class: "font-mono" })
+        .at(".UnmagicField input[type=email]")
+
+      expect(input["class"]).to eq("UnmagicInput font-mono")
+    end
+
+    it "styles the collection selects through their html options" do
+      select = html(build_form { |form| form.collection_select(:name, things, :id, :name, {}, { class: "w-40" }) })
+        .at("select")
+
+      expect(select["class"]).to eq("UnmagicSelect w-40")
+    end
+
+    it "styles the checkboxes it lays out beside their labels" do
+      doc = html(build_form do |form|
+        form.check_box_field(:terms, "Accept terms") + form.check_box_collection(:name, things, :id, :name)
+      end)
+
+      boxes = doc.css("input[type=checkbox]")
+      expect(boxes.size).to eq(3)
+      expect(boxes.map { |box| box["class"] }.uniq).to eq([ "UnmagicCheck" ])
+    end
+
+    it "leaves Rails' own check_box alone" do
+      expect(html(build_form { |form| form.check_box(:terms) }).at("input[type=checkbox]")["class"]).to be_nil
+    end
+
+    it "takes the class from the configured seam, which can return none" do
+      Unmagic::Components.configure { |config| config.control_class = ->(_view, kind) { "form-#{kind}" } }
+      expect(html(build_form { |form| form.text_area(:name) }).at("textarea")["class"]).to eq("form-text_area")
+
+      Unmagic::Components.configure { |config| config.control_class = ->(_view, _kind) { nil } }
+      expect(html(build_form { |form| form.text_field(:name) }).at("input[type=text]")["class"]).to be_nil
+    end
+  end
+
   describe "#form_value_for" do
     it "reads a model attribute" do
       expect(build_form_builder(Signup.new(email: "ada@example.com")).form_value_for(:email))
@@ -164,5 +216,33 @@ RSpec.describe Unmagic::Components::FormBuilder do
       expect(build_form_builder({ "email" => "grace@example.com" }).form_value_for(:email))
         .to eq("grace@example.com")
     end
+  end
+end
+
+RSpec.describe "#control_classes" do
+  let(:view) { build_view }
+
+  it "gives a control outside the builder the same classes" do
+    expect(view.control_classes(:select)).to eq("UnmagicSelect")
+    expect(view.control_classes(:radio)).to eq("UnmagicRadio")
+    expect(view.control_classes(:input, size: :small)).to eq("UnmagicInput UnmagicInput--small")
+  end
+
+  it "follows the seam, adding the size modifier only to the gem's own class" do
+    Unmagic::Components.configure { |config| config.control_class = ->(_view, _kind) { "form-control" } }
+
+    expect(view.control_classes(:input, size: :large)).to eq("form-control")
+  end
+
+  it "is nil when the seam opts out" do
+    Unmagic::Components.configure { |config| config.control_class = ->(_view, _kind) { nil } }
+
+    expect(view.control_classes(:select)).to be_nil
+  end
+
+  it "rejects an unknown kind or size, and a size on a check or radio" do
+    expect { view.control_classes(:toggle) }.to raise_error(ArgumentError, /unknown control kind :toggle/)
+    expect { view.control_classes(:input, size: :huge) }.to raise_error(ArgumentError, /unknown control size :huge/)
+    expect { view.control_classes(:check, size: :small) }.to raise_error(ArgumentError, /a check control has no size/)
   end
 end

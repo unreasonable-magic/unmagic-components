@@ -15,6 +15,8 @@
       :root { --page: #fbfaf7; --ink: #16132e; --muted: #6b6875; }
       [data-theme="dark"] {
         --page: #0d0c12; --ink: #f0eff5; --muted: #817e8d;
+        /* Native parts (a date input's calendar icon, scrollbars) follow this. */
+        color-scheme: dark;
 
         /* Exactly what a host does to theme the components: point the knobs at
            its own tokens. Light mode uses the gem's built-in fallbacks. */
@@ -73,6 +75,7 @@
         <%= link_to "Primitives", "/primitives#{suffix}" %>
         <%= link_to "Elements", "/elements#{suffix}" %>
         <%= link_to "Skeletons", "/skeletons#{suffix}" %>
+        <%= link_to "Forms", "/forms#{suffix}" %>
         <%= link_to dark ? "Light" : "Dark", "#{request.path}?theme=#{dark ? "light" : "dark"}" %>
       </nav>
     </header>

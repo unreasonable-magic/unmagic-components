@@ -66,6 +66,11 @@ class PreviewController < ActionController::Base
   def skeletons
   end
 
+  # A profile that has already failed validation, to show a field's invalid state.
+  def forms
+    @invalid_profile = ComponentsPreview::Profile.new(name: "", role: "Engineer").tap(&:validate)
+  end
+
   def toasts
   end
 
