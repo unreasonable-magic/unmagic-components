@@ -1,0 +1,8 @@
+<div class="mx-auto flex max-w-2xl flex-col gap-4">
+  <% %i[idle running stopping waiting].each do |state| %>
+    <%= form_with url: "#", id: "composer_#{state}", namespace: "composer_#{state}" do |form| %>
+      <%= ai_chat_composer form: form, field: :content, state: state, placeholder: "#{state.to_s.capitalize}…", rows: 1,
+            stop_form: "composer_states_stop" %>
+    <% end %>
+  <% end %>
+</div>

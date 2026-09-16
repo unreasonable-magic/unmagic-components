@@ -18,23 +18,17 @@ group :development, :test do
   # table specs need turbo_frame_tag to be real.
   gem "turbo-rails"
 
-  # The preview server (config.ru, bin/dev). Propshaft serves the compiled
-  # Tailwind build the way a host app does.
+  # Runs the component browser on its own (config.ru, bin/dev).
   gem "puma"
   gem "rackup"
-  gem "propshaft"
 
-  # The Tailwind CLI, which a host gets through tailwindcss-rails. bin/dev compiles
-  # the preview's stylesheet with it, and a spec compiles engine.css so a broken
-  # @apply fails here rather than in someone's app.
+  # The Tailwind CLI, which a host gets through tailwindcss-rails. rake
+  # browser:css compiles the browser's prebuilt stylesheet with it, and a spec
+  # compiles engine.css so a broken @apply fails here rather than in someone's app.
   gem "tailwindcss-ruby"
-
-  # The preview loads the gem's JavaScript through importmap-rails, exactly as a
-  # host does — the engine's pins resolve the component elements by name.
-  gem "importmap-rails"
 
   # json 3 takes JSON.parse options as keywords only, and ActiveSupport 8.1.3.1
   # still passes a positional hash, so every request carrying a session cookie
-  # raises ArgumentError in the preview.
+  # raises ArgumentError in the browser.
   gem "json", "< 3"
 end

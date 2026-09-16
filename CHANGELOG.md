@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `Unmagic::Components::Browser::Engine`, a component browser a host mounts
+  (`mount Unmagic::Components::Browser::Engine => "/unmagic/components"`). It is
+  the preview app, moved into the gem: every component, its examples and their
+  source. It ships a prebuilt stylesheet and serves the components' JavaScript
+  and Turbo itself, so a host changes nothing else. It needs turbo-rails.
+  `bin/dev` now runs it from a one-file host.
 - `trailing` on the page header builder puts markup beside the title as it is —
   a status partial, a row of badges a helper already returned. `badge` wraps what
   it is given, so an already-rendered one routed through it came out as a badge
@@ -74,6 +80,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- The browser's dialog page opens its modal examples in the modal again. The
+  "modal" example's section had the id `modal`, which shadowed the shared
+  modal's frame, so Turbo loaded the link as a full page. Example sections are
+  now named `<component>_<example>`. The composer examples' fields no longer
+  share the id `content` either.
 - `duration="0"` on `<unmagic-toasts>` now keeps a toast up until it is
   dismissed, so "don't take this one away" is sayable — and a test asserting on a
   toast can stop racing the timer. It used to fall back to the default, because

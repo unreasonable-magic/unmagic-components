@@ -1,0 +1,47 @@
+<% content_for :title, "Installation" %>
+<% content_for :breadcrumbs do %>
+  <%= render "crumb", label: "Getting started", path: root_path %>
+  <%= render "crumb", label: "Installation" %>
+<% end %>
+
+<% prose = "mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400" %>
+<% step = "mt-12 text-lg font-semibold" %>
+
+<article class="max-w-3xl">
+  <h1 class="text-3xl font-semibold tracking-tight">Installation</h1>
+  <p class="<%= prose %>">
+    Add the gem, import its styles into your Tailwind build, and import its JavaScript. The helpers are
+    mixed into your views automatically.
+  </p>
+
+  <h2 class="<%= step %>">1. Add the gem</h2>
+  <div class="mt-4"><%= render "code", id: "install_gem", source: "bundle add unmagic-components" %></div>
+
+  <h2 class="<%= step %>">2. Import the styles</h2>
+  <p class="<%= prose %>">
+    The components are styled with Tailwind CSS v4, which your app needs. With tailwindcss-rails, import the
+    gem's styles after Tailwind in <code>app/assets/tailwind/application.css</code>:
+  </p>
+  <div class="mt-4">
+    <%= render "code", id: "install_tailwind", source: %(@import "tailwindcss";\n@import "../builds/tailwind/unmagic_components";) %>
+  </div>
+  <p class="<%= prose %>">
+    tailwindcss-rails writes that entry file on every build. With the Tailwind CLI or an npm build, import
+    <code>app/assets/tailwind/unmagic_components/engine.css</code> from the gem's install path
+    (<code>bundle show unmagic-components</code>) instead.
+  </p>
+
+  <h2 class="<%= step %>">3. Import the JavaScript</h2>
+  <p class="<%= prose %>">
+    With importmap-rails the engine pins every component. Import them all, or only the ones a page uses:
+  </p>
+  <div class="mt-4">
+    <%= render "code", id: "install_js", source: %(import "unmagic/components"\n\n// or one at a time\nimport "unmagic/components/menu") %>
+  </div>
+
+  <h2 class="<%= step %>">4. Use the form builder</h2>
+  <p class="<%= prose %>">Pass it per form, or make it the default for every form:</p>
+  <div class="mt-4">
+    <%= render "code", id: "install_builder", source: "config.action_view.default_form_builder = Unmagic::Components::FormBuilder" %>
+  </div>
+</article>

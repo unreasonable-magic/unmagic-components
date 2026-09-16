@@ -88,6 +88,31 @@ needed to get started. The interactive components need their JavaScript too; wit
 importmap-rails the engine pins it for you, so add `import "unmagic/components"`
 to your application.js (see [Dialogs](#dialogs)).
 
+### Browsing components
+
+`Unmagic::Components::Browser` is an engine for looking through every component,
+its examples and their source inside your own app. Mount it in your routes:
+
+```ruby
+mount Unmagic::Components::Browser::Engine => "/unmagic/components" if Rails.env.development?
+```
+
+It brings its own stylesheet, prebuilt with Tailwind's default theme, and loads
+the components' JavaScript and Turbo itself, so nothing in your CSS or JS
+changes. It needs `turbo-rails` in your bundle. It renders through your
+configuration, so a `control_class` pointed at your own classes leaves its form
+examples unstyled.
+
+Its controllers inherit `ActionController::Base`, so your authentication doesn't
+cover it. Its demo endpoints only write to the visitor's session, but mount it
+outside development only behind a constraint of your own:
+
+```ruby
+authenticate :user, ->(user) { user.admin? } do
+  mount Unmagic::Components::Browser::Engine => "/unmagic/components"
+end
+```
+
 ## Theming
 
 The components use Tailwind's own palette (neutral for surfaces, borders and

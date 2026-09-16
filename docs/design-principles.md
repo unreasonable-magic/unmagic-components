@@ -456,27 +456,35 @@ So that this styling can't clash with a host's own inputs:
 - **Configuration is reset after every example.** A spec that changes a seam
   needs no cleanup.
 - **There are no JavaScript tests.** Behaviour is verified by hand in the
-  preview, so the design note lists what to check there.
+  browser, so the design note lists what to check there.
 
-## Preview
+## Browser
 
-The preview is a Rails app in one file (`config.ru`), run with `bin/dev` on
-http://localhost:5701.
+The component browser is an engine a host mounts
+(`Unmagic::Components::Browser::Engine`), and this repo runs it on its own:
+`config.ru` is a host that mounts it at `/`, and `bin/dev` serves that on
+http://localhost:5701. Everything lives under `lib/unmagic/components/browser/`.
 
-- **Each helper gets a `<section><h2>helper_name</h2>…</section>`** on the page
-  that fits:
-  - `primitives`: static building blocks
-  - `elements`: custom elements
-  - `dialogs`: anything that opens over the page
-  - `skeletons`: loading states
+- **Each component gets a page.** Describe it in `catalog/<slug>.rb`: its name,
+  helper, import line, description and examples. Each example is a partial in
+  `app/views/unmagic/components/browser/examples/<slug>/_<key>.html.erb`,
+  rendered live beside its own source, and `_thumbnail` is its card on the
+  overview. In development the catalog reloads on every request.
 - **Show every variant and tone side by side.** Use realistic copy, not lorem
-  ipsum (`primitives.html.erb`).
-- **A new page** needs three things:
-  - a route in `config.ru`
-  - an action in `preview/preview_controller.rb`
-  - a nav link in `preview/views/layouts/preview.html.erb`
+  ipsum.
+- **Use route helpers, not paths.** A host mounts the browser under a prefix,
+  so an example that links or posts uses the engine's helpers
+  (`profile_dialog_path`, `component_path("toast")`). An example that needs a
+  server gets a route in `config/routes.rb` and an action in
+  `demos_controller.rb`, and keeps its state in the session.
+- **Keep ids unique on the page.** An example's section is named
+  `<slug>_<key>`; ids inside an example need their own prefix. The spec fails
+  on a repeated id.
+- **The stylesheet is prebuilt.** `rake browser:css` compiles
+  `tailwind/browser.css` into `assets/browser.css`, which is committed; `bin/dev`
+  rebuilds it on change, and a spec fails when it is stale.
 - **Check light and dark** (`?theme=dark`), keyboard-only use, and reduced
-  motion. The preview compiles the gem's Tailwind file with its own `dark`
+  motion. The browser compiles the gem's Tailwind file with its own `dark`
   variant, set on `[data-theme="dark"]`, exactly as a host would.
 
 ## Documentation
@@ -496,8 +504,8 @@ http://localhost:5701.
 4. Custom element with a header comment, Turbo-safe, registered in
    `components.js`, if the component needs script.
 5. Spec covering structure, ARIA, passthrough options and `ArgumentError`.
-6. Preview section, checked in light and dark, by keyboard, and with reduced
-   motion.
+6. A browser page with examples, checked in light and dark, by keyboard, and
+   with reduced motion.
 7. README and CHANGELOG.
 8. `bundle exec rspec` and `bundle exec rubocop` pass.
 

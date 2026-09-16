@@ -1,0 +1,14 @@
+<div class="mx-auto max-w-2xl">
+  <%= form_with url: "#", id: "composer_parts", namespace: "composer_parts" do |form| %>
+    <%= ai_chat_composer form: form, field: :content, placeholder: "Message the assistant…", label: "Start chat" do |composer| %>
+      <% composer.attach do %>
+        <button type="button" class="<%= button_classes(:icon) %>" aria-label="Attach a file" title="Attach a file">
+          <%= Unmagic::Components::Icons.svg(self, :paperclip) %>
+        </button>
+      <% end %>
+      <% composer.actions do %>
+        <%= select_tag :model, options_for_select([ "Fast", "Thorough" ]), class: control_classes(:select, size: :small) %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

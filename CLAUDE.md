@@ -8,7 +8,7 @@ there is no Stimulus.
 ## Building or changing a component
 
 1. Read [`docs/design-principles.md`](docs/design-principles.md). It covers how
-   the Ruby, CSS, JavaScript, accessibility, specs, preview and docs are done
+   the Ruby, CSS, JavaScript, accessibility, specs, browser pages and docs are done
    here.
 2. Write the component's design note first. Copy
    [`docs/components/_template.md`](docs/components/_template.md) to
@@ -30,12 +30,15 @@ each component from scratch to these principles.
 - `app/assets/javascripts/unmagic/components/`: one custom element per file,
   imported by `components.js`
 - `spec/unmagic/components/`: RSpec and Nokogiri specs (`build_view`, `html`)
-- `preview/` and `config.ru`: the preview app
+- `lib/unmagic/components/browser/`: the component browser engine a host mounts
+  (catalog, example partials, prebuilt `assets/browser.css`)
+- `config.ru`: a host app that mounts the browser, for `bin/dev`
 
 ## Commands
 
 ```sh
 bundle exec rspec      # specs
 bundle exec rubocop    # lint
-bin/dev                # builds the Tailwind CSS, then the preview at http://localhost:5701 (?theme=dark for dark)
+bin/dev                # builds the browser's CSS, then serves the browser at http://localhost:5701 (?theme=dark for dark)
+bundle exec rake browser:css  # rebuilds lib/unmagic/components/browser/assets/browser.css (commit it)
 ```

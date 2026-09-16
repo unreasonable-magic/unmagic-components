@@ -1,0 +1,33 @@
+/* The browser's stylesheet, prebuilt by `rake browser:css` into
+   ../assets/browser.css and shipped with the gem, so a host mounting the browser
+   compiles nothing. It is what a host's app/assets/tailwind/application.css
+   holds, except that the gem's CSS is imported by path.
+
+   The dark variant follows the browser's data-theme toggle rather than the
+   system setting, the way a host with its own theme switch would set it up.
+
+   The browser's own pages and examples are styled with utilities, so its app/
+   and catalog/ are scanned. The components' CSS arrives through the import. */
+@import "tailwindcss" source(none);
+@source "../app";
+@source "../catalog";
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@import "../../../../../app/assets/tailwind/unmagic_components/engine.css";
+
+/* An example's Preview/Code switch is the gem's tabs, lifted beside the
+   example's heading rather than above its panels. */
+.PreviewExample {
+  position: relative;
+}
+
+.PreviewExample__tabs > .UnmagicTabs__list {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.PreviewExample__tabs > .UnmagicTabs__panel {
+  padding-top: 0;
+}

@@ -1,0 +1,52 @@
+<% content_for :title, "Theming" %>
+<% content_for :breadcrumbs do %>
+  <%= render "crumb", label: "Getting started", path: root_path %>
+  <%= render "crumb", label: "Theming" %>
+<% end %>
+
+<% prose = "mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400" %>
+<% step = "mt-12 text-lg font-semibold" %>
+
+<article class="max-w-3xl">
+  <h1 class="text-3xl font-semibold tracking-tight">Theming</h1>
+  <p class="<%= prose %>">
+    The components use Tailwind's own palette, with a <code>dark:</code> variant for every colour, so they
+    follow your theme from the defaults onward.
+  </p>
+
+  <h2 class="<%= step %>">Dark mode</h2>
+  <p class="<%= prose %>">
+    Dark mode follows your app's <code>dark</code> variant, which is the visitor's system setting by default.
+    To switch on a class or an attribute instead, redefine the variant. This browser uses
+    <code>data-theme</code>:
+  </p>
+  <div class="mt-4">
+    <%= render "code", id: "theming_dark", source: "@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));" %>
+  </div>
+
+  <h2 class="<%= step %>">Colours, radii and fonts</h2>
+  <p class="<%= prose %>">They come from your theme, so change them there and every component follows:</p>
+  <div class="mt-4">
+    <%= render "code", id: "theming_theme", source: "@theme {\n  --color-neutral-900: oklch(0.21 0.03 265);\n  --radius-md: 0.25rem;\n}" %>
+  </div>
+
+  <h2 class="<%= step %>">One component</h2>
+  <p class="<%= prose %>">
+    Pass utilities through <code>class:</code>. The gem's rules sit in <code>@layer components</code>, which
+    Tailwind orders before utilities, so yours win:
+  </p>
+  <%# Captured as template text: ERB inside a Ruby string would close this tag early. %>
+  <% utilities_source = capture do %><%%= card title: "Members", class: "rounded-none shadow-none" do %>…<%% end %><% end %>
+  <div class="mt-4">
+    <%= render "code", id: "theming_utilities", source: utilities_source.to_str %>
+  </div>
+
+  <h2 class="<%= step %>">Form controls</h2>
+  <p class="<%= prose %>">
+    Controls wear a class for their kind, which comes from a setting. Point it at your own classes, or
+    return <code>nil</code> to leave controls unstyled:
+  </p>
+  <div class="mt-4">
+    <%= render "code", id: "theming_controls", source: %(config.control_class = ->(_view, kind) { kind == :select ? "form-select" : "form-input" }) %>
+  </div>
+</article>

@@ -67,7 +67,10 @@ require_relative "components/ai_chat/branch_picker"
 require_relative "components/action_view_helpers"
 # ActionView pulls in a partial Rails namespace, so this checks for the constant it
 # actually needs rather than for Rails.
-require_relative "components/engine" if defined?(Rails::Engine)
+if defined?(Rails::Engine)
+  require_relative "components/engine"
+  require_relative "components/browser"
+end
 
 module Unmagic
   module Components

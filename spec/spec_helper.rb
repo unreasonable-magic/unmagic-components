@@ -20,6 +20,7 @@ module Unmagic
       config.root = File.expand_path("..", __dir__)
       config.secret_key_base = "unmagic-components-spec"
       config.logger = Logger.new(IO::NULL)
+      config.hosts.clear
     end
   end
 end
@@ -28,6 +29,10 @@ Rails.application.initialize!
 
 Rails.application.routes.draw do
   root to: "things#index"
+
+  # Under a prefix, as a host would mount it, so the browser specs catch a path
+  # that forgets it.
+  mount Unmagic::Components::Browser::Engine => "/unmagic/components"
 end
 
 class ThingsController < ActionController::Base

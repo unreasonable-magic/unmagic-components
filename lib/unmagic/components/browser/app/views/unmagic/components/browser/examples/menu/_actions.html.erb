@@ -1,0 +1,10 @@
+<div class="pb-28">
+  <%= menu do |menu| %>
+    <% menu.button "Send a toast", stream_toast_path, params: { tone: "good", message: "Sent from a menu." } %>
+    <% menu.divider %>
+    <% menu.button "Delete", stream_toast_path, tone: :danger,
+         params: { tone: "bad", message: "Deleted (not really)." },
+         form: { data: { turbo_confirm: "Delete this thing?", turbo_confirm_accept: "Delete",
+                         turbo_confirm_variant: "danger" } } %>
+  <% end %>
+</div>
