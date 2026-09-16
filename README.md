@@ -886,8 +886,9 @@ end
   what a screen reader calls it.
 - **Handles:** with a `sortable_handle` in an item, only the handle drags, so the
   rest stays clickable, and the handle is the keyboard stop. Without one, the
-  whole item drags once the pointer moves, and the item takes focus. Handles are
-  also how touch screens drag.
+  whole item drags once the pointer moves, and the item takes focus.
+- **Touch:** a finger lifts an item with a long press, so a swipe still scrolls
+  and a tap still taps. A `sortable_handle` grip drags at once.
 - **Between lists:** lists sharing a `namespace:` exchange items. A drop posts
   the destination list's `params:`.
 - **Keyboard:** Space or Enter picks an item up. The arrows along the list move
@@ -923,7 +924,7 @@ Needs `import "unmagic/components/sortable"`. I18n under
 
 - **Moving:** cards move within and between the board's columns, posting the
   column's `params:`. Columns move along the board by their header, and the grip
-  in it is their keyboard stop. `sortable_columns: false` fixes them in place.
+  in it is their keyboard stop. On a phone, press and hold a card or a header. `sortable_columns: false` fixes them in place.
 - **Forms:** `col.add` and `board.add_column` open into a one-field form. Enter
   submits it, Escape closes it, and it stays open after adding, so several can be
   added in a row.

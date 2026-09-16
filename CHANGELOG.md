@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Keyboard reordering with announcements.
   - Scrolling at the edges, Escape to cancel, and nested lists.
   - A cancelable `unmagic-sortable:move` event.
+  - Touch: a long press lifts an item, so swipes still scroll and taps still
+    tap; a grip drags at once.
   - `sortable-*` Tailwind variants.
   - `config.sortable_item` and `config.sortable_url`, which the new
     unmagic-sortable gem fills in.

@@ -8,6 +8,13 @@
 // page, it scrolls. Escape puts the item back. On release, the list it landed in
 // posts the move.
 //
+// On a touch screen, a finger is usually scrolling, so unless it's on a handle
+// that stops scrolling (a grip) the item waits for a long press (LONG_PRESS,
+// holding within TOUCH_SLOP) before it lifts. Moving sooner is a scroll and
+// nothing is dragged; lifting sooner is a tap and reaches whatever was tapped.
+// Once lifted, the page stops scrolling under the finger for the rest of the
+// gesture.
+//
 // By keyboard, Space or Enter on an item's handle (or the item, when it has none)
 // picks it up. The arrow keys along the list move it within the list; the arrows
 // across it move it to the neighbouring list that accepts it. Space or Enter drops
@@ -23,6 +30,8 @@
 // the list under the pointer.
 
 const THRESHOLD = 4 // pixels of movement before a press becomes a drag
+const LONG_PRESS = 250 // milliseconds a finger holds still before an item lifts
+const TOUCH_SLOP = 8 // pixels a finger may drift during that hold
 const EDGE = 56 // pixels from a scroller's edge where dragging scrolls it
 const MAX_SPEED = 20 // pixels a frame at the very edge
 
@@ -116,10 +125,13 @@ class PointerDrag extends Drag {
   #started = false
   #clone = null
   #frame = null
+  #touch = false
+  #press = null
 
   constructor(item, event, immediate) {
     super(item)
     this.#pointerId = event.pointerId
+    this.#touch = event.pointerType === "touch" && !immediate
 
     const box = item.getBoundingClientRect()
     this.#offsetX = event.clientX - box.left
@@ -128,11 +140,20 @@ class PointerDrag extends Drag {
     this.#startX = this.#x = event.clientX
     this.#startY = this.#y = event.clientY
 
-    item.setPointerCapture?.(event.pointerId)
+    // A touch that may yet be a scroll isn't captured, so the browser can pan.
+    if (!this.#touch) item.setPointerCapture?.(event.pointerId)
     window.addEventListener("pointermove", this.#move)
     window.addEventListener("pointerup", this.#up)
     window.addEventListener("pointercancel", this.cancel)
     window.addEventListener("keydown", this.#keydown)
+
+    if (this.#touch) {
+      // Non-passive, so it can stop the page scrolling once the item has lifted. It
+      // does nothing before then, so a scroll is still a scroll.
+      window.addEventListener("touchmove", this.#holdPage, { passive: false })
+      window.addEventListener("contextmenu", this.#noMenu)
+      this.#press = setTimeout(this.#lift, LONG_PRESS)
+    }
 
     if (immediate) {
       event.preventDefault()
@@ -147,7 +168,12 @@ class PointerDrag extends Drag {
     this.#y = event.clientY
 
     if (!this.#started) {
-      if (Math.hypot(this.#x - this.#startX, this.#y - this.#startY) < THRESHOLD) return
+      const distance = Math.hypot(this.#x - this.#startX, this.#y - this.#startY)
+      if (this.#touch) {
+        if (distance > TOUCH_SLOP) this.#stop() // moved before the hold: a scroll
+        return
+      }
+      if (distance < THRESHOLD) return
       this.#start()
     }
 
@@ -174,6 +200,25 @@ class PointerDrag extends Drag {
 
     this.item.setAttribute(PLACEHOLDER, "")
     this.#frame = requestAnimationFrame(this.#scroll)
+  }
+
+  // The long press held: lift the item where the finger is, and take the pointer.
+  #lift = () => {
+    this.#press = null
+    if (active !== this || this.#started) return
+
+    this.item.setPointerCapture?.(this.#pointerId)
+    navigator.vibrate?.(10)
+    this.#start()
+    this.#follow()
+  }
+
+  #holdPage = (event) => {
+    if (this.#started && event.cancelable) event.preventDefault()
+  }
+
+  #noMenu = (event) => {
+    event.preventDefault()
   }
 
   #follow() {
@@ -244,6 +289,10 @@ class PointerDrag extends Drag {
   }
 
   #stop() {
+    clearTimeout(this.#press)
+    this.#press = null
+    window.removeEventListener("touchmove", this.#holdPage)
+    window.removeEventListener("contextmenu", this.#noMenu)
     window.removeEventListener("pointermove", this.#move)
     window.removeEventListener("pointerup", this.#up)
     window.removeEventListener("pointercancel", this.cancel)

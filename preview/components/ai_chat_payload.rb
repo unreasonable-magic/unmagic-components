@@ -11,6 +11,6 @@ ComponentsPreview::Catalog.component :ai_chat_payload,
     { key: :json, title: "Structured data", layout: :full,
       description: "A Hash, an Array, or a string holding JSON." },
     { key: :text, title: "Text, long", layout: :full,
-      description: "Anything else stays text. It scrolls past a height without dragging the page, and is reachable " \
+      description: "Anything else stays text. It scrolls past a height and is reachable " \
                    "by keyboard." }
   ]

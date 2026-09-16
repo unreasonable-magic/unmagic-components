@@ -103,6 +103,9 @@ server's markup doesn't have.
 
 - The board is a labelled region. Each column is a `<section>` named by its
   title, and the count reads "3 cards".
+- Touch is `sortable_list`'s: press and hold a card or a column's header to lift
+  it, and swipe to scroll. The header doesn't stop the page scrolling; only the
+  grip does.
 - Keyboard and announcements are `sortable_list`'s. Columns move with Left and
   Right. Cards move with Up and Down, and Left and Right move them across
   columns.
@@ -110,7 +113,11 @@ server's markup doesn't have.
 
 ## Styling
 
-CSS section: **Boards**. Columns are `w-72` in a sideways-scrolling row. A panel
+CSS section: **Boards**. Columns are `w-72` in a sideways-scrolling row. Both scrollers are `relative`,
+so anything absolutely positioned inside them (the count's visually hidden word)
+is clipped by them rather than widening the page. Neither contains overscroll:
+Chrome applies that to a column that isn't overflowing, and a finger swiping over
+it then couldn't scroll the page. A panel
 is a neutral surface that grows to the knob, and its cards then scroll inside
 it. The card list tints under the pointer during a drag. Cards are white with a
 border, grab cursor and small shadow, tilted two degrees while dragged. The "Add
@@ -149,7 +156,8 @@ Checked in Chrome, light and dark:
 
 ## Open questions
 
-- **Moving a card without dragging on touch.** Should a card get a "Move to…"
-  menu built in? For now it's the host's, through `col.card`'s content.
+- **Moving a card without dragging.** A long press drags on touch, but should a
+  card also get a "Move to…" menu built in, for anyone who can't drag at all?
+  For now it's the host's, through `col.card`'s content.
 - **Collapsing a column, and work-in-progress limits.** Trello has the first;
   neither is built.

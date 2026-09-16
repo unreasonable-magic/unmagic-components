@@ -127,9 +127,16 @@ endpoint sends one) morphs the page to the order that was saved.
 - **WCAG 2.5.7 (Dragging Movements):** the keyboard route is a
   single-pointer-free alternative. An app should still offer a non-drag way to
   move an item between lists on touch, such as a menu.
-- **Touch:** handles set `touch-action: none`, so a finger drags them. An item
-  without a handle scrolls the page instead of dragging on touch, so use handles
-  where touch matters.
+- **Touch:** a finger lifts an item with a long press (250ms, holding within
+  8px). A swipe that moves sooner scrolls the page and drags nothing, and a tap
+  still reaches whatever was tapped. Once lifted, the page stops scrolling under
+  the finger for the rest of the gesture, and Android vibrates briefly.
+  - The `sortable_handle` grip is `touch-action: none`, so a finger drags it at
+    once. Any other handle, such as a board column's header, leaves scrolling
+    alone and waits for the long press too. The element reads which from the
+    handle's computed `touch-action`.
+  - On a coarse pointer, items don't select text or open the system's link
+    menu, since a long press would otherwise do both.
 
 ## Styling
 
@@ -180,6 +187,11 @@ Pointer drags:
   doesn't open it.
 - `pointercancel`, Escape, or Turbo caching the page put the item back.
 
+Touch drags are described under Accessibility. A pending press doesn't capture
+the pointer, so the browser can still pan; if it does, `pointercancel` drops the
+press. A non-passive `touchmove` listener stops the page scrolling only once the
+item has lifted.
+
 ## Specs
 
 `sortable_board_spec.rb`:
@@ -196,6 +208,14 @@ The behaviour was checked in Chrome from the preview:
 - Escape during a pointer drag
 - keyboard pick up, move, move across, drop and cancel, with their announcements
 - a handle's sibling button staying clickable, and the move event
+- on an emulated phone:
+  - a swipe over a card or a column header scrolls the page and drags nothing
+  - a tap drags nothing
+  - a long press lifts a card without scrolling the page, and moves it within a
+    column and into the column under the finger, with the board scrolling at its
+    edge
+  - a long press on a header moves a column
+  - a grip drags without the hold
 
 ## Preview
 

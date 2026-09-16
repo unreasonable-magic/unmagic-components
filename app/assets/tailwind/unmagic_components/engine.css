@@ -1692,10 +1692,11 @@
   }
 
   /* The box itself scrolls, so a keyboard user focusing it can scroll it; long
-     lines wrap, since one line of a payload can be a whole page. overscroll-contain
-     keeps its scroll from dragging the page along. */
+     lines wrap, since one line of a payload can be a whole page. It deliberately
+     doesn't contain overscroll: Chrome would apply that to a short payload too,
+     and a finger swiping over one couldn't scroll the page. */
   .UnmagicAIChatPayload__code {
-    @apply max-h-64 overflow-auto overscroll-contain rounded-md border border-neutral-200 bg-white text-neutral-800;
+    @apply max-h-64 overflow-auto rounded-md border border-neutral-200 bg-white text-neutral-800;
     @apply dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-200;
   }
 
@@ -2490,10 +2491,15 @@
     @apply hidden;
   }
 
-  /* A handle is where a pointer picks an item up. touch-action: none is what lets a
-     finger drag it rather than scroll the page. */
+  /* A handle is where a pointer picks an item up. The grip button is also
+     touch-action: none, so a finger drags it at once rather than scrolling. A
+     larger handle (a board column's header) leaves scrolling alone, and a finger
+     lifts it with a long press instead; the element reads which from touch-action. */
   [data-sortable-handle] {
     @apply cursor-grab;
+  }
+
+  .UnmagicSortableHandle {
     touch-action: none;
   }
 
@@ -2523,6 +2529,15 @@
     @apply rounded-lg outline-2 outline-offset-2 outline-neutral-900 dark:outline-neutral-100;
   }
 
+  /* A long press lifts an item on a touch screen, so it mustn't also select text
+     or open the system's link menu. */
+  @media (pointer: coarse) {
+    .UnmagicSortableItem {
+      @apply select-none;
+      -webkit-touch-callout: none;
+    }
+  }
+
   .UnmagicSortableItem:focus-visible {
     @apply rounded-lg outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
   }
@@ -2543,8 +2558,11 @@
     @apply relative;
   }
 
+  /* relative, like the card list below: anything absolute inside a scroller (a
+     visually hidden label) must be placed within it. Placed by an ancestor
+     outside, it escapes the scroller's clipping and widens the whole page. */
   .UnmagicBoard__columns {
-    @apply flex items-start gap-3 overflow-x-auto pb-2;
+    @apply relative flex items-start gap-3 overflow-x-auto pb-2;
     overscroll-behavior-x: contain;
   }
 
@@ -2579,10 +2597,11 @@
   }
 
   /* The cards take the column's height and scroll within it. min-height keeps an
-     empty column a target to drop into. */
+     empty column a target to drop into. No overscroll containment: Chrome applies
+     it to a list that isn't even overflowing, and a finger swiping over a short
+     column then can't scroll the page. */
   .UnmagicBoard__cards {
-    @apply flex min-h-12 flex-1 flex-col gap-2 overflow-y-auto rounded-lg px-2 py-1;
-    overscroll-behavior-y: contain;
+    @apply relative flex min-h-12 flex-1 flex-col gap-2 overflow-y-auto rounded-lg px-2 py-1;
   }
 
   .UnmagicBoard__cards[data-sortable-over] {

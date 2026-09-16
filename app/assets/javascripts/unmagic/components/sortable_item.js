@@ -9,8 +9,11 @@
 // nested in it), only a press on a handle drags it, straight away, and the
 // handle's own buttons and links stay clickable. Without one, the whole item
 // drags once the pointer has moved a few pixels, so a click on a link in it still
-// follows the link; a press in a text field never starts a drag. Handles are how
-// touch screens drag, since an item without one scrolls the page instead.
+// follows the link; a press in a text field never starts a drag. On a touch
+// screen an item without a handle lifts after a long press, so a swipe still
+// scrolls and a tap still taps. A handle with touch-action: none (the
+// sortable_handle grip) drags at once; any other handle waits for the long press
+// too, so it doesn't stop the page scrolling.
 //
 // The keyboard stop is its first focusable handle, or the item itself (given a
 // tabindex) when it has none. Space or Enter there picks it up; see
@@ -84,7 +87,10 @@ class UnmagicSortableItem extends HTMLElement {
     const control = event.target.closest(own ? INTERACTIVE : TYPING)
     if (control && control !== own && this.contains(control)) return
 
-    beginPointerDrag(this, event, { immediate: Boolean(own) })
+    // A handle drags at once, except by a finger on one that still lets the page
+    // scroll (touch-action other than none), which waits for a long press.
+    const scrolls = event.pointerType === "touch" && own && getComputedStyle(own).touchAction !== "none"
+    beginPointerDrag(this, event, { immediate: Boolean(own) && !scrolls })
   }
 
   #keydown = (event) => {

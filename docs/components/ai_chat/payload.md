@@ -10,6 +10,8 @@ Where the build differs from this note:
 
 - `copy: true` is built, as the open question proposed.
 - The bordered box is the scroller, so a keyboard user focusing it can scroll it.
+- No `overscroll-contain`: Chrome applies it to a short payload that isn't
+  overflowing, and a finger swiping over one then couldn't scroll the page.
 
 ## Purpose
 
@@ -74,7 +76,7 @@ CSS section: **AI chat payloads**.
 
 The block scrolls rather than growing without limit, and long lines wrap rather
 than running off sideways: `max-h-64 overflow-auto whitespace-pre-wrap
-break-words`, plus `overscroll-contain` so that scroll doesn't chain to the page.
+break-words`. It doesn't contain overscroll (see As built).
 One line of either can be a whole page — a URL, a digest, a base64 blob.
 
 Label: `text-[10px] font-medium uppercase tracking-wide text-neutral-500`.
@@ -128,7 +130,7 @@ payload's timing and a tool call's clock read identically.
 ## Preview
 
 Page: `ai_chat`. A JSON payload, a plain-text one, a very long single line, a
-200-line one (to see the scroll and the overscroll containment), and one with a
+200-line one (to see the scroll), and one with a
 label and duration.
 
 By hand: keyboard-scroll the block; confirm the page does not scroll when the
