@@ -7,8 +7,17 @@ module Unmagic
     class Engine < ::Rails::Engine
       isolate_namespace Unmagic::Components
 
+      # Both hooks, because a helper test never touches ActionView::Base. The :action_view hook
+      # mixes into Base, which is what a template renders through — but ActionView::TestCase builds
+      # its own view class and calls the helper under test on the test case itself. So a host helper
+      # that composes one of these (badge, button_classes) works in the app and raises NoMethodError
+      # in its own spec, which is a confusing place to send someone.
       initializer "unmagic_components.helpers" do
         ActiveSupport.on_load(:action_view) do
+          include Unmagic::Components::ActionViewHelpers
+        end
+
+        ActiveSupport.on_load(:action_view_test_case) do
           include Unmagic::Components::ActionViewHelpers
         end
       end

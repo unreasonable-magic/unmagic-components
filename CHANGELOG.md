@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- The helpers reach `ActionView::TestCase` too, so a host helper that composes
+  one of them (`badge`, `button_classes`) can be exercised by the host's own
+  helper spec. The engine only ran the `:action_view` load hook, which mixes
+  into `ActionView::Base` — what a template renders through, and not what a
+  helper test calls its subject on. The symptom was a helper that worked in the
+  app and raised `NoMethodError` in its spec, which is a confusing place to send
+  someone.
+
 ## [0.3.0] - 2026-09-16
 
 ### Added
