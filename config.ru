@@ -24,6 +24,8 @@ require_relative "preview/thing"
 require_relative "preview/pager"
 require_relative "preview/profile"
 require_relative "preview/catalog"
+require_relative "preview/reply"
+require_relative "preview/board_store"
 
 module ComponentsPreview
   class Application < Rails::Application
@@ -57,6 +59,16 @@ module ComponentsPreview
       get "/dialogs/forbidden", to: "preview#forbidden_dialog"
       post "/toasts/flash", to: "preview#flash_toast"
       post "/toasts/stream", to: "preview#stream_toast"
+
+      # What the AI chat composer example talks to.
+      post "/ai_chat/messages", to: "preview#ai_chat_message"
+      post "/ai_chat/stop", to: "preview#ai_chat_stop"
+
+      # What the board example talks to.
+      patch "/board/order", to: "preview#board_order"
+      post "/board/cards", to: "preview#board_card"
+      post "/board/columns", to: "preview#board_column"
+      delete "/board", to: "preview#board_reset"
 
       # The old one-page-per-group URLs.
       {

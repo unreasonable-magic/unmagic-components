@@ -1,0 +1,5 @@
+<%= avatar_group max: 3 do |group| %>
+  <% [ "Ada Lovelace", "Grace Hopper", "Katherine Johnson", "Alan Turing", "Margaret Hamilton", "Barbara Liskov" ].each do |name| %>
+    <% group.avatar name %>
+  <% end %>
+<% end %>

@@ -1,0 +1,20 @@
+<%# Written out in full, since Tailwind can only generate classes it can read. %>
+<% tiles = [
+     "bg-sky-100 text-sky-800 dark:bg-sky-400/15 dark:text-sky-300",
+     "bg-emerald-100 text-emerald-800 dark:bg-emerald-400/15 dark:text-emerald-300",
+     "bg-amber-100 text-amber-800 dark:bg-amber-400/15 dark:text-amber-300",
+     "bg-rose-100 text-rose-800 dark:bg-rose-400/15 dark:text-rose-300",
+     "bg-violet-100 text-violet-800 dark:bg-violet-400/15 dark:text-violet-300",
+     "bg-teal-100 text-teal-800 dark:bg-teal-400/15 dark:text-teal-300",
+     "bg-orange-100 text-orange-800 dark:bg-orange-400/15 dark:text-orange-300",
+     "bg-lime-100 text-lime-800 dark:bg-lime-400/15 dark:text-lime-300"
+   ] %>
+<%= sortable_list orientation: :grid, label: "Screenshots", class: "grid grid-cols-2 gap-3 sm:grid-cols-4" do |list| %>
+  <% tiles.each_with_index do |colours, index| %>
+    <%= list.item(key: "shot-#{index}", rank: index + 1, label: "Screenshot #{index + 1}") do %>
+      <div class="grid aspect-video cursor-grab place-items-center rounded-lg text-sm font-medium <%= colours %>">
+        Screenshot <%= index + 1 %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

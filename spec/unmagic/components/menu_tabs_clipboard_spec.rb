@@ -144,7 +144,7 @@ RSpec.describe "menus, tabs and copy buttons" do
       expect(button["type"]).to eq("button")
       expect(button["aria-label"]).to eq("Copy")
       expect(button["class"]).to eq("UnmagicButton UnmagicButton--icon UnmagicClipboard__button")
-      expect(button.css("svg").map { |svg| svg["class"] }).to eq([ "UnmagicIcon UnmagicClipboard__idle", "UnmagicIcon UnmagicClipboard__done" ])
+      expect(button.css("svg").map { |svg| svg["class"] }).to eq([ "unmagic-icon UnmagicIcon UnmagicClipboard__idle", "unmagic-icon UnmagicIcon UnmagicClipboard__done" ])
       expect(element.at("> [aria-live=polite]")).not_to be_nil
     end
 

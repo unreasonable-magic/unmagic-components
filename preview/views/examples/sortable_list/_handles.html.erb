@@ -1,0 +1,22 @@
+<div class="w-96 max-w-full">
+  <%= sortable_list id: "steps", label: "Interview steps", class: "flex flex-col gap-2" do |list| %>
+    <% [ "Phone screen", "Take-home exercise", "Pairing session", "Meet the team" ].each_with_index do |step, index| %>
+      <%= list.item(key: "step-#{index}", rank: index + 1, label: step) do %>
+        <div class="flex items-center gap-2 rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-sm dark:border-neutral-800 dark:bg-neutral-900">
+          <%= sortable_handle label: "Move #{step}" %>
+          <span class="flex-1"><%= step %></span>
+          <button type="button" class="<%= button_classes(:icon) %>" aria-label="Edit <%= step %>" title="Edit">
+            <%= Unmagic::Components::Icons.svg(self, :pencil) %>
+          </button>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+  <output id="steps_log" class="mt-3 block min-h-5 font-mono text-xs text-neutral-500">Drop something to see the move.</output>
+  <script type="module">
+    document.getElementById("steps").addEventListener("unmagic-sortable:move", (event) => {
+      const { key, prev, next } = event.detail
+      document.getElementById("steps_log").textContent = `moved ${key} · prev ${prev || "—"} · next ${next || "—"}`
+    })
+  </script>
+</div>

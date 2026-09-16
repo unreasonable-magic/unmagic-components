@@ -1,0 +1,22 @@
+<div class="mx-auto flex max-w-2xl flex-col gap-4">
+  <%= ai_chat_tool_call name: "render_scene", state: :queued, timeline: false %>
+  <%= ai_chat_tool_call name: "render_scene", state: :running, id: "states_render", timeline: false do |tool| %>
+    <% tool.summary "night market" %>
+    <% tool.timing started_at: @now - 72 %>
+    <% tool.progress "Frame 12 of 40" %>
+  <% end %>
+  <%= ai_chat_tool_call name: "ask_person", state: :waiting, timeline: false do |tool| %>
+    <% tool.summary "which lantern?" %>
+  <% end %>
+  <%= ai_chat_tool_call name: "delete_files", state: :done, icon: :folder, timeline: false do |tool| %>
+    <% tool.timing duration: 3.1 %>
+    <% tool.failures 2 %>
+    <% tool.asked({ paths: [ "a.png", "b.png", "c.png" ] }) %>
+    <% tool.answered({ deleted: 1, errors: [ { path: "b.png", error: "locked" }, { path: "c.png", error: "missing" } ] }) %>
+  <% end %>
+  <%= ai_chat_tool_call name: "fetch_page", state: :failed, timeline: false do |tool| %>
+    <% tool.summary "example.com/pricing" %>
+    <% tool.timing duration: 30 %>
+    <% tool.answered "Timed out after 30 seconds" %>
+  <% end %>
+</div>

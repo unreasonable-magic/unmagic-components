@@ -1,0 +1,5 @@
+<%= avatar_group max: 4, size: :large do |group| %>
+  <% [ "Ada Lovelace", "Grace Hopper", "Katherine Johnson", "Alan Turing", "Margaret Hamilton" ].each do |name| %>
+    <% group.avatar name %>
+  <% end %>
+<% end %>

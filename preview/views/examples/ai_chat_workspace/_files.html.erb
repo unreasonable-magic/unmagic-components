@@ -1,0 +1,12 @@
+<div class="w-80 rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900">
+  <%= ai_chat_plan id: "workspace_plan", open: false do |plan| %>
+    <% plan.step "Gather references", state: :completed %>
+    <% plan.step "Draft the scene", state: :in_progress %>
+  <% end %>
+  <%= ai_chat_workspace id: "workspace_files" do |workspace| %>
+    <% workspace.file "references/lantern-red.png", size: 1_480_000, url: "#" %>
+    <% workspace.file "references/market-night.jpg", size: 2_210_000, url: "#" %>
+    <% workspace.file "scene.json", size: 6_120 %>
+    <% workspace.file "notes.md", size: 812, icon: :pencil %>
+  <% end %>
+</div>

@@ -12,7 +12,9 @@ Gem::Specification.new do |spec|
                      "tables (sortable, deferred, kept live by Turbo Streams), detail lists, forms, " \
                      "cards, page headers and loading skeletons; a Turbo Frame modal, a confirm " \
                      "dialog and flash toasts; menus, tabs, tooltips, local times, copy buttons, " \
-                     "autogrowing textareas and UUID inputs as self-registering custom elements. " \
+                     "autogrowing textareas and UUID inputs as self-registering custom elements; and " \
+                     "AI chat components — transcripts, streamed replies, tool-call timelines, plans, " \
+                     "permission requests and a composer — kept live by Turbo Streams. " \
                      "Plain helpers styled with Tailwind CSS v4 (required; the host's build " \
                      "compiles the gem's component CSS), with no Stimulus."
   spec.homepage    = "https://github.com/unreasonable-magic/unmagic-components"
@@ -32,6 +34,11 @@ Gem::Specification.new do |spec|
   spec.add_dependency "activesupport", ">= 7.0"
   spec.add_dependency "actionview", ">= 7.0"
   spec.add_dependency "railties", ">= 7.0"
+  # Icons render through unmagic-icon, from a Lucide subset the gem ships. An
+  # avatar's tint is picked with unmagic-color's stable string hash, since Ruby's
+  # own String#hash changes between processes.
+  spec.add_dependency "unmagic-icon", "~> 0.3"
+  spec.add_dependency "unmagic-color", "~> 0.3"
 
   spec.add_development_dependency "rspec", "~> 3.12"
   spec.add_development_dependency "rake", "~> 13.0"

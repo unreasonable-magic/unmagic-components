@@ -14,6 +14,22 @@ module Unmagic
       def toast(message, tone: :good)
         append Toast::TARGET, Toast.new(@view_context, message, tone: tone).template
       end
+
+      # Hands the whole of a reply rendered so far to the <unmagic-streaming-markdown>
+      # with that id, which paces its way toward it. Send the full render every
+      # time, not the new part: the element works out what is new.
+      #
+      #   turbo_stream.stream_markdown "message_1_content", Markdown.render(message.content)
+      #
+      # From a model, the same action through Turbo::Broadcastable:
+      #
+      #   broadcast_action_to chat, action: :stream_markdown, target: "#{dom_id(self)}_content",
+      #     html: Markdown.render(content)
+      #
+      # Needs import "unmagic/components/streaming_markdown".
+      def stream_markdown(target, content = nil, **rendering, &block)
+        action :stream_markdown, target, content, **rendering, &block
+      end
     end
   end
 end

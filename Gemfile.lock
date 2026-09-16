@@ -5,6 +5,8 @@ PATH
       actionview (>= 7.0)
       activesupport (>= 7.0)
       railties (>= 7.0)
+      unmagic-color (~> 0.3)
+      unmagic-icon (~> 0.3)
 
 GEM
   remote: https://rubygems.org/
@@ -185,6 +187,7 @@ GEM
       rubocop-performance (>= 1.24)
       rubocop-rails (>= 2.30)
     ruby-progressbar (1.13.0)
+    rubyzip (3.6.0)
     securerandom (0.4.1)
     tailwindcss-ruby (4.3.3)
     tailwindcss-ruby (4.3.3-aarch64-linux-gnu)
@@ -203,6 +206,12 @@ GEM
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.2.0)
+    unmagic-color (0.3.1)
+    unmagic-icon (0.3.0)
+      activesupport (>= 7.0)
+      nokogiri (>= 1.8.5)
+      railties (>= 7.0)
+      rubyzip (>= 2.3)
     uri (1.1.1)
     useragent (0.16.11)
     zeitwerk (2.8.3)
@@ -300,6 +309,7 @@ CHECKSUMS
   rubocop-rails (2.37.0) sha256=6e1645add5060e0328f8ddda0d820f55697c591394398bf14bb9dccb62f14b7e
   rubocop-rails-omakase (1.1.0) sha256=2af73ac8ee5852de2919abbd2618af9c15c19b512c4cfc1f9a5d3b6ef009109d
   ruby-progressbar (1.13.0) sha256=80fc9c47a9b640d6834e0dc7b3c94c9df37f08cb072b7761e4a71e22cff29b33
+  rubyzip (3.6.0) sha256=268994d44d62282d1cfd99bf10eae48d7267199158ad7ea3e1fee2da9458b695
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
   tailwindcss-ruby (4.3.3) sha256=ee0a64030749862deb501acab4c4aaf5adbee13865746a33299d46d7b5d0952a
   tailwindcss-ruby (4.3.3-aarch64-linux-gnu) sha256=c86d6dd3eccc85fe0d792a832b06f2bf3c0a7a83b399308aeb9d8f5725f42a6a
@@ -314,7 +324,9 @@ CHECKSUMS
   tzinfo (2.0.6) sha256=8daf828cc77bcf7d63b0e3bdb6caa47e2272dcfaf4fbfe46f8c3a9df087a829b
   unicode-display_width (3.2.0) sha256=0cdd96b5681a5949cdbc2c55e7b420facae74c4aaf9a9815eee1087cb1853c42
   unicode-emoji (4.2.0) sha256=519e69150f75652e40bf736106cfbc8f0f73aa3fb6a65afe62fefa7f80b0f80f
+  unmagic-color (0.3.1) sha256=91d6cca99b0ceb4dfe35e71d3e36f6f88ae499c8d066aa5ded5dd3c4717b6cd4
   unmagic-components (0.3.0)
+  unmagic-icon (0.3.0) sha256=eeb5ab0ea044bcc26d2d0ba7fa21ea184537fb3c11244bac60309ce45a063ccb
   uri (1.1.1) sha256=379fa58d27ffb1387eaada68c749d1426738bd0f654d812fcc07e7568f5c57c6
   useragent (0.16.11) sha256=700e6413ad4bb954bb63547fa098dddf7b0ebe75b40cc6f93b8d54255b173844
   zeitwerk (2.8.3) sha256=2c85125a8467ce069e20123d1e709a08955c9d29c118c25b46b7b7fafdbb92e5

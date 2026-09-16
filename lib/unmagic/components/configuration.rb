@@ -7,7 +7,8 @@ module Unmagic
     # library. An app that already owns these concerns points them at its own
     # versions in an initializer.
     class Configuration
-      attr_writer :empty_state, :pagination, :pagy_for, :submit_class, :control_class, :modal_frame_id, :flash_tones
+      attr_writer :empty_state, :pagination, :pagy_for, :submit_class, :control_class, :modal_frame_id, :flash_tones,
+        :code_block, :sortable_item, :sortable_url
 
       # The tone each flash type's toast wears, keyed by the flash type as a string.
       # A type that isn't listed is :info.
@@ -48,6 +49,35 @@ module Unmagic
       # app can hand back whatever its own button helper produces.
       def submit_class
         @submit_class ||= ->(_view, variant) { "UnmagicButton UnmagicButton--#{variant}" }
+      end
+
+      # Renders a block of code: a tool call's payload, a failure's backtrace. Called
+      # with (view, source, language), where language is a symbol such as :json or
+      # :plaintext, and returns markup. The default is an unhighlighted
+      # <pre><code>; an app with a highlighter hands back its own.
+      #
+      #   config.code_block = ->(view, source, language) { view.highlight_code(source, language: language) }
+      def code_block
+        @code_block ||= lambda do |view, source, language|
+          view.tag.pre(view.tag.code(source, class: ("language-#{language}" if language)))
+        end
+      end
+
+      # What a sortable item carries for a record: its key and its rank. Called with
+      # (view, record); returns { key:, rank: }. unmagic-sortable sets this to its
+      # signed, scoped keys; the default is the record's id and sortable_rank.
+      def sortable_item
+        @sortable_item ||= lambda do |_view, record|
+          rank = record.try(:sortable_rank)
+          { key: record.to_param, rank: rank.is_a?(BigDecimal) ? rank.to_s("F") : rank&.to_s }
+        end
+      end
+
+      # Where a sortable list posts a drop when it isn't given url:. Called with
+      # (view); nil means a drop only fires unmagic-sortable:move for your own script.
+      # unmagic-sortable points it at its endpoint.
+      def sortable_url
+        @sortable_url ||= ->(_view) { nil }
       end
 
       # The classes on a form control. Called with (view, kind), where kind is one

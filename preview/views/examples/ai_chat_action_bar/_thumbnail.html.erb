@@ -1,0 +1,5 @@
+<%= ai_chat_action_bar for: "thumb", reveal: :always, class: "rounded-lg border border-neutral-200 bg-white p-1 dark:border-neutral-800 dark:bg-neutral-900" do |bar| %>
+  <% bar.copy "x" %>
+  <% bar.action "Try again", "#", icon: :rotate_cw, method: :post %>
+  <% bar.action "Edit", "#", icon: :pencil %>
+<% end %>

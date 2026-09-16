@@ -1,0 +1,9 @@
+<div class="mx-auto max-w-xl">
+  <%= ai_chat_request state: :waiting, url: "#", prompt: "I need a few details to create the job." do |request| %>
+    <% request.form do |form| %>
+      <%= form.field :title, "Job title", required: true %>
+      <%= form.field :salary, "Salary band", hint: "For example, $180–210k" %>
+    <% end %>
+    <% request.decline %>
+  <% end %>
+</div>

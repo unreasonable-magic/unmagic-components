@@ -1,0 +1,7 @@
+<div class="w-60 text-xs">
+  <%= ai_chat id: "thumb_tools", follow: false do %>
+    <%= ai_chat_tool_call name: "list_shelves", state: :done, icon: :folder do |tool| %><% tool.timing duration: 0.09 %><% end %>
+    <%= ai_chat_tool_call name: "search_files", state: :done, icon: :file do |tool| %><% tool.timing duration: 0.64 %><% end %>
+    <%= ai_chat_tool_call name: "render_scene", state: :running do |tool| %><% tool.timing started_at: @now - 72 %><% end %>
+  <% end %>
+</div>

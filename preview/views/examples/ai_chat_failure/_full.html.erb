@@ -1,0 +1,11 @@
+<div class="mx-auto max-w-2xl">
+  <%= ai_chat_message role: :assistant do %>
+    <p>Here's the shortlist so far: Ana Silva, Grace Okafor, and</p>
+  <% end %>
+  <%= ai_chat_failure "The assistant couldn't finish this reply.", class: "mt-2" do |failure| %>
+    <% failure.cause "RubyLLM::ContextLengthExceededError: prompt is too long: 212,408 tokens > 200,000 maximum" %>
+    <% failure.detail "Provider said", { type: "error", error: { type: "invalid_request_error", message: "prompt is too long" } } %>
+    <% failure.detail "Where it happened", "app/models/chat.rb:88:in 'Chat#reply'\napp/jobs/reply_job.rb:6:in 'ReplyJob#perform'", language: :plaintext %>
+    <% failure.retry { button_to "Try again", "#", class: button_classes(size: :small) } %>
+  <% end %>
+</div>

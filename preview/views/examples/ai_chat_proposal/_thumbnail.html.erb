@@ -1,0 +1,6 @@
+<div class="w-64 text-xs">
+  <%= ai_chat_proposal class: "text-xs" do |offer| %>
+    <% offer.claim "Ana is travelling until the 18th" %>
+    <% offer.accept { tag.span("Remember", class: button_classes(:primary, size: :small)) } %>
+  <% end %>
+</div>

@@ -4,9 +4,15 @@ One note per component, written and reviewed **before** the component is built.
 Each follows [`_template.md`](_template.md) and is held to the
 [design principles](../design-principles.md).
 
-This round of components comes from comparing the gem with the Rails Blocks
+The first round of components comes from comparing the gem with the Rails Blocks
 catalogue. Rails Blocks was used only as a list of what's missing; every design
 here is original to this gem.
+
+The second round is the [AI chat components](ai_chat/README.md), drawn from three
+applications that each grew their own agent UI and largely converged, and
+measured against assistant-ui's primitive vocabulary. Those notes live in
+[`ai_chat/`](ai_chat/README.md); the generic elements they need are filed here with
+everything else.
 
 Status is `draft` until reviewed, then `reviewed`, then `built`.
 
@@ -27,7 +33,7 @@ These are documented in the README and have no notes here:
 
 | Note | Rails Blocks gap | Status |
 |---|---|---|
-| [avatar](avatar.md) | Avatar | draft |
+| [avatar](avatar.md) | Avatar | built |
 | [breadcrumbs](breadcrumbs.md) | Breadcrumb | draft |
 | [kbd](kbd.md) | KBD & Hotkey (the key hint) | draft |
 | [spinner](spinner.md) | Loading Indicator | draft |
@@ -52,7 +58,12 @@ These are documented in the README and have no notes here:
 | [context_menu](context_menu.md) | Context Menu | draft |
 | [animated_number](animated_number.md) | Animated Number | draft |
 | [hotkey](hotkey.md) | KBD & Hotkey (the shortcut) | draft |
+| [sortable_list](sortable_list.md) | (none) drag-and-drop ordering, extracted from hooops | built |
+| [board](board.md) | (none) a Trello-style board on sortable lists | built |
 | [position](position.md) | (infrastructure) shared placement and `menu` on the Popover API; build before popover, context_menu and combobox | draft |
+| [auto_scroll](auto_scroll.md) | (none) `<unmagic-autoscroll>`, extracted from hooops and toybox | built |
+| [optimistic](optimistic.md) | (none) `<unmagic-optimistic>`, the client half of the `upsert` contract | built |
+| [elapsed](elapsed.md) | (none) `<unmagic-elapsed>`, a clock counting up from a server-named moment | built |
 
 ## Tier 3: large or dependency-heavy
 
@@ -81,6 +92,14 @@ Where marketing-style components belong is open decision 2 in the principles.
 | [dock](dock.md) | Dock Menu | draft |
 | [marquee](marquee.md) | Marquee | draft |
 | [testimonial](testimonial.md) | Testimonial | draft |
+
+## AI chat components
+
+A family of its own, with its own index and its own decisions:
+[`ai_chat/README.md`](ai_chat/README.md). It covers the transcript, messages, the
+streamed reveal, tool calls, the composer, plans, workspaces, and the components
+for an agent that stops to ask something — permission gates, questions and
+inline proposals.
 
 ## Covered by existing components
 

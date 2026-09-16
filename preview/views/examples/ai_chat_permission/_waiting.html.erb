@@ -1,0 +1,12 @@
+<div class="mx-auto max-w-xl">
+  <%= ai_chat_permission tool: "read_chat", state: :waiting, url: "#" do |ask| %>
+    <% ask.argument "chat_id", 4812 %>
+    <% ask.summary { tag.p("Read the conversation where the lantern brief was agreed.") } %>
+    <% ask.reason { tag.p("The brief here refers to decisions made there, and I can't see them.") } %>
+    <% ask.example "“Go with the lit version” — 3 Sept" %>
+    <% ask.example "“Keep it under 3k triangles” — 4 Sept" %>
+    <% ask.allow confirm: "Let this chat read conversation 4812?" %>
+    <% ask.allow "Allow for any chat", params: { widened: true }, confirm: "Let this chat read any conversation?" %>
+    <% ask.refuse %>
+  <% end %>
+</div>

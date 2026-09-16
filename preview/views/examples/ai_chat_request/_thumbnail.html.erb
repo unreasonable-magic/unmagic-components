@@ -1,0 +1,8 @@
+<div class="w-64 text-xs">
+  <%= ai_chat_request state: :waiting, url: "#", class: "p-3 text-xs" do |request| %>
+    <% request.question "How should it sound?" do |q| %>
+      <% q.option "Friendly" %>
+      <% q.option "Direct" %>
+    <% end %>
+  <% end %>
+</div>

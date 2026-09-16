@@ -1,0 +1,12 @@
+<div class="mx-auto flex max-w-xl flex-col gap-4">
+  <%= ai_chat_permission tool: "delete_files", state: :granted do |ask| %>
+    <% ask.argument "paths", "drafts/*" %>
+    <% ask.summary { tag.p("Remove the three superseded drafts.") } %>
+  <% end %>
+  <%= ai_chat_permission tool: "send_email", state: :refused do |ask| %>
+    <% ask.argument "to", "grace.okafor@example.com" %>
+  <% end %>
+  <%= ai_chat_permission tool: "read_chat", state: :lapsed do |ask| %>
+    <% ask.argument "chat_id", 4812 %>
+  <% end %>
+</div>

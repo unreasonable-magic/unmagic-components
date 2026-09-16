@@ -8,22 +8,31 @@ module ComponentsPreview
   # source, and _thumbnail is its card on the overview. The files are loaded
   # again on every request, so a new example shows up without a restart.
   module Catalog
-    Component = Data.define(:slug, :name, :description, :helper, :import, :examples)
+    Component = Data.define(:slug, :name, :description, :helper, :import, :group, :examples)
     Example = Data.define(:key, :title, :description, :layout)
 
     # :center sits natural-width content in the middle of the frame; :full lets a
     # table, form or grid use the frame's whole width.
     LAYOUTS = %i[center full].freeze
 
+    # The sidebar and the overview list ungrouped components first, under
+    # "Components", then each group under its own heading in this order.
+    GROUPS = [ nil, "AI chat" ].freeze
+
     class << self
-      def component(slug, name:, description:, examples:, helper: nil, import: nil)
+      def component(slug, name:, description:, examples:, helper: nil, import: nil, group: nil)
+        raise ArgumentError, "unknown group #{group.inspect} for #{slug}" unless GROUPS.include?(group)
+
         registry[slug.to_s] = Component.new(
-          slug: slug.to_s, name: name, description: description, helper: helper, import: import,
+          slug: slug.to_s, name: name, description: description, helper: helper, import: import, group: group,
           examples: examples.map { |example| build_example(slug, **example) }
         )
       end
 
-      def all = registry.values.sort_by(&:name)
+      def all = registry.values.sort_by { |component| [ GROUPS.index(component.group), component.name ] }
+
+      # [heading, components] pairs, in sidebar order.
+      def grouped = all.group_by(&:group).map { |group, components| [ group || "Components", components ] }
 
       def find(slug) = registry[slug.to_s]
 

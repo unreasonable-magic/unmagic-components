@@ -26,6 +26,23 @@
  * @custom-variant keyed to a class or attribute.
  */
 
+/* Variants for a sortable item's drag states, so markup can decorate them with
+ * utilities (sortable-dragging:rotate-2, sortable-over:bg-neutral-100). Every
+ * name is prefixed, so none collides with a variant of the host's.
+ *
+ *   sortable-dragging     the copy following the pointer, or anything in it
+ *   sortable-placeholder  the item left in the list while a pointer drags it
+ *   sortable-lifted       the item a keyboard is holding
+ *   sortable-active       a list that can take the item being dragged, or its
+ *                         ancestor
+ *   sortable-over         the list under the pointer, or its ancestor
+ */
+@custom-variant sortable-dragging (&[data-sortable-dragging], [data-sortable-dragging] &);
+@custom-variant sortable-placeholder (&[data-sortable-placeholder], [data-sortable-placeholder] &);
+@custom-variant sortable-lifted (&[data-sortable-lifted], [data-sortable-lifted] &);
+@custom-variant sortable-active (&[data-sortable-active], &:has([data-sortable-active]));
+@custom-variant sortable-over (&[data-sortable-over], &:has([data-sortable-over]));
+
 @layer components {
   /* ------------------------------------------------------------------ Table */
 
@@ -1160,5 +1177,1503 @@
 
   .UnmagicAutogrow textarea {
     @apply resize-none overflow-y-hidden;
+  }
+
+  /* ---------------------------------------------------------------- Avatars */
+
+  /* The initials always render; the image sits in the same grid cell on top, so a
+     broken image (alt="" draws nothing) shows the initials through it. */
+  .UnmagicAvatar {
+    @apply relative inline-grid shrink-0 place-items-center overflow-hidden rounded-full bg-neutral-100 align-middle font-medium text-neutral-600 select-none;
+    @apply dark:bg-neutral-800 dark:text-neutral-400;
+  }
+
+  .UnmagicAvatar > * {
+    grid-area: 1 / 1;
+  }
+
+  .UnmagicAvatar__image {
+    @apply size-full object-cover;
+    border-radius: inherit;
+  }
+
+  .UnmagicAvatar--small {
+    @apply size-6 text-[0.625rem];
+  }
+
+  .UnmagicAvatar--medium {
+    @apply size-8 text-xs;
+  }
+
+  .UnmagicAvatar--large {
+    @apply size-10 text-sm;
+  }
+
+  .UnmagicAvatar--square {
+    @apply rounded-md;
+  }
+
+  /* Six palette tints, picked from the name. A host recolours them through its
+     palette, or by overriding these classes. */
+  .UnmagicAvatar--tint-1 {
+    @apply bg-sky-100 text-sky-700 dark:bg-sky-400/15 dark:text-sky-300;
+  }
+
+  .UnmagicAvatar--tint-2 {
+    @apply bg-emerald-100 text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-300;
+  }
+
+  .UnmagicAvatar--tint-3 {
+    @apply bg-amber-100 text-amber-700 dark:bg-amber-400/15 dark:text-amber-300;
+  }
+
+  .UnmagicAvatar--tint-4 {
+    @apply bg-rose-100 text-rose-700 dark:bg-rose-400/15 dark:text-rose-300;
+  }
+
+  .UnmagicAvatar--tint-5 {
+    @apply bg-violet-100 text-violet-700 dark:bg-violet-400/15 dark:text-violet-300;
+  }
+
+  .UnmagicAvatar--tint-6 {
+    @apply bg-teal-100 text-teal-700 dark:bg-teal-400/15 dark:text-teal-300;
+  }
+
+  .UnmagicAvatarGroup {
+    @apply inline-flex items-center;
+  }
+
+  /* A ring the colour of the surface separates the overlapping faces. */
+  .UnmagicAvatarGroup > * {
+    box-shadow: 0 0 0 2px var(--color-white);
+
+    @variant dark {
+      box-shadow: 0 0 0 2px var(--color-neutral-900);
+    }
+  }
+
+  .UnmagicAvatarGroup > * + * {
+    @apply -ml-2;
+  }
+
+  .UnmagicAvatarGroup--small > * + * {
+    @apply -ml-1.5;
+  }
+
+  .UnmagicAvatarGroup__more {
+    @apply inline-grid shrink-0 place-items-center rounded-full bg-neutral-50 font-medium text-neutral-500 tabular-nums;
+    @apply dark:bg-neutral-800 dark:text-neutral-400;
+  }
+
+  .UnmagicAvatarGroup--small .UnmagicAvatarGroup__more {
+    @apply size-6 text-[0.625rem];
+  }
+
+  .UnmagicAvatarGroup--medium .UnmagicAvatarGroup__more {
+    @apply size-8 text-xs;
+  }
+
+  .UnmagicAvatarGroup--large .UnmagicAvatarGroup__more {
+    @apply size-10 text-sm;
+  }
+
+  /* ---------------------------------------------------------------- Elapsed */
+
+  /* tabular-nums is the reason for styling it at all: without it the reading
+     shifts sideways each time a digit changes width. */
+  .UnmagicElapsed {
+    @apply font-mono text-xs tabular-nums;
+  }
+
+  /* ------------------------------------------------------------------ Prose */
+
+  /* Server-rendered Markdown: the host renders and sanitises it, and this gives it
+     a look. :where() keeps every rule at the specificity of .UnmagicProse alone, so
+     a component placed inside prose (marked not-prose) wins with its own class. */
+  .UnmagicProse {
+    @apply block text-sm leading-relaxed text-neutral-900 dark:text-neutral-100;
+    overflow-wrap: break-word;
+  }
+
+  .UnmagicProse > :first-child {
+    @apply mt-0;
+  }
+
+  .UnmagicProse > :last-child {
+    @apply mb-0;
+  }
+
+  .UnmagicProse :where(p, ul, ol, pre, blockquote, table, hr):not(:where(.not-prose *)) {
+    margin-block: 0.75em;
+  }
+
+  .UnmagicProse :where(h1, h2, h3, h4, h5, h6):not(:where(.not-prose *)) {
+    @apply font-semibold text-neutral-900 dark:text-neutral-100;
+    line-height: 1.3;
+    margin-block: 1.25em 0.5em;
+  }
+
+  .UnmagicProse :where(h1):not(:where(.not-prose *)) {
+    @apply text-xl;
+  }
+
+  .UnmagicProse :where(h2):not(:where(.not-prose *)) {
+    @apply text-lg;
+  }
+
+  .UnmagicProse :where(h3):not(:where(.not-prose *)) {
+    @apply text-base;
+  }
+
+  .UnmagicProse :where(h4, h5, h6):not(:where(.not-prose *)) {
+    @apply text-sm;
+  }
+
+  .UnmagicProse :where(ul):not(:where(.not-prose *)) {
+    @apply list-disc;
+    padding-inline-start: 1.5em;
+  }
+
+  .UnmagicProse :where(ol):not(:where(.not-prose *)) {
+    @apply list-decimal;
+    padding-inline-start: 1.5em;
+  }
+
+  .UnmagicProse :where(li):not(:where(.not-prose *)) {
+    margin-block: 0.25em;
+  }
+
+  .UnmagicProse :where(li > ul, li > ol):not(:where(.not-prose *)) {
+    margin-block: 0.25em;
+  }
+
+  .UnmagicProse :where(strong):not(:where(.not-prose *)) {
+    @apply font-semibold;
+  }
+
+  .UnmagicProse :where(a):not(:where(.not-prose *)) {
+    @apply font-medium text-neutral-900 underline decoration-neutral-400 underline-offset-2 dark:text-neutral-100 dark:decoration-neutral-500;
+  }
+
+  .UnmagicProse :where(blockquote):not(:where(.not-prose *)) {
+    @apply border-l-2 border-neutral-300 pl-3 text-neutral-600 dark:border-neutral-700 dark:text-neutral-400;
+  }
+
+  .UnmagicProse :where(hr):not(:where(.not-prose *)) {
+    @apply border-0 border-t border-neutral-200 dark:border-neutral-800;
+  }
+
+  .UnmagicProse :where(:not(pre) > code):not(:where(.not-prose *)) {
+    @apply rounded bg-neutral-100 px-1 py-0.5 font-mono text-[0.9em] dark:bg-neutral-800;
+  }
+
+  /* The block's chrome only: the tokens are the host's highlighter's, through the
+     same code_block seam a tool payload uses. */
+  .UnmagicProse :where(pre):not(:where(.not-prose *)) {
+    @apply overflow-x-auto rounded-lg border border-neutral-200 bg-neutral-50 p-3 font-mono text-xs leading-relaxed;
+    @apply dark:border-neutral-800 dark:bg-neutral-900;
+  }
+
+  .UnmagicProse :where(pre code):not(:where(.not-prose *)) {
+    @apply bg-transparent p-0;
+    font-size: inherit;
+  }
+
+  .UnmagicProse :where(table):not(:where(.not-prose *)) {
+    @apply block w-max max-w-full border-collapse overflow-x-auto text-left;
+  }
+
+  .UnmagicProse :where(th, td):not(:where(.not-prose *)) {
+    @apply border-b border-neutral-200 py-1.5 pr-4 align-top dark:border-neutral-800;
+  }
+
+  .UnmagicProse :where(th):not(:where(.not-prose *)) {
+    @apply font-semibold;
+  }
+
+  .UnmagicProse :where(ul:has(> li > input[type="checkbox"])):not(:where(.not-prose *)) {
+    @apply list-none pl-1;
+  }
+
+  /* -------------------------------------------------------- Custom elements */
+
+  /* Elements that only add behaviour, and must not take part in their parent's
+     layout. */
+  .UnmagicAutoscroll,
+  .UnmagicOptimistic {
+    display: contents;
+  }
+
+  .UnmagicStreamingMarkdown {
+    @apply block;
+  }
+
+  /* ---------------------------------------------------------------- AI chat */
+
+  /* The gap between turns is margin-top on each *following* visible turn, not a
+     space-y utility: Tailwind's space-y puts it on the preceding element, which
+     can't be tightened by what follows. Hidden entries (a tool result's anchor, a
+     turn that said nothing) never earn a gap. A run of tool calls sits closer,
+     counting the gap markers between them as part of the run. */
+  .UnmagicAIChat {
+    @apply block;
+  }
+
+  .UnmagicAIChat > :not([hidden]) ~ :not([hidden]) {
+    margin-top: calc(var(--spacing) * 6);
+  }
+
+  .UnmagicAIChat > [data-ai-chat-timeline] + [data-ai-chat-timeline]:not([hidden]) {
+    margin-top: calc(var(--spacing) * 3);
+  }
+
+  /* The welcome stands in for an empty conversation, and steps aside for the first
+     entry streamed in. */
+  .UnmagicAIChat:has(> :not(.UnmagicAIChat__welcome, [hidden])) > .UnmagicAIChat__welcome {
+    @apply hidden;
+  }
+
+  /* A zero-height sticky dock, so the button floats over the transcript's foot
+     without taking room in it. A host with a sticky composer lifts it with bottom. */
+  .UnmagicAIChat__latest {
+    @apply pointer-events-none sticky bottom-4 z-10 flex h-0 justify-center;
+  }
+
+  .UnmagicAIChat__latestButton {
+    font: inherit;
+    @apply pointer-events-auto inline-flex size-9 -translate-y-full cursor-pointer items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-600 shadow-md;
+    @apply dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300;
+    transition: opacity 150ms ease;
+  }
+
+  .UnmagicAIChat__latestButton[hidden] {
+    @apply hidden;
+  }
+
+  .UnmagicAIChat__latestButton:hover {
+    @apply text-neutral-900 dark:text-white;
+  }
+
+  .UnmagicAIChat__latestButton:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  /* A spinner that pulses rather than turning under reduced motion, since a
+     frozen one reads as a hang. */
+  .UnmagicAIChatSpinner {
+    animation: unmagic-ai-chat-spin 1s linear infinite;
+  }
+
+  @keyframes unmagic-ai-chat-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes unmagic-ai-chat-pulse {
+    50% {
+      opacity: 0.35;
+    }
+  }
+
+  /* A disclosure's chevron points right when shut and down when open. */
+  .UnmagicAIChatChevron {
+    @apply size-3.5 shrink-0;
+    transition: rotate 150ms ease;
+  }
+
+  details[open] > summary .UnmagicAIChatChevron {
+    rotate: 90deg;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .UnmagicAIChatSpinner {
+      animation: unmagic-ai-chat-pulse 2s ease-in-out infinite;
+    }
+
+    .UnmagicAIChatChevron,
+    .UnmagicAIChat__latestButton {
+      transition: none;
+    }
+  }
+
+  /* The family's disclosures are rows, not buttons: no marker, a pointer, and the
+     shared focus ring. */
+  :is(.UnmagicAIChatToolCall, .UnmagicAIChatReasoning, .UnmagicAIChatFailure, .UnmagicAIChatPlan, .UnmagicAIChatWorkspace) summary {
+    @apply cursor-pointer list-none select-none;
+  }
+
+  :is(.UnmagicAIChatToolCall, .UnmagicAIChatReasoning, .UnmagicAIChatFailure, .UnmagicAIChatPlan, .UnmagicAIChatWorkspace) summary::-webkit-details-marker {
+    @apply hidden;
+  }
+
+  :is(.UnmagicAIChatToolCall, .UnmagicAIChatReasoning, .UnmagicAIChatFailure, .UnmagicAIChatPlan, .UnmagicAIChatWorkspace) summary:focus-visible {
+    @apply rounded-xs outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  /* ------------------------------------------------------- AI chat messages */
+
+  .UnmagicAIChatMessage {
+    @apply flex flex-col items-start gap-1.5;
+  }
+
+  .UnmagicAIChatMessage--user {
+    @apply items-end;
+  }
+
+  .UnmagicAIChatMessage--assistant > .UnmagicAIChatMessage__body {
+    @apply w-full;
+  }
+
+  /* A user's turn was typed into a box, never written as Markdown, so the line
+     breaks they typed are the only formatting it has. */
+  .UnmagicAIChatMessage__bubble {
+    @apply max-w-[85%] rounded-2xl rounded-br-sm bg-neutral-900 px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap text-white;
+    @apply dark:bg-neutral-100 dark:text-neutral-900;
+    overflow-wrap: anywhere;
+  }
+
+  .UnmagicAIChatMessage[data-optimistic] .UnmagicAIChatMessage__bubble {
+    @apply opacity-60;
+  }
+
+  .UnmagicAIChatMessage__attachments {
+    @apply max-w-[85%];
+  }
+
+  .UnmagicAIChatMessage__thinking {
+    @apply inline-flex py-0.5 text-neutral-400 dark:text-neutral-500;
+  }
+
+  .UnmagicAIChatMessage__footer {
+    @apply flex min-h-7 items-center gap-1;
+  }
+
+  /* ------------------------------------------------------ AI chat reasoning */
+
+  .UnmagicAIChatReasoning {
+    @apply max-w-[85%] rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs text-neutral-500;
+    @apply dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-400;
+  }
+
+  .UnmagicAIChatReasoning__head {
+    @apply flex items-center gap-1.5;
+  }
+
+  .UnmagicAIChatReasoning__head:hover {
+    @apply text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicAIChatReasoning__head .UnmagicIcon {
+    @apply size-3.5;
+  }
+
+  .UnmagicAIChatReasoning__block {
+    @apply mt-2 text-xs text-neutral-600 dark:text-neutral-400;
+  }
+
+  /* ----------------------------------------------------- AI chat tool calls */
+
+  .UnmagicAIChatToolCall {
+    @apply relative text-sm text-neutral-500 dark:text-neutral-400;
+  }
+
+  /* The line joining a run: every row draws it, and only a row following another
+     shows it. It reaches up into the gap above, centred on the glyph's column,
+     rather than taking room of its own. */
+  .UnmagicAIChatToolCall__join {
+    @apply absolute hidden w-px -translate-x-1/2 bg-neutral-200 dark:bg-neutral-700;
+    left: 0.4375rem;
+    top: calc(var(--spacing) * -2.5);
+    height: calc(var(--spacing) * 2);
+  }
+
+  [data-ai-chat-timeline] + [data-ai-chat-timeline] > .UnmagicAIChatToolCall__join {
+    @apply block;
+  }
+
+  .UnmagicAIChatToolCall__row {
+    @apply flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5;
+  }
+
+  summary.UnmagicAIChatToolCall__row:hover {
+    @apply text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicAIChatToolCall__glyph {
+    @apply inline-flex shrink-0;
+  }
+
+  .UnmagicAIChatToolCall__glyph .UnmagicIcon {
+    @apply size-3.5;
+  }
+
+  .UnmagicAIChatToolCall--done .UnmagicAIChatToolCall__glyph,
+  .UnmagicAIChatToolCall--queued .UnmagicAIChatToolCall__glyph {
+    @apply text-neutral-400 dark:text-neutral-500;
+  }
+
+  .UnmagicAIChatToolCall--waiting .UnmagicAIChatToolCall__glyph {
+    @apply text-amber-600 dark:text-amber-500;
+  }
+
+  .UnmagicAIChatToolCall--failed .UnmagicAIChatToolCall__glyph,
+  .UnmagicAIChatToolCall--failed .UnmagicAIChatToolCall__name {
+    @apply text-red-600 dark:text-red-400;
+  }
+
+  .UnmagicAIChatToolCall__name {
+    @apply font-mono text-xs;
+  }
+
+  .UnmagicAIChatToolCall__summary {
+    @apply min-w-0 truncate font-medium text-neutral-700 dark:text-neutral-300;
+  }
+
+  /* Beside the name rather than hard right: there's no box edge to flush them to,
+     and a clock alone at the far side of a wide column belongs to nothing. */
+  .UnmagicAIChatToolCall__readings {
+    @apply inline-flex shrink-0 items-center gap-2.5;
+  }
+
+  .UnmagicAIChatToolCall__reading {
+    @apply inline-flex items-center gap-1 font-mono text-xs text-neutral-400 tabular-nums dark:text-neutral-500;
+  }
+
+  .UnmagicAIChatToolCall__reading .UnmagicIcon {
+    @apply size-3.5;
+  }
+
+  .UnmagicAIChatToolCall__reading--warn {
+    @apply text-amber-600 dark:text-amber-500;
+  }
+
+  .UnmagicAIChatToolCall__progress {
+    @apply basis-full pl-5.5 text-xs text-neutral-400 dark:text-neutral-500;
+  }
+
+  /* An open call keeps the line running down its own body, so it's a stretch of
+     the run rather than a hole in it. Anything under a row hangs off the glyph's
+     column. */
+  .UnmagicAIChatToolCall__body {
+    @apply relative mt-2 flex flex-col gap-3 pb-1 pl-5.5;
+  }
+
+  .UnmagicAIChatToolCall__made {
+    @apply relative mt-2 flex flex-wrap gap-2 pl-5.5;
+  }
+
+  .UnmagicAIChatToolCall__rail {
+    @apply absolute bottom-0 w-px -translate-x-1/2 bg-neutral-200 dark:bg-neutral-700;
+    left: 0.4375rem;
+    top: calc(var(--spacing) * -1.5);
+  }
+
+  /* ------------------------------------------------------- AI chat payloads */
+
+  .UnmagicAIChatPayload {
+    @apply flex min-w-0 flex-col gap-1.5;
+  }
+
+  .UnmagicAIChatPayload__head {
+    @apply flex items-center gap-2;
+  }
+
+  .UnmagicAIChatPayload__label {
+    @apply flex-1 text-[10px] font-medium tracking-wide text-neutral-500 uppercase;
+  }
+
+  .UnmagicAIChatPayload__timing {
+    @apply inline-flex items-center gap-1 font-mono text-xs text-neutral-400 tabular-nums;
+  }
+
+  .UnmagicAIChatPayload__timing .UnmagicIcon {
+    @apply size-3.5;
+  }
+
+  /* The box itself scrolls, so a keyboard user focusing it can scroll it; long
+     lines wrap, since one line of a payload can be a whole page. It deliberately
+     doesn't contain overscroll: Chrome would apply that to a short payload too,
+     and a finger swiping over one couldn't scroll the page. */
+  .UnmagicAIChatPayload__code {
+    @apply max-h-64 overflow-auto rounded-md border border-neutral-200 bg-white text-neutral-800;
+    @apply dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-200;
+  }
+
+  .UnmagicAIChatPayload__code:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicAIChatPayload__code > pre {
+    @apply m-0 bg-transparent p-2.5 font-mono text-xs leading-relaxed break-words whitespace-pre-wrap;
+  }
+
+  /* ------------------------------------------------------- AI chat failures */
+
+  .UnmagicAIChatFailure {
+    @apply rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm dark:border-red-400/30 dark:bg-red-400/10;
+  }
+
+  .UnmagicAIChatFailure__head {
+    @apply flex items-start gap-2;
+  }
+
+  .UnmagicAIChatFailure__icon {
+    @apply mt-0.5 text-red-600 dark:text-red-400;
+  }
+
+  .UnmagicAIChatFailure__text {
+    @apply min-w-0 flex-1;
+  }
+
+  .UnmagicAIChatFailure__message {
+    @apply m-0 text-red-800 dark:text-red-300;
+  }
+
+  /* A provider's message runs long and usually holds a URL. */
+  .UnmagicAIChatFailure__cause {
+    @apply mt-1 mb-0 font-mono text-xs break-words text-red-700/90 dark:text-red-400/90;
+  }
+
+  .UnmagicAIChatFailure__details {
+    @apply mt-2;
+  }
+
+  .UnmagicAIChatFailure__summary {
+    @apply inline-flex items-center gap-1.5 text-xs text-red-700/80 dark:text-red-400/80;
+  }
+
+  .UnmagicAIChatFailure__body {
+    @apply mt-2 flex flex-col gap-3;
+  }
+
+  .UnmagicAIChatFailure__retry {
+    @apply mt-2;
+  }
+
+  /* ---------------------------------------------------------- AI chat plans */
+
+  /* A plan and a workspace are two sections of one panel, so they share a shape,
+     and a divider when one follows the other. */
+  .UnmagicAIChatPlan,
+  .UnmagicAIChatWorkspace {
+    @apply block p-4 text-sm text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicAIChatPlan + .UnmagicAIChatWorkspace {
+    @apply border-t border-neutral-200 dark:border-neutral-800;
+  }
+
+  .UnmagicAIChatPlan__head,
+  .UnmagicAIChatWorkspace__head {
+    @apply flex items-center gap-2 text-neutral-400 dark:text-neutral-500;
+  }
+
+  .UnmagicAIChatPlan__title,
+  .UnmagicAIChatWorkspace__title {
+    @apply m-0 text-sm font-medium text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicAIChatPlan__count,
+  .UnmagicAIChatWorkspace__count {
+    @apply ml-auto shrink-0 text-xs text-neutral-400 tabular-nums;
+  }
+
+  .UnmagicAIChatPlan__empty,
+  .UnmagicAIChatWorkspace__empty {
+    @apply mt-2 mb-0 text-neutral-400 dark:text-neutral-500;
+  }
+
+  .UnmagicAIChatPlan__steps {
+    @apply mx-0 mt-3 mb-0 flex list-none flex-col gap-1.5 p-0;
+  }
+
+  .UnmagicAIChatPlan__step {
+    @apply flex items-start gap-2;
+  }
+
+  .UnmagicAIChatPlan__glyph {
+    @apply mt-0.5 inline-flex shrink-0;
+  }
+
+  .UnmagicAIChatPlan__glyph .UnmagicIcon {
+    @apply size-3.5;
+  }
+
+  .UnmagicAIChatPlan__text {
+    @apply min-w-0;
+  }
+
+  .UnmagicAIChatPlan__detail {
+    @apply mt-1 text-xs text-neutral-500;
+  }
+
+  /* A done step recedes and the one being worked stands up, so a long plan reads as
+     a position. Waiting is the one in colour: the only state that won't move on
+     its own. */
+  .UnmagicAIChatPlan__step[data-state="completed"] .UnmagicAIChatPlan__glyph {
+    @apply text-green-600 dark:text-green-500;
+  }
+
+  .UnmagicAIChatPlan__step[data-state="completed"] .UnmagicAIChatPlan__label {
+    @apply text-neutral-400 line-through dark:text-neutral-500;
+  }
+
+  .UnmagicAIChatPlan__step[data-state="in_progress"] .UnmagicAIChatPlan__glyph {
+    @apply text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicAIChatPlan__step[data-state="waiting"] .UnmagicAIChatPlan__glyph {
+    @apply text-amber-600 dark:text-amber-500;
+  }
+
+  .UnmagicAIChatPlan__step[data-state="in_progress"] .UnmagicAIChatPlan__label,
+  .UnmagicAIChatPlan__step[data-state="waiting"] .UnmagicAIChatPlan__label {
+    @apply font-medium text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicAIChatPlan__step[data-state="pending"] .UnmagicAIChatPlan__glyph {
+    @apply text-neutral-300 dark:text-neutral-600;
+  }
+
+  .UnmagicAIChatPlan__step[data-state="pending"] .UnmagicAIChatPlan__label {
+    @apply text-neutral-600 dark:text-neutral-400;
+  }
+
+  /* ------------------------------------------------------ AI chat workspace */
+
+  .UnmagicAIChatWorkspace__files {
+    @apply mx-0 mt-3 mb-0 flex list-none flex-col p-0;
+  }
+
+  .UnmagicAIChatWorkspace__file,
+  .UnmagicAIChatWorkspace__link {
+    @apply flex min-w-0 items-center gap-1.5;
+  }
+
+  .UnmagicAIChatWorkspace__file {
+    @apply rounded-md px-1 py-1 text-neutral-700 dark:text-neutral-300;
+  }
+
+  .UnmagicAIChatWorkspace__link {
+    @apply flex-1 text-inherit no-underline;
+  }
+
+  .UnmagicAIChatWorkspace__file:has(> .UnmagicAIChatWorkspace__link):hover {
+    @apply bg-neutral-100 dark:bg-neutral-800;
+  }
+
+  .UnmagicAIChatWorkspace__link:focus-visible {
+    @apply rounded-xs outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicAIChatWorkspace__icon {
+    @apply text-neutral-400 dark:text-neutral-500;
+  }
+
+  .UnmagicAIChatWorkspace__name {
+    @apply min-w-0 truncate;
+  }
+
+  .UnmagicAIChatWorkspace__directory {
+    @apply text-neutral-400 dark:text-neutral-500;
+  }
+
+  .UnmagicAIChatWorkspace__size {
+    @apply ml-auto shrink-0 pl-2 text-xs text-neutral-400 tabular-nums;
+  }
+
+  /* ------------------------------------------------------- AI chat composer */
+
+  /* A container, so the hint below can give way to the field in a narrow column
+     however wide the page is. */
+  .UnmagicAIChatComposer {
+    @apply relative flex flex-col gap-2;
+    container-type: inline-size;
+  }
+
+  .UnmagicAIChatComposer__chips:empty {
+    @apply hidden;
+  }
+
+  .UnmagicAIChatComposer__chips {
+    @apply flex flex-wrap gap-1.5;
+  }
+
+  /* The box is the control, so it takes the focus ring; the textarea inside it is
+     bare. */
+  .UnmagicAIChatComposer__box {
+    @apply flex items-end gap-2 rounded-xl border border-neutral-300 bg-white p-2 shadow-xs;
+    @apply dark:border-neutral-700 dark:bg-neutral-900;
+  }
+
+  .UnmagicAIChatComposer__box:focus-within {
+    @apply border-neutral-500 dark:border-neutral-500;
+  }
+
+  .UnmagicAIChatComposer__box:has(.UnmagicAIChatComposer__field:focus-visible) {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicAIChatComposer__box > .UnmagicAutogrow {
+    @apply min-w-0 flex-1 self-center;
+  }
+
+  .UnmagicAIChatComposer__field {
+    font: inherit;
+    @apply block max-h-60 w-full border-0 bg-transparent px-2 py-1.5 text-sm text-neutral-900 shadow-none outline-none placeholder:text-neutral-400;
+    @apply dark:text-neutral-100 dark:placeholder:text-neutral-500;
+  }
+
+  .UnmagicAIChatComposer__attach,
+  .UnmagicAIChatComposer__actions,
+  .UnmagicAIChatComposer__action {
+    @apply flex shrink-0 items-center gap-1;
+  }
+
+  .UnmagicAIChatComposer__action {
+    @apply gap-2;
+  }
+
+  /* Hidden only visually when the box is narrow: it's in the action region's live
+     region, and a screen reader should still hear that the turn is waiting. */
+  .UnmagicAIChatComposer__hint {
+    @apply sr-only text-sm whitespace-nowrap text-neutral-500;
+  }
+
+  @container (min-width: 36rem) {
+    .UnmagicAIChatComposer__hint {
+      @apply not-sr-only;
+    }
+  }
+
+  .UnmagicAIChatComposer__stop:hover {
+    @apply border-red-300 bg-red-50 text-red-700 dark:border-red-400/40 dark:bg-red-400/10 dark:text-red-400;
+  }
+
+  /* Empty: Stop reaches it by id, and asks nothing of the person. */
+  .UnmagicAIChatStopForm {
+    @apply hidden;
+  }
+
+  /* ----------------------------------------------------- AI chat slash menu */
+
+  /* Floats over the page rather than pushing it about, opening towards the room
+     there is: upwards from a composer at the foot of a page. */
+  .UnmagicAIChatSlashMenu {
+    @apply absolute inset-x-0 top-full z-20 mt-2 block max-h-64 overflow-y-auto rounded-xl border border-neutral-200 bg-white p-1 shadow-lg;
+    @apply dark:border-neutral-700 dark:bg-neutral-900;
+  }
+
+  .UnmagicAIChatSlashMenu[hidden] {
+    @apply hidden;
+  }
+
+  .UnmagicAIChatSlashMenu--above {
+    @apply top-auto bottom-full mt-0 mb-2;
+  }
+
+  .UnmagicAIChatSlashMenu__list {
+    @apply m-0 list-none p-0;
+  }
+
+  .UnmagicAIChatSlashMenu__item {
+    @apply flex cursor-pointer items-baseline gap-2 rounded-lg px-2 py-1.5 text-sm;
+  }
+
+  .UnmagicAIChatSlashMenu__item[hidden] {
+    @apply hidden;
+  }
+
+  .UnmagicAIChatSlashMenu__item[aria-selected="true"] {
+    @apply bg-neutral-100 dark:bg-neutral-800;
+  }
+
+  .UnmagicAIChatSlashMenu__name {
+    @apply shrink-0 font-mono text-xs text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicAIChatSlashMenu__argument {
+    @apply text-neutral-400;
+  }
+
+  .UnmagicAIChatSlashMenu__description {
+    @apply min-w-0 truncate text-xs text-neutral-500;
+  }
+
+  /* ---------------------------------------------------- AI chat attachments */
+
+  .UnmagicAIChatAttachments {
+    @apply m-0 flex list-none flex-wrap gap-2 p-0;
+  }
+
+  .UnmagicAIChatAttachments--end {
+    @apply justify-end;
+  }
+
+  .UnmagicAIChatAttachments__file,
+  .UnmagicAIChatAttachments__link {
+    @apply flex min-w-0 items-center gap-2;
+  }
+
+  .UnmagicAIChatAttachments__file {
+    @apply max-w-64 rounded-lg border border-neutral-200 bg-white py-1 pr-2.5 pl-1 text-xs text-neutral-700;
+    @apply dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-300;
+  }
+
+  .UnmagicAIChatAttachments__link {
+    @apply text-inherit no-underline;
+  }
+
+  .UnmagicAIChatAttachments__thumb {
+    @apply size-8 shrink-0 rounded-md object-cover;
+  }
+
+  .UnmagicAIChatAttachments__glyph {
+    @apply ml-1.5 text-neutral-400;
+  }
+
+  .UnmagicAIChatAttachments__name {
+    @apply min-w-0 truncate font-medium;
+  }
+
+  .UnmagicAIChatAttachments__size {
+    @apply shrink-0 text-neutral-400 tabular-nums;
+  }
+
+  .UnmagicAIChatAttachments__remove {
+    font: inherit;
+    @apply -mr-1 inline-flex shrink-0 cursor-pointer rounded border-0 bg-transparent p-0.5 text-neutral-400;
+  }
+
+  .UnmagicAIChatAttachments__remove:hover {
+    @apply text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicAIChatAttachments__remove:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicAIChatAttachments__remove .UnmagicIcon {
+    @apply size-3.5;
+  }
+
+  .UnmagicAIChatDropzone {
+    @apply relative block;
+  }
+
+  /* Outside the flow and pointer-transparent: it can't take the drop it's
+     advertising, and it mustn't move the page when it appears. */
+  .UnmagicAIChatDropzone__overlay {
+    @apply pointer-events-none absolute inset-0 z-30 hidden place-items-center rounded-2xl border-2 border-dashed border-neutral-400 bg-white/85;
+    @apply dark:border-neutral-500 dark:bg-neutral-950/85;
+  }
+
+  .UnmagicAIChatDropzone[data-dragging] > .UnmagicAIChatDropzone__overlay {
+    @apply grid;
+  }
+
+  .UnmagicAIChatDropzone__overlay p {
+    @apply m-0 inline-flex items-center gap-2 text-sm font-medium text-neutral-600 dark:text-neutral-300;
+  }
+
+  /* -------------------------------------------------------- AI chat welcome */
+
+  .UnmagicAIChatWelcome {
+    @apply flex flex-col items-center py-10 text-center;
+  }
+
+  .UnmagicAIChatWelcome__heading {
+    @apply m-0 text-xl font-semibold text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicAIChatWelcome__body {
+    @apply mx-0 mt-2 mb-0 max-w-md text-sm text-neutral-500 dark:text-neutral-400;
+  }
+
+  .UnmagicAIChatWelcome__suggestions {
+    @apply mx-0 mt-6 mb-0 flex list-none flex-wrap justify-center gap-2 p-0;
+  }
+
+  .UnmagicAIChatWelcome__suggestion {
+    font: inherit;
+    @apply inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-sm text-neutral-600;
+    @apply dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300;
+  }
+
+  .UnmagicAIChatWelcome__suggestion:hover {
+    @apply bg-neutral-50 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100;
+  }
+
+  .UnmagicAIChatWelcome__suggestion:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicAIChatWelcome__suggestion .UnmagicIcon {
+    @apply text-neutral-400;
+  }
+
+  /* ------------------------------------------------------- AI chat requests */
+
+  /* Amber is the family's colour for waiting on a person — the one state that
+     won't move on its own. Answered, a card recedes to neutral, and one declined
+     or dropped dims further. */
+  .UnmagicAIChatRequest,
+  .UnmagicAIChatPermission {
+    @apply rounded-xl border border-neutral-200 bg-white p-4 text-sm text-neutral-700;
+    @apply dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-300;
+  }
+
+  .UnmagicAIChatRequest--waiting,
+  .UnmagicAIChatPermission--waiting {
+    @apply border-amber-300 bg-amber-50 dark:border-amber-400/30 dark:bg-amber-400/10;
+  }
+
+  .UnmagicAIChatRequest--declined,
+  .UnmagicAIChatRequest--cancelled,
+  .UnmagicAIChatRequest--timed_out {
+    @apply opacity-60;
+  }
+
+  .UnmagicAIChatRequest__head,
+  .UnmagicAIChatPermission__head {
+    @apply flex items-center gap-2 font-medium;
+  }
+
+  .UnmagicAIChatRequest--waiting .UnmagicAIChatRequest__head,
+  .UnmagicAIChatPermission--waiting .UnmagicAIChatPermission__head {
+    @apply text-amber-900 dark:text-amber-200;
+  }
+
+  .UnmagicAIChatRequest__outcome {
+    @apply ml-auto inline-flex items-center gap-1 text-xs text-neutral-500;
+  }
+
+  .UnmagicAIChatRequest__outcome .UnmagicIcon {
+    @apply size-3.5;
+  }
+
+  .UnmagicAIChatRequest__prompt {
+    @apply mt-2 mb-0 text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicAIChatRequest__form {
+    @apply m-0;
+  }
+
+  .UnmagicAIChatRequest__form > .UnmagicField {
+    @apply mt-4;
+  }
+
+  .UnmagicAIChatRequest__question {
+    @apply mx-0 mt-4 mb-0 min-w-0 border-0 p-0;
+  }
+
+  .UnmagicAIChatRequest__legend {
+    @apply flex w-full flex-col gap-0.5 p-0;
+  }
+
+  .UnmagicAIChatRequest__header {
+    @apply text-[10px] font-medium tracking-wide text-neutral-500 uppercase;
+  }
+
+  .UnmagicAIChatRequest--waiting .UnmagicAIChatRequest__header {
+    @apply text-amber-800 dark:text-amber-400;
+  }
+
+  .UnmagicAIChatRequest__label {
+    @apply text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicAIChatRequest__options {
+    @apply mt-2 flex flex-col gap-1.5;
+  }
+
+  .UnmagicAIChatRequest__option {
+    @apply flex cursor-pointer items-start gap-3 rounded-lg border border-neutral-200 bg-white p-2.5;
+    @apply dark:border-neutral-800 dark:bg-neutral-900;
+  }
+
+  .UnmagicAIChatRequest__option:hover {
+    @apply border-neutral-300 dark:border-neutral-700;
+  }
+
+  .UnmagicAIChatRequest__option:has(:checked) {
+    @apply border-amber-400 bg-amber-100/60 dark:border-amber-400/50 dark:bg-amber-400/15;
+  }
+
+  .UnmagicAIChatRequest__option > input {
+    @apply mt-0.5 shrink-0;
+  }
+
+  .UnmagicAIChatRequest__choice {
+    @apply flex min-w-0 flex-col;
+  }
+
+  .UnmagicAIChatRequest__choiceLabel {
+    @apply font-medium text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicAIChatRequest__choiceDescription {
+    @apply text-xs text-neutral-500;
+  }
+
+  .UnmagicAIChatRequest__picked {
+    @apply mt-1.5 mb-0 font-medium text-amber-800 dark:text-amber-400;
+  }
+
+  .UnmagicAIChatRequest__picked--none {
+    @apply font-normal text-neutral-500;
+  }
+
+  .UnmagicAIChatRequest__answers {
+    @apply mt-3 mb-0 flex flex-col gap-1.5;
+  }
+
+  .UnmagicAIChatRequest__answer {
+    @apply flex gap-2;
+  }
+
+  .UnmagicAIChatRequest__answer dt {
+    @apply shrink-0 text-neutral-500;
+  }
+
+  .UnmagicAIChatRequest__answer dd {
+    @apply m-0 text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicAIChatRequest__actions,
+  .UnmagicAIChatPermission__actions {
+    @apply mt-4 flex flex-wrap items-center gap-2;
+  }
+
+  .UnmagicAIChatRequest__aside {
+    @apply m-0 text-xs text-neutral-500;
+  }
+
+  /* ---------------------------------------------------- AI chat permissions */
+
+  /* Focus lands on the card when one arrives, so it needs a ring of its own. */
+  .UnmagicAIChatPermission:focus-visible {
+    @apply outline-2 outline-offset-2 outline-amber-500;
+  }
+
+  .UnmagicAIChatPermission__ask {
+    @apply mt-2 mb-0 flex flex-wrap gap-x-2 font-mono text-xs text-neutral-500;
+  }
+
+  .UnmagicAIChatPermission--waiting .UnmagicAIChatPermission__ask {
+    @apply text-amber-900/70 dark:text-amber-200/70;
+  }
+
+  .UnmagicAIChatPermission__tool {
+    @apply font-semibold;
+  }
+
+  .UnmagicAIChatPermission--waiting .UnmagicAIChatPermission__argument {
+    @apply text-amber-900 dark:text-amber-200;
+  }
+
+  .UnmagicAIChatPermission__summary {
+    @apply mt-2;
+  }
+
+  .UnmagicAIChatPermission__reason {
+    @apply mt-1 text-neutral-600 dark:text-neutral-400;
+  }
+
+  .UnmagicAIChatPermission__examples {
+    @apply mt-2 mb-0 list-disc pl-5 text-neutral-500;
+  }
+
+  .UnmagicAIChatPermission__actions > form,
+  .UnmagicAIChatProposal__actions > form,
+  .UnmagicAIChatActionBar > form,
+  .UnmagicAIChatBranchPicker > form {
+    @apply m-0 inline-flex;
+  }
+
+  /* Red for the affirmative, deliberately: this is the consequential choice, not
+     an error, and it is the one control in the family that should give pause. */
+  .UnmagicAIChatPermission__allow {
+    @apply border-transparent bg-red-600 text-white dark:border-transparent dark:bg-red-600 dark:text-white;
+  }
+
+  .UnmagicAIChatPermission__allow:hover {
+    @apply bg-red-500 dark:bg-red-500;
+  }
+
+  .UnmagicAIChatPermission__widen {
+    @apply border-red-300 text-red-700 dark:border-red-400/40 dark:text-red-400;
+  }
+
+  .UnmagicAIChatPermission__widen:hover {
+    @apply bg-red-50 dark:bg-red-400/10;
+  }
+
+  .UnmagicAIChatPermission__outcome {
+    @apply mt-3 mb-0 text-xs font-medium text-neutral-500;
+  }
+
+  /* A grant is the outcome worth spotting later. */
+  .UnmagicAIChatPermission--granted .UnmagicAIChatPermission__outcome {
+    @apply text-red-700 dark:text-red-400;
+  }
+
+  /* ------------------------------------------------------ AI chat proposals */
+
+  /* Quieter than a card: it sits inside a reply, and a card-weight box mid-paragraph
+     reads as the end of the reply. */
+  .UnmagicAIChatProposal {
+    @apply my-2 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm;
+    @apply dark:border-neutral-800 dark:bg-neutral-900;
+  }
+
+  .UnmagicAIChatProposal--rejected {
+    @apply opacity-55;
+  }
+
+  .UnmagicAIChatProposal__body {
+    @apply flex min-w-0 items-start gap-2;
+  }
+
+  .UnmagicAIChatProposal__glyph {
+    @apply mt-0.5 text-blue-600 dark:text-blue-400;
+  }
+
+  .UnmagicAIChatProposal__claim {
+    @apply m-0 text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicAIChatProposal__meta {
+    @apply m-0 text-xs text-neutral-500;
+  }
+
+  .UnmagicAIChatProposal__actions {
+    @apply flex items-center gap-1.5;
+  }
+
+  .UnmagicAIChatProposal__outcome {
+    @apply inline-flex items-center gap-1 text-xs text-neutral-500;
+  }
+
+  .UnmagicAIChatProposal__outcome .UnmagicIcon {
+    @apply size-3.5;
+  }
+
+  /* ------------------------------------------------------ AI chat citations */
+
+  /* The left rule is what sets a quotation apart from the prose around it. */
+  .UnmagicAIChatCitation {
+    @apply mx-0 my-2 flex items-start gap-2 rounded-md border-l-[3px] border-blue-300 bg-neutral-50 px-3 py-2 text-sm;
+    @apply dark:border-blue-400/50 dark:bg-neutral-900;
+  }
+
+  .UnmagicAIChatCitation__main {
+    @apply min-w-0 flex-1;
+  }
+
+  .UnmagicAIChatCitation__caption {
+    @apply mb-0.5 flex flex-wrap items-baseline gap-x-2 text-xs text-neutral-500;
+  }
+
+  .UnmagicAIChatCitation__who {
+    @apply font-semibold text-neutral-700 dark:text-neutral-300;
+  }
+
+  .UnmagicAIChatCitation__when {
+    @apply text-inherit no-underline;
+  }
+
+  a.UnmagicAIChatCitation__when:hover {
+    @apply underline;
+  }
+
+  .UnmagicAIChatCitation__quote {
+    @apply m-0 border-0 p-0 whitespace-pre-wrap text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicAIChatCitation--compact {
+    @apply items-baseline py-1;
+  }
+
+  .UnmagicAIChatCitation--compact .UnmagicAIChatCitation__main {
+    @apply flex items-baseline gap-2;
+  }
+
+  .UnmagicAIChatCitation--compact .UnmagicAIChatCitation__caption {
+    @apply mb-0 shrink-0 flex-nowrap;
+  }
+
+  .UnmagicAIChatCitation--compact .UnmagicAIChatCitation__quote {
+    @apply min-w-0 truncate whitespace-nowrap;
+  }
+
+  /* ---------------------------------------------------- AI chat action bars */
+
+  .UnmagicAIChatActionBar {
+    @apply inline-flex items-center gap-0.5;
+  }
+
+  /* Hidden with opacity, never display: none, so the bar stays in the tab order and
+     shows the moment it takes focus. There is no hover on a touch screen, so it is
+     always shown there. */
+  .UnmagicAIChatActionBar[data-reveal="hover"] {
+    @apply opacity-0;
+    transition: opacity 150ms ease;
+  }
+
+  .UnmagicAIChatMessage:hover .UnmagicAIChatActionBar[data-reveal="hover"],
+  .UnmagicAIChatActionBar[data-reveal="hover"]:focus-within {
+    @apply opacity-100;
+  }
+
+  @media (hover: none) {
+    .UnmagicAIChatActionBar[data-reveal="hover"] {
+      @apply opacity-100;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .UnmagicAIChatActionBar[data-reveal="hover"] {
+      transition: none;
+    }
+  }
+
+  .UnmagicAIChatActionBar .UnmagicButton--icon {
+    @apply p-1;
+  }
+
+  .UnmagicAIChatActionBar .UnmagicIcon {
+    @apply size-3.5;
+  }
+
+  /* ------------------------------------------------- AI chat branch pickers */
+
+  .UnmagicAIChatBranchPicker {
+    @apply inline-flex items-center gap-0.5 text-xs text-neutral-500;
+  }
+
+  /* Tabular, so 9/10 and 10/10 don't jitter. */
+  .UnmagicAIChatBranchPicker__count {
+    @apply px-0.5 tabular-nums;
+  }
+
+  .UnmagicAIChatBranchPicker__step {
+    font: inherit;
+    @apply inline-flex cursor-pointer items-center justify-center rounded-md border-0 bg-transparent p-1 text-neutral-500 no-underline;
+  }
+
+  .UnmagicAIChatBranchPicker__step:hover {
+    @apply bg-neutral-100 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100;
+  }
+
+  .UnmagicAIChatBranchPicker__step:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicAIChatBranchPicker__step[aria-disabled="true"] {
+    @apply pointer-events-none cursor-default opacity-40;
+  }
+
+  .UnmagicAIChatBranchPicker__step .UnmagicIcon {
+    @apply size-3.5;
+  }
+
+  /* --------------------------------------------------------------- Sortable */
+
+  .UnmagicSortableList,
+  .UnmagicSortableItem {
+    @apply block;
+  }
+
+  unmagic-sortable-param {
+    @apply hidden;
+  }
+
+  /* A handle is where a pointer picks an item up. The grip button is also
+     touch-action: none, so a finger drags it at once rather than scrolling. A
+     larger handle (a board column's header) leaves scrolling alone, and a finger
+     lifts it with a long press instead; the element reads which from touch-action. */
+  [data-sortable-handle] {
+    @apply cursor-grab;
+  }
+
+  .UnmagicSortableHandle {
+    touch-action: none;
+  }
+
+  [data-sortable-handle]:active {
+    @apply cursor-grabbing;
+  }
+
+  /* Nothing is selected while dragging, and the grab shows wherever the pointer is. */
+  html:has([data-sortable-placeholder]) {
+    @apply cursor-grabbing select-none;
+  }
+
+  /* The copy following the pointer, placed by the element. drop-shadow rather than
+     box-shadow, so the shadow follows a rounded card rather than its square box. */
+  [data-sortable-dragging] {
+    @apply pointer-events-none fixed top-0 left-0 z-50 m-0 opacity-95;
+    filter: drop-shadow(0 8px 12px rgb(0 0 0 / 0.2));
+  }
+
+  /* The item left in the list, showing where it will land. */
+  [data-sortable-placeholder] {
+    @apply opacity-40;
+  }
+
+  /* The item a keyboard is holding. */
+  [data-sortable-lifted] {
+    @apply rounded-lg outline-2 outline-offset-2 outline-neutral-900 dark:outline-neutral-100;
+  }
+
+  /* A long press lifts an item on a touch screen, so it mustn't also select text
+     or open the system's link menu. */
+  @media (pointer: coarse) {
+    .UnmagicSortableItem {
+      @apply select-none;
+      -webkit-touch-callout: none;
+    }
+  }
+
+  .UnmagicSortableItem:focus-visible {
+    @apply rounded-lg outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicSortableList--horizontal {
+    @apply flex;
+  }
+
+  .UnmagicSortableList--grid {
+    @apply flex flex-wrap;
+  }
+
+  /* ----------------------------------------------------------------- Boards */
+
+  /* Columns sit side by side and the board scrolls sideways; a column's cards
+     scroll inside it past --unmagic-board-column-height. */
+  .UnmagicBoard {
+    @apply relative;
+  }
+
+  /* relative, like the card list below: anything absolute inside a scroller (a
+     visually hidden label) must be placed within it. Placed by an ancestor
+     outside, it escapes the scroller's clipping and widens the whole page. */
+  .UnmagicBoard__columns {
+    @apply relative flex items-start gap-3 overflow-x-auto pb-2;
+    overscroll-behavior-x: contain;
+  }
+
+  .UnmagicBoard__column,
+  .UnmagicBoard__tail {
+    @apply w-72 shrink-0;
+  }
+
+  .UnmagicBoard__panel {
+    @apply flex flex-col rounded-xl border border-neutral-200 bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-900;
+    max-height: var(--unmagic-board-column-height, 75dvh);
+  }
+
+  .UnmagicBoard__head {
+    @apply flex min-w-0 items-center gap-1 px-2 pt-2 pb-1;
+  }
+
+  .UnmagicBoard__grip {
+    @apply p-1 text-neutral-400;
+  }
+
+  .UnmagicBoard__title {
+    @apply m-0 min-w-0 flex-1 truncate text-sm font-semibold text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicBoard__count {
+    @apply shrink-0 rounded-full bg-neutral-200 px-1.5 text-xs text-neutral-500 tabular-nums dark:bg-neutral-800 dark:text-neutral-400;
+  }
+
+  .UnmagicBoard__actions {
+    @apply flex shrink-0 items-center gap-0.5;
+  }
+
+  /* The cards take the column's height and scroll within it. min-height keeps an
+     empty column a target to drop into. No overscroll containment: Chrome applies
+     it to a list that isn't even overflowing, and a finger swiping over a short
+     column then can't scroll the page. */
+  .UnmagicBoard__cards {
+    @apply relative flex min-h-12 flex-1 flex-col gap-2 overflow-y-auto rounded-lg px-2 py-1;
+  }
+
+  .UnmagicBoard__cards[data-sortable-over] {
+    @apply bg-neutral-200/70 dark:bg-neutral-800/70;
+  }
+
+  .UnmagicBoard__card {
+    @apply cursor-grab rounded-lg border border-neutral-200 bg-white p-3 text-sm text-neutral-900 shadow-xs;
+    @apply dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100;
+  }
+
+  .UnmagicBoard__card:hover {
+    @apply border-neutral-300 dark:border-neutral-600;
+  }
+
+  .UnmagicBoard__card[data-sortable-dragging] {
+    rotate: 2deg;
+  }
+
+  /* The whole column is lifted by keyboard, so its panel shows it rather than the
+     item's box. */
+  .UnmagicBoard__column[data-sortable-lifted] {
+    @apply rounded-xl;
+  }
+
+  .UnmagicBoard__add {
+    @apply px-2 pt-1 pb-2;
+  }
+
+  .UnmagicBoard__addToggle {
+    @apply flex cursor-pointer list-none items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm text-neutral-500 select-none;
+  }
+
+  .UnmagicBoard__addToggle::-webkit-details-marker {
+    @apply hidden;
+  }
+
+  .UnmagicBoard__addToggle:hover {
+    @apply bg-neutral-200 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100;
+  }
+
+  .UnmagicBoard__addToggle:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  /* Open, the form stands in for the toggle; Escape or × closes it. */
+  .UnmagicBoard__add[open] > .UnmagicBoard__addToggle {
+    @apply hidden;
+  }
+
+  .UnmagicBoard__addForm {
+    @apply m-0 flex flex-col gap-2;
+  }
+
+  .UnmagicBoard__addField {
+    @apply max-h-40 w-full;
+  }
+
+  .UnmagicBoard__addActions {
+    @apply flex items-center gap-1;
+  }
+
+  /* The "Add a list" tile at the end of the board. */
+  .UnmagicBoard__addColumn {
+    @apply rounded-xl border border-dashed border-neutral-300 bg-neutral-50 p-0 dark:border-neutral-700 dark:bg-neutral-900/50;
+  }
+
+  .UnmagicBoard__addColumn[open] {
+    @apply border-solid bg-neutral-100 p-2 dark:bg-neutral-900;
+  }
+
+  .UnmagicBoard__addColumn > .UnmagicBoard__addToggle {
+    @apply px-3 py-2.5;
   }
 }

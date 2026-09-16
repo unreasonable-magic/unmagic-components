@@ -1,0 +1,9 @@
+<div class="w-80 rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900">
+  <%= ai_chat_plan id: "plan_states" do |plan| %>
+    <% plan.step "Find the job", state: :completed %>
+    <% plan.step "List who hasn't replied", state: :completed %>
+    <% plan.step "Check the bounced address", state: :in_progress %>
+    <% plan.step "Nudge Grace", state: :waiting do %>Needs your go-ahead to send<% end %>
+    <% plan.step "Remind me about Ana on the 19th" %>
+  <% end %>
+</div>

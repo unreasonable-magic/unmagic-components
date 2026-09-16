@@ -1,0 +1,7 @@
+<div class="flex w-52 flex-col gap-1.5 text-xs">
+  <% [ "Phone screen", "Take-home", "Pairing" ].each_with_index do |step, index| %>
+    <div class="flex items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-1.5 py-1 dark:border-neutral-800 dark:bg-neutral-900 <%= "opacity-40" if index == 1 %>">
+      <%= Unmagic::Components::Icons.svg(self, :grip_vertical, class: "size-3 text-neutral-400") %><%= step %>
+    </div>
+  <% end %>
+</div>

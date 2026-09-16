@@ -1,0 +1,10 @@
+<div class="flex w-72 gap-2 text-xs">
+  <% [ [ "To do", [ "Write the ad", "Book the room" ] ], [ "Doing", [ "Shortlist" ] ] ].each do |title, cards| %>
+    <div class="UnmagicBoard__panel w-1/2 shrink-0">
+      <div class="UnmagicBoard__head"><h3 class="UnmagicBoard__title text-xs"><%= title %></h3><span class="UnmagicBoard__count"><%= cards.size %></span></div>
+      <div class="UnmagicBoard__cards pb-2">
+        <% cards.each do |card| %><div class="UnmagicBoard__card p-2 text-xs"><%= card %></div><% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

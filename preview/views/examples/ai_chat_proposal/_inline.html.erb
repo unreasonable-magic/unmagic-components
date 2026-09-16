@@ -1,0 +1,18 @@
+<div class="mx-auto max-w-2xl">
+  <%= ai_chat_message role: :assistant do %>
+    <p>Ana mentioned she's travelling, so I'd hold the nudge until she's back.</p>
+    <%= ai_chat_proposal id: "inline_fact" do |offer| %>
+      <% offer.claim "Ana is travelling until the 18th" %>
+      <% offer.meta "About Ana Silva · 80% sure" %>
+      <% offer.accept { button_to "Remember", "#", class: button_classes(:primary, size: :small) } %>
+      <% offer.reject { button_to "Dismiss", "#", class: button_classes(size: :small) } %>
+    <% end %>
+    <%= ai_chat_proposal id: "inline_finder", icon: :list_checks do |offer| %>
+      <% offer.claim { safe_join [ "Track ", tag.strong("notice period"), " for everyone?" ] } %>
+      <% offer.meta "e.g. Ana Silva — one month" %>
+      <% offer.accept { button_to "Track this", "#", class: button_classes(:primary, size: :small) } %>
+      <% offer.reject { button_to "No thanks", "#", class: button_classes(size: :small) } %>
+    <% end %>
+    <p>I'll remind you on the 19th.</p>
+  <% end %>
+</div>

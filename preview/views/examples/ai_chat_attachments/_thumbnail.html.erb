@@ -1,0 +1,6 @@
+<div class="w-64 text-xs">
+  <%= ai_chat_attachments do |files| %>
+    <% files.file "brief.pdf", size: 204_800 %>
+    <% files.file "notes.md", size: 2_048 %>
+  <% end %>
+</div>

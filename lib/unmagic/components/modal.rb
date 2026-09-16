@@ -56,7 +56,7 @@ module Unmagic
 
         panel.footer do
           tag.button type: "button", class: Button.classes(:primary), data: { unmagic_modal_retry: "" } do
-            safe_join [ Icons.svg(view, :rotate), I18n.t("unmagic.components.modal.retry", default: "Try again") ]
+            safe_join [ Icons.svg(view, :rotate_cw), I18n.t("unmagic.components.modal.retry", default: "Try again") ]
           end
         end
 
