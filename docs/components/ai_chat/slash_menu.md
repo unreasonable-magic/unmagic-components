@@ -1,8 +1,15 @@
 # `ai_chat_slash_menu`
 
-> Status: draft
+> Status: built
 > Tier: 2 (small element)
 > Relates to: [composer](composer.md), [`../position`](../position.md), [`../combobox`](../combobox.md), [`../command_palette`](../command_palette.md)
+
+## As built
+
+Where the build differs from this note:
+
+- Built before [`../position`](../position.md): the menu is absolutely positioned inside the composer, which is always its anchor, so it doesn't need the shared placement. Move it onto `position.js` when that lands if menus elsewhere need it.
+- `insert:` is a template, `%{trigger}%{name} ` by default.
 
 ## Purpose
 

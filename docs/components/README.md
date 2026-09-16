@@ -33,7 +33,7 @@ These are documented in the README and have no notes here:
 
 | Note | Rails Blocks gap | Status |
 |---|---|---|
-| [avatar](avatar.md) | Avatar | draft |
+| [avatar](avatar.md) | Avatar | built |
 | [breadcrumbs](breadcrumbs.md) | Breadcrumb | draft |
 | [kbd](kbd.md) | KBD & Hotkey (the key hint) | draft |
 | [spinner](spinner.md) | Loading Indicator | draft |
@@ -59,9 +59,9 @@ These are documented in the README and have no notes here:
 | [animated_number](animated_number.md) | Animated Number | draft |
 | [hotkey](hotkey.md) | KBD & Hotkey (the shortcut) | draft |
 | [position](position.md) | (infrastructure) shared placement and `menu` on the Popover API; build before popover, context_menu and combobox | draft |
-| [auto_scroll](auto_scroll.md) | (none) `<unmagic-autoscroll>`, extracted from hooops and toybox | draft |
-| [optimistic](optimistic.md) | (none) `<unmagic-optimistic>`, the client half of the `upsert` contract | draft |
-| [elapsed](elapsed.md) | (none) `<unmagic-elapsed>`, a clock counting up from a server-named moment | draft |
+| [auto_scroll](auto_scroll.md) | (none) `<unmagic-autoscroll>`, extracted from hooops and toybox | built |
+| [optimistic](optimistic.md) | (none) `<unmagic-optimistic>`, the client half of the `upsert` contract | built |
+| [elapsed](elapsed.md) | (none) `<unmagic-elapsed>`, a clock counting up from a server-named moment | built |
 
 ## Tier 3: large or dependency-heavy
 

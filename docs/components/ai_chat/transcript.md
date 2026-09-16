@@ -1,8 +1,16 @@
 # `ai_chat`
 
-> Status: draft
+> Status: built
 > Tier: 2 (small element)
 > Relates to: [message](message.md), [composer](composer.md), [welcome](welcome.md), `<unmagic-autoscroll>`
+
+## As built
+
+Where the build differs from this note:
+
+- Spacing is keyed to the timeline, not a separate `data-ai-chat-cluster`: a timeline row that follows another timeline element (a row or a `gap` marker) sits closer, and the join line fills that gap. One marker does both jobs.
+- The jump-to-latest button is `[data-autoscroll-latest]` inside `<unmagic-autoscroll>`, which shows, hides and handles it itself, rather than being wired by delegation.
+- The welcome is rendered only while the server has no entries, and CSS (`:has()`) hides it once one is streamed in.
 
 ## Purpose
 

@@ -1,0 +1,17 @@
+<div class="mx-auto max-w-2xl">
+  <%= ai_chat_dropzone input: "#drop_files", chips: "#drop_composer [data-ai-chat-chips]", label: "Drop to attach to your message",
+        class: "rounded-2xl border border-dashed border-neutral-200 p-4 dark:border-neutral-800" do %>
+    <p class="mb-4 text-sm text-neutral-500">The whole box is the drop zone.</p>
+    <%= form_with url: "#", id: "drop_composer", multipart: true do |form| %>
+      <%= ai_chat_composer form: form, field: :content, placeholder: "Paste an image here, or drop a file…" do |composer| %>
+        <% composer.attach do %>
+          <label class="<%= button_classes(:icon) %>" title="Attach a file">
+            <%= Unmagic::Components::Icons.svg(self, :paperclip) %>
+            <span class="UnmagicVisuallyHidden">Attach a file</span>
+            <%= form.file_field :files, multiple: true, id: "drop_files", class: "UnmagicVisuallyHidden" %>
+          </label>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

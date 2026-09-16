@@ -1,0 +1,10 @@
+<div class="mx-auto max-w-2xl">
+  <% [ [ "Handbook · Leave", "Four weeks, accruing monthly from the first day." ],
+       [ "Handbook · Remote work", "Anyone can work from anywhere in the same timezone band." ],
+       [ "Contract template §4", "Notice is one month on either side after probation." ] ].each do |source, text| %>
+    <%= ai_chat_citation compact: true do |cite| %>
+      <% cite.who source %>
+      <% cite.quote text %>
+    <% end %>
+  <% end %>
+</div>

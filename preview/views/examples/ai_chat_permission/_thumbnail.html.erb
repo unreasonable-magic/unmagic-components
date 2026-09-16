@@ -1,0 +1,7 @@
+<div class="w-64 text-xs">
+  <%= ai_chat_permission tool: "delete_files", state: :waiting, url: "#", class: "p-3 text-xs" do |ask| %>
+    <% ask.argument "paths", "drafts/*" %>
+    <% ask.allow %>
+    <% ask.refuse %>
+  <% end %>
+</div>

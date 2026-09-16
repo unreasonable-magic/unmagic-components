@@ -1,8 +1,15 @@
 # `<unmagic-autoscroll>`
 
-> Status: draft
+> Status: built
 > Tier: 2 (small element)
 > Relates to: [ai_chat/transcript](ai_chat/transcript.md), which wraps it
+
+## As built
+
+Where the build differs from this note:
+
+- The element also shows, hides and handles any `[data-autoscroll-latest]` button inside it, which is how `ai_chat`'s jump-to-latest works.
+- Following is batched to one scroll per animation frame.
 
 ## Purpose
 

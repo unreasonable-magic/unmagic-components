@@ -1,0 +1,12 @@
+<div class="mx-auto max-w-2xl">
+  <%= ai_chat_tool_call name: "generate_image", state: :done, icon: :lightbulb do |tool| %>
+    <% tool.summary "a red paper lantern" %>
+    <% tool.timing duration: 14.2 %>
+    <% tool.asked({ prompt: "a red paper lantern, night market, soft glow" }) %>
+    <% tool.made do %>
+      <% %w[from-red-500 from-orange-400 from-rose-500].each do |from| %>
+        <div class="grid h-28 w-40 place-items-center rounded-lg bg-gradient-to-br <%= from %> to-neutral-900 text-xs text-white">lantern.png</div>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

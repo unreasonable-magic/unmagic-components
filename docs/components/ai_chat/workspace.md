@@ -1,8 +1,14 @@
 # `ai_chat_workspace`
 
-> Status: draft
+> Status: built
 > Tier: 1 (no JS)
 > Relates to: [plan](plan.md), [attachments](attachments.md), [`../tree_view`](../tree_view.md), `card`
+
+## As built
+
+Where the build differs from this note:
+
+- Flat only, as the open question proposed: no `tree:` option and no depth knob. A file's directory is shown, dimmed, before its name.
 
 ## Purpose
 

@@ -1,8 +1,15 @@
 # `ai_chat_action_bar`
 
-> Status: draft
+> Status: built
 > Tier: 2 (small element)
 > Relates to: [message](message.md), [branch_picker](branch_picker.md), `copy_button`, `tooltip`
+
+## As built
+
+Where the build differs from this note:
+
+- `bar.action(label, url, icon:, method:, confirm:)` takes the url positionally.
+- The toolbar's controls are its buttons, links and anything with a tabindex, skipping disabled and hidden ones.
 
 ## Purpose
 

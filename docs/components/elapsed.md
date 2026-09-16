@@ -1,8 +1,14 @@
 # `<unmagic-elapsed>`
 
-> Status: draft
+> Status: built
 > Tier: 2 (small element)
 > Relates to: `local_time_tag`, which formats an instant rather than a duration
+
+## As built
+
+Where the build differs from this note:
+
+- The `title` is the start (or end) time in `I18n.l(time, format: :long)`.
 
 ## Purpose
 

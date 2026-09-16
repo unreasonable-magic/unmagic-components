@@ -1,8 +1,15 @@
 # `ai_chat_branch_picker`
 
-> Status: draft
+> Status: built
 > Tier: 2 (small element)
 > Relates to: [message](message.md), [action_bar](action_bar.md)
+
+## As built
+
+Where the build differs from this note:
+
+- A disabled end has a `title` but no `aria-label`: it's a plain `<span>`, which may not be named.
+- Focus restoration covers stream renders and Turbo visits, via a click on a step.
 
 ## Purpose
 

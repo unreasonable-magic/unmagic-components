@@ -77,14 +77,14 @@ Every application that renders an agent needs all of these.
 
 | Note | Tier | Converged in | Status |
 |---|---|---|---|
-| [transcript](transcript.md) | 2 | all three | draft |
-| [message](message.md) | 1 | all three | draft |
-| [streaming_markdown](streaming_markdown.md) | 3 | hooops | draft |
-| [tool_call](tool_call.md) | 2 | all three | draft |
-| [payload](payload.md) | 1 | all three | draft |
-| [composer](composer.md) | 2 | all three | draft |
-| [failure](failure.md) | 1 | all three | draft |
-| [plan](plan.md) | 1 | hooops, toybox | draft |
+| [transcript](transcript.md) | 2 | all three | built |
+| [message](message.md) | 1 | all three | built |
+| [streaming_markdown](streaming_markdown.md) | 3 | hooops | built |
+| [tool_call](tool_call.md) | 2 | all three | built |
+| [payload](payload.md) | 1 | all three | built |
+| [composer](composer.md) | 2 | all three | built |
+| [failure](failure.md) | 1 | all three | built |
+| [plan](plan.md) | 1 | hooops, toybox | built |
 
 ### Stopping to ask
 An agent that can only talk is a chatbot. These are the components for one that
@@ -92,20 +92,20 @@ stops and waits.
 
 | Note | Tier | Converged in | Status |
 |---|---|---|---|
-| [request](request.md) | 2 | hooops, toybox | draft |
-| [permission](permission.md) | 2 | toybox | draft |
-| [proposal](proposal.md) | 1 | kp2 | draft |
+| [request](request.md) | 2 | hooops, toybox | built |
+| [permission](permission.md) | 2 | toybox | built |
+| [proposal](proposal.md) | 1 | kp2 | built |
 
 ### Around the transcript
 
 | Note | Tier | Converged in | Status |
 |---|---|---|---|
-| [reasoning](reasoning.md) | 1 | hooops, kp2 | draft |
-| [citation](citation.md) | 1 | kp2 | draft |
-| [welcome](welcome.md) | 1 | kp2, hooops | draft |
-| [attachments](attachments.md) | 2 | kp2, toybox | draft |
-| [slash_menu](slash_menu.md) | 2 | kp2, toybox | draft |
-| [workspace](workspace.md) | 1 | hooops, toybox | draft |
+| [reasoning](reasoning.md) | 1 | hooops, kp2 | built |
+| [citation](citation.md) | 1 | kp2 | built |
+| [welcome](welcome.md) | 1 | kp2, hooops | built |
+| [attachments](attachments.md) | 2 | kp2, toybox | built |
+| [slash_menu](slash_menu.md) | 2 | kp2, toybox | built |
+| [workspace](workspace.md) | 1 | hooops, toybox | built |
 
 ### Parity with assistant-ui
 None of the three applications has these. They are built in this round so that
@@ -113,8 +113,8 @@ None of the three applications has these. They are built in this round so that
 
 | Note | Tier | Converged in | Status |
 |---|---|---|---|
-| [action_bar](action_bar.md) | 2 | none | draft |
-| [branch_picker](branch_picker.md) | 2 | none | draft |
+| [action_bar](action_bar.md) | 2 | none | built |
+| [branch_picker](branch_picker.md) | 2 | none | built |
 
 ### Infrastructure, filed outside this folder
 Generic elements the AI chat components need, useful well beyond them, so they sit
@@ -188,12 +188,12 @@ Settled ones stay listed so the reasoning isn't lost.
   reconcile-by-id contract. This is the first component family in the gem that
   isn't optional about Turbo.
 
-- **Glyphs go into `Icons::PATHS`.** The set needs roughly twelve more Lucide
-  paths — `wrench`, `shield-alert`, `circle-question-mark`, `list-checks`,
-  `loader-circle`, `chevron-right`, `timer`, `coins`, `circle-dashed`,
-  `paperclip`, `folder`, `messages-square`. The applications reach for
-  `unmagic-icon`, but the gem's principle is inline SVG and no icon library, and
-  twelve paths is a smaller cost than a dependency.
+- ~~**Glyphs go into `Icons::PATHS`.**~~ **Superseded: glyphs render through
+  `unmagic-icon`.** The gem now depends on unmagic-icon (and on unmagic-color,
+  for avatar tints), and ships the Lucide SVGs it needs in
+  `app/assets/icons/lucide`. A host needs no icon set of its own, which matters
+  because kp2 downloads Phosphor rather than Lucide. `Icons.svg(view, :name)` is
+  unchanged for callers.
 
 - **Amber means waiting on a person.** All three applications arrived at this
   independently — a permission request, an unanswered question, a plan step

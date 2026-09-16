@@ -1,8 +1,17 @@
 # `ai_chat_message`
 
-> Status: draft
+> Status: built
 > Tier: 1 (no JS of its own)
 > Relates to: [transcript](transcript.md), [streaming_markdown](streaming_markdown.md), [action_bar](action_bar.md), [branch_picker](branch_picker.md), `<unmagic-optimistic>`
+
+## As built
+
+Where the build differs from this note:
+
+- An assistant turn with an `id:` always renders its body as `<unmagic-streaming-markdown>`, streaming or not: the settled render upserts over the streaming one, and the element carries the reveal across that swap. `streaming:` only adds `aria-busy` and the thinking spinner.
+- `message.reasoning` takes `ai_chat_reasoning`'s options (`message.reasoning(duration: 12) { … }`).
+- A user bubble trims a block's surrounding whitespace, since the bubble keeps line breaks.
+- The spec file is `ai_chat_transcript_spec.rb`, alongside the transcript and reasoning.
 
 ## Purpose
 

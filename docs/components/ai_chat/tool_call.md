@@ -1,8 +1,15 @@
 # `ai_chat_tool_call`
 
-> Status: draft
+> Status: built
 > Tier: 2 (small element)
 > Relates to: [payload](payload.md), [transcript](transcript.md), `<unmagic-elapsed>`
+
+## As built
+
+Where the build differs from this note:
+
+- There is no `data-ai-chat-cluster`; the timeline markers do that job (see [transcript](transcript.md)).
+- `tool.progress` renders only while the call is running.
 
 ## Purpose
 

@@ -1,8 +1,14 @@
 # `ai_chat_proposal`
 
-> Status: draft
+> Status: built
 > Tier: 1 (no JS)
 > Relates to: [request](request.md), [citation](citation.md), `card`
+
+## As built
+
+Where the build differs from this note:
+
+- Built as described; the default icon is `:lightbulb`.
 
 ## Purpose
 

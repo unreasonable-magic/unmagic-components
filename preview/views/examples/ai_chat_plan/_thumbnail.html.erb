@@ -1,0 +1,7 @@
+<div class="w-56 rounded-xl border border-neutral-200 bg-white text-xs dark:border-neutral-800 dark:bg-neutral-900">
+  <%= ai_chat_plan class: "p-3" do |plan| %>
+    <% plan.step "Find the job", state: :completed %>
+    <% plan.step "Check the address", state: :in_progress %>
+    <% plan.step "Nudge Grace", state: :waiting %>
+  <% end %>
+</div>

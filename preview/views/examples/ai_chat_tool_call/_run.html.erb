@@ -1,0 +1,25 @@
+<div class="mx-auto max-w-2xl">
+  <%= ai_chat id: "run_entries", follow: false do %>
+    <%= ai_chat_message role: :assistant do %><p>Let me look through the shelves.</p><% end %>
+    <%= ai_chat_tool_call name: "list_shelves", state: :done, icon: :folder do |tool| %>
+      <% tool.timing duration: 0.09 %>
+      <% tool.asked({}) %>
+      <% tool.answered({ shelves: [ "Backgrounds", "Characters", "Props" ] }) %>
+    <% end %>
+    <div data-ai-chat-timeline="gap" hidden></div>
+    <%= ai_chat_tool_call name: "search_files", state: :done, icon: :file, open: true do |tool| %>
+      <% tool.summary "red lantern" %>
+      <% tool.timing duration: 0.64 %>
+      <% tool.asked({ query: "red lantern", shelf: "Props" }) %>
+      <% tool.answered({ files: [ "props/lantern-red.glb", "props/lantern-red-lit.glb" ] }) %>
+    <% end %>
+    <div data-ai-chat-timeline="gap" hidden></div>
+    <%= ai_chat_tool_call name: "read_file", state: :done, icon: :file do |tool| %>
+      <% tool.summary "props/lantern-red.glb" %>
+      <% tool.timing duration: 2.4 %>
+      <% tool.asked({ path: "props/lantern-red.glb" }) %>
+      <% tool.answered "A 3D model: 2,140 triangles, one material, no animations." %>
+    <% end %>
+    <%= ai_chat_message role: :assistant do %><p>There are two red lanterns; the lit one has an emissive material.</p><% end %>
+  <% end %>
+</div>

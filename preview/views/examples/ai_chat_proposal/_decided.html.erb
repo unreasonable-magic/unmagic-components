@@ -1,0 +1,11 @@
+<div class="mx-auto max-w-2xl">
+  <%= ai_chat_proposal state: :accepted do |offer| %>
+    <% offer.claim "Ana is travelling until the 18th" %>
+    <% offer.meta "About Ana Silva" %>
+    <% offer.outcome "Remembered" %>
+  <% end %>
+  <%= ai_chat_proposal state: :rejected, icon: :list_checks do |offer| %>
+    <% offer.claim "Track notice period for everyone?" %>
+    <% offer.meta "A new kind of detail worth keeping" %>
+  <% end %>
+</div>

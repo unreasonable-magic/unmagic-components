@@ -1,8 +1,15 @@
 # `ai_chat_request`
 
-> Status: draft
+> Status: built
 > Tier: 2 (small element)
 > Relates to: [permission](permission.md), [tool_call](tool_call.md), `card`, `FormBuilder`
+
+## As built
+
+Where the build differs from this note:
+
+- `request.question` takes `picked:` for an answered card, and the helper takes `method:` and `scope:` for the form.
+- Focus-on-arrival lives in `ai_chat.js`, and applies only to a card rendered with `live: true`.
 
 ## Purpose
 

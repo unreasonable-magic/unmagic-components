@@ -8,8 +8,10 @@
   <%= link_to label, path, class: current_page?(path) ? current : item, "aria-current": ("page" if current_page?(path)) %>
 <% end %>
 
-<p class="<%= heading %> pt-6">Components</p>
-<% @components.each do |component| %>
-  <% path = "/components/#{component.slug}" %>
-  <%= link_to component.name, path, class: current_page?(path) ? current : item, "aria-current": ("page" if current_page?(path)) %>
+<% @component_groups.each do |group, components| %>
+  <p class="<%= heading %> pt-6"><%= group %></p>
+  <% components.each do |component| %>
+    <% path = "/components/#{component.slug}" %>
+    <%= link_to component.name, path, class: current_page?(path) ? current : item, "aria-current": ("page" if current_page?(path)) %>
+  <% end %>
 <% end %>

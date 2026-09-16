@@ -1,8 +1,14 @@
 # `ai_chat_failure`
 
-> Status: draft
+> Status: built
 > Tier: 1 (no JS)
 > Relates to: [message](message.md), [payload](payload.md), `callout`
+
+## As built
+
+Where the build differs from this note:
+
+- `live: true` is built as described.
 
 ## Purpose
 

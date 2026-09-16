@@ -1,0 +1,8 @@
+<dl class="grid grid-cols-[auto_auto] gap-x-6 gap-y-2 text-sm">
+  <dt class="text-neutral-500">Started just now</dt>
+  <dd><%= elapsed_tag @now - 4 %></dd>
+  <dt class="text-neutral-500">A slow tool</dt>
+  <dd><%= elapsed_tag @now - 185 %></dd>
+  <dt class="text-neutral-500">Probably hung</dt>
+  <dd><%= elapsed_tag @now - 3842 %></dd>
+</dl>

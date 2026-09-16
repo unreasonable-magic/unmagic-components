@@ -1,0 +1,11 @@
+<div class="mx-auto max-w-2xl">
+  <%= ai_chat_welcome heading: "What can I help with?", composer: "welcome_page_composer" do |welcome| %>
+    <% welcome.body "It can search your jobs and candidates, draft messages, and keep track of who has replied." %>
+    <% welcome.suggestion "Who hasn't replied yet?", icon: :messages_square %>
+    <% welcome.suggestion "Draft a follow-up for Ana", icon: :pencil %>
+    <% welcome.suggestion "Invite someone to…", icon: :lightbulb, fill: true, value: "Invite someone to " %>
+  <% end %>
+  <%= form_with url: "#", id: "welcome_page_composer", data: { turbo: false } do |form| %>
+    <%= ai_chat_composer form: form, field: :content, placeholder: "Message the assistant…", rows: 1 %>
+  <% end %>
+</div>

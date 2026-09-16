@@ -1,0 +1,11 @@
+<div class="mx-auto max-w-2xl">
+  <%= ai_chat_message role: :assistant do %>
+    <p>She said as much last week:</p>
+    <%= ai_chat_citation do |cite| %>
+      <% cite.avatar %>
+      <% cite.who "Ana Silva" %>
+      <% cite.when @now - 6.days, url: "#" %>
+      <% cite.quote "I'm keen, but I'm travelling until the 18th.\nCould we talk after that? <b>Thanks!</b>" %>
+    <% end %>
+  <% end %>
+</div>

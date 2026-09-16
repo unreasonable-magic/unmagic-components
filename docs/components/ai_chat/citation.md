@@ -1,8 +1,14 @@
 # `ai_chat_citation`
 
-> Status: draft
+> Status: built
 > Tier: 1 (no JS)
 > Relates to: [message](message.md), [proposal](proposal.md)
+
+## As built
+
+Where the build differs from this note:
+
+- `cite.avatar` with no block renders the gem's own `avatar` for `who`, which was built for this.
 
 ## Purpose
 

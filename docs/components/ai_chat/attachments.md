@@ -1,8 +1,17 @@
 # `ai_chat_attachments`
 
-> Status: draft
+> Status: built
 > Tier: 2 (small element)
 > Relates to: [composer](composer.md), [message](message.md), [workspace](workspace.md)
+
+## As built
+
+Where the build differs from this note:
+
+- There is no `ai_chat_attachment_chips` helper: the chips go into the composer's `[data-ai-chat-chips]`, which the dropzone names with `chips:`.
+- An uploading dropzone needs `field:`, the name the uploaded `value`s are posted under. The upload's contract is a POST of `file` answered with JSON carrying `value`.
+- The chip is cloned from a `<template data-dropzone-chip>` the helper renders, so the chip's markup is the server's rather than built in script.
+- Thumbnails only, as the open question proposed.
 
 ## Purpose
 

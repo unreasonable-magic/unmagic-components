@@ -1,0 +1,10 @@
+<div class="mx-auto flex max-w-xl flex-col gap-4">
+  <%= ai_chat_request state: :accepted do |request| %>
+    <% request.question "Which candidates should get a nudge?", header: "Who", picked: [ "Ana Silva", "Grace Okafor" ] %>
+    <% request.question "How should it sound?", header: "Tone", picked: [ "Friendly" ] %>
+  <% end %>
+  <%= ai_chat_request state: :declined, prompt: "I need a few details to create the job." %>
+  <%= ai_chat_request state: :timed_out do |request| %>
+    <% request.question "Send it now?", picked: [] %>
+  <% end %>
+</div>

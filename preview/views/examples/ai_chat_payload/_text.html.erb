@@ -1,0 +1,4 @@
+<div class="mx-auto max-w-xl">
+  <%= ai_chat_payload((1..40).map { |n| "app/models/chat.rb:#{n * 7}:in 'Chat#step_#{n}' — https://example.com/a/very/long/path/that/keeps/going/#{"x" * 40}" }.join("\n"),
+        label: "Where it happened", language: :plaintext) %>
+</div>

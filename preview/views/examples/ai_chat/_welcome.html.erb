@@ -1,0 +1,12 @@
+<div class="mx-auto max-w-2xl">
+  <%= ai_chat id: "welcome_entries", follow: false do |chat| %>
+    <% chat.welcome do %>
+      <%= ai_chat_welcome heading: "What can I help with?", composer: "welcome_composer" do |welcome| %>
+        <% welcome.body "It can search your jobs and candidates, draft messages, and keep track of who has replied." %>
+        <% welcome.suggestion "Who hasn't replied yet?", icon: :messages_square %>
+        <% welcome.suggestion "Which job is getting the most views?", icon: :list_checks %>
+        <% welcome.suggestion "Create a job at Acme", icon: :pencil %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

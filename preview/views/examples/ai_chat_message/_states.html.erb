@@ -1,0 +1,9 @@
+<div class="mx-auto flex max-w-2xl flex-col gap-6">
+  <%= ai_chat_message role: :assistant, id: "states_thinking", streaming: true %>
+  <%= ai_chat_message role: :assistant, id: "states_stopped", final: true do %>
+    <p class="text-neutral-500">Response stopped.</p>
+  <% end %>
+  <%= ai_chat_message role: :user, id: "states_optimistic", optimistic: { id: "x", text: "y" } %>
+  <p class="text-sm text-neutral-500">Above: an optimistic bubble as its template renders it, before the composer fills it in. Below this line is an empty settled turn, hidden.</p>
+  <%= ai_chat_message role: :assistant, id: "states_empty" %>
+</div>

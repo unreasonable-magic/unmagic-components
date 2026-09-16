@@ -1,0 +1,15 @@
+<div class="mx-auto max-w-2xl pt-56">
+  <%= form_with url: "#", id: "slash_composer" do |form| %>
+    <%= ai_chat_composer form: form, field: :content, placeholder: "Type / for a command…" do |composer| %>
+      <% composer.menu do %>
+        <%= ai_chat_slash_menu above: true do |menu| %>
+          <% menu.item "summarise", description: "Summarise the conversation so far" %>
+          <% menu.item "invite", description: "Invite a candidate to a job", arguments: %w[email job] %>
+          <% menu.item "interview", description: "Schedule an interview", arguments: %w[name] %>
+          <% menu.item "nudge", description: "Draft a follow-up for someone who hasn't replied", arguments: %w[name] %>
+          <% menu.item "export", description: "Export the shortlist as a spreadsheet" %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

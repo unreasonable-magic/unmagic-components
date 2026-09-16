@@ -1,8 +1,19 @@
 # `ai_chat_composer`
 
-> Status: draft
+> Status: built
 > Tier: 2 (small element)
 > Relates to: [message](message.md), [attachments](attachments.md), [slash_menu](slash_menu.md), `autogrow_text_area`, `<unmagic-optimistic>`, `<uuid-input>`
+
+## As built
+
+Where the build differs from this note:
+
+- The form must have an `id:`, which the composer reads from the builder; the field's name and id come from the builder too.
+- The stop form is its own helper, `ai_chat_stop_form(url)`, rendered outside the caller's form, since a form can't nest. The action region alone is `ai_chat_composer_action(form:, state:)`.
+- The field is a plain `text_area_tag` inside `<unmagic-autogrow>`, not a `control_class` control: the box is the control.
+- The uuid element is the gem's `<unmagic-uuid-input>`.
+- In a composer narrower than 36rem, the waiting hint is visually hidden (a container query) but stays in the live region.
+- Enter-to-send and the reset after submit are delegated from `document` in `ai_chat.js`.
 
 ## Purpose
 

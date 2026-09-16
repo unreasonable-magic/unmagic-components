@@ -1,9 +1,16 @@
 # `avatar` and `avatar_group`
 
-> Status: draft
+> Status: built
 > Tier: 1 (no JS)
 > Replaces or relates to: Rails Blocks "Avatar" (gap source); `page_header`'s
 > `leading { }` slot; `skeleton_circle`
+
+## As built
+
+Where the build differs from this note:
+
+- The tint is picked with `unmagic-color`'s stable string hash (BKDR) rather than `Zlib.crc32`; the gem depends on unmagic-color for this.
+- Specs are in `icons_avatar_spec.rb`, and the preview has its own Avatar page.
 
 ## Purpose
 

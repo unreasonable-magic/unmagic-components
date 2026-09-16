@@ -1,0 +1,16 @@
+<div class="mx-auto flex max-w-2xl flex-col gap-6">
+  <%= ai_chat_message "Can you move Thursday's interview with Ana to Friday?\nSame time is fine.", role: :user, id: "turns_q" %>
+  <%= ai_chat_message role: :assistant, id: "turns_a" do %>
+    <p>Done — Ana's interview is now <strong>Friday at 2pm</strong>. I've:</p>
+    <ol>
+      <li>moved the calendar event and kept the same video link,</li>
+      <li>sent Ana an updated invitation, and</li>
+      <li>let <a href="#">the hiring panel</a> know.</li>
+    </ol>
+    <table>
+      <thead><tr><th>Who</th><th>Status</th></tr></thead>
+      <tbody><tr><td>Ana Silva</td><td>Invited</td></tr><tr><td>Panel</td><td>Notified</td></tr></tbody>
+    </table>
+    <p>The event is <code>evt_4821</code> if you need it.</p>
+  <% end %>
+</div>

@@ -1,8 +1,16 @@
 # `<unmagic-streaming-markdown>`
 
-> Status: draft
+> Status: built
 > Tier: 3 (large)
 > Relates to: [message](message.md), the `stream_markdown` action, `upsert`
+
+## As built
+
+Where the build differs from this note:
+
+- `streaming_markdown_tag` also takes `streaming:`, which is what renders `aria-busy`. A settled reply rendered busy would be skipped by a screen reader if the script never ran, so busy is opt-in rather than the default.
+- The element records the length it connected with, so the first flush after a reload measures only what's new when it estimates the rate.
+- The stream action updates every target it names.
 
 ## Purpose
 

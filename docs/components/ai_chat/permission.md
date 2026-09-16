@@ -1,8 +1,15 @@
 # `ai_chat_permission`
 
-> Status: draft
+> Status: built
 > Tier: 2 (small element)
 > Relates to: [request](request.md), the confirm dialog, `badge`
+
+## As built
+
+Where the build differs from this note:
+
+- `allow` and `refuse` each take `params:`, `confirm:` and `method:` (POST and DELETE by default), and render with `button_to`'s block form, so they are `<button>`s whatever the host's Rails defaults.
+- A later `allow` gets `UnmagicAIChatPermission__widen`, the outlined red.
 
 ## Purpose
 

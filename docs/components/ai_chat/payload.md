@@ -1,8 +1,15 @@
 # `ai_chat_payload`
 
-> Status: draft
+> Status: built
 > Tier: 1 (no JS)
 > Relates to: [tool_call](tool_call.md), [failure](failure.md), `UnmagicProse`'s code blocks
+
+## As built
+
+Where the build differs from this note:
+
+- `copy: true` is built, as the open question proposed.
+- The bordered box is the scroller, so a keyboard user focusing it can scroll it.
 
 ## Purpose
 

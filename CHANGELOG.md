@@ -7,6 +7,51 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- AI chat components, for rendering an agent's work. Designed from three
+  applications that each grew their own agent UI, and checked against
+  assistant-ui's primitives. Each has a design note in `docs/components/ai_chat`
+  and a page in the preview:
+  - `ai_chat`, the transcript: a polite log that follows new content while the
+    reader is at the bottom, with a jump-to-latest button and a welcome slot.
+  - `ai_chat_message`: a user's bubble or an assistant's prose, with reasoning,
+    actions, branches and attachments, and an optimistic template.
+  - `ai_chat_tool_call`: a row per tool call, joined into a timeline, with a
+    live clock, progress, partial-failure counts and folded payloads.
+  - `ai_chat_payload`, `ai_chat_reasoning`, `ai_chat_failure`, `ai_chat_plan`
+    and `ai_chat_workspace`.
+  - `ai_chat_request`, `ai_chat_permission` and `ai_chat_proposal`, for an agent
+    that stops to ask.
+  - `ai_chat_composer` (with `ai_chat_composer_action` and
+    `ai_chat_stop_form`), `ai_chat_slash_menu`, `ai_chat_welcome`,
+    `ai_chat_attachments` and `ai_chat_dropzone`.
+  - `ai_chat_citation`, `ai_chat_action_bar` and `ai_chat_branch_picker`.
+- `streaming_markdown_tag` and `turbo_stream.stream_markdown`: server-rendered
+  HTML revealed at a steady pace as fuller renders arrive
+  (`<unmagic-streaming-markdown>`).
+- `elapsed_tag`, a clock counting up from a time or down to one
+  (`<unmagic-elapsed>`).
+- `avatar` and `avatar_group`, with initials on a tint picked from the name.
+- `UnmagicProse`, styles for server-rendered Markdown.
+- `config.code_block`, the seam payloads and prose code blocks render through,
+  for a host's highlighter.
+- Custom elements `<unmagic-autoscroll>`, `<unmagic-optimistic>`,
+  `<unmagic-toolbar>`, `<unmagic-slash-menu>` and `<unmagic-dropzone>`.
+- The preview groups components under headings, with the AI chat components in
+  their own group. Its composer example posts for real and streams a reply.
+
+### Changed
+
+- The gem now depends on `unmagic-icon` and `unmagic-color`. Its glyphs are
+  Lucide SVGs shipped in `app/assets/icons/lucide` and rendered through
+  unmagic-icon, in place of the inline paths. The rendered `<svg>` gains
+  unmagic-icon's `unmagic-icon` class and `data-unmagic-icon` attribute, and the
+  modal's retry icon is Lucide's `rotate-cw`.
+- The `upsert` stream action's placement rule moved to
+  `unmagic/components/placement`, shared with `<unmagic-optimistic>`. Its
+  behaviour is unchanged.
+
 ## [0.3.0] - 2026-09-16
 
 ### Added

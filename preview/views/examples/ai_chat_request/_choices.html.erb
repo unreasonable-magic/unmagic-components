@@ -1,0 +1,13 @@
+<div class="mx-auto max-w-xl">
+  <%= ai_chat_request state: :waiting, url: "#", prompt: "Before I send anything:" do |request| %>
+    <% request.question "Which candidates should get a nudge?", header: "Who", multiple: true do |q| %>
+      <% q.option "Ana Silva", description: "Opened it twice, hasn't answered" %>
+      <% q.option "Grace Okafor", description: "Hasn't opened it" %>
+    <% end %>
+    <% request.question "How should it sound?", header: "Tone" do |q| %>
+      <% q.option "Friendly", description: "A short, warm check-in" %>
+      <% q.option "Direct", description: "The role closes on Friday" %>
+    <% end %>
+    <% request.aside "Or say something else in the box below." %>
+  <% end %>
+</div>

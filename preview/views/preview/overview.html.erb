@@ -20,28 +20,30 @@
 
 <hr class="my-14 border-t border-dashed border-neutral-200 dark:border-neutral-800">
 
-<section>
-  <h2 class="text-xl font-semibold">Components</h2>
-  <p class="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-    <%= pluralize(@components.size, "component") %> and <%= pluralize(@components.sum { |component| component.examples.size }, "example") %>,
-    each rendered live with its source beside it.
-  </p>
+<% @component_groups.each_with_index do |(group, components), index| %>
+  <section class="<%= "mt-16" unless index.zero? %>">
+    <h2 class="text-xl font-semibold"><%= group %></h2>
+    <p class="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
+      <%= pluralize(components.size, "component") %> and <%= pluralize(components.sum { |component| component.examples.size }, "example") %>,
+      each rendered live with its source beside it.
+    </p>
 
-  <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-    <% @components.each do |component| %>
-      <%# The card isn't a link itself: the thumbnail can hold links and buttons of its
-          own, which can't sit inside an <a>. The title's link stretches over the card. %>
-      <div class="group relative overflow-hidden rounded-xl border border-neutral-200 bg-white hover:border-neutral-300 hover:shadow-sm dark:border-neutral-800 dark:bg-neutral-950 dark:hover:border-neutral-700">
-        <div class="flex h-40 items-center justify-center overflow-hidden border-b border-neutral-200 bg-neutral-50 bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-5 dark:border-neutral-800 dark:bg-neutral-900/40 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)]">
-          <div inert class="pointer-events-none flex max-h-full max-w-full select-none items-center justify-center">
-            <%= render partial: "examples/#{component.slug}/thumbnail" %>
+    <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+      <% components.each do |component| %>
+        <%# The card isn't a link itself: the thumbnail can hold links and buttons of its
+            own, which can't sit inside an <a>. The title's link stretches over the card. %>
+        <div class="group relative overflow-hidden rounded-xl border border-neutral-200 bg-white hover:border-neutral-300 hover:shadow-sm dark:border-neutral-800 dark:bg-neutral-950 dark:hover:border-neutral-700">
+          <div class="flex h-40 items-center justify-center overflow-hidden border-b border-neutral-200 bg-neutral-50 bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-5 dark:border-neutral-800 dark:bg-neutral-900/40 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)]">
+            <div inert class="pointer-events-none flex max-h-full max-w-full select-none items-center justify-center">
+              <%= render partial: "examples/#{component.slug}/thumbnail" %>
+            </div>
+          </div>
+          <div class="px-4 py-3">
+            <%= link_to component.name, "/components/#{component.slug}", class: "text-sm font-semibold after:absolute after:inset-0" %>
+            <p class="mt-0.5 text-xs text-neutral-500 dark:text-neutral-400"><%= pluralize(component.examples.size, "example") %></p>
           </div>
         </div>
-        <div class="px-4 py-3">
-          <%= link_to component.name, "/components/#{component.slug}", class: "text-sm font-semibold after:absolute after:inset-0" %>
-          <p class="mt-0.5 text-xs text-neutral-500 dark:text-neutral-400"><%= pluralize(component.examples.size, "example") %></p>
-        </div>
-      </div>
-    <% end %>
-  </div>
-</section>
+      <% end %>
+    </div>
+  </section>
+<% end %>

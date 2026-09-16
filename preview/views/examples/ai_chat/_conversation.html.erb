@@ -1,0 +1,101 @@
+<div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_16rem]">
+  <div class="flex min-w-0 flex-col gap-4">
+    <div id="showcase_scroll" class="h-[38rem] overflow-y-auto pr-2">
+      <%= ai_chat id: "showcase_entries", scroller: "#showcase_scroll" do %>
+        <%= ai_chat_message "Who hasn't replied to the Platform Engineer invitations yet?", role: :user, id: "showcase_q1" %>
+
+        <%= ai_chat_message role: :assistant, id: "showcase_a1" do |turn| %>
+          <% turn.reasoning duration: 4 do %>
+            <p>The invitations were sent on Monday. I need the job first, then the invitations without a reply, then
+            anything that bounced.</p>
+          <% end %>
+          <p>I'll check the invitations sent for that job this week.</p>
+        <% end %>
+
+        <%= ai_chat_tool_call name: "find_job", state: :done, icon: :folder, id: "showcase_t1" do |tool| %>
+          <% tool.summary "Platform Engineer" %>
+          <% tool.timing duration: 0.21 %>
+          <% tool.asked({ query: "Platform Engineer", status: "open" }) %>
+          <% tool.answered({ id: "job_8f2", title: "Platform Engineer", company: "Acme", invitations: 12 }) %>
+        <% end %>
+        <div data-ai-chat-timeline="gap" hidden></div>
+        <%= ai_chat_tool_call name: "search_invitations", state: :done, icon: :messages_square, id: "showcase_t2", open: true do |tool| %>
+          <% tool.summary "unanswered · last 7 days" %>
+          <% tool.timing duration: 1.84 %>
+          <% tool.failures 1 %>
+          <% tool.asked({ job: "job_8f2", replied: false, since: "7 days ago" }) %>
+          <% tool.answered({ invitations: [ "Ana Silva", "Grace Okafor", "Tom Reyes" ], errors: [ { id: "inv_31", error: "timed out" } ] }) %>
+        <% end %>
+        <div data-ai-chat-timeline="gap" hidden></div>
+        <%= ai_chat_tool_call name: "check_email", state: :running, id: "showcase_t3" do |tool| %>
+          <% tool.summary "tom.reyes@example.com" %>
+          <% tool.timing started_at: @now - 12 %>
+          <% tool.progress "Waiting on the mail server" %>
+        <% end %>
+
+        <%= ai_chat_message role: :assistant, id: "showcase_a2" do |turn| %>
+          <% turn.actions do %>
+            <%= ai_chat_action_bar for: "showcase_a2" do |bar| %>
+              <% bar.copy "Three candidates haven't replied." %>
+              <% bar.action "Try again", "#", icon: :rotate_cw, method: :post %>
+              <% bar.control { ai_chat_branch_picker index: 2, count: 2, previous: "#" } %>
+            <% end %>
+          <% end %>
+          <p>Three candidates haven't replied since Monday:</p>
+          <ul>
+            <li><strong>Ana Silva</strong> opened hers twice but hasn't answered.</li>
+            <li><strong>Grace Okafor</strong> hasn't opened hers.</li>
+            <li><strong>Tom Reyes</strong>'s bounced — I'm checking the address now.</li>
+          </ul>
+          <p>Ana did say something relevant last week:</p>
+          <%= ai_chat_citation do |cite| %>
+            <% cite.avatar %>
+            <% cite.who "Ana Silva" %>
+            <% cite.when @now - 6.days, url: "#" %>
+            <% cite.quote "I'm keen, but I'm travelling until the 18th.\nCould we talk after that?" %>
+          <% end %>
+          <%= ai_chat_proposal id: "showcase_fact" do |offer| %>
+            <% offer.claim "Ana is travelling until the 18th" %>
+            <% offer.meta "About Ana Silva · from her message on the 10th" %>
+            <% offer.accept { button_to "Remember", "#", class: button_classes(:primary, size: :small) } %>
+            <% offer.reject { button_to "Dismiss", "#", class: button_classes(size: :small) } %>
+          <% end %>
+          <p>I'd nudge Grace today and leave Ana until after she's back.</p>
+        <% end %>
+
+        <%= ai_chat_permission tool: "send_email", state: :waiting, url: "#", id: "showcase_p1" do |ask| %>
+          <% ask.argument "to", "grace.okafor@example.com" %>
+          <% ask.summary { tag.p("Send Grace a short nudge about the Platform Engineer role.") } %>
+          <% ask.reason { tag.p("She hasn't opened the invitation, and the role closes on Friday.") } %>
+          <% ask.allow confirm: "Send this email to Grace?" %>
+          <% ask.refuse %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%= form_with url: "#", id: "showcase_composer" do |form| %>
+      <%= ai_chat_composer form: form, field: :content, state: :waiting, placeholder: "Reply, or / for a command…", stop_form: "showcase_stop" do |composer| %>
+        <% composer.attach do %>
+          <button type="button" class="<%= button_classes(:icon) %>" aria-label="Attach a file" title="Attach a file">
+            <%= Unmagic::Components::Icons.svg(self, :paperclip) %>
+          </button>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="h-fit rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900">
+    <%= ai_chat_plan id: "showcase_plan" do |plan| %>
+      <% plan.step "Find the job", state: :completed %>
+      <% plan.step "List who hasn't replied", state: :completed %>
+      <% plan.step "Check the bounced address", state: :in_progress %>
+      <% plan.step "Nudge Grace", state: :waiting %>
+      <% plan.step "Remind me about Ana on the 19th" %>
+    <% end %>
+    <%= ai_chat_workspace id: "showcase_workspace" do |workspace| %>
+      <% workspace.file "unanswered.csv", size: 1_240 %>
+      <% workspace.file "drafts/nudge-grace.md", size: 812, icon: :pencil %>
+      <% workspace.file "captures/tom-bounce.eml", size: 18_400 %>
+    <% end %>
+  </div>
+</div>

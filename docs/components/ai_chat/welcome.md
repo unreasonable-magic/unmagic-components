@@ -1,8 +1,14 @@
 # `ai_chat_welcome`
 
-> Status: draft
+> Status: built
 > Tier: 1 (no JS)
 > Relates to: [transcript](transcript.md), [composer](composer.md), `empty_state`
+
+## As built
+
+Where the build differs from this note:
+
+- `field:` is built. Suggestions are wired in `ai_chat.js`.
 
 ## Purpose
 

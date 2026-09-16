@@ -1,8 +1,14 @@
 # `ai_chat_reasoning`
 
-> Status: draft
+> Status: built
 > Tier: 1 (no JS)
 > Relates to: [message](message.md), [tool_call](tool_call.md), `accordion`
+
+## As built
+
+Where the build differs from this note:
+
+- A streaming block reveals through `<unmagic-streaming-markdown>` only when the reasoning has an `id:` to stream into; `ai_chat_message` gives it `"#{id}_reasoning"`.
 
 ## Purpose
 

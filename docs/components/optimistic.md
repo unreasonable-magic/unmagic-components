@@ -1,8 +1,17 @@
 # `<unmagic-optimistic>`
 
-> Status: draft
+> Status: built
 > Tier: 2 (small element)
 > Relates to: the `upsert` stream action and `<uuid-input>`, which it completes
+
+## As built
+
+Where the build differs from this note:
+
+- The placement rule lives in `unmagic/components/placement`, which `upsert.js` now imports too.
+- The id element is the gem's `<unmagic-uuid-input>`.
+- It doesn't skip an already-prevented submit: Turbo prevents the native one in order to send it itself.
+- The failure event from the open question isn't built.
 
 ## Purpose
 

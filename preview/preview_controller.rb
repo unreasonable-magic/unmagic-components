@@ -76,7 +76,57 @@ class PreviewController < ActionController::Base
     render turbo_stream: turbo_stream.toast(params[:message], tone: tone)
   end
 
+  # The composer example's server: confirm the question under the id the form
+  # minted, then hand the page a reply to play back as a model would stream it.
+  # The preview has no Action Cable, so the flushes ride along in the response and
+  # a small driver in the example appends them one at a time; each is the real
+  # stream_markdown action, and the last is the settled turn's upsert.
+  def ai_chat_message
+    sleep 0.8 # long enough to see the question drawn before the server confirms it
+
+    question = params.dig(:message, :content).to_s
+    question_id = params.dig(:message, :client_id).presence || SecureRandom.uuid_v7
+    reply_id = SecureRandom.uuid_v7
+    session[:ai_chat_reply] = reply_id
+
+    render turbo_stream: [
+      turbo_stream.action(:upsert, "demo_entries", helpers.ai_chat_message(question, role: :user, id: question_id)),
+      turbo_stream.action(:upsert, "demo_entries", helpers.ai_chat_message(role: :assistant, id: reply_id, streaming: true)),
+      turbo_stream.replace("demo_composer_action", helpers.ai_chat_composer_action(form: "demo_composer", state: :running, stop_form: "demo_stop")),
+      turbo_stream.append("demo_driver", flushes(reply_id))
+    ]
+  end
+
+  # Stop swaps in a settled note, which refuses the flushes still on their way.
+  def ai_chat_stop
+    reply_id = session.delete(:ai_chat_reply)
+    streams = [ turbo_stream.replace("demo_composer_action", helpers.ai_chat_composer_action(form: "demo_composer", state: :idle)) ]
+    if reply_id
+      stopped = helpers.streaming_markdown_tag(id: "#{reply_id}_content", final: true,
+        class: "UnmagicAIChatMessage__body UnmagicProse") { helpers.tag.p("Response stopped.", class: "text-neutral-500") }
+      streams << turbo_stream.replace("#{reply_id}_content", stopped)
+    end
+
+    render turbo_stream: streams
+  end
+
   private
+
+  def flushes(reply_id)
+    target = "#{reply_id}_content"
+    frames = ComponentsPreview::Reply.snapshots.map do |html|
+      helpers.tag.template(turbo_stream.stream_markdown(target, html), data: { delay: rand(40..260), target: target })
+    end
+
+    settled = helpers.ai_chat_message(role: :assistant, id: reply_id) { ComponentsPreview::Reply.html }
+    idle = helpers.ai_chat_composer_action(form: "demo_composer", state: :idle, stop_form: "demo_stop")
+    frames << helpers.tag.template(
+      helpers.safe_join([ turbo_stream.action(:upsert, "demo_entries", settled), turbo_stream.replace("demo_composer_action", idle) ]),
+      data: { delay: 400, target: target }
+    )
+
+    helpers.tag.template(helpers.safe_join(frames), data: { flushes: "" })
+  end
 
   # ?theme=dark or ?theme=light switches the preview and sticks for the session, so
   # links and redirects don't each have to carry it.
@@ -89,6 +139,7 @@ class PreviewController < ActionController::Base
   def load_catalog
     ComponentsPreview::Catalog.reload!
     @components = ComponentsPreview::Catalog.all
+    @component_groups = ComponentsPreview::Catalog.grouped
   end
 
   # The data examples and thumbnails render from, set for every page that shows

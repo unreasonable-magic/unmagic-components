@@ -1,0 +1,7 @@
+<div class="flex w-64 flex-col gap-2 text-xs">
+  <%= ai_chat_message "Who hasn't replied?", role: :user %>
+  <%= ai_chat_tool_call name: "search_invitations", state: :done, icon: :messages_square, timeline: false do |tool| %>
+    <% tool.timing duration: 1.8 %>
+  <% end %>
+  <%= ai_chat_message role: :assistant do %><p>Three candidates haven't replied since Monday.</p><% end %>
+</div>

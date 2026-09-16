@@ -1,0 +1,7 @@
+<div class="flex flex-wrap items-center gap-3">
+  <% [ "Ada Lovelace", "Grace Hopper", "Katherine Johnson", "Alan Turing", "Margaret Hamilton",
+       "Dennis Ritchie", "Barbara Liskov", "Ken Thompson" ].each do |name| %>
+    <%= avatar name %>
+  <% end %>
+  <%= avatar "Neutral Person", tint: false %>
+</div>

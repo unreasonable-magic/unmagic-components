@@ -1,8 +1,14 @@
 # `ai_chat_plan`
 
-> Status: draft
+> Status: built
 > Tier: 1 (no JS)
 > Relates to: [workspace](workspace.md), `card`, `steps`
+
+## As built
+
+Where the build differs from this note:
+
+- The count reads `1/4`. Plan and workspace share `AIChat::Section` for the panel head.
 
 ## Purpose
 

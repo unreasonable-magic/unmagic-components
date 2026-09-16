@@ -40,9 +40,12 @@ index and detail pages), not marketing pages.
      Tailwind doesn't scan installed gems, so utilities written in this gem's
      Ruby would never be generated. The host imports the CSS instead.
    - Behaviour is plain custom elements.
-   - Icons are inline SVG (`icons.rb`), so there is no icon library.
-   - The only runtime Ruby dependencies are ActiveSupport, ActionView and
-     Railties (`unmagic-components.gemspec`).
+   - Icons are inline SVG rendered through `unmagic-icon`, from a subset of
+     Lucide the gem ships in `app/assets/icons/lucide` (`icons.rb`). A host
+     needs no icon set of its own.
+   - The runtime Ruby dependencies are ActiveSupport, ActionView and Railties,
+     plus the gem's siblings `unmagic-icon` (glyphs) and `unmagic-color` (a
+     stable string hash for avatar tints) (`unmagic-components.gemspec`).
    - Turbo is optional unless a component documents that it needs it.
 
 4. **Seams, not options, for what the app owns.** When an app will already
@@ -188,8 +191,13 @@ end
 
 ### Icons
 
-- Use `Icons.svg(view, :name)`. A new glyph is a Lucide path added to
-  `Icons::PATHS`: inline, ISC-licensed, and `aria-hidden` by default.
+- Use `Icons.svg(view, :name)`, with the Lucide name as a symbol
+  (`:circle_check` for `circle-check`). It is inline and `aria-hidden` by
+  default.
+- A new glyph is Lucide's SVG copied into `app/assets/icons/lucide`, minified to
+  one line with no trailing newline, since the file is inlined as it is and any
+  whitespace would leak into the text of the button around it. The folder's
+  LICENSE covers it (ISC).
 - Tone icons come from `Icons::TONE_ICONS`.
 
 ## CSS
