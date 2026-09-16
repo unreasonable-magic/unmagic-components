@@ -606,6 +606,86 @@ module Unmagic
         builder.render
       end
 
+      # A list whose items can be dragged, or moved with the keyboard, into a new
+      # place — here, or in another list sharing its namespace.
+      #
+      #   <%= sortable_list namespace: "cards", params: { column_id: column.id } do |list| %>
+      #     <% column.cards.ordered.each do |card| %>
+      #       <%= list.item(card) { render card } %>
+      #     <% end %>
+      #   <% end %>
+      #
+      # list.item takes a record, whose key and rank come from
+      # config.sortable_item (unmagic-sortable sets it to signed keys), or key: and
+      # rank: directly; label: is what a screen reader calls it. Put a
+      # sortable_handle in an item to drag it only by that, which keeps the rest of
+      # it clickable; without one the whole item drags once the pointer moves, and
+      # the item is its own keyboard stop.
+      #
+      # namespace: lets items move between lists that share it. params: are posted
+      # with a drop into this list (the destination column). orientation:
+      # :vertical (default), :horizontal or :grid decides which arrow keys move an
+      # item. label: names the list in announcements.
+      #
+      # A drop fires a cancelable unmagic-sortable:move, then PATCHes url:
+      # (config.sortable_url by default) with moved, original, prev, next and the
+      # params. Keyboard: Space or Enter picks an item up, the arrows move it (the
+      # other arrows move it between lists), Space drops it, Escape puts it back.
+      # Escape cancels a pointer drag too. Other options go on the element. Needs
+      # import "unmagic/components/sortable".
+      def sortable_list(namespace: nil, params: {}, url: nil, orientation: :vertical, label: nil, **options, &block)
+        builder = Components::Sortable::List.new(self, namespace: namespace, params: params, url: url,
+          orientation: orientation, label: label, **options)
+        capture(builder, &block) if block
+        builder.render
+      end
+
+      # The grip a sortable item is dragged by, and its keyboard stop.
+      #
+      #   <%= sortable_handle %>
+      #   <%= sortable_handle label: "Move #{step.name}" %>
+      #
+      # label: defaults to "Drag to reorder". Other options go on the <button>.
+      def sortable_handle(label: nil, **options)
+        Components::Sortable.handle(self, label: label, **options)
+      end
+
+      # A Trello-style board of reorderable columns of reorderable cards.
+      #
+      #   <%= board id: "roadmap" do |board| %>
+      #     <% @columns.each do |column| %>
+      #       <% board.column column, title: column.name, params: { column_id: column.id } do |col| %>
+      #         <% col.actions { menu { |m| m.link "Rename", edit_column_path(column) } } %>
+      #         <% column.cards.ordered.each do |card| %>
+      #           <% col.card(card) { render card } %>
+      #         <% end %>
+      #         <% col.add url: cards_path, field: "card[title]", params: { "card[column_id]" => column.id } %>
+      #       <% end %>
+      #     <% end %>
+      #     <% board.add_column url: columns_path, field: "column[name]" %>
+      #   <% end %>
+      #
+      # id: names the board and its lists: cards move between any of its columns,
+      # posting the column's params:, and columns move along the board. url: is where
+      # drops post (config.sortable_url by default); columns_url: overrides it for
+      # columns. sortable_columns: false fixes the columns in place. column_height:
+      # is how tall a column grows before its cards scroll (75dvh), through the
+      # --unmagic-board-column-height knob.
+      #
+      # A column's header is its drag handle, with a grip for the keyboard; its
+      # actions stay clickable. board.column takes a record or key:/rank:, and
+      # count: when it shows fewer cards than it has. col.card takes what
+      # sortable_list's item does. col.add and board.add_column open into a
+      # one-field form that submits on Enter, closes on Escape, and stays open to add
+      # another. Other options go on the root <div>. Needs import
+      # "unmagic/components/sortable" and "unmagic/components/board".
+      def board(id:, url: nil, columns_url: nil, sortable_columns: true, label: nil, column_height: nil, **options, &block)
+        builder = Components::Board.new(self, id: id, url: url, columns_url: columns_url,
+          sortable_columns: sortable_columns, label: label, column_height: column_height, **options)
+        capture(builder, &block) if block
+        builder.render
+      end
+
       # The scrolling region an AI chat's turns are rendered into — the root of the
       # ai_chat_* components.
       #

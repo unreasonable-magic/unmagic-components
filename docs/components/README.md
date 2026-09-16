@@ -58,6 +58,8 @@ These are documented in the README and have no notes here:
 | [context_menu](context_menu.md) | Context Menu | draft |
 | [animated_number](animated_number.md) | Animated Number | draft |
 | [hotkey](hotkey.md) | KBD & Hotkey (the shortcut) | draft |
+| [sortable_list](sortable_list.md) | (none) drag-and-drop ordering, extracted from hooops | built |
+| [board](board.md) | (none) a Trello-style board on sortable lists | built |
 | [position](position.md) | (infrastructure) shared placement and `menu` on the Popover API; build before popover, context_menu and combobox | draft |
 | [auto_scroll](auto_scroll.md) | (none) `<unmagic-autoscroll>`, extracted from hooops and toybox | built |
 | [optimistic](optimistic.md) | (none) `<unmagic-optimistic>`, the client half of the `upsert` contract | built |

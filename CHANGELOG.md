@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `sortable_list` and `sortable_handle`: drag-and-drop ordering by pointer or
+  keyboard, extracted from hooops.
+  - Elements `<unmagic-sortable-list>`, `<unmagic-sortable-item>` and
+    `<unmagic-sortable-param>`.
+  - Keyboard reordering with announcements.
+  - Scrolling at the edges, Escape to cancel, and nested lists.
+  - A cancelable `unmagic-sortable:move` event.
+  - `sortable-*` Tailwind variants.
+  - `config.sortable_item` and `config.sortable_url`, which the new
+    unmagic-sortable gem fills in.
+- `board`, a Trello-style board of reorderable columns and cards, with add-card
+  and add-list forms (`board.js`).
+
 - AI chat components, for rendering an agent's work. Designed from three
   applications that each grew their own agent UI, and checked against
   assistant-ui's primitives. Each has a design note in `docs/components/ai_chat`

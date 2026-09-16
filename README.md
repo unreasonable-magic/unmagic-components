@@ -40,6 +40,10 @@ the spirit of `form_for`: describe the columns, get the chrome.
   replies revealed at a steady pace, tool calls strung into a timeline,
   reasoning, plans, workspaces, permission gates, questions, inline proposals,
   citations and a composer with Send and Stop. See [AI chat](#ai-chat).
+- **Drag-and-drop ordering** by pointer or keyboard: sortable lists and a
+  Trello-style board, posting one-row moves that
+  [unmagic-sortable](https://github.com/unreasonable-magic/unmagic-sortable)
+  saves. See [Sortable lists and boards](#sortable-lists-and-boards).
 - **No hard dependency** on a pagination library or on any helper of yours.
 
 ## Installation
@@ -145,6 +149,11 @@ Unmagic::Components.configure do |config|
   # (view, source, language), where language is :json, :plaintext or whatever
   # you passed; return markup. The default is an unhighlighted <pre><code>.
   config.code_block = ->(view, source, language) { view.highlight_code(source, language: language) }
+
+  # What a sortable item carries for a record, and where drops post. The
+  # unmagic-sortable gem sets both to its signed keys and endpoint.
+  config.sortable_item = ->(view, record) { { key: record.to_param, rank: record.sortable_rank } }
+  config.sortable_url = ->(view) { view.reorder_path }
 end
 ```
 
@@ -843,6 +852,89 @@ makes the rest of the page inert, but it still times out on its own.
 Needs `import "unmagic/components/toasts"`, which `import "unmagic/components"`
 includes. The dismiss button's label is `unmagic.components.toast.dismiss`
 ("Dismiss").
+
+## Sortable lists and boards
+
+Drag-and-drop ordering, by pointer or keyboard. The server half — ranks, signed
+keys and the endpoint — is the
+[unmagic-sortable](https://github.com/unreasonable-magic/unmagic-sortable) gem,
+which configures these components when it's installed:
+
+```ruby
+class Card < ApplicationRecord
+  include Unmagic::Sortable
+  sortable_within :board_id
+  sortable_column :column_id
+end
+```
+
+### `sortable_list(namespace: nil, params: {}, url: nil, orientation: :vertical, label: nil, **options, &block)`
+
+```erb
+<%= sortable_list label: "Interview steps", class: "flex flex-col gap-2" do |list| %>
+  <% @steps.ordered.each do |step| %>
+    <%= list.item(step) do %>
+      <%= sortable_handle label: "Move #{step.name}" %>
+      <%= step.name %>
+    <% end %>
+  <% end %>
+<% end %>
+```
+
+- **Items:** `list.item(record)` takes its key and rank from
+  `config.sortable_item`; `key:` and `rank:` set them directly, and `label:` is
+  what a screen reader calls it.
+- **Handles:** with a `sortable_handle` in an item, only the handle drags, so the
+  rest stays clickable, and the handle is the keyboard stop. Without one, the
+  whole item drags once the pointer moves, and the item takes focus. Handles are
+  also how touch screens drag.
+- **Between lists:** lists sharing a `namespace:` exchange items. A drop posts
+  the destination list's `params:`.
+- **Keyboard:** Space or Enter picks an item up. The arrows along the list move
+  it (`orientation:` decides which) and the arrows across move it to the next
+  list. Space drops it; Escape, or tabbing away, puts it back. Each step is
+  announced, and Escape also cancels a pointer drag.
+- **Scrolling:** a drag near the edge of anything scrollable scrolls it.
+- **The drop** fires a cancelable `unmagic-sortable:move` with
+  `{ key, original, prev, next, params }`, then PATCHes `url:`
+  (`config.sortable_url`) with `moved`, `original`, `prev`, `next` and the params.
+  Without a url, the event is all there is.
+- **Styling:** `sortable-dragging:`, `sortable-placeholder:`, `sortable-lifted:`,
+  `sortable-active:` and `sortable-over:` variants decorate the drag states.
+
+Needs `import "unmagic/components/sortable"`. I18n under
+`unmagic.components.sortable`: `handle`, `instructions`, `picked`, `moved`,
+`dropped` and `cancelled`, with `{item}`, `{list}`, `{position}` and `{count}`.
+
+### `board(id:, url: nil, columns_url: nil, sortable_columns: true, label: nil, column_height: nil, **options, &block)`
+
+```erb
+<%= board id: "roadmap" do |board| %>
+  <% @columns.each do |column| %>
+    <% board.column column, title: column.name, params: { column_id: column.id } do |col| %>
+      <% col.actions { menu { |m| m.link "Rename", edit_column_path(column) } } %>
+      <% column.cards.ordered.each { |card| col.card(card) { render card } } %>
+      <% col.add url: cards_path, field: "card[title]", params: { "card[column_id]" => column.id } %>
+    <% end %>
+  <% end %>
+  <% board.add_column url: columns_path, field: "column[name]" %>
+<% end %>
+```
+
+- **Moving:** cards move within and between the board's columns, posting the
+  column's `params:`. Columns move along the board by their header, and the grip
+  in it is their keyboard stop. `sortable_columns: false` fixes them in place.
+- **Forms:** `col.add` and `board.add_column` open into a one-field form. Enter
+  submits it, Escape closes it, and it stays open after adding, so several can be
+  added in a row.
+- **Size:** `column_height:` (default `75dvh`) is how tall a column grows before
+  its cards scroll.
+- **Where drops go:** `url:` is where they post; `columns_url:` sends column drops
+  elsewhere.
+
+Needs `import "unmagic/components/sortable"` and `"unmagic/components/board"`.
+I18n under `unmagic.components.board`: `label`, `add_card`, `add_card_submit`,
+`add_column`, `add_column_submit`, `cancel`, `move_column` and `cards`.
 
 ## Avatars
 

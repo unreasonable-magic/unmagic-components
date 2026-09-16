@@ -1,0 +1,17 @@
+<div class="grid gap-6 sm:grid-cols-2">
+  <% { "Shortlist" => [ "Ada Lovelace", "Grace Hopper", "Alan Turing" ], "Maybe later" => [ "Katherine Johnson" ] }.each do |title, people| %>
+    <div class="rounded-xl border border-neutral-200 p-3 dark:border-neutral-800">
+      <h3 class="mb-2 text-sm font-semibold"><%= title %></h3>
+      <%= sortable_list namespace: "people", label: title, params: { list: title },
+            class: "flex min-h-24 flex-col gap-1.5 rounded-lg p-1 sortable-active:bg-neutral-50 sortable-over:bg-neutral-100 dark:sortable-active:bg-neutral-900 dark:sortable-over:bg-neutral-800" do |list| %>
+        <% people.each do |person| %>
+          <%= list.item(key: person.parameterize, label: person) do %>
+            <div class="flex cursor-grab items-center gap-2 rounded-md bg-white p-2 text-sm shadow-xs dark:bg-neutral-900">
+              <%= avatar person, size: :small, "aria-hidden": true %> <%= person %>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

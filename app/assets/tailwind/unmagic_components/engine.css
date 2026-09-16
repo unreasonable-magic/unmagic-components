@@ -26,6 +26,23 @@
  * @custom-variant keyed to a class or attribute.
  */
 
+/* Variants for a sortable item's drag states, so markup can decorate them with
+ * utilities (sortable-dragging:rotate-2, sortable-over:bg-neutral-100). Every
+ * name is prefixed, so none collides with a variant of the host's.
+ *
+ *   sortable-dragging     the copy following the pointer, or anything in it
+ *   sortable-placeholder  the item left in the list while a pointer drags it
+ *   sortable-lifted       the item a keyboard is holding
+ *   sortable-active       a list that can take the item being dragged, or its
+ *                         ancestor
+ *   sortable-over         the list under the pointer, or its ancestor
+ */
+@custom-variant sortable-dragging (&[data-sortable-dragging], [data-sortable-dragging] &);
+@custom-variant sortable-placeholder (&[data-sortable-placeholder], [data-sortable-placeholder] &);
+@custom-variant sortable-lifted (&[data-sortable-lifted], [data-sortable-lifted] &);
+@custom-variant sortable-active (&[data-sortable-active], &:has([data-sortable-active]));
+@custom-variant sortable-over (&[data-sortable-over], &:has([data-sortable-over]));
+
 @layer components {
   /* ------------------------------------------------------------------ Table */
 
@@ -2460,5 +2477,184 @@
 
   .UnmagicAIChatBranchPicker__step .UnmagicIcon {
     @apply size-3.5;
+  }
+
+  /* --------------------------------------------------------------- Sortable */
+
+  .UnmagicSortableList,
+  .UnmagicSortableItem {
+    @apply block;
+  }
+
+  unmagic-sortable-param {
+    @apply hidden;
+  }
+
+  /* A handle is where a pointer picks an item up. touch-action: none is what lets a
+     finger drag it rather than scroll the page. */
+  [data-sortable-handle] {
+    @apply cursor-grab;
+    touch-action: none;
+  }
+
+  [data-sortable-handle]:active {
+    @apply cursor-grabbing;
+  }
+
+  /* Nothing is selected while dragging, and the grab shows wherever the pointer is. */
+  html:has([data-sortable-placeholder]) {
+    @apply cursor-grabbing select-none;
+  }
+
+  /* The copy following the pointer, placed by the element. drop-shadow rather than
+     box-shadow, so the shadow follows a rounded card rather than its square box. */
+  [data-sortable-dragging] {
+    @apply pointer-events-none fixed top-0 left-0 z-50 m-0 opacity-95;
+    filter: drop-shadow(0 8px 12px rgb(0 0 0 / 0.2));
+  }
+
+  /* The item left in the list, showing where it will land. */
+  [data-sortable-placeholder] {
+    @apply opacity-40;
+  }
+
+  /* The item a keyboard is holding. */
+  [data-sortable-lifted] {
+    @apply rounded-lg outline-2 outline-offset-2 outline-neutral-900 dark:outline-neutral-100;
+  }
+
+  .UnmagicSortableItem:focus-visible {
+    @apply rounded-lg outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicSortableList--horizontal {
+    @apply flex;
+  }
+
+  .UnmagicSortableList--grid {
+    @apply flex flex-wrap;
+  }
+
+  /* ----------------------------------------------------------------- Boards */
+
+  /* Columns sit side by side and the board scrolls sideways; a column's cards
+     scroll inside it past --unmagic-board-column-height. */
+  .UnmagicBoard {
+    @apply relative;
+  }
+
+  .UnmagicBoard__columns {
+    @apply flex items-start gap-3 overflow-x-auto pb-2;
+    overscroll-behavior-x: contain;
+  }
+
+  .UnmagicBoard__column,
+  .UnmagicBoard__tail {
+    @apply w-72 shrink-0;
+  }
+
+  .UnmagicBoard__panel {
+    @apply flex flex-col rounded-xl border border-neutral-200 bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-900;
+    max-height: var(--unmagic-board-column-height, 75dvh);
+  }
+
+  .UnmagicBoard__head {
+    @apply flex min-w-0 items-center gap-1 px-2 pt-2 pb-1;
+  }
+
+  .UnmagicBoard__grip {
+    @apply p-1 text-neutral-400;
+  }
+
+  .UnmagicBoard__title {
+    @apply m-0 min-w-0 flex-1 truncate text-sm font-semibold text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicBoard__count {
+    @apply shrink-0 rounded-full bg-neutral-200 px-1.5 text-xs text-neutral-500 tabular-nums dark:bg-neutral-800 dark:text-neutral-400;
+  }
+
+  .UnmagicBoard__actions {
+    @apply flex shrink-0 items-center gap-0.5;
+  }
+
+  /* The cards take the column's height and scroll within it. min-height keeps an
+     empty column a target to drop into. */
+  .UnmagicBoard__cards {
+    @apply flex min-h-12 flex-1 flex-col gap-2 overflow-y-auto rounded-lg px-2 py-1;
+    overscroll-behavior-y: contain;
+  }
+
+  .UnmagicBoard__cards[data-sortable-over] {
+    @apply bg-neutral-200/70 dark:bg-neutral-800/70;
+  }
+
+  .UnmagicBoard__card {
+    @apply cursor-grab rounded-lg border border-neutral-200 bg-white p-3 text-sm text-neutral-900 shadow-xs;
+    @apply dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100;
+  }
+
+  .UnmagicBoard__card:hover {
+    @apply border-neutral-300 dark:border-neutral-600;
+  }
+
+  .UnmagicBoard__card[data-sortable-dragging] {
+    rotate: 2deg;
+  }
+
+  /* The whole column is lifted by keyboard, so its panel shows it rather than the
+     item's box. */
+  .UnmagicBoard__column[data-sortable-lifted] {
+    @apply rounded-xl;
+  }
+
+  .UnmagicBoard__add {
+    @apply px-2 pt-1 pb-2;
+  }
+
+  .UnmagicBoard__addToggle {
+    @apply flex cursor-pointer list-none items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm text-neutral-500 select-none;
+  }
+
+  .UnmagicBoard__addToggle::-webkit-details-marker {
+    @apply hidden;
+  }
+
+  .UnmagicBoard__addToggle:hover {
+    @apply bg-neutral-200 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100;
+  }
+
+  .UnmagicBoard__addToggle:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  /* Open, the form stands in for the toggle; Escape or × closes it. */
+  .UnmagicBoard__add[open] > .UnmagicBoard__addToggle {
+    @apply hidden;
+  }
+
+  .UnmagicBoard__addForm {
+    @apply m-0 flex flex-col gap-2;
+  }
+
+  .UnmagicBoard__addField {
+    @apply max-h-40 w-full;
+  }
+
+  .UnmagicBoard__addActions {
+    @apply flex items-center gap-1;
+  }
+
+  /* The "Add a list" tile at the end of the board. */
+  .UnmagicBoard__addColumn {
+    @apply rounded-xl border border-dashed border-neutral-300 bg-neutral-50 p-0 dark:border-neutral-700 dark:bg-neutral-900/50;
+  }
+
+  .UnmagicBoard__addColumn[open] {
+    @apply border-solid bg-neutral-100 p-2 dark:bg-neutral-900;
+  }
+
+  .UnmagicBoard__addColumn > .UnmagicBoard__addToggle {
+    @apply px-3 py-2.5;
   }
 }

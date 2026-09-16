@@ -1,0 +1,13 @@
+<%= board id: "handles", sortable_columns: false do |b| %>
+  <% [ [ "Inbox", [ "Reply to Ana about Friday", "Send Grace the brief" ] ],
+       [ "Waiting", [ "Tom's corrected address" ] ] ].each do |title, cards| %>
+    <% b.column title: title, params: { column: title.downcase } do |col| %>
+      <% cards.each_with_index do |text, index| %>
+        <% col.card key: "#{title}-#{index}", class: "flex cursor-default items-center gap-2 p-2" do %>
+          <%= sortable_handle label: "Move #{text}" %>
+          <%= link_to text, "#", class: "min-w-0 flex-1 truncate font-medium text-neutral-900 underline-offset-2 hover:underline dark:text-neutral-100" %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

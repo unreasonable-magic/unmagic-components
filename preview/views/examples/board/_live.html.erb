@@ -1,0 +1,34 @@
+<div class="flex flex-col gap-4">
+  <div class="flex items-center justify-between gap-3">
+    <p class="text-sm text-neutral-500">Roadmap · <%= pluralize(@board.columns.sum { |c| @board.cards_in(c).size }, "card") %></p>
+    <%= button_to "Reset the board", "/board", method: :delete, class: button_classes(size: :small),
+          form: { data: { turbo_confirm: "Put every card back where it started?" } } %>
+  </div>
+
+  <%= board id: "roadmap", url: "/board/order", column_height: "32rem" do |b| %>
+    <% @board.columns.each do |column| %>
+      <% cards = @board.cards_in(column) %>
+      <% b.column key: column["key"], rank: column["rank"], title: column["title"], params: { column: column["key"] } do |col| %>
+        <% col.actions do %>
+          <%= menu do |m| %>
+            <% m.link "Rename", "#" %>
+            <% m.link "Archive", "#", tone: :danger %>
+          <% end %>
+        <% end %>
+        <% cards.each do |card| %>
+          <% col.card key: card["key"], rank: card["rank"], label: card["title"], id: "board_#{card["key"]}" do %>
+            <p class="m-0 leading-snug"><%= card["title"] %></p>
+            <% if card["tag"] || card["owner"] %>
+              <div class="mt-2.5 flex items-center justify-between gap-2">
+                <%= badge card["tag"] if card["tag"] %>
+                <%= avatar card["owner"], size: :small, "aria-hidden": true if card["owner"] %>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+        <% col.add url: "/board/cards", field: "card[title]", params: { "card[column]" => column["key"] } %>
+      <% end %>
+    <% end %>
+    <% b.add_column url: "/board/columns", field: "column[title]" %>
+  <% end %>
+</div>

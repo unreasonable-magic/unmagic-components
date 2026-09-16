@@ -76,6 +76,28 @@ class PreviewController < ActionController::Base
     render turbo_stream: turbo_stream.toast(params[:message], tone: tone)
   end
 
+  # The board example's server, answering as unmagic-sortable's endpoint does: a
+  # refresh, which morphs the page to the order that was saved.
+  def board_order
+    moved = board_store.move(params[:moved], prev: params[:prev], following: params[:next], column: params[:column])
+    board_refresh(moved ? :ok : :not_found)
+  end
+
+  def board_card
+    board_store.add_card(params.dig(:card, :title), params.dig(:card, :column))
+    board_refresh
+  end
+
+  def board_column
+    board_store.add_column(params.dig(:column, :title))
+    board_refresh
+  end
+
+  def board_reset
+    board_store.reset!
+    redirect_to "/components/board", status: :see_other
+  end
+
   # The composer example's server: confirm the question under the id the form
   # minted, then hand the page a reply to play back as a model would stream it.
   # The preview has no Action Cable, so the flushes ride along in the response and
@@ -111,6 +133,12 @@ class PreviewController < ActionController::Base
   end
 
   private
+
+  def board_store = @board_store ||= ComponentsPreview::BoardStore.new(session)
+
+  def board_refresh(status = :ok)
+    render turbo_stream: turbo_stream.refresh(request_id: nil), status: status
+  end
 
   def flushes(reply_id)
     target = "#{reply_id}_content"
@@ -149,6 +177,7 @@ class PreviewController < ActionController::Base
     @profile = stored_profile
     @invalid_profile = ComponentsPreview::Profile.new(name: "", role: "Engineer").tap(&:validate)
     @now = Time.current
+    @board = board_store
   end
 
   # What the Code tab shows: the example's partial, exactly as it's rendered.
