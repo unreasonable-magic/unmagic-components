@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-09-16
+
 ### Added
 
 - `Unmagic::Components::Browser::Engine`, a component browser a host mounts
@@ -38,7 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - AI chat components, for rendering an agent's work. Designed from three
   applications that each grew their own agent UI, and checked against
   assistant-ui's primitives. Each has a design note in `docs/components/ai_chat`
-  and a page in the preview:
+  and a page in the browser:
   - `ai_chat`, the transcript: a polite log that follows new content while the
     reader is at the bottom, with a jump-to-latest button and a welcome slot.
   - `ai_chat_message`: a user's bubble or an assistant's prose, with reasoning,
@@ -64,7 +66,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   for a host's highlighter.
 - Custom elements `<unmagic-autoscroll>`, `<unmagic-optimistic>`,
   `<unmagic-toolbar>`, `<unmagic-slash-menu>` and `<unmagic-dropzone>`.
-- The preview groups components under headings, with the AI chat components in
+- The browser groups components under headings, with the AI chat components in
   their own group. Its composer example posts for real and streams a reply.
 
 ### Changed
@@ -255,7 +257,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configurable empty-state, pagination and Pagy seams so the gem depends on neither
   Pagy nor any host helper.
 
-[Unreleased]: https://github.com/unreasonable-magic/unmagic-components/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/unreasonable-magic/unmagic-components/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/unreasonable-magic/unmagic-components/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/unreasonable-magic/unmagic-components/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/unreasonable-magic/unmagic-components/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/unreasonable-magic/unmagic-components/releases/tag/v0.1.0

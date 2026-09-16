@@ -117,7 +117,9 @@ The browser depends on neither the host's asset pipeline nor importmap-rails.
   - `javascripts`: the gem's `app/assets/javascripts`
   - `turbo`: turbo-rails' `app/assets/javascripts`
 
-  URLs carry `?v=<file mtime>`, and responses are cached as immutable.
+  URLs carry `?v=<gem version>-<file mtime>`, and responses are cached as
+  immutable. The version matters: gem packaging gives every file the same
+  mtime.
   `Rack::Files` refuses paths outside its root.
 - **The layout writes its own importmap.** It maps the names
   `config/importmap.rb` pins (`unmagic/components`,

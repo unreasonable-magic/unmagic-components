@@ -83,7 +83,7 @@ RSpec.describe Unmagic::Components::Browser do
 
     it "links the prebuilt stylesheet, and serves it" do
       href = head.at_css("link[rel=stylesheet]")["href"]
-      expect(href).to start_with("#{prefix}/assets/stylesheets/browser.css?v=")
+      expect(href).to start_with("#{prefix}/assets/stylesheets/browser.css?v=#{Unmagic::Components::VERSION}-")
 
       response = app.get("http://localhost#{href}")
       expect(response.status).to eq(200)
@@ -104,6 +104,10 @@ RSpec.describe Unmagic::Components::Browser do
       expect(pinned).to include("unmagic/components", "unmagic/components/modal")
       expect(imports.keys).to match_array(pinned + [ "@hotwired/turbo-rails" ])
       expect(head.css("script[type=module]").map(&:text)).to include('import "unmagic/components"')
+    end
+
+    it "stamps Turbo with turbo-rails' version, which changes when it's upgraded" do
+      expect(imports["@hotwired/turbo-rails"]).to include("?v=#{Gem.loaded_specs["turbo-rails"].version}-")
     end
 
     it "serves the modules and Turbo the importmap points at" do

@@ -29,12 +29,15 @@ module Unmagic
           tag.link rel: "stylesheet", href: browser_asset_path("stylesheets", "browser.css")
         end
 
-        # A file the browser serves, stamped with its modification time so a
-        # changed file is fetched afresh and an unchanged one comes from cache.
+        # A file the browser serves, stamped so a changed file is fetched afresh
+        # and an unchanged one comes from cache. The modification time covers
+        # editing in development; the version (turbo-rails' own, for Turbo)
+        # covers an upgrade, because gem packaging gives every file the same time.
         def browser_asset_path(kind, name)
           file = Browser.asset_roots.fetch(kind).join(name)
-          stamp = File.exist?(file) ? File.mtime(file).to_i : 0
-          "#{root_path}assets/#{kind}/#{name}?v=#{stamp}"
+          mtime = File.exist?(file) ? File.mtime(file).to_i : 0
+          version = (Gem.loaded_specs["turbo-rails"]&.version if kind == "turbo") || Components::VERSION
+          "#{root_path}assets/#{kind}/#{name}?v=#{version}-#{mtime}"
         end
 
         def example_partial(component, key) = "#{EXAMPLES}/#{component.slug}/#{key}"
