@@ -3,8 +3,8 @@
 // Each toast arrives as an inert <template data-unmagic-toast-template> inside the
 // element: rendered with the page, morphed in by a refresh, or appended by
 // turbo_stream.toast. The element clones each one into its stack, animates it in,
-// and dismisses it after the element's `duration` (milliseconds). Hovering or
-// focusing a toast holds it open.
+// and dismisses it after the element's `duration` (milliseconds), or keeps it up
+// until it is dismissed when that is 0. Hovering or focusing a toast holds it open.
 //
 // The stack is data-turbo-permanent, so a toast on screen survives a Drive visit
 // or a morph. Its timer lives here, in the module, keyed by the toast rather than
@@ -54,9 +54,16 @@ class UnmagicToasts extends HTMLElement {
     return this.querySelector(":scope > .UnmagicToasts__stack")
   }
 
+  // `duration="0"` keeps a toast up until it is dismissed. Absent, empty, negative or unparseable
+  // all fall back to the default rather than silently pinning every toast to the screen — which is
+  // why this isn't `Number(attr) || DURATION`: Number(null) and Number("") are both 0, so a missing
+  // attribute would have read as "never" too.
   get duration() {
-    const duration = Number(this.getAttribute("duration"))
-    return duration > 0 ? duration : DURATION
+    const raw = this.getAttribute("duration")?.trim()
+    if (!raw) return DURATION
+
+    const duration = Number(raw)
+    return Number.isFinite(duration) && duration >= 0 ? duration : DURATION
   }
 
   #consume() {
@@ -118,6 +125,9 @@ class UnmagicToasts extends HTMLElement {
 
 function schedule(toast, duration) {
   if (timers.has(toast)) return
+  // A duration of 0 is a toast that waits to be dismissed: no timer, and so nothing for hold and
+  // release to pause — both look the toast up in `timers` and leave when it isn't there.
+  if (duration === 0) return
 
   const entry = { remaining: duration, started: 0, timer: null }
   timers.set(toast, entry)

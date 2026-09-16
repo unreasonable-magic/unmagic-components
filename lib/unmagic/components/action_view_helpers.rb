@@ -354,9 +354,11 @@ module Unmagic
       #     <%= modal_link_to "Edit", edit_label_path(@label), class: button_classes %>
       #   <% end %>
       #
-      # The builder also takes title and description blocks for markup, and leading
-      # for something before the title, such as an avatar. Other options go on the
-      # <header>.
+      # The builder also takes title and description blocks for markup, leading for
+      # something before the title, such as an avatar, and trailing for markup
+      # beside the title that is already rendered — a status partial, a row of
+      # badges a helper returns — which can't go through badge because that would
+      # wrap a badge in a badge. Other options go on the <header>.
       def page_header(title: nil, description: nil, back: nil, **options, &block)
         builder = Components::PageHeader.new(self, title: title, description: description, back: back, **options)
         builder.render(block ? capture(builder, &block) : nil)
@@ -518,6 +520,9 @@ module Unmagic
       # itself after duration: milliseconds, and survives a morph refresh while it
       # is on screen. Hovering or focusing a toast holds it open. The tone comes
       # from config.flash_tones (notice is :good, alert :bad).
+      #
+      # duration: 0 keeps a toast up until it is dismissed — for a test that asserts
+      # on one without racing the timer, or a message that should not go by itself.
       #
       # Pass the flashes to show when some aren't meant for the user:
       #

@@ -12,6 +12,14 @@ RSpec.describe "toasts" do
   end
 
   describe "#flash_toasts" do
+    # 0 is what the element reads as "keep it up until it is dismissed", so it has to survive as
+    # the literal attribute rather than being dropped as a blank or falling back to the default.
+    it "passes a duration of 0 through for a toast that waits to be dismissed" do
+      doc = html(view.flash_toasts({}, duration: 0))
+
+      expect(doc.at("unmagic-toasts")["duration"]).to eq("0")
+    end
+
     it "mounts the element around a permanent, live stack" do
       doc = html(view.flash_toasts({}, duration: 8000))
 

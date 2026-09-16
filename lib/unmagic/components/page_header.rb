@@ -41,6 +41,14 @@ module Unmagic
         nil
       end
 
+      # Markup beside the title, as it is — the counterpart to leading, and the way to put badges
+      # there that something else has already rendered: a status partial, a row a helper returns.
+      # Those can't go through badge, which would wrap a badge in a badge.
+      def trailing(content = nil, &block)
+        @badges << (block ? view.capture(&block) : content)
+        nil
+      end
+
       # As a skeleton, anything given still renders for real, and the rest stands in
       # as shapes: a title bar, a description line (unless description: false) and
       # a button.

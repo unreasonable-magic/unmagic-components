@@ -79,6 +79,33 @@ RSpec.describe "static primitives" do
       expect(header.at(".UnmagicPageHeader__actions a").text).to eq("Edit")
     end
 
+    it "puts already-rendered markup beside the title with trailing, unwrapped" do
+      doc = html(view.page_header(title: "Errand") do |header|
+        header.trailing view.badge("running", tone: :accent)
+        header.trailing { view.tag.span("queued", class: "custom") }
+        nil
+      end)
+
+      heading = doc.at(".UnmagicPageHeader__heading")
+      # One badge, not a badge inside a badge — which is what routing an already
+      # rendered one through #badge would have produced.
+      expect(heading.css(".UnmagicBadge").length).to eq(1)
+      expect(heading.at(".UnmagicBadge")["class"]).to eq("UnmagicBadge UnmagicBadge--accent")
+      expect(heading.at(".UnmagicBadge .UnmagicBadge")).to be_nil
+      expect(heading.at("span.custom").text).to eq("queued")
+    end
+
+    it "keeps trailing and badge in the order they were called" do
+      doc = html(view.page_header(title: "Errand") do |header|
+        header.badge "Archived", tone: :warn
+        header.trailing view.tag.span("via Fastmail", class: "source")
+        nil
+      end)
+
+      marks = doc.at(".UnmagicPageHeader__heading").element_children.drop(1)
+      expect(marks.map { |node| node["class"] }).to eq([ "UnmagicBadge UnmagicBadge--warn", "source" ])
+    end
+
     it "takes the title, description and leading from blocks" do
       doc = html(view.page_header do |header|
         header.leading { view.tag.img(src: "/avatar.png", alt: "") }

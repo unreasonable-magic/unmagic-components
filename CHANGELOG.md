@@ -7,7 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `trailing` on the page header builder puts markup beside the title as it is —
+  a status partial, a row of badges a helper already returned. `badge` wraps what
+  it is given, so an already-rendered one routed through it came out as a badge
+  inside a badge; this is the counterpart to `leading`, and the two interleave in
+  call order.
+
 ### Fixed
+
+- `duration="0"` on `<unmagic-toasts>` now keeps a toast up until it is
+  dismissed, so "don't take this one away" is sayable — and a test asserting on a
+  toast can stop racing the timer. It used to fall back to the default, because
+  the guard was `duration > 0` and `Number(null)` is also `0`, so an absent
+  attribute and a deliberate zero were indistinguishable. Absent, empty, negative
+  and unparseable all still fall back rather than silently pinning every toast to
+  the screen.
 
 - The helpers reach `ActionView::TestCase` too, so a host helper that composes
   one of them (`badge`, `button_classes`) can be exercised by the host's own
