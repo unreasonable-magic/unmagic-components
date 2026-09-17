@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    unmagic-components (0.4.0)
+    unmagic-components (0.5.0)
       actionview (>= 7.0)
       activesupport (>= 7.0)
       railties (>= 7.0)
@@ -313,7 +313,7 @@ CHECKSUMS
   unicode-display_width (3.2.0) sha256=0cdd96b5681a5949cdbc2c55e7b420facae74c4aaf9a9815eee1087cb1853c42
   unicode-emoji (4.2.0) sha256=519e69150f75652e40bf736106cfbc8f0f73aa3fb6a65afe62fefa7f80b0f80f
   unmagic-color (0.3.1) sha256=91d6cca99b0ceb4dfe35e71d3e36f6f88ae499c8d066aa5ded5dd3c4717b6cd4
-  unmagic-components (0.4.0)
+  unmagic-components (0.5.0)
   unmagic-icon (0.3.0) sha256=eeb5ab0ea044bcc26d2d0ba7fa21ea184537fb3c11244bac60309ce45a063ccb
   uri (1.1.1) sha256=379fa58d27ffb1387eaada68c749d1426738bd0f654d812fcc07e7568f5c57c6
   useragent (0.16.11) sha256=700e6413ad4bb954bb63547fa098dddf7b0ebe75b40cc6f93b8d54255b173844
