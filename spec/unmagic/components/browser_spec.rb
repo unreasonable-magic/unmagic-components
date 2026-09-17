@@ -136,6 +136,24 @@ RSpec.describe Unmagic::Components::Browser do
     end
   end
 
+  # A host's seams render the host's partials, which call the host's helpers,
+  # which the browser's controller doesn't have. So none of them runs in here.
+  it "renders with the built-in seams, whatever the host configured" do
+    Unmagic::Components.configure do |config|
+      config.empty_state = ->(*) { raise "the host's empty_state ran" }
+      config.pagination = ->(*, **) { raise "the host's pagination ran" }
+      config.submit_class = ->(*) { raise "the host's submit_class ran" }
+      config.control_class = ->(*) { raise "the host's control_class ran" }
+    end
+
+    described_class::Catalog.all.each do |component|
+      response = get("/components/#{component.slug}")
+      expect(response.status).to eq(200), "#{component.slug} answered #{response.status}: #{response.body[0, 500]}"
+    end
+    expect(page("/components/table").at_css(".UnmagicEmptyState")).not_to be_nil
+    expect { Unmagic::Components.configuration.empty_state.call }.to raise_error(/host's empty_state/)
+  end
+
   it "says what's missing when turbo-rails isn't in the bundle" do
     hide_const("Turbo::Engine")
     controller = described_class::ApplicationController.new

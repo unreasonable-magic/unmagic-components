@@ -99,9 +99,9 @@ mount Unmagic::Components::Browser::Engine => "/unmagic/components" if Rails.env
 
 It brings its own stylesheet, prebuilt with Tailwind's default theme, and loads
 the components' JavaScript and Turbo itself, so nothing in your CSS or JS
-changes. It needs `turbo-rails` in your bundle. It renders through your
-configuration, so a `control_class` pointed at your own classes leaves its form
-examples unstyled.
+changes. It needs `turbo-rails` in your bundle. It shows the components as the
+gem draws them: your configuration doesn't apply inside it, so an `empty_state`
+that renders your own partial runs only in your app.
 
 Its controllers inherit `ActionController::Base`, so your authentication doesn't
 cover it. Its demo endpoints only write to the visitor's session, but mount it

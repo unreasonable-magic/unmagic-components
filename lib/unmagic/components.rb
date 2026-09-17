@@ -5,6 +5,7 @@ require "active_support/core_ext/object/try"
 require "active_support/core_ext/hash/except"
 require "active_support/core_ext/module/delegation"
 require "active_support/core_ext/string/output_safety"
+require "active_support/isolated_execution_state"
 
 require_relative "components/version"
 require_relative "components/configuration"
@@ -76,18 +77,38 @@ module Unmagic
   module Components
     class << self
       def configure
-        yield(configuration) if block_given?
-        configuration
+        yield(app_configuration) if block_given?
+        app_configuration
       end
 
+      # The app's configuration, unless the current request or job is inside
+      # with_default_configuration.
       def configuration
-        @configuration ||= Configuration.new
+        ActiveSupport::IsolatedExecutionState[:unmagic_components_configuration] || app_configuration
+      end
+
+      # Runs the block with the built-in seams, whatever the app configured. The
+      # browser renders through this, so none of a host's code (its partials, and
+      # the helpers they call) runs inside it. The override is per thread or fiber,
+      # so the app's own requests running alongside keep the app's configuration.
+      def with_default_configuration
+        previous = ActiveSupport::IsolatedExecutionState[:unmagic_components_configuration]
+        ActiveSupport::IsolatedExecutionState[:unmagic_components_configuration] = Configuration.new
+        yield
+      ensure
+        ActiveSupport::IsolatedExecutionState[:unmagic_components_configuration] = previous
       end
 
       # Drops every customisation, restoring the built-in seams. Intended for
       # tests; an app configures once at boot.
       def reset_configuration!
-        @configuration = nil
+        @app_configuration = nil
+      end
+
+      private
+
+      def app_configuration
+        @app_configuration ||= Configuration.new
       end
     end
   end

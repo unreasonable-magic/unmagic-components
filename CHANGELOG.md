@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `Unmagic::Components.with_default_configuration { … }` runs a block with the
+  built-in seams, whatever the app configured. The override is per thread or
+  fiber, so the app's other requests aren't affected.
+
+### Changed
+
+- The component browser ignores the host's configuration and renders every
+  example through the built-in seams. A host whose `empty_state` or
+  `pagination` rendered its own partials had to hand the browser the helpers
+  those partials call; now none of the host's code runs inside the browser.
+
 ## [0.4.0] - 2026-09-16
 
 ### Added

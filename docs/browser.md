@@ -77,6 +77,13 @@ lib/unmagic/components/browser/
 - **Controllers inherit `ActionController::Base`,** not the host's
   `ApplicationController`, so the host's auth, layout and callbacks stay out.
   The host's session, flash and CSRF settings still apply.
+- **It ignores the host's configuration.** Every action runs inside
+  `Unmagic::Components.with_default_configuration`, so the examples render
+  through the built-in seams. A host's `empty_state` or `pagination` renders
+  the host's partials, which call the host's helpers, and a controller that
+  inherits `ActionController::Base` doesn't have them. The override is kept in
+  `ActiveSupport::IsolatedExecutionState`, so the host's own requests running
+  at the same time keep the host's seams.
 - **Everything in the session is prefixed.** Keys are
   `unmagic_components_browser_*` (the theme, the dialog's profile, the board,
   the AI chat reply), so none collides with a host's `:theme`.
@@ -85,8 +92,9 @@ lib/unmagic/components/browser/
   Code tab shows those helpers.
 - **The catalog reloads on every request in development** and loads once
   otherwise.
-- **The table examples pass their stand-in pager** (`paginate: @pager`)
-  instead of relying on a global `pagy_for`, which stays the host's.
+- **The table examples pass their stand-in pager** (`paginate: @pager`),
+  because the default `pagy_for` only finds a pager the action assigned to
+  `@pagy`.
 - **`activemodel` is required by the two fixtures that use it,** not by the
   gemspec.
 - **Example sections are named `<slug>_<key>`.** A bare key collided with ids
@@ -103,9 +111,8 @@ lib/unmagic/components/browser/
 - **The build is committed,** so a `github:` install works. A spec rebuilds it
   and fails when the committed file is stale; the lockfile pins
   `tailwindcss-ruby`, so the output is deterministic.
-- **It shows the gem's default look.** The examples still render through the
-  host's configuration and I18n, so a host whose `control_class` returns its
-  own classes sees unstyled form examples. The README says so.
+- **It shows the gem's default look,** in both its stylesheet and its seams, so
+  nothing a host configured goes unstyled. The host's I18n still applies.
 
 ## JavaScript and static files
 
@@ -145,6 +152,7 @@ the engine at `/unmagic/components`. It checks that:
 - the importmap covers exactly what `config/importmap.rb` pins, plus Turbo.
 - the committed `browser.css` matches a fresh build.
 - a missing turbo-rails raises the documented error.
+- no seam a host configured runs on any page.
 
 ## Checked by hand
 

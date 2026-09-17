@@ -24,6 +24,12 @@ module Unmagic
 
         before_action :require_turbo, :remember_theme, :load_catalog
 
+        # The browser shows the gem's own components, not the host's take on them:
+        # its stylesheet has only the gem's classes, and a host's empty_state or
+        # pagination would render the host's partials, which call helpers this
+        # controller doesn't have.
+        around_action :with_default_configuration
+
         private
 
         # Checked per request rather than at load, because a host that eager loads
@@ -41,6 +47,8 @@ module Unmagic
         end
 
         def dark_theme? = browser_session[:theme] == "dark"
+
+        def with_default_configuration(&) = Unmagic::Components.with_default_configuration(&)
 
         def load_catalog
           Catalog.reload! if Rails.env.development?
