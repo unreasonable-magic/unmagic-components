@@ -1,6 +1,6 @@
 # `sidebar` / `sidebar_toggle`
 
-> Status: draft
+> Status: built
 > Tier: 2 (small element)
 > Replaces or relates to:
 > - Rails Blocks "Sidebar" (the gap source; its "Navbar" is out of scope)
@@ -129,6 +129,10 @@ Without JavaScript the whole thing still works: popovers and details are HTML.
   the column the layout gives it.
 - **Motion:** a 150ms transform on open, removed under reduced motion.
 - **Colour:** palette with `dark:` variants only.
+
+## Small screens
+
+Below the breakpoint the nav is a popover sheet from the edge, 85vw at most, with a backdrop; links are 44px tall on a coarse pointer.
 
 ## Behaviour (JavaScript)
 

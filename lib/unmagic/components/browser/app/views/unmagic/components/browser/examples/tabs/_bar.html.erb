@@ -1,0 +1,12 @@
+<%= tabs id: "bar_tabs", style: :bar do |tabs| %>
+  <% tabs.tab "Overview", icon: :file %>
+  <% tabs.tab "Files", icon: :folder %>
+  <% tabs.tab "Checks", icon: :list_checks %>
+  <% tabs.tab "Discussion", icon: :messages_square %>
+  <% tabs.tab "Settings", icon: :wrench %>
+  <% tabs.panel { "What the project is." } %>
+  <% tabs.panel { "Every file it holds." } %>
+  <% tabs.panel { "What passed and what didn't." } %>
+  <% tabs.panel { "Where it's being talked about." } %>
+  <% tabs.panel { "How it behaves." } %>
+<% end %>

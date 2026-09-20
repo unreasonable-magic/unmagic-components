@@ -15,14 +15,17 @@ module Unmagic
         date: "UnmagicInput",
         select: "UnmagicSelect",
         check: "UnmagicCheck",
-        radio: "UnmagicRadio"
+        radio: "UnmagicRadio",
+        switch: "UnmagicSwitch",
+        range: "UnmagicRange",
+        one_time_code: "UnmagicInput"
       }.freeze
 
       SIZES = %i[small large].freeze
 
       # Only the boxes you type into or pick from have a size; a checkbox or radio
       # is sized by the text beside it.
-      SIZED = %i[input text_area password date select].freeze
+      SIZED = %i[input text_area password date select one_time_code].freeze
 
       # The classes for a kind of control, or nil when the seam gives none. size:
       # adds the gem's modifier, but only while the gem's own class is in use: an

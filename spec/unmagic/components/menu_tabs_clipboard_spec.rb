@@ -4,37 +4,41 @@ RSpec.describe "menus, tabs and copy buttons" do
   let(:view) { build_view }
 
   describe "#menu" do
-    it "renders a details dropdown behind an icon trigger" do
-      doc = html(view.menu { |menu| menu.link "Edit", "/jobs/1/edit" })
+    it "renders a popover panel behind an icon trigger" do
+      doc = html(view.menu(id: "row") { |menu| menu.link "Edit", "/jobs/1/edit" })
 
-      summary = doc.at("unmagic-menu.UnmagicMenu > details.UnmagicMenu__details > summary")
-      expect(summary["aria-label"]).to eq("More actions")
-      expect(summary["aria-haspopup"]).to eq("menu")
-      expect(summary["class"]).to eq("UnmagicButton UnmagicButton--icon UnmagicMenu__trigger")
-      expect(summary.at("svg")).not_to be_nil
+      element = doc.at("unmagic-menu#row.UnmagicMenu")
+      expect(element["align"]).to eq("end")
+      trigger = element.at("> button.UnmagicMenu__trigger")
+      expect([ trigger["popovertarget"], trigger["aria-controls"], trigger["aria-haspopup"], trigger["aria-label"] ]).to eq(%w[row_panel row_panel menu More\ actions])
+      expect(trigger["class"]).to eq("UnmagicButton UnmagicButton--icon UnmagicMenu__trigger")
+      expect(trigger["aria-expanded"]).to be_nil
 
-      panel = doc.at("details > .UnmagicMenu__panel")
-      expect(panel["role"]).to eq("menu")
+      panel = element.at("> div#row_panel.UnmagicMenu__panel")
+      expect([ panel["popover"], panel["role"], panel["tabindex"] ]).to eq(%w[auto menu -1])
       expect(panel["class"]).to include("UnmagicMenu__panel--end")
+      expect(element.at("details")).to be_nil
     end
 
     it "labels a text trigger and aligns the panel to its start" do
       doc = html(view.menu("Options", align: :start) { |menu| menu.divider })
 
-      expect(doc.at("summary").text).to eq("Options")
-      expect(doc.at("summary")["aria-label"]).to be_nil
+      expect(doc.at("button.UnmagicMenu__trigger").text).to eq("Options")
+      expect(doc.at("button")["aria-label"]).to be_nil
+      expect(doc.at("unmagic-menu")["align"]).to eq("start")
       expect(doc.at(".UnmagicMenu__panel")["class"]).to include("UnmagicMenu__panel--start")
       expect(doc.at("hr.UnmagicMenu__divider")["role"]).to eq("separator")
     end
 
-    it "renders link items, block form included" do
+    it "renders link items, block form included, with icons" do
       doc = html(view.menu do |menu|
-        menu.link "Edit", "/jobs/1/edit", class: "extra"
+        menu.link "Edit", "/jobs/1/edit", class: "extra", icon: :pencil
         menu.link("/jobs/1") { "View" }
       end)
 
       edit, show = doc.css("a[role=menuitem]")
       expect([ edit.text, edit["href"], edit["class"] ]).to eq([ "Edit", "/jobs/1/edit", "UnmagicMenu__item extra" ])
+      expect(edit.at("svg.UnmagicIcon")).to be_present
       expect([ show.text, show["href"] ]).to eq([ "View", "/jobs/1" ])
     end
 
@@ -53,9 +57,43 @@ RSpec.describe "menus, tabs and copy buttons" do
       expect(button["class"]).to eq("UnmagicMenu__item UnmagicMenu__item--danger")
     end
 
+    it "renders sections, plain items and disclosures" do
+      doc = html(view.menu do |menu|
+        menu.section "Share"
+        menu.item "Rename", data: { unmagic_dialog_open: "rename" }
+        menu.disclosure("Move to…") { view.tag.input(name: "folder") }
+      end)
+
+      panel = doc.at(".UnmagicMenu__panel")
+      expect(panel.at("p.UnmagicMenu__section").text).to eq("Share")
+      item = panel.at("button[role=menuitem].UnmagicMenu__item")
+      expect([ item["type"], item["data-unmagic-dialog-open"], item.text ]).to eq([ "button", "rename", "Rename" ])
+      details = panel.at("details.UnmagicMenu__disclosure")
+      expect(details.at("summary.UnmagicMenu__item.UnmagicMenu__summary").text).to include("Move to…")
+      expect(details.at(".UnmagicMenu__fold input")["name"]).to eq("folder")
+    end
+
     it "rejects an unknown align or tone" do
       expect { view.menu(align: :middle) { nil } }.to raise_error(ArgumentError, /unknown menu align :middle/)
       expect { view.menu { |menu| menu.link "x", "/", tone: :loud } }.to raise_error(ArgumentError, /unknown menu item tone :loud/)
+    end
+  end
+
+  describe "#context_menu" do
+    it "renders the panel alone, named, for the element it opens on" do
+      doc = html(view.context_menu(for: "file_12", id: "ctx") { |menu| menu.link "Open", "/files/12" })
+
+      element = doc.at("unmagic-context-menu#ctx.UnmagicMenu.UnmagicMenu--context")
+      expect([ element["for"], element["align"] ]).to eq([ "file_12", nil ])
+      expect(element.at("button.UnmagicMenu__trigger")).to be_nil
+      panel = element.at("div#ctx_panel[popover=auto][role=menu]")
+      expect(panel["aria-label"]).to eq("Actions")
+      expect(panel.at("a[role=menuitem]").text).to eq("Open")
+    end
+
+    it "renders nothing with no items, and needs for:" do
+      expect(view.context_menu(for: "x") { |_menu| }).to be_blank
+      expect { view.context_menu { |_menu| } }.to raise_error(ArgumentError, /needs for:/)
     end
   end
 
@@ -119,6 +157,23 @@ RSpec.describe "menus, tabs and copy buttons" do
       expect(doc.at("unmagic-tabs")).to be_nil
       links = doc.css("nav.UnmagicTabs > .UnmagicTabs__list > a.UnmagicTabs__tab")
       expect(links.map { |link| [ link.text, link["aria-current"] ] }).to eq([ [ "All", "page" ], [ "Replied", nil ] ])
+    end
+
+    it "leads a label with an icon, and takes the bar style" do
+      doc = html(view.tabs(style: :bar) do |tabs|
+        tabs.tab "Files", icon: :folder
+        tabs.tab "Mine", icon: '<svg class="mine"></svg>'.html_safe
+        tabs.panel { "1" }
+        tabs.panel { "2" }
+      end)
+
+      expect(doc.at("unmagic-tabs")["class"]).to eq("UnmagicTabs UnmagicTabs--bar")
+      tabs = doc.css("[role=tab]")
+      expect(tabs[0].at("svg.UnmagicIcon.UnmagicTabs__icon")["data-unmagic-icon"]).to eq("unmagic_components:lucide/folder")
+      expect(tabs[0].text).to eq("Files")
+      expect(tabs[1].at("svg.mine")).to be_present
+
+      expect { view.tabs(style: :pills) { |tabs| tabs.tab "x" } }.to raise_error(ArgumentError, /unknown tabs style :pills/)
     end
 
     it "rejects mismatched panels and mixing links with panels" do

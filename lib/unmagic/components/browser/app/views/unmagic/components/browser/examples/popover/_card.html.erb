@@ -1,0 +1,11 @@
+<%= popover "Ada Lovelace", placement: :top, align: :center do |popover| %>
+  <% popover.trigger { avatar "Ada Lovelace", size: :large } %>
+  <div class="flex items-center gap-3">
+    <%= avatar "Ada Lovelace", size: :large %>
+    <div>
+      <div class="font-medium">Ada Lovelace</div>
+      <div class="text-xs text-neutral-500">Engineer · joined 2021</div>
+    </div>
+  </div>
+  <% popover.footer { button "View profile", href: "#", size: :small } %>
+<% end %>

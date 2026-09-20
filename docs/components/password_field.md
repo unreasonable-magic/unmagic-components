@@ -1,6 +1,6 @@
 # `password_field reveal: true`
 
-> Status: draft
+> Status: built
 > Tier: 2 (small element)
 > Replaces or relates to: Rails Blocks "Password" (gap source). Overrides the
 > builder's `password_field`, as `FormBuilder` already overrides `label` and
@@ -129,6 +129,10 @@ Without `reveal:`:
   and the inverse for `__hide`.
 - **Colours:** `neutral-500` for the icon, and the focus ring.
 - **Motion:** none.
+
+## Small screens
+
+The reveal button is an icon button, 44px on a coarse pointer, and the input keeps room for it.
 
 ## Behaviour (JavaScript)
 

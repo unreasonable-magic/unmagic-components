@@ -96,19 +96,19 @@ RSpec.describe "AI chat tool calls and payloads" do
       expect(root["class"]).to eq("UnmagicAIChatPayload extra")
       code = root.at(".UnmagicAIChatPayload__code")
       expect([ code["tabindex"], code["role"], code["aria-label"] ]).to eq([ "0", "region", "Asked" ])
-      expect(code.at("pre > code")["class"]).to eq("language-json")
+      expect(code.at("pre > code")["class"]).to include("language-json")
       expect(code.text).to eq(%({\n  "query": "cats",\n  "limit": 5\n}))
     end
 
     it "parses a JSON string, and leaves other text as text" do
-      expect(html(view.ai_chat_payload('[1,2]')).at("code")["class"]).to eq("language-json")
+      expect(html(view.ai_chat_payload('[1,2]')).at("code")["class"]).to include("language-json")
 
       plain = html(view.ai_chat_payload("<oops> not json")).at("code")
-      expect([ plain["class"], plain.text ]).to eq([ "language-plaintext", "<oops> not json" ])
+      expect([ plain["class"], plain.text ]).to eq([ "UnmagicCodeView__code language-plaintext", "<oops> not json" ])
     end
 
     it "takes the language it's given for text" do
-      expect(html(view.ai_chat_payload("a\nb", language: :ruby)).at("code")["class"]).to eq("language-ruby")
+      expect(html(view.ai_chat_payload("a\nb", language: :ruby)).at("code")["class"]).to include("language-ruby")
     end
 
     it "renders nothing for no payload, and no head without a label" do

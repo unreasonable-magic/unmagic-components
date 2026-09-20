@@ -1,6 +1,6 @@
 # `kbd`
 
-> Status: draft
+> Status: built
 > Tier: 1 (no JS)
 > Replaces or relates to: Rails Blocks "KBD & Hotkey" (gap source); `tooltip`
 > (a hint that names a shortcut); `menu` items
@@ -122,6 +122,10 @@ CSS section: `Keys`.
 - **Inside a dark tooltip:** `.UnmagicTooltip__popup .UnmagicKbd__key` switches
   to a translucent surface, so keys stay legible on `neutral-900`/`dark:neutral-700`.
 - Palette colours with `dark:` variants only, and no motion.
+
+## Small screens
+
+Keys scale with the text around them, so nothing to do.
 
 ## Behaviour (JavaScript)
 

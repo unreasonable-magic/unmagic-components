@@ -1,0 +1,12 @@
+<%= table_for @things, id: "ctx_things" do |table| %>
+  <% table.column "Name" do |thing| %>
+    <span id="<%= dom_id(thing, :ctx) %>" class="block cursor-context-menu"><%= thing.name %></span>
+    <%= context_menu for: dom_id(thing, :ctx), label: "#{thing.name} actions" do |menu| %>
+      <% menu.link "Open", "#", icon: :file %>
+      <% menu.link "Copy link", "#", icon: :copy %>
+      <% menu.divider %>
+      <% menu.button "Delete", "#", method: :delete, tone: :danger, icon: :x %>
+    <% end %>
+  <% end %>
+  <% table.column "Score", :score, numeric: true %>
+<% end %>

@@ -1,0 +1,4 @@
+<%= code_view language: :shell, wrap: false, copy: false do %>
+  # A long line stays a line: scroll to read it, or copy it whole.
+  curl -X POST https://api.example.com/v1/renders --header "Authorization: Bearer $TOKEN" --header "Content-Type: application/json" --data '{"scene": "kitchen", "width": 1920, "height": 1080, "samples": 256}'
+<% end %>

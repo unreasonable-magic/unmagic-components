@@ -269,6 +269,33 @@ name, and the host `@import`s it after `tailwindcss`.
 - **Comments explain why** a rule exists, especially a workaround. See the
   `.UnmagicTable tbody tr` border comment.
 
+## Small screens
+
+Every component is used on a phone, so every design note has a **Small screens**
+section and the CSS honours it. The conventions:
+
+- **Targets.** A control is at least 44px tall where the pointer is coarse
+  (`@media (pointer: coarse)`), and an icon-only control at least 44px wide.
+  `UnmagicButton` does this for every button; a control of its own does it for
+  itself.
+- **Hover is not the only way in.** Anything revealed on hover (a copy button, an
+  action bar) is always shown under `@media (hover: none)`, and reachable by
+  focus everywhere.
+- **Rows scroll, they don't wrap into piles.** A row of tabs, a toolbar, a set of
+  chips: one line that scrolls sideways (`overflow-x: auto`, snap points, no
+  scrollbar drawn), with the chosen item brought into view by script where the
+  component has one.
+- **Overlays come from the bottom.** Below `sm`, a dialog, a drawer, a menu and a
+  popover are full-width sheets anchored to the bottom edge, where a thumb is.
+- **Tables stack.** Below `sm`, a `table_for` lays each row out as a list of its
+  cells, labelled from the head.
+- **Headers wrap.** A page header's actions drop under its title; a section's
+  actions drop under its heading; an inline detail list stacks.
+- **Text wraps by default.** A code block or a table only scrolls sideways when
+  asked to.
+- **Check it.** `bin/screenshots <slug>` pictures every example at a phone width
+  with touch emulated, beside the desktop capture, light and dark.
+
 ## JavaScript
 
 One custom element per file, in `app/assets/javascripts/unmagic/components/`.

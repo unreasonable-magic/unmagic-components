@@ -1,0 +1,3 @@
+<%= form_with model: @profile, url: "#", builder: Unmagic::Components::FormBuilder, class: "max-w-md" do |form| %>
+  <%= form.field :role, "Owner", as: :combobox, collection: @things, text: :name, placeholder: "Pick someone", hint: "One of the team." %>
+<% end %>

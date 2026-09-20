@@ -12,6 +12,9 @@
   <p class="<%= heading %> pt-6"><%= group %></p>
   <% components.each do |component| %>
     <% path = component_path(component.slug) %>
-    <%= link_to component.name, path, class: current_page?(path) ? current : item, "aria-current": ("page" if current_page?(path)) %>
+    <%= link_to path, class: "#{current_page?(path) ? current : item} flex items-center justify-between gap-2", "aria-current": ("page" if current_page?(path)) do %>
+      <%= component.name %>
+      <%= tag.span "New", class: "rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950" if component.new %>
+    <% end %>
   <% end %>
 <% end %>

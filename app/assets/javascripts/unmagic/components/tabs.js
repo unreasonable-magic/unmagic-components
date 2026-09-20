@@ -8,6 +8,30 @@
 // When the element has an id, the chosen tab is remembered in sessionStorage for
 // that page, and re-applied after a morph refresh (which resets the markup to the
 // server's selection). Each change fires unmagic-tabs:change.
+//
+// The tabs are found anywhere inside the element rather than as its children, so
+// a panel can put the list in a card's bar and the panels in its body. A bar-style
+// list scrolls sideways on a narrow screen; the chosen tab is scrolled into view
+// on connect and on each change, and so is the current page in a bar of links,
+// which has no element of its own.
+
+const REDUCED_MOTION = "(prefers-reduced-motion: reduce)"
+
+// Scrolls a list sideways so the tab sits in its middle, where the list is wider
+// than its box. Only ever sideways: the page's own scroll is left alone.
+function reveal(tab, smooth = true) {
+  const list = tab?.parentElement
+  if (!list || list.scrollWidth <= list.clientWidth) return
+
+  const left = tab.offsetLeft - (list.clientWidth - tab.offsetWidth) / 2
+  list.scrollTo({ left, behavior: smooth && !matchMedia(REDUCED_MOTION).matches ? "smooth" : "auto" })
+}
+
+function revealCurrentLinks() {
+  for (const link of document.querySelectorAll(".UnmagicTabs--bar .UnmagicTabs__list > [aria-current=page]")) {
+    reveal(link, false)
+  }
+}
 
 class UnmagicTabs extends HTMLElement {
   constructor() {
@@ -18,6 +42,7 @@ class UnmagicTabs extends HTMLElement {
 
   connectedCallback() {
     this.#restore()
+    reveal(this.tabs.find((tab) => tab.getAttribute("aria-selected") === "true"), false)
     document.addEventListener("turbo:morph", this.#restore)
   }
 
@@ -26,7 +51,7 @@ class UnmagicTabs extends HTMLElement {
   }
 
   get tabs() {
-    return [...this.querySelectorAll(":scope > [role=tablist] > [role=tab]")]
+    return [...this.querySelectorAll("[role=tab]")].filter((tab) => tab.closest("unmagic-tabs") === this)
   }
 
   select(tab, { focus = false, remember = true } = {}) {
@@ -40,6 +65,7 @@ class UnmagicTabs extends HTMLElement {
     }
 
     if (focus) tab.focus()
+    reveal(tab)
     if (!remember) return
 
     const key = this.#storageKey
@@ -92,3 +118,11 @@ class UnmagicTabs extends HTMLElement {
 }
 
 customElements.get("unmagic-tabs") || customElements.define("unmagic-tabs", UnmagicTabs)
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", revealCurrentLinks)
+} else {
+  revealCurrentLinks()
+}
+document.addEventListener("turbo:load", revealCurrentLinks)
+document.addEventListener("turbo:frame-load", revealCurrentLinks)

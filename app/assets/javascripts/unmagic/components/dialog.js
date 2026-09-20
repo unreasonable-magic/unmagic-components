@@ -10,7 +10,8 @@
 // Selecting text in an input and letting go past the panel's edge fires a click on
 // the dialog too, and that shouldn't throw the form away.
 //
-// Escape needs nothing here; a modal <dialog> closes on it natively.
+// A dialog whose panel says aria-busy (a form mid-submit, an upload) refuses to
+// close on Escape or the backdrop until it isn't; the close button still works.
 
 const installed = Symbol.for("unmagic-components.dialog")
 
@@ -40,10 +41,18 @@ if (!globalThis[installed]) {
       return
     }
 
-    if (target instanceof HTMLDialogElement && target.matches("[data-unmagic-dialog]") && pressed === target) {
+    if (target instanceof HTMLDialogElement && target.matches("[data-unmagic-dialog]") && pressed === target && !busy(target)) {
       target.close()
     }
   })
+
+  document.addEventListener("cancel", (event) => {
+    if (event.target instanceof HTMLDialogElement && busy(event.target)) event.preventDefault()
+  }, true)
+
+  function busy(dialog) {
+    return dialog.matches("[aria-busy=true]") || dialog.querySelector("[aria-busy=true]") !== null
+  }
 
   // An open dialog must not be in the snapshot Turbo restores on Back: it would
   // come back open but not modal, sitting in the page with no backdrop.

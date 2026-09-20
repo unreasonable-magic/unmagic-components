@@ -47,6 +47,22 @@ RSpec.describe "static primitives" do
       expect(card.at(".UnmagicCard__footer")).to be_nil
     end
 
+    it "takes a bar of the caller's own in place of a title, and take-aways for the border and background" do
+      doc = html(view.card(border: false, background: false) do |card|
+        card.header(class: "px-2") { "Bar" }
+        "Body"
+      end)
+
+      card = doc.at("section")
+      expect(card["class"]).to eq("UnmagicCard UnmagicCard--borderless UnmagicCard--transparent")
+      expect(card.at("> header")["class"]).to eq("UnmagicCard__bar px-2")
+      expect(card.at("> header").text).to eq("Bar")
+
+      expect do
+        view.card(title: "T") { |card| card.header { "Bar" } }
+      end.to raise_error(ArgumentError, /a title and actions, or a header of its own/)
+    end
+
     it "becomes one link with href:" do
       card = html(view.card(href: "/labels/1") { "Bug" }).at("a")
 

@@ -1,0 +1,12 @@
+<%= command_palette id: "demo_palette", src: search_commands_path do |palette| %>
+  <% palette.group "Go to" do |group| %>
+    <% group.link "Overview", root_path, keywords: "home start", shortcut: %w[G O], icon: :file %>
+    <% group.link "Installation", installation_path, icon: :wrench %>
+    <% group.link "Theming", theming_path, icon: :lightbulb %>
+  <% end %>
+  <% palette.group "Actions" do |group| %>
+    <% group.link "Edit profile", profile_dialog_path, data: { turbo_frame: "modal" }, icon: :pencil %>
+    <% group.button "Reset profile", profile_dialog_path, method: :delete, form: { data: { turbo_confirm: "Reset the profile?" } }, icon: :x %>
+  <% end %>
+<% end %>
+<%= command_palette_button dialog: "demo_palette" %>

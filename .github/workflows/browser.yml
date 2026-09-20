@@ -1,0 +1,87 @@
+# The component browser as a static site: main goes to the root of the GitHub
+# Pages site, and every pull request to pr-<number>/ under it, with a comment on
+# the PR saying where. Both come from rake browser:export, after the specs pass,
+# so a broken build never publishes.
+#
+# Pages has to be set to deploy from the gh-pages branch (Settings → Pages →
+# "Deploy from a branch"). The site lives under /<repo>/, which is the base the
+# export is given, so every link and asset URL in the pages is right as written.
+name: Browser
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    types: [ opened, reopened, synchronize, closed ]
+
+concurrency:
+  group: browser-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    if: github.event.action != 'closed'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "4.0"
+          bundler-cache: true
+      - run: bundle exec rspec
+      - name: Export the browser
+        env:
+          BASE: ${{ github.event_name == 'pull_request' && format('/{0}/pr-{1}', github.event.repository.name, github.event.pull_request.number) || format('/{0}', github.event.repository.name) }}
+        run: bundle exec rake "browser:export[site,${BASE}]"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: browser
+          path: site
+
+  publish:
+    needs: export
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: browser
+          path: site
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: site
+          # The previews live in pr-*/ on the same branch; a main deploy leaves them be.
+          keep_files: true
+
+  preview:
+    needs: export
+    if: github.event_name == 'pull_request' && github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: browser
+          path: site
+      - uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: site
+          preview-branch: gh-pages
+          umbrella-dir: .
+          action: deploy
+
+  cleanup:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: rossjrw/pr-preview-action@v1
+        with:
+          preview-branch: gh-pages
+          umbrella-dir: .
+          action: remove

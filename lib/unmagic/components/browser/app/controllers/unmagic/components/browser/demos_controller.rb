@@ -29,6 +29,18 @@ module Unmagic
           redirect_to component_path("confirm"), status: :see_other, notice: "Profile reset."
         end
 
+        # The combobox example's search: the team, filtered by ?q=.
+        def search_things
+          q = params[:q].to_s.downcase
+          @things = Thing.all.select { |thing| "#{thing.name} #{thing.role}".downcase.include?(q) }
+        end
+
+        # The command palette's remote commands: kilns matching ?q=.
+        def search_commands
+          q = params[:q].to_s.downcase
+          @kilns = %w[saberpc studio-kiln render-farm-1].select { |kiln| kiln.include?(q) || "kiln".include?(q) }
+        end
+
         # Slow enough to watch the skeleton before the form arrives.
         def slow_dialog
           sleep 1.5

@@ -1,0 +1,34 @@
+<%= panel id: "notes" do |panel| %>
+  <% panel.tab "README", icon: :book_open %>
+  <% panel.tab "Agents", icon: :bot %>
+  <% panel.tab "Style guide", icon: :palette %>
+  <% panel.tab "Changelog", icon: :list_checks, disabled: "none yet" %>
+
+  <% panel.panel do %>
+    <div class="UnmagicProse">
+      <h2>Kidbook</h2>
+      <p>A picture book's worth of characters, rigged and ready to pose. Import a folder of drawings and every
+        one becomes a resource with a preview, a poster and the metadata its format carries.</p>
+      <p>Start with <code>bin/setup</code>, then <code>bin/dev</code>.</p>
+    </div>
+  <% end %>
+
+  <% panel.panel do %>
+    <div class="UnmagicProse">
+      <h2>Working here</h2>
+      <ul>
+        <li>Plain Rails. Reach for a gem only when Rails can't say it.</li>
+        <li>Rich models, thin controllers, no service layer.</li>
+        <li>HTML over the wire: Turbo and a little Stimulus.</li>
+      </ul>
+    </div>
+  <% end %>
+
+  <% panel.panel do %>
+    <div class="UnmagicProse">
+      <h2>Style</h2>
+      <p>Warm neutrals, one accent, and type that reads at a glance. Illustrations keep their linework; nothing
+        is smoothed into a gradient.</p>
+    </div>
+  <% end %>
+<% end %>

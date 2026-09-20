@@ -1,6 +1,6 @@
 # `context_menu`
 
-> Status: draft
+> Status: built
 > Tier: 2 (small element)
 > Replaces or relates to:
 > - Rails Blocks "Context Menu" (the gap source)
@@ -115,6 +115,10 @@ trigger button:
 - **The panel keeps the menu's look:** surface, border, radius, shadow and
   min-width.
 - **Colour:** the menu's palette and `dark:` variants. **Motion:** none, as for `menu`.
+
+## Small screens
+
+A long press (500ms) on a touch screen opens it where a right-click would; the panel is then a bottom sheet with taller items.
 
 ## Behaviour (JavaScript)
 

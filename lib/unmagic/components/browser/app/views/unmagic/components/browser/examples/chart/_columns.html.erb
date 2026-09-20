@@ -1,0 +1,7 @@
+<% days = (Date.new(2026, 9, 1)..Date.new(2026, 9, 30)).to_a %>
+<% seed = ->(d, k) { ((d.day * k * 7919) % 97) / 10.0 } %>
+<%= chart [
+      { label: "Suno", values: days.to_h { |d| [ d, seed.(d, 3) ] }, total: days.sum { |d| seed.(d, 3) } },
+      { label: "ElevenLabs", values: days.to_h { |d| [ d, seed.(d, 5) ] }, total: days.sum { |d| seed.(d, 5) } },
+      { label: "Meshy", values: days.to_h { |d| [ d, seed.(d, 11) ] }, total: days.sum { |d| seed.(d, 11) } }
+    ], labels: days, title: "Spend by provider", format: :money %>

@@ -1,0 +1,14 @@
+<%= menu "Organise", align: :start do |menu| %>
+  <% menu.section "Share" %>
+  <% menu.link "Copy link", "#", icon: :copy %>
+  <% menu.item "Rename", icon: :pencil %>
+  <% menu.disclosure "Move to…", icon: :folder do %>
+    <%= form_with url: "#", method: :get, class: "flex flex-col gap-2" do |form| %>
+      <%= form.text_field :folder, placeholder: "Folder name", class: control_classes(:input, size: :small), "aria-label": "Folder name" %>
+      <%= button "Move", :primary, size: :small, type: "submit" %>
+    <% end %>
+  <% end %>
+  <% menu.divider %>
+  <% menu.section "Danger" %>
+  <% menu.button "Delete", "#", method: :delete, tone: :danger, icon: :x, form: { data: { turbo_confirm: "Delete it?" } } %>
+<% end %>

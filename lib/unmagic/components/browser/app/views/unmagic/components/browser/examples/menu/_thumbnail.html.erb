@@ -1,14 +1,9 @@
-<%# A static open menu: the real one starts closed, and its element closes it on connect.
-    The trigger and panel share a positioned wrapper, so the panel hangs off the trigger. %>
-<div class="h-28 w-44 text-xs">
-  <div class="relative inline-block">
-    <%= tag.span class: button_classes(:default, size: :small) do %>
-      Options <%= Unmagic::Components::Icons.svg(self, :chevron_down, class: "size-3") %>
-    <% end %>
-    <div class="UnmagicMenu__panel UnmagicMenu__panel--start min-w-36">
-      <span class="UnmagicMenu__item text-xs">Edit</span>
-      <hr class="UnmagicMenu__divider">
-      <span class="UnmagicMenu__item UnmagicMenu__item--danger text-xs">Delete</span>
-    </div>
+<div class="flex flex-col items-end gap-2">
+  <%= tag.button safe_join([ "Actions", unmagic_icon("unmagic_components:lucide/chevron-down", class: "size-4") ]), type: "button", class: button_classes %>
+  <div class="flex w-40 flex-col gap-0.5 rounded-lg border border-neutral-200 bg-white p-1 text-sm shadow-lg dark:border-neutral-800 dark:bg-neutral-900">
+    <span class="rounded-md px-2.5 py-1.5">Edit</span>
+    <span class="rounded-md px-2.5 py-1.5">Duplicate</span>
+    <hr class="my-1 border-0 border-t border-neutral-200 dark:border-neutral-800">
+    <span class="rounded-md px-2.5 py-1.5 text-red-600 dark:text-red-400">Delete</span>
   </div>
 </div>

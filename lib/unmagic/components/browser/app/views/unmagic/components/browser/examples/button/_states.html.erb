@@ -1,0 +1,11 @@
+<div class="flex flex-col items-center gap-3">
+  <div class="flex flex-wrap items-center gap-2">
+    <%= button "Saving", :primary, loading: true %>
+    <%= button "Checking", loading: true, icon: :rotate_cw %>
+    <%= button "Disabled", disabled: true %>
+    <%= button "Disabled link", href: "#", disabled: true %>
+  </div>
+  <div class="w-64">
+    <%= button "Continue", :primary, block: true, size: :large %>
+  </div>
+</div>

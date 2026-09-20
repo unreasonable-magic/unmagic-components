@@ -1,6 +1,6 @@
 # `one_time_code_field`
 
-> Status: draft
+> Status: built
 > Tier: 2 (small element)
 > Replaces or relates to: Rails Blocks "Two Factor" (gap source). A FormBuilder
 > control like `autogrow_text_area`.
@@ -141,6 +141,10 @@ All selectors are classes, never bare elements.
 - **Motion:** the caret blink is switched off under reduced motion (a solid
   bar instead).
 - **Colours:** the `UnmagicInput` palette and `dark:` variants only.
+
+## Small screens
+
+The cells are 44px tall and share the row's width; `inputmode` brings up the numeric keyboard, and the platform's code suggestion fills the single input.
 
 ## Behaviour (JavaScript)
 

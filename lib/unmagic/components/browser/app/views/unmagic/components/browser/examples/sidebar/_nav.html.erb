@@ -1,0 +1,15 @@
+<div class="max-w-xs rounded-xl border border-neutral-200 p-2 dark:border-neutral-800">
+  <%= sidebar id: "demo_nav", label: "Main", collapse_below: :never do |nav| %>
+    <% nav.header { tag.span "Kidbook", class: "font-semibold" } %>
+    <% nav.section do |s| %>
+      <% s.link "Inbox", "#inbox", icon: :messages_square, badge: 3, active: true %>
+      <% s.link "Files", "#files", icon: :folder %>
+      <% s.link "Renders", "#renders", icon: :clock, badge: 12 %>
+    <% end %>
+    <% nav.section "Settings", collapsible: true, open: true do |s| %>
+      <% s.link "Members", "#members", active: false %>
+      <% s.link "Billing", "#billing", active: false %>
+    <% end %>
+    <% nav.footer { item(title: "Ada Lovelace", description: "ada@example.com", class: "p-1") { |i| i.media { avatar "Ada Lovelace" } } } %>
+  <% end %>
+</div>

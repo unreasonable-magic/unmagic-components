@@ -1,6 +1,6 @@
 # `combobox`
 
-> Status: draft
+> Status: built
 > Tier: 3 (large)
 > Replaces or relates to: the gap source is Rails Blocks "Combobox (multi-select)" and "Autocomplete Search". Builds on `form_builder.rb` (`form_value_for`, `field`), the shared placement in `position.js` and `menu` on the Popover API ([position.md](position.md), built first), the keyboard handling in `menu.js`, Turbo Frame loading and errors in `modal.js`, the `empty_state` seam and `Skeleton`. `command_palette` is built on it.
 
@@ -220,6 +220,10 @@ Section `/* Comboboxes */`.
   `max-height: 18rem` with scrolling. The active option is scrolled into view
   with `block: "nearest"`.
 - **Motion:** none. The popup appears and disappears without transitions.
+
+## Small screens
+
+Options are 44px tall on a coarse pointer and chip removers grow to 28px; the list is a popover capped at 18rem, so the keyboard doesn't push it off screen.
 
 ## Behaviour (JavaScript)
 

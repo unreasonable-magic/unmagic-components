@@ -1,0 +1,15 @@
+<div class="flex flex-col items-center gap-4">
+  <%= toggle_group name: "range", value: "7d", label: "Range" do |group| %>
+    <% group.option "24 hours", "24h" %>
+    <% group.option "7 days", "7d" %>
+    <% group.option "30 days", "30d" %>
+    <% group.option "Quarter", "90d", disabled: true %>
+  <% end %>
+  <%= toggle_group name: "days", value: %w[mon wed fri], multiple: true, label: "Days", size: :small do |group| %>
+    <% %w[Mon Tue Wed Thu Fri Sat Sun].each { |d| group.option d, d.downcase } %>
+  <% end %>
+  <%= toggle_group name: "view", value: "list", label: "View", size: :large do |group| %>
+    <% group.option "List", "list", icon: :list_checks %>
+    <% group.option "Board", "board", icon: :folder %>
+  <% end %>
+</div>

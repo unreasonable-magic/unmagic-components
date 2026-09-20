@@ -1,0 +1,7 @@
+<div class="grid max-w-md gap-4">
+  <%= progress 42, label: "Uploading" %>
+  <%= progress 3, max: 8, tone: :good, label: "Renders finished" %>
+  <%= progress 88, tone: :warn, label: "Disk used" %>
+  <%= progress 100, tone: :bad, label: "Quota", size: :small %>
+  <%= progress 60, tone: :info, label: "Downloading", size: :large %>
+</div>

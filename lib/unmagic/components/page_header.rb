@@ -6,9 +6,11 @@ module Unmagic
     # a description, and the page's actions on the right. See
     # ActionViewHelpers#page_header.
     class PageHeader
-      def initialize(view, title: nil, description: nil, back: nil, skeleton: false, **options)
+      def initialize(view, title: nil, description: nil, back: nil, mono: false, skeleton: false, **options)
         @view = view
         @title = title
+        @mono = mono
+        @breadcrumbs = nil
         @description = description
         @back = back
         @skeleton = skeleton
@@ -26,6 +28,15 @@ module Unmagic
       # A description with markup in it. Overrides description:.
       def description(content = nil, &block)
         @description = block ? view.capture(&block) : content
+        nil
+      end
+
+      # The trail of pages above this one, where back: goes; the two can't both
+      # be given. Takes breadcrumbs' block.
+      def breadcrumbs(&block)
+        raise ArgumentError, "page_header takes back: or breadcrumbs, not both" if @back
+
+        @breadcrumbs = view.breadcrumbs(class: "UnmagicPageHeader__breadcrumbs", &block)
         nil
       end
 
@@ -59,7 +70,7 @@ module Unmagic
           class: view.class_names("UnmagicPageHeader", @options[:class])) do
           safe_join [
             (Skeleton.hidden_label(view) if @skeleton),
-            back_link,
+            @breadcrumbs || back_link,
             tag.div(class: "UnmagicPageHeader__row") do
               safe_join [
                 tag.div(safe_join([ heading, description_tag ].compact), class: "UnmagicPageHeader__main"),
@@ -88,7 +99,7 @@ module Unmagic
       def heading
         tag.div class: "UnmagicPageHeader__heading" do
           title = @title.presence || (Skeleton.new(view).text(width: "14rem") if @skeleton)
-          safe_join [ @leading, tag.h1(title, class: "UnmagicPageHeader__title"), *@badges ].compact
+          safe_join [ @leading, tag.h1(title, class: view.class_names("UnmagicPageHeader__title", "UnmagicPageHeader__title--mono" => @mono)), *@badges ].compact
         end
       end
 

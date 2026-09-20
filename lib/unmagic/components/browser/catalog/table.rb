@@ -2,6 +2,7 @@
 
 Unmagic::Components::Browser::Catalog.component :table,
   name: "Table",
+  group: "Data display",
   helper: "table_for",
   import: nil,
   description: "Declarative index tables in the spirit of form_for: describe the columns, and the table " \

@@ -1,0 +1,7 @@
+<div class="flex flex-wrap items-center gap-2">
+  <%= button "New label", :primary, icon: :plus %>
+  <%= button "Docs", href: "#", icon: :book_open %>
+  <%= button "Delete", :danger, href: "#", method: :delete, form: { data: { turbo_confirm: "Delete this label?" } }, icon: :x %>
+  <%= button "Close", :icon, icon: :x %>
+  <%= button "Edit", :icon, icon: :pencil, size: :small %>
+</div>

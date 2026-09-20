@@ -28,7 +28,7 @@ module Unmagic
         # shows either, so any example can use any of it.
         def load_fixtures
           @things = Thing.all
-          @pager = Pager.new(1, 3)
+          @pager = Pager.new(5, 7, 6, 12)
           @profile = stored_profile
           @invalid_profile = Profile.new(name: "", role: "Engineer").tap(&:validate)
           @now = Time.current

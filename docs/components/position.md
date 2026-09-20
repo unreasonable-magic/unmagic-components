@@ -1,6 +1,6 @@
 # `position.js` and `menu` on the Popover API
 
-> Status: draft
+> Status: built
 > Tier: 2 (infrastructure)
 > Replaces or relates to: `tooltip`, `popover`, `menu`, `context_menu`,
 > `combobox`. There is no Rails Blocks gap source: this is groundwork those
@@ -193,6 +193,10 @@ The module has no CSS section of its own. It relies on this contract:
   so the panel doesn't show permanently. The Popover API is already required
   by `tooltip` and `toasts`, so there is no new floor.
 - **Colour:** the menu's existing palette and `dark:` variants. **Motion:** none, as today.
+
+## Small screens
+
+`sheet()` says when a panel should be a sheet along the bottom instead of anchored (below 40rem); menu and popover ask it before anchoring.
 
 ## Behaviour (JavaScript)
 

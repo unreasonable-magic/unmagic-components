@@ -18,6 +18,13 @@
     <% end %>
   </div>
 
+  <% if example.server && Unmagic::Components::Browser.static? %>
+    <%= callout "This example talks to a server", tone: :info, class: "mb-3" do %>
+      These are static pages, so what this example saves, posts or searches for won't answer here. Run the browser
+      (<code>bin/dev</code>) or mount it in an app to try it for real.
+    <% end %>
+  <% end %>
+
   <%= tabs id: "#{id}_view", class: "PreviewExample__tabs" do |tabs| %>
     <% tabs.tab "Preview" %>
     <% tabs.tab "Code" %>

@@ -13,7 +13,7 @@ Unmagic::Components::Browser::Catalog.component :ai_chat,
       description: "Every piece together: a question, reasoning, a run of tool calls with one still going, a reply " \
                    "that quotes a record and proposes something, a permission request, and the plan and workspace " \
                    "beside it. Scroll up inside it to see the jump-to-latest button." },
-    { key: :live, title: "Send a message", layout: :full,
+    { key: :live, title: "Send a message", server: true, layout: :full,
       description: "The composer posts for real. The question is drawn at once, dimmed, until the server confirms " \
                    "it under the same id; the reply then streams in and settles. Press Stop mid-reply to freeze it." },
     { key: :welcome, title: "An empty conversation", layout: :full,

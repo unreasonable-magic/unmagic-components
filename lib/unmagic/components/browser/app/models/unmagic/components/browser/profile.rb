@@ -13,6 +13,11 @@ module Unmagic
 
         attribute :name, :string
         attribute :role, :string
+        attribute :notify, :boolean, default: true
+        attribute :two_factor, :boolean, default: false
+        attribute :volume, :integer, default: 40
+        attribute :password, :string
+        attribute :code, :string
 
         validates :name, presence: true
 

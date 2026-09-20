@@ -1,0 +1,10 @@
+<%= navbar label: "Main", class: "rounded-xl border" do |nav| %>
+  <% nav.brand("#") { safe_join [ tag.span("um", class: "grid size-6 place-items-center rounded-md bg-neutral-900 text-[0.625rem] font-bold text-white dark:bg-white dark:text-neutral-900"), "Kidbook" ], " " } %>
+  <% nav.link "Files", "#files", current: true %>
+  <% nav.link "Renders", "#renders" %>
+  <% nav.link "Kilns", "#kilns" %>
+  <% nav.actions do %>
+    <%= button "Search", :ghost, icon: :search, size: :small %>
+    <%= avatar "Ada Lovelace", size: :small %>
+  <% end %>
+<% end %>

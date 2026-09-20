@@ -1,0 +1,21 @@
+<div class="grid gap-4 lg:grid-cols-2">
+  <%= code_view language: :json do %>
+    {
+      "name": "unmagic-components",
+      "version": "0.6.0",
+      "tailwind": true,
+      "components": ["code_view", "panel", "tabs"]
+    }
+  <% end %>
+
+  <%= code_view language: :ruby do %>
+    class Deploy
+      # Ship what's on main to every kiln that answers.
+      def call(kilns = Kiln.online)
+        kilns.each { |kiln| kiln.pull!(branch: "main") }
+      rescue Kiln::Unreachable => error
+        Rails.logger.warn "skipped #{error.kiln.name}: it's asleep"
+      end
+    end
+  <% end %>
+</div>

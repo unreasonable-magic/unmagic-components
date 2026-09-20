@@ -1,0 +1,5 @@
+<%= scroll_area max_height: "6rem", label: "Stages", class: "w-40 rounded-lg border border-neutral-200 dark:border-neutral-800" do %>
+  <ul class="m-0 list-none divide-y divide-neutral-200 p-0 text-xs dark:divide-neutral-800">
+    <% %w[Applied Screened Onsite Offer Accepted Started].each do |s| %><li class="px-3 py-1.5"><%= s %></li><% end %>
+  </ul>
+<% end %>

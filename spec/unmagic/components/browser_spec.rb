@@ -50,7 +50,7 @@ RSpec.describe Unmagic::Components::Browser do
     end
 
     it "shows an example's source beside it" do
-      source = page("/components/dialog").at_css("pre#dialog_modal_source").text
+      source = page("/components/dialog").at_css("#dialog_modal_source").text
       expect(source).to include("modal_link_to \"Edit profile\", profile_dialog_path")
     end
   end

@@ -1,0 +1,25 @@
+<div class="flex flex-wrap items-center gap-2">
+  <%= dialog_button "Filters", dialog: "job_filters", class: button_classes %>
+  <%= dialog_button "Details (start)", dialog: "job_details", class: button_classes %>
+</div>
+
+<%= dialog_tag "job_filters", title: "Filters", side: :end do |dialog| %>
+  <%= form_with url: "#", method: :get, builder: Unmagic::Components::FormBuilder do |form| %>
+    <%= form.field :q, "Search", as: :search_field %>
+    <%= form.field :status, "Status" do %>
+      <%= form.select :status, %w[Open Closed Any], {}, class: control_classes(:select) %>
+    <% end %>
+    <%= form.switch_field :mine, "Only mine" %>
+    <% dialog.footer { form.submit "Apply" } %>
+  <% end %>
+<% end %>
+
+<%= dialog_tag "job_details", title: "Render #4821", side: :start, size: :wide do |dialog| %>
+  <%= detail_list variant: :stacked do |list| %>
+    <% list.item "Scene", "kitchen.modelscene.json" %>
+    <% list.item "Kiln", "saberpc" %>
+    <% list.item "Started", local_time_tag(@now, format: :relative) %>
+    <% list.item "Samples", "256" %>
+  <% end %>
+  <% dialog.footer { button "Cancel render", :danger } %>
+<% end %>

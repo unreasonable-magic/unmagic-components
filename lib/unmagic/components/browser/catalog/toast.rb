@@ -2,16 +2,17 @@
 
 Unmagic::Components::Browser::Catalog.component :toast,
   name: "Toast",
+  group: "Overlays",
   helper: "flash_toasts",
   import: "unmagic/components/toasts",
   description: "Flashes and stream responses as toasts that dismiss themselves, pause while hovered or " \
                "focused, and survive Drive visits and morph refreshes.",
   examples: [
-    { key: :flash, title: "From a flash, after a redirect", layout: :full,
+    { key: :flash, title: "From a flash, after a redirect", server: true, layout: :full,
       description: "Each button sets flash[type] and redirects back. Hover a toast to hold it open." },
-    { key: :stream, title: "From a stream response",
+    { key: :stream, title: "From a stream response", server: true,
       description: "turbo_stream.toast pops one without a redirect." },
-    { key: :above_dialog, title: "Above an open dialog",
+    { key: :above_dialog, title: "Above an open dialog", server: true,
       description: "A toast streamed from a dialog shows above it, and times out even though the dialog " \
                    "makes it inert." }
   ]

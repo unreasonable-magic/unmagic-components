@@ -1,0 +1,11 @@
+<div class="grid max-w-md gap-4">
+  <%= input_group prefix: "https://", suffix: ".example.com" do %>
+    <%= text_field_tag :subdomain, "kidbook", class: control_classes(:input), "aria-label": "Subdomain" %>
+  <% end %>
+  <%= input_group prefix: unmagic_icon("unmagic_components:lucide/messages-square", class: "size-4 mx-3 text-neutral-500") do %>
+    <%= text_field_tag :handle, nil, placeholder: "Search messages", class: control_classes(:input), "aria-label": "Search" %>
+  <% end %>
+  <%= input_group suffix: button("Send", :primary, type: "button") do %>
+    <%= email_field_tag :email, nil, placeholder: "you@example.com", class: control_classes(:input), "aria-label": "Email" %>
+  <% end %>
+</div>

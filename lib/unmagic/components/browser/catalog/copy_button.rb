@@ -2,6 +2,7 @@
 
 Unmagic::Components::Browser::Catalog.component :copy_button,
   name: "Copy button",
+  group: "Data display",
   helper: "copy_button",
   import: "unmagic/components/clipboard",
   description: "A button that copies text to the clipboard, showing a check for a moment once it has, and " \

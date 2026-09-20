@@ -21,6 +21,8 @@ the spirit of `form_for`: describe the columns, get the chrome.
 
 ## Features
 
+- **Tables that stack on a phone**, each row a card of its cells with the
+  headings written in front.
 - **Sortable headers** that toggle `?sort`/`?direction`, carry `aria-sort`, and
   preserve the rest of the query string.
 - **Deferred tables** — `defer: true` renders a skeleton inside a Turbo Frame
@@ -113,6 +115,22 @@ authenticate :user, ->(user) { user.admin? } do
 end
 ```
 
+### A static copy of the browser
+
+`rake browser:export[site,/unmagic-components]` writes every page out as
+static files under `site/`, with the stylesheet, the components' JavaScript and
+Turbo beside them, for hosting where nothing runs. The second argument is the
+path the site will be served under (a project site on GitHub Pages lives under
+`/<repo>/`), which is what every link and asset URL in the pages is written
+for. Examples that talk to a server (a form that saves, a search) say so on the
+static page; the rest work as they do live. The theme toggle works too, kept in
+the visitor's browser.
+
+`.github/workflows/browser.yml` does this on every push to `main` and on every
+pull request: `main` goes to the root of the repository's GitHub Pages site and
+each pull request to `pr-<number>/`, with a comment on the pull request saying
+where. Pages has to be set to deploy from the `gh-pages` branch.
+
 ## Theming
 
 The components use Tailwind's own palette (neutral for surfaces, borders and
@@ -170,10 +188,14 @@ Unmagic::Components.configure do |config|
   # geared_pagination or your own object works just as well.
   config.pagy_for = ->(view, collection) { view.table_pagy(collection) }
 
-  # A block of code: a tool call's payload, a failure's backtrace. Called with
-  # (view, source, language), where language is :json, :plaintext or whatever
-  # you passed; return markup. The default is an unhighlighted <pre><code>.
-  config.code_block = ->(view, source, language) { view.highlight_code(source, language: language) }
+  # Colours a block of source. Called with (source, language); return one
+  # html_safe string per line. The default is Rouge, whose token classes the
+  # gem's stylesheet colours.
+  config.highlight = ->(source, language) { MyHighlighter.lines(source, language) }
+
+  # Frames a block of code: a tool call's payload, a code block in prose. Called
+  # with (view, source, language); return markup. The default is a code_view.
+  config.code_block = ->(view, source, language) { view.render("code", source: source, language: language) }
 
   # What a sortable item carries for a record, and where drops post. The
   # unmagic-sortable gem sets both to its signed keys and endpoint.
@@ -354,6 +376,43 @@ The submit button's classes come from a seam, so it wears your own button:
 ```ruby
 config.submit_class = ->(_view, variant) { variant == :primary ? "btn btn-primary" : "btn" }
 ```
+
+### Switches, radios, sliders, passwords and codes
+
+```erb
+<%= form.switch_field :notify, "Email me about new replies", hint: "…" %>
+<%= form.radio_button_collection :plan, Plan.all, :id, :name, legend: "Plan", hint_method: :summary, variant: :cards, inline: true %>
+<%= form.field :volume, "Volume", as: :range_field, min: 0, max: 100 %>
+<%= form.field :password, "Password", as: :password_field, reveal: true %>
+<%= form.field :code, "Code", as: :one_time_code_field, length: 6, submit: true %>
+```
+
+- `switch_field` is a checkbox with `role="switch"`, drawn as one; `switch` is
+  the bare control and `switch_tag` the tag form.
+- `radio_button_collection` renders a fieldset named by `legend:`, a hint under
+  each option from `hint_method:`, `inline:` in a row, and `variant: :cards`
+  where the whole card is the target. `radio_button_field` is one labelled radio.
+- `range_field` is the native slider styled to match.
+- `password_field reveal: true` adds a button that shows what was typed
+  (`import "unmagic/components/password"`); `password_field_tag` takes it too.
+- `one_time_code_field` is one real input for a code, drawn as a row of boxes
+  by `import "unmagic/components/one_time_code"`, so paste and autofill work;
+  `length:` 4 to 10, `charset: :numeric` or `:alphanumeric`, `submit: true` to
+  submit on the last character.
+
+### `input_group(prefix:, suffix:, **options, &block)`
+
+A control with something joined to either end: `input_group prefix: "https://",
+suffix: ".example.com" do … end`. Text becomes a tinted addon; markup (a
+button, an icon) is set in as it is.
+
+### `toggle(label, pressed:, icon:, name:, …)` and `toggle_group(name:, value:, multiple:, label:, …, &block)`
+
+A button that is on or off, and a run of them joined into a segmented control
+a form submits. With a `name:` a toggle is a checkbox drawn as a button and
+needs no script; without one it is a button whose `aria-pressed` the script
+flips (`import "unmagic/components/toggle"`). A group's options are native
+radios, or checkboxes with `multiple: true`, so the arrow keys move the choice.
 
 ## Live tables
 
@@ -550,10 +609,34 @@ only `data-turbo-confirm` onto it. Use `button_to` when you need them.
 
 ### Buttons
 
-`button_classes(variant = :default, size: nil)` returns the class string, so the
-look works with `link_to`, `button_to` and `form.submit` alike. The variants are
-`:default`, `:primary`, `:ghost`, `:danger` and `:icon`; the sizes are `:small`
-and `:large`.
+`button(label = nil, variant = :default, **options, &block)` is a button, a link
+that looks like one, or a `button_to` form, from one call:
+
+```erb
+<%= button "Save", :primary, type: "submit" %>
+<%= button "New label", href: new_label_path, icon: :plus %>
+<%= button "Delete", :danger, href: label_path(@label), method: :delete, form: { data: { turbo_confirm: "Sure?" } } %>
+<%= button "Close", :icon, icon: :x %>
+<%= button "Saving", :primary, loading: true %>
+```
+
+The variants are `:default`, `:primary`, `:ghost`, `:danger` and `:icon`; the
+sizes `size: :small` and `:large`. `href:` renders a link, and with a `method:`
+other than GET a `button_to` whose `form:` and `params:` pass through. `icon:` is
+a symbol from the gem's Lucide set or your own markup, and leads the label; the
+`:icon` variant shows only the icon and keeps the label for a screen reader and
+a hover. `loading: true` disables the button and turns a spinner in the icon's
+place. `disabled: true` disables a button, and marks a link `aria-disabled` and
+takes it out of the tab order. `block: true` fills the width. Every button is at
+least 44px tall where the pointer is coarse.
+
+`button_group(label:, orientation:, **options) { |group| … }` joins buttons edge
+to edge into one control; `group.button` takes the arguments above and
+`group.item` anything else that belongs in the run. `orientation: :vertical`
+stacks them.
+
+`button_classes(variant = :default, size: nil)` returns the class string alone,
+for `link_to`, `button_to` and `form.submit`.
 
 ### Translations
 
@@ -591,6 +674,53 @@ The block's output becomes the actions on the right. Its builder also takes
 before the title, such as an avatar. The actions drop below the title when there
 isn't room beside it.
 
+### `section(title, spacing: :normal, heading: :h2, **options, &block)`
+
+```erb
+<%= section "Files" do |section| %>
+  <% section.aside { badge "12" } %>
+  <% section.actions { button "Upload", href: new_upload_path, size: :small } %>
+  <%= table_for @files do |table| %>...<% end %>
+<% end %>
+```
+
+A titled run of a page. `aside` is what qualifies the title, `actions` the
+button that acts on the whole run, hard right; on a narrow screen it drops
+under the heading. `spacing: :tight` closes up the first run on a page, `:none`
+leaves it to you.
+
+### `item(title:, description:, href:, mono:, **options, &block)`
+
+```erb
+<%= item title: file.name, description: "#{file.content_type} · #{size}", href: file_path(file), mono: true do |item| %>
+  <% item.media { image_tag file.thumbnail } %>
+  <% item.meta { badge "Hidden" } %>
+  <% item.actions { menu … } %>
+<% end %>
+```
+
+A row about one thing, wherever a list shows it: `media` on the left, the title
+over its description, `meta` flags beside the title, `actions` on the right, and
+the block under the description. `href:` makes the title a link whose hit area
+is the whole row, leaving the actions clickable on their own.
+
+### `chart(series, labels:, type: :column, format: :count, title:, width:, legend:, table:, max:, label_format:, **options)`
+
+```erb
+<%= chart [ { label: "Spent", values: spend_by_day } ], labels: days, format: :money, title: "Spend" %>
+<%= chart [ { label: "CPU", values: readings } ], labels: times, type: :line, format: :percent, max: 100 %>
+```
+
+A chart drawn as inline SVG with no script. `labels:` are the columns or the
+points along a line; each series is `{ label:, values: }` with values keyed by
+label or an array in the same order, and an optional `total:` for the legend.
+Columns stack where there is more than one series; on a line a nil value is a
+gap. `format:` is `:count`, `:money` or `:percent`. Every column carries a
+tooltip, and the numbers are laid out as a table under "As a table". Colours
+come from the stylesheet by slot (`--unmagic-chart-series-1` to `-6`), so a
+series is the same colour on every chart. `width:` is the drawing's own width
+(720), which scales to its box.
+
 ### `card(title:, href:, flush:, **options, &block)`
 
 ```erb
@@ -603,6 +733,10 @@ isn't room beside it.
 
 - `flush: true` removes the body's padding. A `table_tag` or `table_for` inside a
   flush card uses the card's border instead of drawing its own.
+- `card.header { … }` is a bar of your own across the top, ruled off from the
+  body, in place of a title: a row of tabs, a search field, a run of badges. Its
+  options go on the `<header>`. `border: false` and `background: false` take
+  those away, for a card nested in another surface.
 - `href:` makes the whole card one link, for a row that opens a record. Don't put
   other links or buttons inside it.
 - A card doesn't clip its content, so a dropdown inside one isn't cut off.
@@ -628,7 +762,48 @@ This is for the state of something in place, such as a health check or a warning
 above a form. Each tone except `:neutral` has an icon, and `icon: false` removes
 it. A badge takes the callout's tone.
 
-### `empty_state(content = nil, **options, &block)`
+### `pagination(pager, window: 2, turbo_frame: nil, label: nil, **options)`
+
+Links to the pages around this one, for anything that pages like Pagy. The
+pager answers `previous`, `next` and `page_url`; one that also answers `page`
+and `last` gets numbered links, `window:` pages either side of this one with the
+first and last always shown. On a phone the numbers give way to "6 of 12". One
+page renders nothing. This is what `table_for` draws under itself through
+`config.pagination`.
+
+### `breadcrumbs(label: nil, **options, &block)`
+
+```erb
+<%= breadcrumbs do |crumbs| %>
+  <% crumbs.link "Settings", settings_path %>
+  <% crumbs.current "GitHub" %>
+<% end %>
+```
+
+The trail of pages above this one. `crumbs.link` takes `link_to`'s arguments;
+`crumbs.current` is optional and last. On a phone only the last two crumbs
+show. `page_header` takes the same block as its `breadcrumbs` part, where
+`back:` goes; `mono: true` on a page header sets its title in monospace.
+
+### `kbd(*keys, hotkey: nil, sequence: false, **options)`
+
+A key or a combination drawn as key caps: `kbd "Esc"`, `kbd :mod, "K"`,
+`kbd hotkey: "mod+shift+p"`, `kbd "G", "I", sequence: true`. Named keys draw
+glyphs and carry their spoken names; `:mod` is ⌘ on Apple platforms and Ctrl
+elsewhere.
+
+### `empty_state(content = nil, title: nil, icon: nil, **options, &block)`
+
+```erb
+<%= empty_state "Import a folder or drop files here.", title: "No files yet", icon: :folder do %>
+  <%= button "Import", :primary, href: new_import_path %>
+<% end %>
+```
+
+`content` says what's missing; `title:` heads it, `icon:` is a glyph above that,
+and the block is the actions that fix it. All of it goes through
+`config.empty_state`, so a table's blank slate and this one match.
+
 
 ```erb
 <%= empty_state "No invitations yet." %>
@@ -689,9 +864,15 @@ Every page declares a <%= tooltip "canonical URL", text: "The address search eng
 Needs `import "unmagic/components/time"` and `"unmagic/components/tooltip"`, or
 `import "unmagic/components"`.
 
-## Menus, tabs and copy buttons
+## Menus, tabs, copy buttons and code
 
 ### `menu(label = nil, align: :end, **options, &block)`
+
+On the Popover API since 0.6.0: the panel is in the top layer and the trigger
+opens it without script. `menu.section` heads the items after it, `menu.item`
+is a plain button for wiring, `menu.disclosure` folds a small form out in
+place, and `icon:` leads a label. On a narrow screen the panel is a sheet along
+the bottom.
 
 ```erb
 <%= menu do |menu| %>
@@ -714,6 +895,96 @@ Needs `import "unmagic/components/time"` and `"unmagic/components/tooltip"`, or
 - **Alignment:** `align: :start` lines the panel up with the trigger's left edge
   instead of its right.
 
+### `sidebar(id:, label: nil, collapse_below: :lg, **options, &block)` and `sidebar_toggle(id)`
+
+```erb
+<%= sidebar id: "app_nav" do |nav| %>
+  <% nav.header { link_to image_tag("logo.svg", alt: "Acme"), root_path } %>
+  <% nav.section do |s| %>
+    <% s.link "Inbox", inbox_path, icon: :messages_square, badge: @unread %>
+  <% end %>
+  <% nav.section "Settings", collapsible: true do |s| %>
+    <% s.link "Members", members_path %>
+  <% end %>
+<% end %>
+<%= sidebar_toggle "app_nav" %>
+```
+
+The navigation down the side of an app. One `<nav>` for both widths: a popover
+sheet from the edge below `collapse_below:` that the toggle opens with no
+script, inline above it. Needs `import "unmagic/components/sidebar"`.
+
+### `navbar(label: nil, sticky: false, collapse: :md, **options, &block)`
+
+The bar across the top: `nav.brand`, `nav.link … current:`, `nav.actions`. On a
+narrow screen the links fold behind a menu button on a `<details>`. Needs
+`import "unmagic/components/navbar"`.
+
+### `combobox_tag(name, collection:, value:, text:, multiple:, selected:, src:, …)`, `form.combobox` and `combobox_results`
+
+```erb
+<%= form.field :owner_id, "Owner", as: :combobox, collection: @members, text: :name %>
+<%= form.combobox :label_ids, collection: @labels, text: :name, multiple: true %>
+<%= combobox_tag "owner_id", collection: [ @owner ].compact, text: :name, src: search_members_path %>
+```
+
+A text input that filters a list of options, choosing one or several. The value
+is a hidden input (`name[]` with a chip per choice when multiple), so a form
+submitted before script loads keeps it. With `src:` the rest of the list is
+fetched as you type from an action answering `?q=` with `combobox_results`. A
+block records rich options: `combobox.option value, label:, keywords: { markup }`.
+Needs `import "unmagic/components/combobox"`.
+
+### `command_palette(id:, hotkey: "mod+k", src:, …, &block)`, `command_palette_button` and `command_palette_results`
+
+Render once in the layout. `palette.group "Go to" { |g| g.link …; g.button … }`;
+each command holds a real link or `button_to` form, so frames and confirms
+work. ⌘K opens it; `src:` fetches more commands as you type. Needs
+`import "unmagic/components/command_palette"`.
+
+### `context_menu(for:, label: nil, **options, &block)`
+
+The same panel as `menu`, opened at the pointer on a right-click or a long press
+on the element with the id `for:`, or at its corner on Shift+F10. The element
+can sit anywhere, so a table row can have one. Keep the actions reachable
+elsewhere too: without script the browser's own menu shows.
+
+### `popover(label = nil, title: nil, placement: :bottom, align: :start, size: :default, **options, &block)`
+
+```erb
+<%= popover "Rename", title: "Rename" do |popover| %>
+  <%= form_with model: @job, builder: Unmagic::Components::FormBuilder do |form| %>
+    <%= form.field :name, "Name" %>
+    <% popover.footer { form.submit "Rename" } %>
+  <% end %>
+<% end %>
+```
+
+A small panel of content behind a trigger. The label is a text trigger with a
+chevron; `popover.trigger { … }` is a trigger of your own. The panel is a
+`popover="auto"` dialog in the top layer, placed against the trigger by
+`unmagic/components/position` and kept there while open; on a narrow screen it
+is a sheet along the bottom. Needs `import "unmagic/components/popover"`.
+
+### `disclosure(summary = nil, open: false, **options, &block)` and `accordion(id: nil, exclusive: false, **options, &block)`
+
+A summary that folds a panel open, on `<details>`, and a run of them with
+`exclusive: true` opening one at a time through the platform's own
+`<details name>`. No script.
+
+### `scroll_area(axis: :y, max_height: nil, label: nil, shadows: true, **options, &block)`
+
+A box that scrolls, with shadows where there is more to see. `label:` makes it a
+named region a keyboard can reach and scroll. Knob: `--unmagic-scroll-area-max-height`.
+
+### Drawers
+
+`dialog_tag … side: :end` (or `:start`) and `dialog … side:` open the panel as a
+drawer along that edge of the screen; pass the same `side:` to `modal_link_to`
+so the shared modal's skeleton opens there too. On a phone every dialog is a
+sheet from the bottom. A dialog whose panel says `aria-busy="true"` refuses
+Escape and the backdrop until it isn't.
+
 ### `tabs(id: nil, **options, &block)`
 
 ```erb
@@ -732,6 +1003,12 @@ Needs `import "unmagic/components/time"` and `"unmagic/components/tooltip"`, or
 - **Panels:** each panel pairs with an enabled tab, in order. A tab with
   `disabled:` shows its reason and takes no panel, and `active: true` picks the
   tab shown first.
+- **Icons:** `icon:` leads a label with a symbol from the gem's Lucide set
+  (`:folder`) or rendered markup from your own icons.
+- **Styles:** `style: :segmented` (the default) is an inset track with the
+  chosen tab raised out of it. `style: :bar` is a row of pill tabs with no
+  track, for a bar across a card or a page; on a narrow screen it scrolls
+  sideways rather than wrapping, and the chosen tab is kept in view.
 - **Remembering the choice:** give the tabs an `id:` and the chosen tab is kept
   for that page until the browser tab closes, even across a morph refresh.
   Each change fires `unmagic-tabs:change`.
@@ -746,6 +1023,37 @@ current page:
   <% tabs.tab "Replied", href: invitations_path(status: "replied"), active: @status == "replied" %>
 <% end %>
 ```
+
+### `panel(id: nil, flush: false, **options, &block)`
+
+A card with switcher buttons across its top bar and the open one's content
+below: a README beside the brief, a file's source beside its preview.
+
+```erb
+<%= panel id: "notes" do |panel| %>
+  <% panel.tab "README", icon: :book_open %>
+  <% panel.tab "Agents", icon: :bot %>
+  <% panel.panel { markdown @readme } %>
+  <% panel.panel { markdown @agents } %>
+<% end %>
+```
+
+The tabs are `tabs`' own, in the bar style: the same labels, icons, `disabled:`
+reasons and `active:` choice, switched in the page. Give each an `href:` instead
+and they are pages of their own: the server draws the open one, the block is its
+body, and the address names the tab.
+
+```erb
+<%= panel flush: true do |panel| %>
+  <% panel.tab "Source", href: file_path(@file, view: :source), active: @view == :source, icon: :code %>
+  <% panel.tab "Preview", href: file_path(@file, view: :preview), active: @view == :preview, icon: :eye %>
+  <%= render "files/#{@view}", file: @file %>
+<% end %>
+```
+
+`flush: true` drops the body's padding, for a code view or a table that runs to
+the edges. Other options go on the outer element. Needs
+`import "unmagic/components/tabs"` for in-page tabs.
 
 ### `copy_button(text = nil, from: nil, label: nil, **options, &block)`
 
@@ -768,6 +1076,52 @@ current page:
 
 Needs `import "unmagic/components/menu"`, `"unmagic/components/tabs"` and
 `"unmagic/components/clipboard"`, or `import "unmagic/components"`.
+
+### `code_view(source, language: nil, lines: false, wrap: true, max_height: nil, copy: true, label: nil, id: nil, **options)`
+
+A block of source to read or copy: a file, a payload, a command. Coloured with
+Rouge, wrapping long lines, with a copy button in the corner that appears on
+hover and stays put on a touch screen. Just the code; put it in a `panel` for a
+switcher or a `card` for a title.
+
+```erb
+<%= code_view @file.source, language: @file.language %>
+<%= code_view backtrace, language: :plaintext, lines: true, max_height: "20rem" %>
+<%= code_view command, language: :shell, wrap: false, copy: false %>
+```
+
+`language:` is a name Rouge knows (`:json`, `"ruby"`, `:erb`) or a lexer;
+unknown or `nil` is plain text. `lines: true` numbers the lines, and the numbers
+are drawn rather than written, so a copy leaves them behind. `wrap: false`
+scrolls sideways instead of wrapping. `max_height:` is a CSS length past which
+the block scrolls, and a block that can scroll is a focusable region named
+`label:` ("Code"). `id:` names the wrapper; the `<code>` is `"#{id}_code"`.
+Colouring goes through `config.highlight`; `config.code_block`, which tool
+payloads and prose code blocks render through, is a `code_view` by default.
+Knob: `--unmagic-code-view-max-height`. I18n: `unmagic.components.code_view.label`.
+Needs `import "unmagic/components/clipboard"` for the button.
+
+## Separators, progress and spinners
+
+### `separator(label = nil, orientation: :horizontal, **options)`
+
+A rule between two things: a plain `<hr>`, one with a word on it (`separator
+"or"`), or `orientation: :vertical` upright between items in a row.
+
+### `progress(value = nil, max: 100, tone: :neutral, size: :medium, label: nil, indeterminate: false, **options)`
+
+A bar filled to `value` out of `max`, in a tone (`:neutral`, `:good`, `:warn`,
+`:bad`, `:info`) and a size (`:small`, `:medium`, `:large`), named `label:`
+("Progress"). With `indeterminate: true`, or no value, it sweeps; under reduced
+motion it pulses. I18n: `unmagic.components.progress.label`.
+
+### `spinner(text = nil, label: nil, size: :medium, **options)`
+
+A ring that turns while something loads. Visible text is the label and sits
+beside the ring; otherwise `label:` ("Loading…") is read but not seen, and
+`label: false` makes the ring decorative for a control that already says what is
+happening. Sizes `:small`, `:medium`, `:large`. It pulses rather than turning
+under reduced motion. I18n: `unmagic.components.spinner.label`.
 
 ## Skeletons
 

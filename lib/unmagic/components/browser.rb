@@ -24,6 +24,14 @@ module Unmagic
       class << self
         def root = Engine.root
 
+        # True while Export writes the pages out as static files, so an example
+        # that talks to a server can say it won't here.
+        attr_accessor :static
+
+        def static? = static == true
+
+        def export(app:, mount:, dir:) = Export.new(app: app, mount: mount, dir: dir).run
+
         # What the browser serves under <mount>/assets/<kind>/, by kind.
         def asset_roots
           roots = {
@@ -37,3 +45,5 @@ module Unmagic
     end
   end
 end
+
+require_relative "browser/export"

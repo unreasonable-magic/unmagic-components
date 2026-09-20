@@ -85,7 +85,7 @@ module Unmagic
       # broadcast upserts into the tbody. The companion details row is left out:
       # a stream action carries one element, and the pair is a page-render concern.
       def row(record)
-        TableTag.new(view, nil, []).render_row(row_hash(record))
+        TableTag.new(view, nil, [], labels: labels).render_row(row_hash(record))
       end
 
       private
@@ -95,8 +95,10 @@ module Unmagic
       delegate :tag, :safe_join, :link_to, :class_names, to: :view, private: true
 
       def table
-        view.table_tag((header_cells if @headers), row_data, widths: widths, rows_id: @rows_id, **table_attributes)
+        view.table_tag((header_cells if @headers), row_data, widths: widths, rows_id: @rows_id, labels: labels, **table_attributes)
       end
+
+      def labels = @columns.map { |column| column.title.to_s }
 
       # Anything the caller put on table_for beyond the builder's own options rides
       # on the <table>, so a view can space, identify or annotate it without

@@ -7,6 +7,97 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-09-20
+
+### Added
+
+- `code_view`, a block of source to read or copy: coloured with Rouge, wrapping
+  long lines, numbered with `lines: true`, capped with `max_height:`, scrolling
+  sideways with `wrap: false`, with a copy button that appears on hover and stays
+  put on a touch screen. Just the code; a `panel` or a `card` gives it a heading.
+- `config.highlight`, the seam that colours source: `(source, language)` returning
+  one line of markup at a time. The default is `Unmagic::Components::Highlight`,
+  which lexes with Rouge and tags tokens with Rouge's short class names.
+- Token colours for Rouge's classes, grouped by meaning, in code views and in
+  `UnmagicProse` code blocks.
+- `panel`, a card with switcher buttons across its top bar and the open one's
+  content below. Its tabs are `tabs`' own, switched in the page or each a page
+  of its own with `href:`; `flush: true` for a code view or a table inside.
+- `tabs` takes `icon:` on a tab, and `style: :bar`: pill tabs with no track, for
+  a bar across a card or a page, scrolling sideways on a narrow screen with the
+  chosen tab kept in view. `tabs.js` finds its tabs anywhere inside the element,
+  so a panel can keep the list in one box and the panels in another.
+- `card.header { … }`, a bar of your own across the top in place of the title,
+  and `border: false` / `background: false` to take those away.
+- `button`: a button, a link that looks like one, or a `button_to` form from one
+  call, with `icon:`, `loading:`, `disabled:` and `block:`. `button_group` joins
+  buttons edge to edge. Every button is at least 44px tall where the pointer is
+  coarse.
+- `separator`, `progress` and `spinner`.
+- `kbd`, `breadcrumbs` and `pagination`, the last with numbered pages and a
+  "6 of 12" on a phone; `table_for` draws it under itself. `page_header` takes
+  a `breadcrumbs` part where `back:` goes, and `mono: true` for a title that is
+  a path.
+- `empty_state` takes `title:`, `icon:` and a block of actions, through the same
+  seam a table's blank slate uses.
+- `section`, a titled run of a page; `item`, a row about one thing; and `chart`,
+  columns or a line drawn as inline SVG with a legend, tooltips and the numbers
+  as a table, extracted from toybox.
+- Form controls: `switch_field`, `radio_button_collection` (with `legend:`,
+  `hint_method:`, `inline:` and `variant: :cards`), `radio_button_field`,
+  `range_field`, `password_field reveal: true`, `one_time_code_field`, and the
+  tag forms `switch_tag`, `password_field_tag` and `one_time_code_field_tag`.
+  `config.control_class` gains the kinds `:switch`, `:range` and `:one_time_code`.
+- `input_group`, `toggle` and `toggle_group`.
+- `unmagic/components/position`, one module that places a floating panel beside
+  an anchor (`place`, `anchor`, `placeAt`) and says when it should be a sheet
+  instead; `tooltip` places itself through it.
+- **`menu` moved from `<details>` to the Popover API**: a `popovertarget`
+  button and a `popover="auto"` panel in the top layer, so no card, cell or
+  scrolling box clips it, and the trigger works before script. New parts
+  `section`, `item` and `disclosure`, and `icon:` on every item; `id:` derives
+  the panel's id. On a narrow screen the panel is a sheet along the bottom.
+- `context_menu`, the same panel opened at the pointer, on a long press, or on
+  Shift+F10.
+- `popover`, a small panel of content behind a trigger.
+- Drawers: `dialog_tag` and `dialog` take `side: :start` or `:end`, and
+  `modal_link_to` carries the side so the skeleton opens there. On a phone every
+  dialog is a sheet from the bottom, and a dialog whose panel says `aria-busy`
+  refuses Escape and the backdrop.
+- `disclosure`, `accordion` and `scroll_area`.
+- `sidebar` and `sidebar_toggle`, `navbar`, `combobox` (as `combobox_tag`,
+  `form.combobox` and `combobox_results`, single or multiple, static or fetched
+  as you type) and `command_palette` with `command_palette_button` and
+  `command_palette_results`.
+- Three more Lucide glyphs: search, menu and panel-left.
+- `rake browser:export[dir,base]` and `Unmagic::Components::Browser.export`, which
+  write the browser out as static files for GitHub Pages, and a workflow that
+  publishes `main` and a preview of every pull request. Examples marked
+  `server: true` in the catalog say on a static page that they need a server.
+  The browser's theme is kept in the visitor's browser as well as the session.
+- On a phone a `table_for` or `table_tag` stacks:
+ each row is a card of its
+  cells with the heading written in front, from a `data-label` every body cell
+  now carries. An inline `detail_list` stacks its labels over its values.
+- Small-screen conventions in the design principles, which every component now
+  follows: 44px targets on coarse pointers, hover affordances shown on touch,
+  rows that scroll rather than pile up.
+- Six more Lucide glyphs: book-open, bot, code, eye, image and palette.
+- `bin/screenshots`, which pictures every example in the browser, light and dark,
+  at phone and desktop widths, into `tmp/screenshots/`.
+
+### Changed
+
+- **`menu`'s markup changed** (see Added): a host styling `.UnmagicMenu__details`
+  or `summary.UnmagicMenu__trigger` needs to follow it to the button and the
+  popover panel.
+- **The gem now depends on `rouge`.** Code is coloured out of the box.
+- `config.code_block` defaults to a `code_view` without a copy button, so a tool
+  payload and a prose code block are coloured without configuring anything. A
+  host that set the seam keeps its own framing; the `<code>` inside a payload now
+  wears `UnmagicCodeView__code` beside its `language-*` class.
+- The browser's Code tabs render through `code_view`.
+
 ## [0.5.0] - 2026-09-17
 
 ### Added

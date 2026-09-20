@@ -1,0 +1,16 @@
+<%= card flush: true, class: "divide-y divide-neutral-200 dark:divide-neutral-800" do %>
+  <%= item title: "kitchen.modelscene.json", description: "application/json · 4.2 KB · 9f1c2a7b", href: "#", mono: true do |item| %>
+    <% item.media { unmagic_icon "unmagic_components:lucide/file", class: "size-6" } %>
+    <% item.meta { badge "Hidden" } %>
+    <% item.actions { button "Open", href: "#", size: :small } %>
+  <% end %>
+  <%= item title: "Ada Lovelace", description: "Engineer · joined 2021 · writes the notes everybody else reads, and then some more for good measure so this line wraps on a phone" do |item| %>
+    <% item.media { avatar "Ada Lovelace", size: :large, shape: :square } %>
+    <% item.actions { button "Message", :icon, icon: :messages_square } %>
+  <% end %>
+  <%= item title: "Render #4821", description: "Queued 3 minutes ago", href: "#" do |item| %>
+    <% item.media { unmagic_icon "unmagic_components:lucide/clock", class: "size-6" } %>
+    <% item.meta { badge "Queued", tone: :info } %>
+    <% item.actions { progress 40, size: :small, class: "w-24" } %>
+  <% end %>
+<% end %>

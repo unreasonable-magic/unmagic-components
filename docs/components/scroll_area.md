@@ -1,6 +1,6 @@
 # `scroll_area`
 
-> Status: draft
+> Status: built
 > Tier: 1 (no JS)
 > Replaces or relates to: Rails Blocks "Scroll Area" (gap source). Useful inside `card flush:`, `dialog` bodies and `sidebar`.
 
@@ -80,6 +80,10 @@ JS-driven scrollbar.
     host's own CSS.
 - **Knob:** `--unmagic-scroll-area-max-height` is a per-instance knob, written
   through `style:` by `max_height:`. It is documented in the README section.
+
+## Small screens
+
+Scrolling is the page's own momentum; `overscroll-behavior: contain` keeps a swipe inside the box from bouncing the page.
 
 ## Behaviour (JavaScript)
 

@@ -27,6 +27,9 @@ group :development, :test do
   # compiles engine.css so a broken @apply fails here rather than in someone's app.
   gem "tailwindcss-ruby"
 
+  # bin/screenshots drives a local Chrome through it to picture every example.
+  gem "unmagic-browser"
+
   # json 3 takes JSON.parse options as keywords only, and ActiveSupport 8.1.3.1
   # still passes a positional hash, so every request carrying a session cookie
   # raises ArgumentError in the browser.

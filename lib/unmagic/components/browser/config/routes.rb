@@ -19,6 +19,10 @@ Unmagic::Components::Browser::Engine.routes.draw do
   post "ai_chat/messages", to: "demos#ai_chat_message", as: :ai_chat_messages
   post "ai_chat/stop", to: "demos#ai_chat_stop", as: :ai_chat_stop
 
+  # What the combobox and command palette examples search.
+  get "search/things", to: "demos#search_things", as: :search_things
+  get "search/commands", to: "demos#search_commands", as: :search_commands
+
   # What the board example talks to.
   patch "board/order", to: "demos#board_order", as: :board_order
   post "board/cards", to: "demos#board_card", as: :board_cards

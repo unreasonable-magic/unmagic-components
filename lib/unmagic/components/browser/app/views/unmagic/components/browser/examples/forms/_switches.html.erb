@@ -1,0 +1,5 @@
+<%= form_with model: @profile, url: "#", builder: Unmagic::Components::FormBuilder, class: "max-w-md" do |form| %>
+  <%= form.switch_field :notify, "Email me about new replies" %>
+  <%= form.switch_field :two_factor, "Require two-factor", hint: "Members without it are signed out." %>
+  <%= form.field :volume, "Volume", as: :range_field, min: 0, max: 100, hint: "A slider, styled to match." %>
+<% end %>

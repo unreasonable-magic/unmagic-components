@@ -2,6 +2,7 @@
 
 Unmagic::Components::Browser::Catalog.component :elapsed,
   name: "Elapsed",
+  group: "Data display",
   helper: "elapsed_tag",
   import: "unmagic/components/elapsed",
   description: "A clock counting up from a moment the server named, or down to one. Work that takes a minute and " \

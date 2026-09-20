@@ -54,6 +54,141 @@ module Unmagic
         end
       end
 
+      # A password input, and with reveal: true a button beside it that shows what
+      # was typed. Works as a field's control (as: :password_field). Needs
+      # import "unmagic/components/password" for the button.
+      def password_field(method, options = {})
+        options = options.dup
+        reveal = options.delete(:reveal)
+        input = super(method, Components::Control.merge(@template, options.merge(id: options[:id] || field_id(method)), :password))
+        return input unless reveal
+
+        Components::Password.wrap(@template, input, id: options[:id] || field_id(method))
+      end
+
+      # A slider. Works as a field's control (as: :range_field).
+      def range_field(method, options = {})
+        super(method, Components::Control.merge(@template, options, :range))
+      end
+
+      # One input for a code sent by SMS or email: the right keyboard, the
+      # platform's code suggestion, and a pattern length: long. Script draws it as
+      # a row of boxes; submit: true submits the form once the last character is
+      # in. Needs import "unmagic/components/one_time_code".
+      def one_time_code_field(method, options = {})
+        options = options.dup
+        length = options.delete(:length) || 6
+        charset = options.delete(:charset) || :numeric
+        submit = options.delete(:submit) || false
+
+        options = Components::Control.merge(@template, Components::OneTimeCode.input_options(options, length: length, charset: charset), :one_time_code)
+        options[:class] = @template.class_names("UnmagicOneTimeCode__input", options[:class])
+        Components::OneTimeCode.wrap(@template, text_field(method, options), length: length, charset: charset, submit: submit)
+      end
+
+      # A checkbox drawn as a switch: check_box's signature with role="switch".
+      # Works as a field's control (as: :switch).
+      def switch(method, options = {}, checked_value = "1", unchecked_value = "0")
+        check_box(method, Components::Control.merge(@template, options.merge(role: "switch"), :switch), checked_value, unchecked_value)
+      end
+
+      # A switch with its label beside it, and an optional hint under that.
+      def switch_field(method, label_text, hint: nil, **options)
+        @template.content_tag(:label, class: @template.class_names("UnmagicCheckField UnmagicCheckField--switch", "UnmagicCheckField--hinted" => hint)) do
+          text = [ @template.content_tag(:span, label_text, class: "UnmagicCheckField__label") ]
+          text << @template.content_tag(:span, hint, class: "UnmagicHint") if hint
+
+          @template.safe_join [
+            switch(method, options),
+            @template.content_tag(:span, @template.safe_join(text), class: "UnmagicCheckField__text")
+          ]
+        end
+      end
+
+      # A single labelled radio, for a hand-built group.
+      def radio_button_field(method, value, label_text, hint: nil, **options)
+        @template.content_tag(:label, class: "UnmagicCheckField") do
+          text = [ @template.content_tag(:span, label_text, class: "UnmagicCheckField__label") ]
+          text << @template.content_tag(:span, hint, class: "UnmagicHint") if hint
+
+          @template.safe_join [
+            radio_button(method, value, Components::Control.merge(@template, options, :radio)),
+            @template.content_tag(:span, @template.safe_join(text), class: "UnmagicCheckField__text")
+          ]
+        end
+      end
+
+      # Radios from a collection, in a fieldset named by legend:. hint_method: is a
+      # line under each option, inline: flows them in a row, and variant: :cards
+      # draws each as a card the whole of which is the target. required: marks
+      # every radio and the legend. Errors on the attribute read under the group.
+      def radio_button_collection(method, collection, value_method, text_method, legend: nil, hint_method: nil,
+        inline: false, variant: :list, required: false, **options)
+        unless %i[list cards].include?(variant)
+          raise ArgumentError, "unknown radio_button_collection variant #{variant.inspect} (expected one of [:list, :cards])"
+        end
+
+        errors = errors_for(method)
+        options = options.merge(required: true) if required
+        options = options.merge("aria-invalid" => "true") if errors.any?
+
+        body = collection_radio_buttons(method, collection, value_method, text_method) do |radio|
+          hint = hint_method && (hint_method.respond_to?(:call) ? hint_method.call(radio.object) : radio.object.public_send(hint_method))
+          @template.content_tag(:label, class: @template.class_names("UnmagicCheckField", "UnmagicCheckField--card" => variant == :cards)) do
+            text = [ @template.content_tag(:span, radio.text, class: "UnmagicCheckField__label") ]
+            text << @template.content_tag(:span, hint, class: "UnmagicHint") if hint.present?
+            @template.safe_join [
+              radio.radio_button(Components::Control.merge(@template, options, :radio)),
+              @template.content_tag(:span, @template.safe_join(text), class: "UnmagicCheckField__text")
+            ]
+          end
+        end
+
+        list = @template.content_tag(:div, body, class: @template.class_names("UnmagicCheckList",
+          "UnmagicCheckList--inline" => inline && variant == :list, "UnmagicCheckList--cards" => variant == :cards,
+          "UnmagicCheckList--cards-inline" => variant == :cards && inline))
+        error = (@template.content_tag(:p, errors.to_sentence, class: "UnmagicError") if errors.any?)
+
+        if legend
+          @template.content_tag(:fieldset, class: "UnmagicChoiceGroup") do
+            @template.safe_join [
+              @template.content_tag(:legend, class: "UnmagicLabel") do
+                @template.safe_join [ legend, (@template.safe_join([ " ", @template.content_tag(:span, "*", class: "UnmagicLabel__required") ]) if required) ].compact
+              end,
+              list, error
+            ].compact
+          end
+        else
+          @template.content_tag(:div, @template.safe_join([ list, error ].compact), class: "UnmagicChoiceGroup", role: "radiogroup",
+            "aria-label": options[:"aria-label"])
+        end
+      end
+
+      # A text input that filters a list of options, choosing one or with
+      # multiple: true several, submitted as the attribute (or attribute[]).
+      # collection: is the options, or with src: only what is already selected;
+      # value: and text: name the methods (or lambdas) read off each record. A
+      # block records rich options: it is called with (combobox, record) and
+      # calls combobox.option(value, label:, keywords:) { markup }. Works as a
+      # field's control (as: :combobox). See ActionViewHelpers#combobox_tag for
+      # the rest. Needs import "unmagic/components/combobox".
+      def combobox(method, options = {}, &block)
+        options = options.dup
+        collection = options.delete(:collection) || []
+        value = options.delete(:value) || :id
+        text = options.delete(:text) || :to_s
+        multiple = options.delete(:multiple) || false
+        selected = form_value_for(method)
+        selected = selected.map { |v| v.respond_to?(:id) ? v.id : v } if selected.respond_to?(:map) && !selected.is_a?(String)
+        input = options.slice(:required, :"aria-invalid", :id, :"aria-describedby")
+        name = multiple ? field_name(method).delete_suffix("[]") : field_name(method)
+        input[:id] ||= field_id(method)
+
+        Components::Combobox.new(@template, name, collection: collection, value: value, text: text, multiple: multiple,
+          selected: selected, input: input, **options.except(:required, :"aria-invalid", :id, :"aria-describedby"))
+          .build(&block).render
+      end
+
       def select(method, choices = nil, options = {}, html_options = {}, &block)
         super(method, choices, options, Components::Control.merge(@template, html_options, :select), &block)
       end

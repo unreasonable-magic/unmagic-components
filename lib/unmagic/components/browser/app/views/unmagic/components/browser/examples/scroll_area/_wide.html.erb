@@ -1,0 +1,10 @@
+<%= scroll_area axis: :x, label: "Board" do %>
+  <div class="flex gap-3 py-1">
+    <% %w[Backlog Ready Doing Review Done Shipped Archived].each do |column| %>
+      <div class="w-56 shrink-0 rounded-lg border border-neutral-200 bg-neutral-50 p-3 text-sm dark:border-neutral-800 dark:bg-neutral-900">
+        <div class="font-medium"><%= column %></div>
+        <div class="mt-2 h-16 rounded-md border border-dashed border-neutral-300 dark:border-neutral-700"></div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,8 @@
+<%= sidebar id: "sheet_nav", label: "Main", collapse_below: :lg, class: "[&_.UnmagicSidebar__panel]:static! [&_.UnmagicSidebar__panel:not(:popover-open)]:hidden!" do |nav| %>
+  <% nav.section do |s| %>
+    <% s.link "Inbox", "#inbox", icon: :messages_square, active: true %>
+    <% s.link "Files", "#files", icon: :folder %>
+  <% end %>
+<% end %>
+<%= sidebar_toggle "sheet_nav", class: "!inline-flex" %>
+<span class="ml-2 text-sm text-neutral-500">Open the sheet</span>

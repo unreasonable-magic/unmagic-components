@@ -95,6 +95,52 @@
     @apply pt-0;
   }
 
+  /* On a phone the table stacks: the head goes, each row is a card of its
+     cells, and each cell writes its heading in front of itself from the
+     data-label the server put on it. A cell with no heading (a details row, a
+     colspan) spans the card. */
+  @media (max-width: 40rem) {
+    .UnmagicTable--full thead {
+      @apply sr-only;
+    }
+
+    .UnmagicTable--full,
+    .UnmagicTable--full tbody,
+    .UnmagicTable--full tbody tr,
+    .UnmagicTable--full tbody td {
+      @apply block;
+    }
+
+    .UnmagicTable--full colgroup {
+      @apply hidden;
+    }
+
+    .UnmagicTable--full tbody tr {
+      @apply border-b border-neutral-200 px-4 py-2 dark:border-neutral-800;
+    }
+
+    .UnmagicTable--full tbody tr:last-child {
+      @apply border-b-0;
+    }
+
+    .UnmagicTable--full tbody td {
+      @apply flex justify-between gap-4 border-0 px-0 py-1 text-right;
+    }
+
+    .UnmagicTable--full tbody td[data-label]::before {
+      @apply shrink-0 text-left text-xs font-semibold text-neutral-500 dark:text-neutral-400;
+      content: attr(data-label);
+    }
+
+    .UnmagicTable--full tbody td:not([data-label]) {
+      @apply block text-left;
+    }
+
+    .UnmagicTable--full tbody tr.UnmagicTable__details > td {
+      @apply pt-0;
+    }
+  }
+
   .UnmagicTable .is-right {
     @apply text-right;
   }
@@ -207,11 +253,74 @@
 
   /* ------------------------------------------------------------ Empty state */
 
+  .UnmagicEmptyState__icon {
+    @apply mx-auto mb-3 size-8 text-neutral-400 dark:text-neutral-600;
+  }
+
+  .UnmagicEmptyState__title {
+    @apply m-0 mb-1 text-base font-semibold text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicEmptyState__actions {
+    @apply mt-4 flex flex-wrap justify-center gap-2;
+  }
+
   .UnmagicEmptyState {
     @apply rounded-lg border border-dashed border-neutral-300 p-8 text-center text-sm text-neutral-500 dark:border-neutral-700;
   }
 
   /* ------------------------------------------------------------- Pagination */
+
+  .UnmagicPagination__pages {
+    @apply m-0 flex list-none items-center gap-1 p-0;
+  }
+
+  .UnmagicPagination__page {
+    @apply inline-flex items-center gap-1;
+  }
+
+  .UnmagicPagination__gap {
+    @apply px-1 text-neutral-400 dark:text-neutral-600;
+  }
+
+  .UnmagicPagination__number {
+    @apply inline-flex min-w-8 items-center justify-center rounded-md px-2 py-1 text-sm text-neutral-600 no-underline tabular-nums;
+    @apply dark:text-neutral-400;
+  }
+
+  a.UnmagicPagination__number:hover {
+    @apply bg-neutral-100 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100;
+  }
+
+  .UnmagicPagination__number:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicPagination__number[aria-current="page"] {
+    @apply bg-neutral-900 font-medium text-white dark:bg-neutral-100 dark:text-neutral-900;
+  }
+
+  .UnmagicPagination__count {
+    @apply hidden text-sm text-neutral-500 tabular-nums;
+  }
+
+  /* On a phone the numbers give way to "3 of 12" between the arrows. */
+  @media (max-width: 40rem) {
+    .UnmagicPagination__pages {
+      @apply hidden;
+    }
+
+    .UnmagicPagination__count {
+      @apply inline;
+    }
+  }
+
+  @media (pointer: coarse) {
+    .UnmagicPagination__number,
+    .UnmagicPagination__link {
+      min-height: 2.75rem;
+    }
+  }
 
   .UnmagicPagination {
     @apply mt-5 flex items-center justify-center gap-4;
@@ -234,6 +343,21 @@
 
   .UnmagicDescriptionList {
     @apply grid grid-cols-[max-content_1fr] gap-x-6 gap-y-2 text-sm;
+  }
+
+  /* On a phone the label sits over its value rather than beside it. */
+  @media (max-width: 40rem) {
+    .UnmagicDescriptionList {
+      @apply grid-cols-1 gap-y-3;
+    }
+
+    .UnmagicDescriptionList > dt {
+      @apply text-xs;
+    }
+
+    .UnmagicDescriptionList > dd {
+      @apply -mt-2;
+    }
   }
 
   .UnmagicDescriptionList dt {
@@ -336,6 +460,368 @@
 
   .UnmagicCheckList--inline {
     @apply flex flex-wrap gap-x-6 gap-y-2;
+  }
+
+  /* A switch is the checkbox itself, drawn with CSS: appearance none, a track,
+     and a thumb as a radial gradient (pseudo-elements don't render on inputs in
+     Firefox). Off, the track is neutral-500 in both themes, since a neutral-700
+     thumb on a neutral-700 track would vanish in the dark. */
+  .UnmagicSwitch {
+    @apply m-0 h-5 w-9 shrink-0 cursor-pointer appearance-none rounded-full border-0 bg-neutral-500;
+    background-image: radial-gradient(circle, var(--color-white) 0.5rem, transparent calc(0.5rem + 0.5px));
+    background-size: 1.25rem 1.25rem;
+    background-position: 0 50%;
+    background-repeat: no-repeat;
+    transition: background-position 150ms ease, background-color 150ms ease;
+  }
+
+  @variant dark {
+    .UnmagicSwitch {
+      background-image: radial-gradient(circle, var(--color-neutral-700) 0.5rem, transparent calc(0.5rem + 0.5px));
+    }
+  }
+
+  .UnmagicSwitch:checked {
+    @apply bg-neutral-900 dark:bg-white;
+    background-position: 100% 50%;
+  }
+
+  .UnmagicSwitch:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicSwitch:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  .UnmagicSwitch[aria-invalid="true"] {
+    box-shadow: 0 0 0 2px var(--color-red-600);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .UnmagicSwitch {
+      transition: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .UnmagicSwitch {
+      border: 1px solid CanvasText;
+      background-image: none;
+    }
+
+    .UnmagicSwitch:checked {
+      background: Highlight;
+    }
+  }
+
+  .UnmagicCheckField--switch {
+    @apply items-center;
+  }
+
+  .UnmagicCheckField--switch.UnmagicCheckField--hinted {
+    @apply items-start;
+  }
+
+  .UnmagicCheckField--switch.UnmagicCheckField--hinted > .UnmagicSwitch {
+    @apply mt-0.5;
+  }
+
+  /* A slider: the native range with its track and thumb drawn in the theme. */
+  .UnmagicRange {
+    @apply m-0 h-5 w-full cursor-pointer appearance-none bg-transparent;
+  }
+
+  .UnmagicRange::-webkit-slider-runnable-track {
+    @apply h-1.5 rounded-full bg-neutral-200 dark:bg-neutral-700;
+  }
+
+  .UnmagicRange::-moz-range-track {
+    @apply h-1.5 rounded-full bg-neutral-200 dark:bg-neutral-700;
+  }
+
+  .UnmagicRange::-webkit-slider-thumb {
+    @apply size-4 appearance-none rounded-full border-2 border-neutral-900 bg-white dark:border-white dark:bg-neutral-900;
+    margin-top: -0.3125rem;
+  }
+
+  .UnmagicRange::-moz-range-thumb {
+    @apply size-4 rounded-full border-2 border-neutral-900 bg-white dark:border-white dark:bg-neutral-900;
+  }
+
+  .UnmagicRange:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicRange:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  @media (pointer: coarse) {
+    .UnmagicRange {
+      @apply h-11;
+    }
+
+    .UnmagicRange::-webkit-slider-thumb {
+      @apply size-6;
+      margin-top: -0.5625rem;
+    }
+
+    .UnmagicRange::-moz-range-thumb {
+      @apply size-6;
+    }
+  }
+
+  /* A group of radios, and the card variant where the whole card is the target. */
+  .UnmagicChoiceGroup {
+    @apply m-0 mb-4 min-w-0 border-0 p-0;
+  }
+
+  .UnmagicChoiceGroup > legend {
+    @apply mb-1.5 p-0;
+  }
+
+  .UnmagicChoiceGroup > .UnmagicError {
+    @apply mt-1.5;
+  }
+
+  .UnmagicCheckList--cards {
+    @apply grid grid-cols-1 gap-2;
+  }
+
+  .UnmagicCheckList--cards-inline {
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  }
+
+  .UnmagicCheckField--card {
+    @apply rounded-lg border border-neutral-200 bg-white px-4 py-3 dark:border-neutral-800 dark:bg-neutral-900;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+
+  .UnmagicCheckField--card:hover {
+    @apply border-neutral-300 dark:border-neutral-700;
+  }
+
+  .UnmagicCheckField--card:has(:checked) {
+    @apply border-neutral-900 dark:border-white;
+    box-shadow: inset 0 0 0 1px var(--color-neutral-900);
+  }
+
+  @variant dark {
+    .UnmagicCheckField--card:has(:checked) {
+      box-shadow: inset 0 0 0 1px var(--color-white);
+    }
+  }
+
+  .UnmagicCheckField--card:has(:disabled) {
+    opacity: 0.55;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .UnmagicCheckField--card {
+      transition: none;
+    }
+  }
+
+  /* A password with its reveal button in the corner. */
+  .UnmagicPassword {
+    @apply relative block;
+  }
+
+  .UnmagicPassword > .UnmagicInput {
+    @apply w-full pr-10;
+  }
+
+  .UnmagicPassword__toggle {
+    @apply absolute top-1/2 right-1 -translate-y-1/2;
+  }
+
+  .UnmagicPassword__hide,
+  .UnmagicPassword__toggle[aria-pressed="true"] .UnmagicPassword__show {
+    @apply hidden;
+  }
+
+  .UnmagicPassword__toggle[aria-pressed="true"] .UnmagicPassword__hide {
+    @apply block;
+  }
+
+  /* One input for a code, over a row of boxes the script draws. Until it does
+     the input is a plain box; once upgraded the input goes transparent and
+     each box shows one character. */
+  .UnmagicOneTimeCode {
+    @apply relative block;
+  }
+
+  .UnmagicOneTimeCode__input {
+    @apply w-full font-mono tracking-[0.5em];
+  }
+
+  .UnmagicOneTimeCode[data-upgraded] > .UnmagicOneTimeCode__input {
+    @apply absolute inset-0 h-full w-full border-0 bg-transparent text-transparent opacity-0 shadow-none;
+    caret-color: transparent;
+  }
+
+  .UnmagicOneTimeCode__cells {
+    @apply flex gap-2;
+  }
+
+  .UnmagicOneTimeCode__cell {
+    @apply flex h-11 flex-1 items-center justify-center rounded-md border border-neutral-300 bg-white font-mono text-lg text-neutral-900;
+    @apply dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100;
+    max-width: 3rem;
+  }
+
+  .UnmagicOneTimeCode__cell[data-active] {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicOneTimeCode[data-upgraded] > .UnmagicOneTimeCode__input[aria-invalid="true"] ~ .UnmagicOneTimeCode__cells .UnmagicOneTimeCode__cell {
+    @apply border-red-600 dark:border-red-400;
+  }
+
+  /* A control with something joined to either end. The addons and the control
+     share one outline: the control gives up its own corners and shadow. */
+  .UnmagicInputGroup {
+    @apply flex w-full items-stretch;
+  }
+
+  .UnmagicInputGroup > :where(.UnmagicInput, .UnmagicSelect) {
+    @apply min-w-0 flex-1 rounded-none shadow-none;
+  }
+
+  .UnmagicInputGroup > :first-child,
+  .UnmagicInputGroup > :first-child > .UnmagicButton {
+    @apply rounded-l-md;
+  }
+
+  .UnmagicInputGroup > :last-child,
+  .UnmagicInputGroup > :last-child > .UnmagicButton {
+    @apply rounded-r-md;
+  }
+
+  .UnmagicInputGroup > :not(:first-child) {
+    @apply -ml-px;
+  }
+
+  .UnmagicInputGroup > :where(.UnmagicInput, .UnmagicSelect):focus-visible {
+    @apply relative z-10;
+  }
+
+  .UnmagicInputGroup__addon {
+    @apply flex shrink-0 items-center;
+  }
+
+  .UnmagicInputGroup__addon > .UnmagicButton {
+    @apply h-full rounded-none;
+  }
+
+  .UnmagicInputGroup__addon--text {
+    @apply border border-neutral-300 bg-neutral-50 px-3 text-sm text-neutral-500 dark:border-neutral-700 dark:bg-neutral-800/50 dark:text-neutral-400;
+  }
+
+  /* A toggle is a button that is on or off, or a checkbox or radio drawn as
+     one; a toggle group is a run of them joined edge to edge. State comes from
+     aria-pressed on the button, or :checked on the input under the face. */
+  .UnmagicToggle {
+    font: inherit;
+    @apply relative m-0 inline-flex cursor-pointer items-center justify-center gap-2 rounded-md border border-neutral-300 bg-white px-3.5 py-1.5 text-sm font-medium whitespace-nowrap text-neutral-600;
+    @apply dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400;
+  }
+
+  .UnmagicToggle:hover {
+    @apply text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicToggle--small {
+    @apply px-2.5 py-1 text-xs;
+  }
+
+  .UnmagicToggle--large {
+    @apply rounded-lg px-5 py-2.5 text-base;
+  }
+
+  .UnmagicToggle__icon {
+    @apply size-4 shrink-0;
+  }
+
+  .UnmagicToggle--icon {
+    @apply px-1.5;
+  }
+
+  .UnmagicToggle--input {
+    @apply p-0;
+  }
+
+  .UnmagicToggle__input {
+    @apply absolute inset-0 m-0 size-full cursor-pointer appearance-none rounded-[inherit] opacity-0;
+  }
+
+  .UnmagicToggle__face {
+    @apply inline-flex items-center justify-center gap-2 px-3.5 py-1.5;
+  }
+
+  .UnmagicToggle--small .UnmagicToggle__face {
+    @apply px-2.5 py-1;
+  }
+
+  .UnmagicToggle--large .UnmagicToggle__face {
+    @apply px-5 py-2.5;
+  }
+
+  .UnmagicToggle[aria-pressed="true"],
+  .UnmagicToggle:has(> .UnmagicToggle__input:checked) {
+    @apply bg-neutral-100 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100;
+  }
+
+  .UnmagicToggle:focus-visible,
+  .UnmagicToggle:has(> .UnmagicToggle__input:focus-visible) {
+    @apply z-10 outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicToggle:disabled,
+  .UnmagicToggle:has(> .UnmagicToggle__input:disabled) {
+    @apply pointer-events-none opacity-50;
+  }
+
+  .UnmagicToggleGroup {
+    @apply inline-flex max-w-full overflow-x-auto;
+    scrollbar-width: none;
+  }
+
+  .UnmagicToggleGroup > .UnmagicToggle {
+    @apply shrink-0 rounded-none;
+  }
+
+  .UnmagicToggleGroup > .UnmagicToggle:not(:first-child) {
+    @apply -ml-px;
+  }
+
+  .UnmagicToggleGroup > .UnmagicToggle:first-child {
+    @apply rounded-l-md;
+  }
+
+  .UnmagicToggleGroup > .UnmagicToggle:last-child {
+    @apply rounded-r-md;
+  }
+
+  .UnmagicToggleGroup--large > .UnmagicToggle:first-child {
+    @apply rounded-l-lg;
+  }
+
+  .UnmagicToggleGroup--large > .UnmagicToggle:last-child {
+    @apply rounded-r-lg;
+  }
+
+  @media (pointer: coarse) {
+    .UnmagicToggle {
+      min-height: 2.75rem;
+    }
+
+    .UnmagicSwitch,
+    .UnmagicCheck,
+    .UnmagicRadio {
+      @apply cursor-pointer;
+    }
   }
 
   /* Boxes: text, password, date and textarea inputs, and selects. Padding and type
@@ -601,6 +1087,234 @@
     @apply rounded-lg px-5 py-2.5 text-base;
   }
 
+  .UnmagicButton--block {
+    @apply flex w-full;
+  }
+
+  .UnmagicButton__icon {
+    @apply size-4 shrink-0;
+  }
+
+  .UnmagicButton--small .UnmagicButton__icon {
+    @apply size-3.5;
+  }
+
+  .UnmagicButton__form {
+    @apply inline;
+  }
+
+  .UnmagicButton--block + .UnmagicButton__form,
+  .UnmagicButton__form:has(> .UnmagicButton--block) {
+    @apply block;
+  }
+
+  /* A finger needs more to land on than a pointer does: every button is at least
+     44px tall where the pointer is coarse, and an icon button at least that wide. */
+  @media (pointer: coarse) {
+    .UnmagicButton {
+      min-height: 2.75rem;
+    }
+
+    .UnmagicButton--icon {
+      min-width: 2.75rem;
+    }
+  }
+
+  /* ---------------------------------------------------------- Button groups */
+
+  /* Joined edge to edge: each button gives up the corners it shares and the
+     borders overlap, so the run reads as one control. On a narrow screen the run
+     wraps rather than overflowing. */
+  .UnmagicButtonGroup {
+    @apply inline-flex flex-wrap;
+  }
+
+  .UnmagicButtonGroup > .UnmagicButton,
+  .UnmagicButtonGroup > .UnmagicButton__form > .UnmagicButton {
+    @apply relative rounded-none;
+  }
+
+  .UnmagicButtonGroup > :not(:first-child),
+  .UnmagicButtonGroup > :not(:first-child) > .UnmagicButton {
+    @apply -ml-px;
+  }
+
+  .UnmagicButtonGroup > :first-child,
+  .UnmagicButtonGroup > :first-child > .UnmagicButton {
+    @apply rounded-l-md;
+  }
+
+  .UnmagicButtonGroup > :last-child,
+  .UnmagicButtonGroup > :last-child > .UnmagicButton {
+    @apply rounded-r-md;
+  }
+
+  /* An icon button on its own is borderless; in a run it takes the default's
+     edge, or the run has gaps where its members should meet. */
+  .UnmagicButtonGroup > .UnmagicButton--icon {
+    @apply border-neutral-300 bg-white dark:border-neutral-700 dark:bg-neutral-900;
+  }
+
+  .UnmagicButtonGroup > .UnmagicButton:hover,
+  .UnmagicButtonGroup > .UnmagicButton:focus-visible,
+  .UnmagicButtonGroup > .UnmagicButton[aria-pressed="true"] {
+    @apply z-10;
+  }
+
+  .UnmagicButtonGroup--vertical {
+    @apply inline-flex flex-col;
+  }
+
+  .UnmagicButtonGroup--vertical > :not(:first-child),
+  .UnmagicButtonGroup--vertical > :not(:first-child) > .UnmagicButton {
+    @apply -mt-px ml-0;
+  }
+
+  .UnmagicButtonGroup--vertical > :first-child,
+  .UnmagicButtonGroup--vertical > :first-child > .UnmagicButton {
+    @apply rounded-t-md rounded-l-none rounded-tl-md;
+  }
+
+  .UnmagicButtonGroup--vertical > :last-child,
+  .UnmagicButtonGroup--vertical > :last-child > .UnmagicButton {
+    @apply rounded-b-md rounded-r-none rounded-br-md;
+  }
+
+  /* -------------------------------------------------------------- Separator */
+
+  .UnmagicSeparator {
+    @apply my-4 border-0 border-t border-neutral-200 dark:border-neutral-800;
+  }
+
+  /* With a word on it the rule is drawn either side of the word, so the word
+     sits in a gap rather than over a line. */
+  .UnmagicSeparator[role="separator"] {
+    @apply flex items-center gap-3 border-0 text-xs text-neutral-500 dark:text-neutral-400;
+  }
+
+  .UnmagicSeparator[role="separator"]::before,
+  .UnmagicSeparator[role="separator"]::after {
+    @apply h-px flex-1 bg-neutral-200 dark:bg-neutral-800;
+    content: "";
+  }
+
+  .UnmagicSeparator--vertical {
+    @apply mx-3 my-0 h-auto w-px self-stretch bg-neutral-200 dark:bg-neutral-800;
+  }
+
+  .UnmagicSeparator--vertical::before,
+  .UnmagicSeparator--vertical::after {
+    @apply hidden;
+  }
+
+  /* --------------------------------------------------------------- Progress */
+
+  .UnmagicProgress {
+    @apply h-2 w-full overflow-hidden rounded-full bg-neutral-200 dark:bg-neutral-800;
+  }
+
+  .UnmagicProgress--small {
+    @apply h-1;
+  }
+
+  .UnmagicProgress--large {
+    @apply h-3;
+  }
+
+  .UnmagicProgress__bar {
+    @apply h-full rounded-full bg-neutral-900 dark:bg-neutral-100;
+    transition: width 300ms ease;
+  }
+
+  .UnmagicProgress--good .UnmagicProgress__bar {
+    @apply bg-green-600 dark:bg-green-400;
+  }
+
+  .UnmagicProgress--warn .UnmagicProgress__bar {
+    @apply bg-amber-500 dark:bg-amber-400;
+  }
+
+  .UnmagicProgress--bad .UnmagicProgress__bar {
+    @apply bg-red-600 dark:bg-red-400;
+  }
+
+  .UnmagicProgress--info .UnmagicProgress__bar {
+    @apply bg-blue-600 dark:bg-blue-400;
+  }
+
+  /* No value yet: a third of the bar sweeps across, or pulses in place under
+     reduced motion. */
+  .UnmagicProgress--indeterminate .UnmagicProgress__bar {
+    @apply w-1/3;
+    animation: unmagic-progress-sweep 1.4s ease-in-out infinite;
+  }
+
+  @keyframes unmagic-progress-sweep {
+    from {
+      transform: translateX(-100%);
+    }
+
+    to {
+      transform: translateX(300%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .UnmagicProgress__bar {
+      transition: none;
+    }
+
+    .UnmagicProgress--indeterminate .UnmagicProgress__bar {
+      @apply w-full;
+      animation: unmagic-progress-pulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes unmagic-progress-pulse {
+      50% {
+        opacity: 0.4;
+      }
+    }
+  }
+
+  /* ---------------------------------------------------------------- Spinner */
+
+  .UnmagicSpinner {
+    @apply inline-flex items-center gap-2 align-middle text-sm text-neutral-600 dark:text-neutral-400;
+  }
+
+  .UnmagicSpinner__ring {
+    @apply size-4 shrink-0;
+    animation: unmagic-spin 1s linear infinite;
+  }
+
+  .UnmagicSpinner--small .UnmagicSpinner__ring {
+    @apply size-3.5;
+  }
+
+  .UnmagicSpinner--large .UnmagicSpinner__ring {
+    @apply size-6;
+  }
+
+  @keyframes unmagic-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* A ring that pulses rather than turning under reduced motion, since a still
+     ring would read as stuck. */
+  @media (prefers-reduced-motion: reduce) {
+    .UnmagicSpinner__ring {
+      animation: unmagic-spinner-pulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes unmagic-spinner-pulse {
+      50% {
+        opacity: 0.4;
+      }
+    }
+  }
+
   /* ------------------------------------------------------------------ Icons */
 
   .UnmagicIcon {
@@ -668,6 +1382,103 @@
 
   /* margin is reset because this is a <header>, and hosts often style bare
      header elements for their page chrome. */
+  /* A drawer: the box hugs one edge for the full height, and the panel is a
+     column whose body scrolls while the header and footer stay put. */
+  .UnmagicDialogBox[data-side] {
+    @apply m-0 h-dvh max-h-dvh max-w-[calc(100vw-3rem)];
+    inset-block: 0;
+  }
+
+  .UnmagicDialogBox[data-side="end"] {
+    inset-inline: auto 0;
+  }
+
+  .UnmagicDialogBox[data-side="start"] {
+    inset-inline: 0 auto;
+  }
+
+  .UnmagicDialog--drawer {
+    @apply flex h-full w-[min(100vw-3rem,28rem)] flex-col rounded-none border-y-0;
+  }
+
+  .UnmagicDialog--drawer.UnmagicDialog--wide {
+    @apply w-[min(100vw-3rem,40rem)];
+  }
+
+  .UnmagicDialogBox[data-side="end"] .UnmagicDialog--drawer {
+    @apply border-r-0;
+  }
+
+  .UnmagicDialogBox[data-side="start"] .UnmagicDialog--drawer {
+    @apply border-l-0;
+  }
+
+  .UnmagicDialog--drawer > .UnmagicDialog__body {
+    @apply flex-1 overflow-y-auto;
+  }
+
+  .UnmagicDialogBox[data-side="end"][open] {
+    animation: unmagic-drawer-in-end 200ms ease-out;
+  }
+
+  .UnmagicDialogBox[data-side="start"][open] {
+    animation: unmagic-drawer-in-start 200ms ease-out;
+  }
+
+  @keyframes unmagic-drawer-in-end {
+    from {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes unmagic-drawer-in-start {
+    from {
+      transform: translateX(-100%);
+    }
+  }
+
+  /* On a phone every dialog is a sheet from the bottom, full width, where a
+     thumb is; a drawer becomes the same sheet. */
+  @media (max-width: 40rem) {
+    .UnmagicDialogBox,
+    .UnmagicDialogBox[data-side] {
+      @apply m-0 h-auto max-h-[92dvh] w-full max-w-none;
+      inset: auto 0 0 0;
+    }
+
+    .UnmagicDialog,
+    .UnmagicDialog--drawer,
+    .UnmagicDialog--wide {
+      @apply flex max-h-[92dvh] w-full flex-col rounded-t-2xl rounded-b-none border-x-0 border-b-0;
+    }
+
+    .UnmagicDialog > .UnmagicDialog__body {
+      @apply flex-1 overflow-y-auto;
+    }
+
+    .UnmagicDialog__footer {
+      padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+    }
+
+    .UnmagicDialogBox[open],
+    .UnmagicDialogBox[data-side][open] {
+      animation: unmagic-sheet-in 200ms ease-out;
+    }
+
+    @keyframes unmagic-sheet-in {
+      from {
+        transform: translateY(100%);
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .UnmagicDialogBox[data-side][open],
+    .UnmagicDialogBox[open] {
+      animation: none;
+    }
+  }
+
   .UnmagicDialog__header {
     @apply m-0 flex items-center justify-between gap-3 px-5 pt-4 pb-2;
   }
@@ -883,6 +1694,19 @@
     @apply rounded-none border-0;
   }
 
+  .UnmagicCard--borderless {
+    @apply border-0;
+  }
+
+  .UnmagicCard--transparent {
+    @apply bg-transparent dark:bg-transparent;
+  }
+
+  /* A bar of the caller's own across the top, ruled off from the body. */
+  .UnmagicCard__bar {
+    @apply m-0 flex items-center gap-3 border-b border-neutral-200 px-4 py-3 dark:border-neutral-800;
+  }
+
   .UnmagicCard__footer {
     @apply flex items-center justify-end gap-3 border-t border-neutral-200 bg-neutral-50 px-4 py-3 text-neutral-600;
     @apply dark:border-neutral-800 dark:bg-neutral-800/50 dark:text-neutral-400;
@@ -925,12 +1749,329 @@
     letter-spacing: -0.01em;
   }
 
+  .UnmagicPageHeader__title--mono {
+    @apply font-mono;
+  }
+
+  .UnmagicPageHeader__breadcrumbs {
+    @apply mb-2;
+  }
+
   .UnmagicPageHeader__description {
     @apply mt-1 max-w-2xl text-sm leading-normal text-neutral-500;
   }
 
   .UnmagicPageHeader__actions {
     @apply flex shrink-0 items-center gap-3;
+  }
+
+  /* ------------------------------------------------------------ Breadcrumbs */
+
+  .UnmagicBreadcrumbs__list {
+    @apply m-0 flex list-none flex-wrap items-center gap-1.5 p-0 text-sm;
+  }
+
+  .UnmagicBreadcrumbs__item {
+    @apply inline-flex min-w-0 items-center gap-1.5;
+  }
+
+  .UnmagicBreadcrumbs__separator {
+    @apply size-3.5 shrink-0 text-neutral-400 dark:text-neutral-600;
+  }
+
+  .UnmagicBreadcrumbs__link {
+    @apply m-0 max-w-64 truncate text-neutral-500 no-underline dark:text-neutral-400;
+  }
+
+  .UnmagicBreadcrumbs__link:hover {
+    @apply text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicBreadcrumbs__link:focus-visible {
+    @apply rounded-sm outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicBreadcrumbs__current {
+    @apply truncate font-medium text-neutral-900 dark:text-neutral-100;
+  }
+
+  /* On a phone a long trail keeps only the page before this one and this one;
+     the rest is where the page's own back link goes. */
+  @media (max-width: 40rem) {
+    .UnmagicBreadcrumbs__item:not(:nth-last-child(-n + 2)) {
+      @apply hidden;
+    }
+
+    .UnmagicBreadcrumbs__item:nth-last-child(2):not(:first-child)::before {
+      @apply text-neutral-400 dark:text-neutral-600;
+      content: "…";
+    }
+  }
+
+  /* ------------------------------------------------------------------- Keys */
+
+  .UnmagicKbd {
+    font: inherit;
+    @apply inline-flex items-baseline gap-1 align-baseline;
+  }
+
+  .UnmagicKbd__key {
+    @apply inline-flex min-w-[1.5em] items-center justify-center rounded border border-neutral-200 bg-neutral-50 px-[0.375em] text-center text-neutral-600;
+    @apply dark:border-neutral-800 dark:bg-neutral-800/50 dark:text-neutral-400;
+    font: 500 0.75em/1.75 ui-monospace, SFMono-Regular, Menlo, monospace;
+    box-shadow: 0 1px 0 0 var(--color-neutral-300);
+  }
+
+  @variant dark {
+    .UnmagicKbd__key {
+      box-shadow: 0 1px 0 0 var(--color-neutral-700);
+    }
+  }
+
+  .UnmagicKbd__joiner {
+    @apply text-[0.75em] text-neutral-500;
+  }
+
+  /* The platform modifier: the server's guess shows one glyph, and the browser's
+     own word, written on <html> by hotkey.js, overrides it. */
+  .UnmagicKbd[data-platform="apple"] .UnmagicKbd__mod--other,
+  .UnmagicKbd[data-platform="other"] .UnmagicKbd__mod--apple {
+    @apply hidden;
+  }
+
+  :root[data-unmagic-platform="apple"] .UnmagicKbd .UnmagicKbd__mod--apple,
+  :root[data-unmagic-platform="other"] .UnmagicKbd .UnmagicKbd__mod--other {
+    @apply inline-flex;
+  }
+
+  :root[data-unmagic-platform="apple"] .UnmagicKbd .UnmagicKbd__mod--other,
+  :root[data-unmagic-platform="other"] .UnmagicKbd .UnmagicKbd__mod--apple {
+    @apply hidden;
+  }
+
+  .UnmagicTooltip__popup .UnmagicKbd__key {
+    @apply border-white/20 bg-white/10 text-inherit;
+    box-shadow: none;
+  }
+
+  /* --------------------------------------------------------------- Sections */
+
+  .UnmagicSection--normal {
+    @apply mt-10;
+  }
+
+  .UnmagicSection--tight {
+    @apply mt-4;
+  }
+
+  .UnmagicSection__head {
+    @apply mb-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-2;
+  }
+
+  .UnmagicSection__heading {
+    @apply flex min-w-0 flex-wrap items-center gap-3;
+  }
+
+  .UnmagicSection__title {
+    @apply m-0 text-sm font-semibold tracking-wide text-neutral-500 uppercase dark:text-neutral-400;
+  }
+
+  .UnmagicSection__actions {
+    @apply flex items-center gap-2;
+  }
+
+  /* ------------------------------------------------------------------ Items */
+
+  /* A row about one thing. The title's link stretches over the row when there
+     is one, so the row is the hit area and the actions stay their own. */
+  .UnmagicItem {
+    @apply relative flex items-center gap-4 p-4 text-sm;
+  }
+
+  .UnmagicItem--link:hover {
+    @apply bg-neutral-50 dark:bg-neutral-800/60;
+  }
+
+  .UnmagicItem__media {
+    @apply flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-neutral-200 bg-neutral-100 text-neutral-500;
+    @apply dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-400;
+  }
+
+  .UnmagicItem__media > img,
+  .UnmagicItem__media > video {
+    @apply size-full object-cover;
+  }
+
+  .UnmagicItem__main {
+    @apply min-w-0 flex-1;
+  }
+
+  /* Wraps, so on a phone a flag drops under the title rather than squeezing it
+     to nothing. */
+  .UnmagicItem__heading {
+    @apply flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1;
+  }
+
+  .UnmagicItem__title {
+    @apply truncate font-medium text-neutral-900 no-underline dark:text-neutral-100;
+  }
+
+  .UnmagicItem--mono .UnmagicItem__title {
+    @apply font-mono;
+  }
+
+  a.UnmagicItem__title::after {
+    @apply absolute inset-0;
+    content: "";
+  }
+
+  a.UnmagicItem__title:hover {
+    @apply underline;
+  }
+
+  a.UnmagicItem__title:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicItem__description {
+    @apply mt-0.5 line-clamp-2 text-xs text-neutral-500 dark:text-neutral-400;
+  }
+
+  .UnmagicItem__actions {
+    @apply relative z-10 flex shrink-0 items-center gap-2 text-neutral-500;
+  }
+
+  /* ----------------------------------------------------------------- Charts */
+
+  /* Colour lives here rather than on the marks so a series is one colour
+     everywhere it's drawn, in both themes: the slots are a categorical palette,
+     stepped separately for the dark surface rather than flipped. Everything
+     that isn't data is one shade off the surface, so the marks are the loudest
+     thing on the chart. */
+  .UnmagicChart {
+    --unmagic-chart-surface: var(--color-white);
+    --unmagic-chart-ink: var(--color-neutral-500);
+    --unmagic-chart-grid: var(--color-neutral-200);
+    --unmagic-chart-axis: var(--color-neutral-300);
+    --unmagic-chart-series-1: var(--color-blue-600);
+    --unmagic-chart-series-2: var(--color-orange-500);
+    --unmagic-chart-series-3: var(--color-emerald-500);
+    --unmagic-chart-series-4: var(--color-amber-500);
+    --unmagic-chart-series-5: var(--color-pink-500);
+    --unmagic-chart-series-6: var(--color-neutral-400);
+    @apply m-0 min-w-0;
+  }
+
+  @variant dark {
+    .UnmagicChart {
+      --unmagic-chart-surface: var(--color-neutral-900);
+      --unmagic-chart-ink: var(--color-neutral-400);
+      --unmagic-chart-grid: var(--color-neutral-800);
+      --unmagic-chart-axis: var(--color-neutral-700);
+      --unmagic-chart-series-1: var(--color-blue-500);
+      --unmagic-chart-series-2: var(--color-orange-600);
+      --unmagic-chart-series-3: var(--color-emerald-600);
+      --unmagic-chart-series-4: var(--color-amber-600);
+      --unmagic-chart-series-5: var(--color-pink-600);
+      --unmagic-chart-series-6: var(--color-neutral-600);
+    }
+  }
+
+  .UnmagicChart__head {
+    @apply mb-3 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1;
+  }
+
+  .UnmagicChart__title {
+    @apply text-sm font-medium text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicChart__legend {
+    @apply m-0 flex list-none flex-wrap gap-x-3 gap-y-1 p-0 text-xs text-neutral-500 dark:text-neutral-400;
+  }
+
+  .UnmagicChart__total {
+    @apply font-mono text-neutral-400 tabular-nums dark:text-neutral-600;
+  }
+
+  .UnmagicChart__swatch {
+    @apply inline-block size-2.5 rounded-xs align-[-1px];
+  }
+
+  .UnmagicChart__svg {
+    @apply block h-auto w-full;
+  }
+
+  .UnmagicChart__svg text {
+    fill: var(--unmagic-chart-ink);
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .UnmagicChart__grid {
+    stroke: var(--unmagic-chart-grid);
+    stroke-width: 1;
+  }
+
+  .UnmagicChart__axis {
+    stroke: var(--unmagic-chart-axis);
+    stroke-width: 1;
+  }
+
+  /* The whole slot answers to the pointer, not just the painted pixels. */
+  .UnmagicChart__hit {
+    fill: transparent;
+  }
+
+  .UnmagicChart__line {
+    fill: none;
+    stroke-width: 2;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  .UnmagicChart__dot {
+    stroke: var(--unmagic-chart-surface);
+    stroke-width: 2;
+  }
+
+  .UnmagicChart__mark--1, .UnmagicChart__dot--1 { fill: var(--unmagic-chart-series-1); }
+  .UnmagicChart__mark--2, .UnmagicChart__dot--2 { fill: var(--unmagic-chart-series-2); }
+  .UnmagicChart__mark--3, .UnmagicChart__dot--3 { fill: var(--unmagic-chart-series-3); }
+  .UnmagicChart__mark--4, .UnmagicChart__dot--4 { fill: var(--unmagic-chart-series-4); }
+  .UnmagicChart__mark--5, .UnmagicChart__dot--5 { fill: var(--unmagic-chart-series-5); }
+  .UnmagicChart__mark--6, .UnmagicChart__dot--6 { fill: var(--unmagic-chart-series-6); }
+  .UnmagicChart__line--1, .UnmagicChart__swatch--1 { stroke: var(--unmagic-chart-series-1); background: var(--unmagic-chart-series-1); }
+  .UnmagicChart__line--2, .UnmagicChart__swatch--2 { stroke: var(--unmagic-chart-series-2); background: var(--unmagic-chart-series-2); }
+  .UnmagicChart__line--3, .UnmagicChart__swatch--3 { stroke: var(--unmagic-chart-series-3); background: var(--unmagic-chart-series-3); }
+  .UnmagicChart__line--4, .UnmagicChart__swatch--4 { stroke: var(--unmagic-chart-series-4); background: var(--unmagic-chart-series-4); }
+  .UnmagicChart__line--5, .UnmagicChart__swatch--5 { stroke: var(--unmagic-chart-series-5); background: var(--unmagic-chart-series-5); }
+  .UnmagicChart__line--6, .UnmagicChart__swatch--6 { stroke: var(--unmagic-chart-series-6); background: var(--unmagic-chart-series-6); }
+
+  .UnmagicChart__line {
+    background: none;
+  }
+
+  @media (any-hover: hover) {
+    .UnmagicChart__column:hover .UnmagicChart__mark {
+      opacity: 0.75;
+    }
+
+    .UnmagicChart--line .UnmagicChart__column:hover .UnmagicChart__hit {
+      fill: var(--unmagic-chart-grid);
+      fill-opacity: 0.5;
+    }
+  }
+
+  .UnmagicChart__table {
+    @apply mt-3 text-xs;
+  }
+
+  .UnmagicChart__table > summary {
+    @apply cursor-pointer text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100;
+  }
+
+  .UnmagicChart__table > .UnmagicTable {
+    @apply mt-2;
   }
 
   /* --------------------------------------------------------------- Callouts */
@@ -1032,29 +2173,59 @@
   /* ------------------------------------------------------------------ Menus */
 
   .UnmagicMenu {
-    @apply relative inline-block;
+    @apply inline-block;
   }
 
-  .UnmagicMenu__trigger {
-    @apply list-none;
+  .UnmagicMenu--context {
+    @apply contents;
   }
 
-  .UnmagicMenu__trigger::-webkit-details-marker {
+  /* The panel is a popover: in the top layer, placed by position.js in viewport
+     coordinates once open. Until the script places it, the UA's own popover
+     position (centred) holds, which is usable where a clipped menu isn't. */
+  .UnmagicMenu__panel {
+    @apply fixed m-0 flex min-w-44 flex-col rounded-lg border border-neutral-200 bg-white p-1 shadow-lg;
+    @apply dark:border-neutral-800 dark:bg-neutral-900;
+    inset: auto;
+  }
+
+  .UnmagicMenu__panel:not([data-side]):not([data-sheet]) {
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .UnmagicMenu__panel:focus-visible {
+    @apply outline-none;
+  }
+
+  .UnmagicMenu__section {
+    @apply m-0 px-2.5 pt-2 pb-1 text-xs font-semibold tracking-wide text-neutral-500 uppercase dark:text-neutral-400;
+  }
+
+  .UnmagicMenu__disclosure > .UnmagicMenu__summary {
+    @apply list-none justify-between;
+  }
+
+  .UnmagicMenu__summary::-webkit-details-marker {
     display: none;
   }
 
-  .UnmagicMenu__panel {
-    @apply absolute z-50 flex min-w-44 flex-col rounded-lg border border-neutral-200 bg-white p-1 shadow-lg;
-    @apply dark:border-neutral-800 dark:bg-neutral-900;
-    top: calc(100% + 0.25rem);
+  .UnmagicMenu__chevron {
+    @apply ml-auto size-3.5 shrink-0 transition-transform;
   }
 
-  .UnmagicMenu__panel--end {
-    @apply right-0;
+  .UnmagicMenu__disclosure[open] > .UnmagicMenu__summary > .UnmagicMenu__chevron {
+    @apply rotate-90;
   }
 
-  .UnmagicMenu__panel--start {
-    @apply left-0;
+  .UnmagicMenu__fold {
+    @apply px-2.5 pt-1 pb-2;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .UnmagicMenu__chevron {
+      @apply transition-none;
+    }
   }
 
   /* button_to wraps each button in a form; this keeps it out of the column's way. */
@@ -1089,6 +2260,633 @@
 
   .UnmagicMenu__divider {
     @apply -mx-1 my-1 border-0 border-t border-neutral-200 dark:border-neutral-800;
+  }
+
+  /* ---------------------------------------------------------------- Sheets */
+
+  /* On a narrow screen an anchored panel is a sheet along the bottom of the
+     screen, where a thumb is: full width, rounded on top, the height of its
+     content. The script sets data-sheet instead of placing the panel. */
+  .UnmagicMenu__panel[data-sheet],
+  .UnmagicPopover__panel[data-sheet] {
+    @apply fixed top-auto right-0 bottom-0 left-0 max-h-[80dvh] w-auto max-w-none overflow-y-auto rounded-t-2xl rounded-b-none p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] shadow-2xl;
+    transform: none;
+  }
+
+  .UnmagicMenu__panel[data-sheet] .UnmagicMenu__item {
+    @apply py-3;
+  }
+
+  /* --------------------------------------------------------------- Popovers */
+
+  .UnmagicPopover {
+    @apply inline-block;
+  }
+
+  .UnmagicPopover__trigger--custom {
+    font: inherit;
+    @apply m-0 inline-flex cursor-pointer items-center rounded-md border-0 bg-transparent p-0 text-inherit;
+  }
+
+  .UnmagicPopover__trigger--custom:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicPopover__panel {
+    @apply fixed m-0 w-72 max-w-[calc(100vw-1rem)] rounded-lg border border-neutral-200 bg-white p-0 text-sm text-neutral-900 shadow-lg;
+    @apply dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-100;
+    inset: auto;
+  }
+
+  .UnmagicPopover__panel:not([data-side]):not([data-sheet]) {
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .UnmagicPopover__panel--wide {
+    @apply w-[28rem];
+  }
+
+  .UnmagicPopover__panel:focus-visible {
+    @apply outline-none;
+  }
+
+  .UnmagicPopover__title {
+    @apply m-0 px-4 pt-3 pb-0 text-sm font-semibold;
+  }
+
+  .UnmagicPopover__body {
+    @apply px-4 py-3;
+  }
+
+  .UnmagicPopover__body > .UnmagicField:last-child {
+    @apply mb-0;
+  }
+
+  .UnmagicPopover__footer {
+    @apply flex items-center justify-end gap-2 border-t border-neutral-200 px-4 py-2.5 dark:border-neutral-800;
+  }
+
+  /* ------------------------------------------------------------ Disclosures */
+
+  .UnmagicDisclosure__summary {
+    @apply inline-flex cursor-pointer list-none items-center gap-1.5 text-sm font-medium text-neutral-600 dark:text-neutral-400;
+  }
+
+  .UnmagicDisclosure__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .UnmagicDisclosure__summary:hover {
+    @apply text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicDisclosure__summary:focus-visible {
+    @apply rounded-sm outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicDisclosure__chevron {
+    @apply size-4 shrink-0 transition-transform;
+  }
+
+  .UnmagicDisclosure[open] > .UnmagicDisclosure__summary > .UnmagicDisclosure__chevron {
+    @apply rotate-90;
+  }
+
+  .UnmagicDisclosure__panel {
+    @apply pt-2 pl-5.5 text-sm;
+  }
+
+  /* In an accordion each item is a row: the summary fills the width, the
+     chevron trails and turns down, and the rows are ruled apart. */
+  .UnmagicAccordion {
+    @apply divide-y divide-neutral-200 rounded-xl border border-neutral-200 dark:divide-neutral-800 dark:border-neutral-800;
+  }
+
+  .UnmagicDisclosure--in-accordion > .UnmagicDisclosure__summary {
+    @apply flex w-full items-center justify-between gap-3 px-4 py-3 text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicDisclosure--in-accordion[open] > .UnmagicDisclosure__summary > .UnmagicDisclosure__chevron {
+    @apply rotate-180;
+  }
+
+  .UnmagicDisclosure--in-accordion > .UnmagicDisclosure__panel {
+    @apply px-4 pt-0 pb-4 text-neutral-600 dark:text-neutral-400;
+  }
+
+  @media (pointer: coarse) {
+    .UnmagicDisclosure--in-accordion > .UnmagicDisclosure__summary {
+      min-height: 2.75rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .UnmagicDisclosure__chevron {
+      @apply transition-none;
+    }
+  }
+
+  /* ------------------------------------------------------------ Scroll area */
+
+  /* Shadows with no script: two covers in the surface colour scroll with the
+     content and hide two fixed shadows until there is more to see. */
+  .UnmagicScrollArea {
+    @apply min-w-0;
+    max-height: var(--unmagic-scroll-area-max-height, none);
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-neutral-300) transparent;
+    overscroll-behavior: contain;
+  }
+
+  @variant dark {
+    .UnmagicScrollArea {
+      scrollbar-color: var(--color-neutral-700) transparent;
+    }
+  }
+
+  .UnmagicScrollArea--y {
+    @apply overflow-x-hidden overflow-y-auto;
+  }
+
+  .UnmagicScrollArea--x {
+    @apply overflow-x-auto overflow-y-hidden;
+  }
+
+  .UnmagicScrollArea--both {
+    @apply overflow-auto;
+  }
+
+  .UnmagicScrollArea:focus-visible {
+    @apply outline-2 -outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicScrollArea--y.UnmagicScrollArea--shadows {
+    background:
+      linear-gradient(var(--color-white) 30%, transparent) top / 100% 2rem no-repeat local,
+      linear-gradient(transparent, var(--color-white) 70%) bottom / 100% 2rem no-repeat local,
+      radial-gradient(farthest-side at 50% 0, rgb(0 0 0 / 0.12), transparent) top / 100% 0.75rem no-repeat scroll,
+      radial-gradient(farthest-side at 50% 100%, rgb(0 0 0 / 0.12), transparent) bottom / 100% 0.75rem no-repeat scroll;
+  }
+
+  .UnmagicScrollArea--x.UnmagicScrollArea--shadows {
+    background:
+      linear-gradient(to right, var(--color-white) 30%, transparent) left / 2rem 100% no-repeat local,
+      linear-gradient(to left, var(--color-white) 30%, transparent) right / 2rem 100% no-repeat local,
+      radial-gradient(farthest-side at 0 50%, rgb(0 0 0 / 0.12), transparent) left / 0.75rem 100% no-repeat scroll,
+      radial-gradient(farthest-side at 100% 50%, rgb(0 0 0 / 0.12), transparent) right / 0.75rem 100% no-repeat scroll;
+  }
+
+  @variant dark {
+    .UnmagicScrollArea--y.UnmagicScrollArea--shadows {
+      background:
+        linear-gradient(var(--color-neutral-900) 30%, transparent) top / 100% 2rem no-repeat local,
+        linear-gradient(transparent, var(--color-neutral-900) 70%) bottom / 100% 2rem no-repeat local,
+        radial-gradient(farthest-side at 50% 0, rgb(0 0 0 / 0.5), transparent) top / 100% 0.75rem no-repeat scroll,
+        radial-gradient(farthest-side at 50% 100%, rgb(0 0 0 / 0.5), transparent) bottom / 100% 0.75rem no-repeat scroll;
+    }
+
+    .UnmagicScrollArea--x.UnmagicScrollArea--shadows {
+      background:
+        linear-gradient(to right, var(--color-neutral-900) 30%, transparent) left / 2rem 100% no-repeat local,
+        linear-gradient(to left, var(--color-neutral-900) 30%, transparent) right / 2rem 100% no-repeat local,
+        radial-gradient(farthest-side at 0 50%, rgb(0 0 0 / 0.5), transparent) left / 0.75rem 100% no-repeat scroll,
+        radial-gradient(farthest-side at 100% 50%, rgb(0 0 0 / 0.5), transparent) right / 0.75rem 100% no-repeat scroll;
+    }
+  }
+
+  /* ---------------------------------------------------------------- Sidebar */
+
+  /* One <nav> for both widths: a popover sheet from the edge below the
+     breakpoint, laid out inline above it. The UA hides a popover that isn't
+     open; above the breakpoint that rule is overridden. */
+  .UnmagicSidebar {
+    @apply block;
+  }
+
+  .UnmagicSidebar__panel {
+    @apply fixed inset-y-0 left-0 m-0 flex h-dvh w-[min(18rem,85vw)] flex-col gap-1 overflow-y-auto border-0 border-r border-neutral-200 bg-white p-3 text-sm shadow-xl;
+    @apply dark:border-neutral-800 dark:bg-neutral-900;
+    inset-inline: 0 auto;
+  }
+
+  .UnmagicSidebar__panel::backdrop {
+    @apply bg-black/50;
+  }
+
+  .UnmagicSidebar__panel:popover-open {
+    animation: unmagic-sidebar-in 150ms ease-out;
+  }
+
+  @keyframes unmagic-sidebar-in {
+    from {
+      transform: translateX(-100%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .UnmagicSidebar__panel:popover-open {
+      animation: none;
+    }
+  }
+
+  .UnmagicSidebar__header {
+    @apply flex h-11 shrink-0 items-center px-2;
+  }
+
+  .UnmagicSidebar__section {
+    @apply py-2;
+  }
+
+  details.UnmagicSidebar__section {
+    @apply p-0 py-2;
+  }
+
+  .UnmagicSidebar__title {
+    @apply m-0 px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400;
+  }
+
+  .UnmagicSidebar__title--summary {
+    @apply flex cursor-pointer list-none items-center justify-between;
+  }
+
+  .UnmagicSidebar__title--summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .UnmagicSidebar__chevron {
+    @apply size-3.5 transition-transform;
+  }
+
+  details[open] > .UnmagicSidebar__title--summary > .UnmagicSidebar__chevron {
+    @apply rotate-180;
+  }
+
+  .UnmagicSidebar__list {
+    @apply m-0 flex list-none flex-col gap-0.5 p-0;
+  }
+
+  .UnmagicSidebar__link {
+    @apply m-0 flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-neutral-600 no-underline dark:text-neutral-400;
+  }
+
+  .UnmagicSidebar__link:hover {
+    @apply bg-neutral-50 text-neutral-900 dark:bg-neutral-800/50 dark:text-neutral-100;
+  }
+
+  .UnmagicSidebar__link[aria-current="page"] {
+    @apply bg-neutral-100 font-medium text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100;
+  }
+
+  .UnmagicSidebar__link:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicSidebar__icon {
+    @apply inline-flex size-4 shrink-0 items-center justify-center text-neutral-500;
+  }
+
+  .UnmagicSidebar__icon .UnmagicIcon {
+    @apply size-4;
+  }
+
+  .UnmagicSidebar__text {
+    @apply min-w-0 flex-1 truncate;
+  }
+
+  .UnmagicSidebar__footer {
+    @apply mt-auto border-t border-neutral-200 pt-3 dark:border-neutral-800;
+  }
+
+  @media (pointer: coarse) {
+    .UnmagicSidebar__link {
+      min-height: 2.75rem;
+    }
+  }
+
+  /* Above the breakpoint the panel is laid out inline, popover or not, and the
+     toggle goes. */
+  @media (min-width: 48rem) {
+    .UnmagicSidebar--below-md .UnmagicSidebar__panel,
+    .UnmagicSidebar--below-md .UnmagicSidebar__panel:not(:popover-open) {
+      @apply static flex h-auto w-auto border-r-0 bg-transparent p-0 shadow-none;
+      inset: auto;
+    }
+
+    .UnmagicSidebar--below-md ~ .UnmagicSidebarToggle,
+    .UnmagicSidebar--below-md .UnmagicSidebarToggle {
+      @apply hidden;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .UnmagicSidebar--below-lg .UnmagicSidebar__panel,
+    .UnmagicSidebar--below-lg .UnmagicSidebar__panel:not(:popover-open) {
+      @apply static flex h-auto w-auto border-r-0 bg-transparent p-0 shadow-none;
+      inset: auto;
+    }
+  }
+
+  .UnmagicSidebar--below-never .UnmagicSidebar__panel {
+    @apply static flex h-auto w-auto border-r-0 bg-transparent p-0 shadow-none;
+    inset: auto;
+  }
+
+  @media (min-width: 64rem) {
+    .UnmagicSidebarToggle:not([data-below="md"]) {
+      @apply hidden;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .UnmagicSidebarToggle[data-below="md"] {
+      @apply hidden;
+    }
+  }
+
+  /* ----------------------------------------------------------------- Navbar */
+
+  .UnmagicNavbar {
+    @apply m-0 border-b border-neutral-200 bg-white p-0 dark:border-neutral-800 dark:bg-neutral-900;
+  }
+
+  .UnmagicNavbar--sticky {
+    @apply sticky top-0 z-20;
+  }
+
+  .UnmagicNavbar__inner {
+    @apply flex min-h-14 flex-wrap items-center gap-x-6 gap-y-2 px-4 sm:px-6;
+  }
+
+  .UnmagicNavbar__brand {
+    @apply m-0 inline-flex items-center gap-2 font-semibold text-neutral-900 no-underline dark:text-neutral-100;
+  }
+
+  .UnmagicNavbar__disclosure {
+    @apply ml-auto hidden;
+  }
+
+  .UnmagicNavbar__toggle {
+    @apply list-none;
+  }
+
+  .UnmagicNavbar__toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .UnmagicNavbar__nav {
+    @apply flex;
+  }
+
+  .UnmagicNavbar__links {
+    @apply m-0 flex list-none items-center gap-1 p-0;
+  }
+
+  .UnmagicNavbar__link {
+    @apply relative m-0 inline-flex items-center rounded-md px-2.5 py-1.5 text-sm font-medium text-neutral-500 no-underline;
+  }
+
+  .UnmagicNavbar__link:hover {
+    @apply bg-neutral-50 text-neutral-900 dark:bg-neutral-800/50 dark:text-neutral-100;
+  }
+
+  .UnmagicNavbar__link[aria-current="page"] {
+    @apply text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicNavbar__link[aria-current="page"]::after {
+    @apply absolute right-2.5 -bottom-1 left-2.5 h-0.5 rounded-full bg-neutral-900 dark:bg-white;
+    content: "";
+  }
+
+  .UnmagicNavbar__link:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicNavbar__actions {
+    @apply ml-auto flex items-center gap-2;
+  }
+
+  /* Below the breakpoint the links fold behind the toggle, as a column under
+     the bar, shown while the details is open. */
+  .UnmagicNavbar--collapse-sm .UnmagicNavbar__inner,
+  .UnmagicNavbar--collapse-md .UnmagicNavbar__inner,
+  .UnmagicNavbar--collapse-lg .UnmagicNavbar__inner {
+    @apply flex-wrap;
+  }
+
+  @media (max-width: 40rem) {
+    .UnmagicNavbar--collapse-sm .UnmagicNavbar__disclosure { @apply block; }
+    .UnmagicNavbar--collapse-sm .UnmagicNavbar__actions { @apply ml-0; }
+    .UnmagicNavbar--collapse-sm .UnmagicNavbar__nav { @apply hidden w-full basis-full pb-2; }
+    .UnmagicNavbar--collapse-sm .UnmagicNavbar__inner:has(> .UnmagicNavbar__disclosure[open]) .UnmagicNavbar__nav { @apply flex; }
+    .UnmagicNavbar--collapse-sm .UnmagicNavbar__links { @apply w-full flex-col items-stretch; }
+    .UnmagicNavbar--collapse-sm .UnmagicNavbar__link { @apply py-2.5; }
+    .UnmagicNavbar--collapse-sm .UnmagicNavbar__link[aria-current="page"]::after { @apply hidden; }
+    .UnmagicNavbar--collapse-sm .UnmagicNavbar__link[aria-current="page"] { @apply bg-neutral-100 dark:bg-neutral-800; }
+  }
+
+  @media (max-width: 48rem) {
+    .UnmagicNavbar--collapse-md .UnmagicNavbar__disclosure { @apply block; }
+    .UnmagicNavbar--collapse-md .UnmagicNavbar__actions { @apply ml-0; }
+    .UnmagicNavbar--collapse-md .UnmagicNavbar__nav { @apply hidden w-full basis-full pb-2; }
+    .UnmagicNavbar--collapse-md .UnmagicNavbar__inner:has(> .UnmagicNavbar__disclosure[open]) .UnmagicNavbar__nav { @apply flex; }
+    .UnmagicNavbar--collapse-md .UnmagicNavbar__links { @apply w-full flex-col items-stretch; }
+    .UnmagicNavbar--collapse-md .UnmagicNavbar__link { @apply py-2.5; }
+    .UnmagicNavbar--collapse-md .UnmagicNavbar__link[aria-current="page"]::after { @apply hidden; }
+    .UnmagicNavbar--collapse-md .UnmagicNavbar__link[aria-current="page"] { @apply bg-neutral-100 dark:bg-neutral-800; }
+  }
+
+  @media (max-width: 64rem) {
+    .UnmagicNavbar--collapse-lg .UnmagicNavbar__disclosure { @apply block; }
+    .UnmagicNavbar--collapse-lg .UnmagicNavbar__actions { @apply ml-0; }
+    .UnmagicNavbar--collapse-lg .UnmagicNavbar__nav { @apply hidden w-full basis-full pb-2; }
+    .UnmagicNavbar--collapse-lg .UnmagicNavbar__inner:has(> .UnmagicNavbar__disclosure[open]) .UnmagicNavbar__nav { @apply flex; }
+    .UnmagicNavbar--collapse-lg .UnmagicNavbar__links { @apply w-full flex-col items-stretch; }
+    .UnmagicNavbar--collapse-lg .UnmagicNavbar__link { @apply py-2.5; }
+    .UnmagicNavbar--collapse-lg .UnmagicNavbar__link[aria-current="page"]::after { @apply hidden; }
+    .UnmagicNavbar--collapse-lg .UnmagicNavbar__link[aria-current="page"] { @apply bg-neutral-100 dark:bg-neutral-800; }
+  }
+
+  /* ------------------------------------------------------------- Comboboxes */
+
+  .UnmagicCombobox {
+    @apply relative block w-full;
+  }
+
+  /* The control looks like an input; the input inside it is bare, so chips
+     can sit in the same box. */
+  .UnmagicCombobox__control {
+    @apply flex min-h-9 w-full flex-wrap items-center gap-1 rounded-md border border-neutral-300 bg-white px-2 py-1 text-sm text-neutral-900 shadow-xs;
+    @apply dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicCombobox__control:focus-within {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicCombobox__input {
+    font: inherit;
+    @apply m-0 min-w-16 flex-1 border-0 bg-transparent px-1 py-0.5 text-sm text-inherit outline-none;
+  }
+
+  .UnmagicCombobox__input::placeholder {
+    @apply text-neutral-500 opacity-100;
+  }
+
+  .UnmagicCombobox__input[aria-invalid="true"] ~ *,
+  .UnmagicCombobox__control:has(> .UnmagicCombobox__input[aria-invalid="true"]) {
+    @apply border-red-600 dark:border-red-400;
+  }
+
+  .UnmagicCombobox__chips {
+    @apply m-0 flex list-none flex-wrap gap-1 p-0;
+  }
+
+  .UnmagicCombobox__chip {
+    @apply inline-flex items-center gap-1 rounded-md bg-neutral-100 py-0.5 pr-1 pl-2 text-xs font-medium dark:bg-neutral-800;
+  }
+
+  .UnmagicCombobox__remove {
+    @apply inline-flex size-5 cursor-pointer items-center justify-center rounded border-0 bg-transparent p-0 text-neutral-500;
+  }
+
+  .UnmagicCombobox__remove:hover {
+    @apply bg-neutral-200 text-neutral-900 dark:bg-neutral-700 dark:text-neutral-100;
+  }
+
+  .UnmagicCombobox__remove .UnmagicIcon {
+    @apply size-3;
+  }
+
+  .UnmagicCombobox__popup {
+    @apply fixed m-0 max-h-72 w-max min-w-44 max-w-[calc(100vw-1rem)] overflow-y-auto rounded-lg border border-neutral-200 bg-white p-1 shadow-lg;
+    @apply dark:border-neutral-800 dark:bg-neutral-900;
+    inset: auto;
+  }
+
+  .UnmagicCombobox__popup:not([data-side]) {
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .UnmagicCombobox__group-label {
+    @apply px-2.5 pt-2 pb-1 text-xs font-semibold tracking-wide text-neutral-500 uppercase dark:text-neutral-400;
+  }
+
+  .UnmagicCombobox__option {
+    @apply flex cursor-pointer items-center gap-2 rounded-md px-2.5 py-1.5 text-sm text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicCombobox__option[data-active] {
+    @apply bg-neutral-100 dark:bg-neutral-800;
+  }
+
+  .UnmagicCombobox__option[aria-disabled="true"] {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  .UnmagicCombobox__check {
+    @apply ml-auto size-4 shrink-0 text-neutral-500 opacity-0;
+  }
+
+  .UnmagicCombobox__option[aria-selected="true"] > .UnmagicCombobox__check {
+    @apply opacity-100;
+  }
+
+  .UnmagicCombobox__message {
+    @apply px-2.5 py-2 text-sm text-neutral-500;
+  }
+
+  .UnmagicCombobox__listbox[aria-busy="true"] .UnmagicCombobox__option {
+    @apply opacity-60;
+  }
+
+  /* Inline (in a command palette) the list is always shown, in the flow. */
+  .UnmagicCombobox--inline .UnmagicCombobox__listbox {
+    @apply max-h-[60vh] overflow-y-auto p-2;
+  }
+
+  @media (pointer: coarse) {
+    .UnmagicCombobox__option {
+      min-height: 2.75rem;
+    }
+
+    .UnmagicCombobox__remove {
+      @apply size-7;
+    }
+  }
+
+  /* -------------------------------------------------------- Command palette */
+
+  .UnmagicCommandPalette {
+    @apply contents;
+  }
+
+  .UnmagicCommandPalette__dialog {
+    @apply mt-[15vh] mb-auto w-[min(40rem,100vw-2rem)] overflow-hidden rounded-xl border border-neutral-200 bg-white p-0 text-neutral-900 shadow-xl;
+    @apply dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicCommandPalette__search {
+    @apply flex items-center gap-3 border-b border-neutral-200 px-4 dark:border-neutral-800;
+  }
+
+  .UnmagicCommandPalette__search .UnmagicIcon {
+    @apply size-4 shrink-0 text-neutral-500;
+  }
+
+  .UnmagicCommandPalette__search .UnmagicCombobox__input {
+    @apply h-12 flex-1 px-0 text-base;
+  }
+
+  .UnmagicCommandPalette__command {
+    @apply gap-3;
+  }
+
+  .UnmagicCommandPalette__target {
+    @apply flex flex-1 items-center gap-2 text-inherit no-underline;
+  }
+
+  .UnmagicCommandPalette__target .UnmagicIcon {
+    @apply size-4 text-neutral-500;
+  }
+
+  .UnmagicCommandPalette__form {
+    @apply contents;
+  }
+
+  .UnmagicCommandPalette__form > button {
+    font: inherit;
+    @apply flex flex-1 cursor-pointer items-center gap-2 border-0 bg-transparent p-0 text-left text-inherit;
+  }
+
+  .UnmagicCommandPalette__hint {
+    @apply text-xs text-neutral-500;
+  }
+
+  .UnmagicCommandPalette__shortcut {
+    @apply ml-auto flex items-center gap-1 text-neutral-500;
+  }
+
+  .UnmagicCommandPaletteButton__hint {
+    @apply ml-1 opacity-70;
+  }
+
+  @media (max-width: 40rem) {
+    .UnmagicCommandPalette__dialog {
+      @apply mt-0 mb-0 h-dvh max-h-dvh w-full max-w-none rounded-none border-0;
+      inset: 0;
+    }
+
+    .UnmagicCommandPalette .UnmagicCombobox--inline .UnmagicCombobox__listbox {
+      max-height: calc(100dvh - 3rem);
+    }
+
+    .UnmagicCommandPaletteButton__hint {
+      @apply hidden;
+    }
   }
 
   /* ------------------------------------------------------------------- Tabs */
@@ -1139,8 +2937,72 @@
     @apply font-normal;
   }
 
+  .UnmagicTabs__icon {
+    @apply size-4 shrink-0;
+  }
+
   .UnmagicTabs__panel {
     @apply rounded-sm pt-4;
+  }
+
+  /* The bar style: pill tabs with no track, for a bar across a card or a page.
+     One row that scrolls sideways on a narrow screen rather than wrapping, with
+     no scrollbar drawn and snap points on the tabs; tabs.js brings the chosen
+     tab into view. The list keeps a little padding of its own, so a focus ring
+     isn't clipped by its overflow. It is positioned, so a tab's offset is from
+     the list. */
+  /* The list is the element's own child, or sits in a card's bar when a panel
+     draws it; either way only that list, not one belonging to tabs nested in a
+     panel's body. */
+  :is(.UnmagicTabs--bar > .UnmagicTabs__list, .UnmagicTabs--bar > .UnmagicCard__bar > .UnmagicTabs__list) {
+    @apply relative flex flex-nowrap gap-1 overflow-x-auto rounded-none bg-transparent p-1 dark:bg-transparent;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+
+  :is(.UnmagicTabs--bar > .UnmagicTabs__list, .UnmagicTabs--bar > .UnmagicCard__bar > .UnmagicTabs__list)::-webkit-scrollbar {
+    @apply hidden;
+  }
+
+  :is(.UnmagicTabs--bar > .UnmagicTabs__list, .UnmagicTabs--bar > .UnmagicCard__bar > .UnmagicTabs__list) > .UnmagicTabs__tab {
+    @apply rounded-lg;
+    scroll-snap-align: start;
+  }
+
+  :is(.UnmagicTabs--bar > .UnmagicTabs__list, .UnmagicTabs--bar > .UnmagicCard__bar > .UnmagicTabs__list) > .UnmagicTabs__tab[aria-selected="true"],
+  :is(.UnmagicTabs--bar > .UnmagicTabs__list, .UnmagicTabs--bar > .UnmagicCard__bar > .UnmagicTabs__list) > .UnmagicTabs__tab[aria-current="page"] {
+    @apply bg-neutral-100 shadow-none dark:bg-neutral-800;
+  }
+
+  /* ----------------------------------------------------------------- Panels */
+
+  /* A card whose bar is a row of tabs and whose body is the open one. The
+     element is <unmagic-tabs> for in-page tabs, whose own rule says block, so
+     the card's column is restated here. */
+  .UnmagicPanel {
+    @apply flex flex-col;
+  }
+
+  .UnmagicPanel > .UnmagicCard__bar {
+    @apply px-1 py-0.5;
+  }
+
+  /* A bar of links is a <nav> in the bar; it gives way so the list inside it
+     scrolls rather than widening the card. */
+  .UnmagicPanel__bar > .UnmagicTabs {
+    @apply min-w-0 flex-1;
+  }
+
+  .UnmagicPanel > .UnmagicCard__body {
+    @apply p-4;
+  }
+
+  .UnmagicPanel--flush > .UnmagicCard__body {
+    @apply p-0;
+  }
+
+  .UnmagicPanel .UnmagicTabs__panel {
+    @apply pt-0;
   }
 
   /* -------------------------------------------------------------- Clipboard */
@@ -1163,6 +3025,150 @@
 
   .UnmagicClipboard[data-copied] .UnmagicClipboard__button {
     @apply text-green-700 dark:text-green-400;
+  }
+
+  /* ------------------------------------------------------------ Code view */
+
+  .UnmagicCodeView {
+    @apply relative overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50 text-neutral-800;
+    @apply dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-200;
+  }
+
+  /* Long lines wrap by default: a code block is read, not scanned, and a box
+     that scrolls in two directions is a box nobody reads to the end of. The
+     height is a knob so a container can cap every code view inside it. */
+  .UnmagicCodeView__pre {
+    @apply m-0 overflow-auto p-3 font-mono text-xs leading-relaxed break-words whitespace-pre-wrap;
+    max-height: var(--unmagic-code-view-max-height, none);
+    tab-size: 2;
+  }
+
+  .UnmagicCodeView__pre:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicCodeView--nowrap .UnmagicCodeView__pre {
+    @apply break-normal whitespace-pre;
+  }
+
+  .UnmagicCodeView--copy .UnmagicCodeView__pre {
+    @apply pr-12;
+  }
+
+  .UnmagicCodeView__code {
+    @apply block bg-transparent p-0;
+    font-size: inherit;
+  }
+
+  /* Line numbers are drawn, not written, so a copy of the code leaves them
+     behind. Each line is a block holding its own newline, so a wrapped line
+     indents under its number and an empty line keeps its height. */
+  .UnmagicCodeView--lines .UnmagicCodeView__pre {
+    counter-reset: line;
+  }
+
+  .UnmagicCodeView__line {
+    @apply relative block pl-10;
+    counter-increment: line;
+    min-height: 1lh;
+  }
+
+  .UnmagicCodeView__line::before {
+    @apply absolute left-0 w-8 pr-2 text-right text-neutral-400 select-none dark:text-neutral-600;
+    content: counter(line);
+  }
+
+  /* Faint until the block is hovered or focused, so a page of blocks isn't a
+     page of buttons; always there where nothing hovers. */
+  .UnmagicCodeView__copy {
+    @apply absolute top-1.5 right-1.5 opacity-0 transition-opacity duration-150;
+  }
+
+  .UnmagicCodeView:hover .UnmagicCodeView__copy,
+  .UnmagicCodeView:focus-within .UnmagicCodeView__copy,
+  .UnmagicCodeView__copy:has([data-copied]) {
+    @apply opacity-100;
+  }
+
+  .UnmagicCodeView__copy .UnmagicButton {
+    @apply border border-neutral-200 bg-white shadow-xs dark:border-neutral-700 dark:bg-neutral-800;
+  }
+
+  @media (hover: none) {
+    .UnmagicCodeView__copy {
+      @apply opacity-100;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .UnmagicCodeView__copy {
+      @apply transition-none;
+    }
+  }
+
+  /* ---------------------------------------------------------- Code tokens */
+
+  /* Rouge's short class names, grouped by what a token means rather than by
+     which language emits it: a comment is a comment whether it came from a
+     shader or a shell script. :where() keeps every rule at zero specificity,
+     so a host's own token colours win by existing. Shared with prose, whose
+     code blocks are coloured by the same highlighter. */
+  :where(.UnmagicCodeView, .UnmagicProse pre) {
+    & :where(.p, .pi, .o, .ow, .w, .gp, .go, .gl) {
+      @apply text-neutral-500 dark:text-neutral-400;
+    }
+
+    & :where(.c, .c1, .cm, .cs, .cd, .cp, .cpf) {
+      @apply text-neutral-500 italic dark:text-neutral-400;
+    }
+
+    & :where(.k, .kc, .kn, .kp, .kr, .kt, .kv) {
+      @apply text-red-700 dark:text-red-300;
+    }
+
+    /* What a line names: a key, a tag, a function being called or defined. */
+    & :where(.na, .nl, .nt, .nf, .fm, .nb, .bp, .py) {
+      @apply text-blue-700 dark:text-blue-300;
+    }
+
+    /* What a line declares or brings in from elsewhere. */
+    & :where(.kd, .nc, .nn, .ne, .no, .nd) {
+      @apply text-purple-700 dark:text-purple-300;
+    }
+
+    & :where(.nv, .vc, .vg, .vi, .vm) {
+      @apply text-cyan-700 dark:text-cyan-300;
+    }
+
+    & :where(.s, .s1, .s2, .sb, .sc, .sd, .sh, .sx, .sr, .ss, .dl, .l, .ld, .gi) {
+      @apply text-green-700 dark:text-green-300;
+    }
+
+    /* The parts of a string that aren't literal: escapes and interpolation. */
+    & :where(.se, .sa, .si) {
+      @apply text-sky-700 dark:text-sky-300;
+    }
+
+    & :where(.m, .mb, .mf, .mh, .mi, .mo, .mx, .il) {
+      @apply text-violet-700 dark:text-violet-300;
+    }
+
+    /* Whatever the lexer couldn't account for: worth seeing, not worth shouting. */
+    & :where(.err, .gr) {
+      @apply text-red-600 underline decoration-wavy dark:text-red-400;
+    }
+
+    & :where(.gd) {
+      @apply text-red-600 dark:text-red-400;
+    }
+
+    & :where(.gh, .gu, .gs) {
+      @apply font-semibold;
+    }
+
+    & :where(.ge) {
+      @apply italic;
+    }
   }
 
   /* ------------------------------------------------------- Autogrow textarea */
@@ -1706,6 +3712,11 @@
 
   .UnmagicAIChatPayload__code > pre {
     @apply m-0 bg-transparent p-2.5 font-mono text-xs leading-relaxed break-words whitespace-pre-wrap;
+  }
+
+  /* The box is the payload's; the code view inside it brings only its tokens. */
+  .UnmagicAIChatPayload__code > .UnmagicCodeView {
+    @apply rounded-none border-0 bg-transparent;
   }
 
   /* ------------------------------------------------------- AI chat failures */

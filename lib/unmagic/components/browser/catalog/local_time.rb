@@ -2,6 +2,7 @@
 
 Unmagic::Components::Browser::Catalog.component :local_time,
   name: "Local time",
+  group: "Data display",
   helper: "local_time_tag",
   import: "unmagic/components/time",
   description: "A timestamp shown in the viewer's own locale and time zone, formatted by the browser with Intl. " \

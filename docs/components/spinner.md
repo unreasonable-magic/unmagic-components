@@ -1,6 +1,6 @@
 # `spinner`
 
-> Status: draft
+> Status: built
 > Tier: 1 (no JS)
 > Replaces or relates to: Rails Blocks "Loading Indicator" (gap source);
 > `skeleton`; `FormBuilder#submit`'s "Saving…"
@@ -92,6 +92,11 @@ CSS section: `Spinners`, placed after `Skeleton`.
   - The principles allow an opacity change that doesn't move anything under
     reduced motion. A frozen arc would read as broken.
 - Palette colours with `dark:` variants only.
+
+## Small screens
+
+Nothing to do: a ring is a ring. Inside a button it inherits the button's
+44px target.
 
 ## Behaviour (JavaScript)
 

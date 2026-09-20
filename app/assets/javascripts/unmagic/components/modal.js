@@ -80,8 +80,21 @@ class UnmagicModal extends HTMLElement {
     if (fetchOptions.headers?.["X-Sec-Purpose"] === "prefetch") return
 
     this.#loadingFrame = true
+    this.#side(this.#sideOf(event))
     this.#fill("skeleton")
     if (!this.dialog.open) this.dialog.showModal()
+  }
+
+  // The side a modal link asked for (data-unmagic-modal-side), read from the
+  // link that started the fetch, so the skeleton opens where the panel will.
+  #sideOf(event) {
+    const link = document.activeElement instanceof Element && document.activeElement.closest("[data-unmagic-modal-side]")
+    return link?.getAttribute("data-unmagic-modal-side") ?? event.target.closest?.("[data-unmagic-modal-side]")?.getAttribute("data-unmagic-modal-side") ?? null
+  }
+
+  #side(side) {
+    if (side && side !== "center") this.dialog.setAttribute("data-side", side)
+    else this.dialog.removeAttribute("data-side")
   }
 
   #response = (event) => {
@@ -91,6 +104,8 @@ class UnmagicModal extends HTMLElement {
   #loaded = () => {
     this.#loadingFrame = false
     this.#label()
+    const panel = this.frame.querySelector(".UnmagicDialog[data-side]")
+    if (panel) this.#side(panel.getAttribute("data-side"))
   }
 
   #missing = (event) => {
@@ -161,6 +176,7 @@ class UnmagicModal extends HTMLElement {
     this.frame.removeAttribute("src")
     this.frame.replaceChildren()
     this.dialog.removeAttribute("aria-labelledby")
+    this.dialog.removeAttribute("data-side")
   }
 
   #fill(name) {

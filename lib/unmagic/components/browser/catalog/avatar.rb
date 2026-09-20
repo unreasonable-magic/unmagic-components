@@ -2,6 +2,7 @@
 
 Unmagic::Components::Browser::Catalog.component :avatar,
   name: "Avatar",
+  group: "Data display",
   helper: "avatar",
   description: "A person's or organisation's picture, falling back to initials on one of six tints picked from " \
                "the name — the same tint for the same name on every page and every server.",

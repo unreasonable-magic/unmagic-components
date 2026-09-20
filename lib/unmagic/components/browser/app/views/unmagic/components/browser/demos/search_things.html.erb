@@ -1,0 +1,5 @@
+<%= combobox_results @things, text: :name do |combobox, thing| %>
+  <% combobox.option thing.id, label: thing.name, keywords: thing.role do %>
+    <%= avatar thing.name, size: :small %> <%= thing.name %> <span class="text-neutral-500"><%= thing.role %></span>
+  <% end %>
+<% end %>

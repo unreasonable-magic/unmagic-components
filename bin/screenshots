@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Pictures of every example in the component browser, or of one component's:
+#
+#   bin/screenshots            every component
+#   bin/screenshots code_view  one
+#
+# Each example is captured four ways — light and dark, at a phone width and a
+# desktop one — into tmp/screenshots/<slug>--<key>-<theme>-<width>.png. The
+# browser has to be running (bin/dev, http://localhost:5701); BROWSER_URL points
+# elsewhere. Chrome is driven through unmagic-browser.
+#
+# The phone capture emulates a touch device, so the layout is what a phone gets
+# (hover affordances shown, coarse-pointer targets) rather than a narrow desktop.
+
+require "bundler/setup"
+require "fileutils"
+require "unmagic/browser"
+
+base = ENV.fetch("BROWSER_URL", "http://localhost:5701")
+slugs = ARGV.any? ? ARGV : Dir[File.expand_path("../lib/unmagic/components/browser/catalog/*.rb", __dir__)].map { |f| File.basename(f, ".rb") }.sort
+out = File.expand_path("../tmp/screenshots", __dir__)
+FileUtils.mkdir_p(out)
+
+WIDTHS = {
+  "desktop" => { width: 1280, height: 900 },
+  "phone" => { width: 390, height: 844, scale: 2, mobile: true, touch: true }
+}.freeze
+
+browser = Unmagic::Browser.new(driver: :local)
+
+# The theme is a session cookie the browser sets from ?theme=, so one visit per
+# theme switches it for every capture after.
+browser.open("#{base}/?theme=light") do |session|
+  slugs.each do |slug|
+    %w[light dark].each do |theme|
+      session.visit("#{base}/components/#{slug}?theme=#{theme}")
+      session.wait_for(selector: "section.PreviewExample")
+      ids = session.all("section.PreviewExample").map { |section| section.attribute("id") }
+
+      WIDTHS.each do |width, viewport|
+        session.emulate(viewport: viewport, color_scheme: theme.to_sym)
+        session.visit("#{base}/components/#{slug}?theme=#{theme}")
+        session.wait_for(selector: "section.PreviewExample")
+
+        ids.each do |id|
+          key = id.delete_prefix("#{slug}_")
+          file = File.join(out, "#{slug}--#{key}-#{theme}-#{width}.png")
+          File.binwrite(file, session.find("##{id}_view_panel_0").screenshot)
+          puts File.basename(file)
+        end
+      end
+    end
+  end
+end

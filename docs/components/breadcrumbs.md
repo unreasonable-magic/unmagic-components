@@ -1,6 +1,6 @@
 # `breadcrumbs`
 
-> Status: draft
+> Status: built
 > Tier: 1 (no JS)
 > Replaces or relates to: Rails Blocks "Breadcrumb" (gap source); `page_header`'s
 > `back:` link; `menu`
@@ -101,6 +101,12 @@ CSS section: `Breadcrumbs`.
 - **Inside `page_header`:** the crumbs take the same margin as
   `UnmagicPageHeader__back`.
 - Palette colours with `dark:` variants only, and no motion.
+
+## Small screens
+
+Below `sm` only the last two crumbs show, with an ellipsis before them: the
+page before this one and this one. The rest of the trail is what a phone's
+back button is for.
 
 ## Behaviour (JavaScript)
 

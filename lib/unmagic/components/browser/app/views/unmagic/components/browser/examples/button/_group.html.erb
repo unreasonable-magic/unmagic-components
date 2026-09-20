@@ -1,0 +1,11 @@
+<div class="flex flex-col items-center gap-4">
+  <%= button_group label: "View" do |group| %>
+    <% group.button "List", icon: :list_checks, "aria-pressed": "true" %>
+    <% group.button "Board", icon: :folder %>
+    <% group.button "Timeline", icon: :clock %>
+  <% end %>
+  <%= button_group label: "Move", orientation: :vertical do |group| %>
+    <% group.button "Up", :icon, icon: :arrow_up, size: :small %>
+    <% group.button "Down", :icon, icon: :arrow_down, size: :small %>
+  <% end %>
+</div>

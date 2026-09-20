@@ -1,0 +1,9 @@
+<%= card do |card| %>
+  <% card.header do %>
+    <span class="text-sm font-medium">Renders</span>
+    <%= badge "3 queued", tone: :info %>
+    <span class="ml-auto text-xs text-neutral-500">Updated <%= local_time_tag @now, format: :relative %></span>
+  <% end %>
+  A bar of your own across the top: a search field, a filter, a row of badges. The title and its actions
+  are for the plain case; this is for the rest.
+<% end %>

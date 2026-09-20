@@ -1,6 +1,6 @@
 # `popover`
 
-> Status: draft
+> Status: built
 > Tier: 2 (small element)
 > Replaces or relates to: Rails Blocks "Popover" (gap source). Sits between
 > `tooltip` (text only, on hover) and `menu` (actions only). Depends on
@@ -126,6 +126,10 @@ put it. Placement is the only thing the element must add, and it comes from
 - **Motion:** a 120ms fade and a 4px offset via `@starting-style`, switched off
   under reduced motion.
 - **Colour:** palette with `dark:` variants only, as the menu panel.
+
+## Small screens
+
+Below 40rem the panel is a sheet along the bottom of the screen (`data-sheet`), full width and rounded on top, rather than anchored to a trigger a thumb is covering.
 
 ## Behaviour (JavaScript)
 

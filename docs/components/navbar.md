@@ -1,6 +1,6 @@
 # `navbar`
 
-> Status: draft
+> Status: built
 > Tier: 2 (small element for the mobile disclosure)
 > Replaces or relates to: Rails Blocks "Navbar" (gap source). Designed alongside `sidebar` (sidebar.md), and reuses `menu` for account dropdowns and `tabs`' `aria-current` link styling.
 
@@ -98,6 +98,10 @@ top bar.
   `neutral-900`/`dark:white` current underline.
 - **Mobile panel:** a full-width column below the bar, with a 150ms fade that
   is removed under reduced motion.
+
+## Small screens
+
+Below the breakpoint the links fold into a column under the bar behind a 44px menu button; the actions stay in the bar.
 
 ## Behaviour (JavaScript)
 

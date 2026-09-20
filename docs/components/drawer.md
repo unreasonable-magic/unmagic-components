@@ -1,6 +1,6 @@
 # Drawers: `side:` on `dialog`, `dialog_tag` and `modal_link_to`
 
-> Status: draft
+> Status: built
 > Tier: 2 (small element)
 > Replaces or relates to: Rails Blocks "Drawer" and "Slideover" (gap source).
 > Extends `Dialog`, `dialog_tag`, `modal_frame`, `dialog.js` and `modal.js`; no
@@ -113,6 +113,10 @@ Added to the existing **Dialogs** section:
   `unmagic-dialog-in`.
 - Colours: `white`/`dark:neutral-900`, `neutral-200`/`dark:neutral-800`, and the
   dialogs' `black/50`/`dark:black/60` backdrop.
+
+## Small screens
+
+Below 40rem a drawer is the same bottom sheet every dialog becomes: full width, rounded on top, its body scrolling and its footer above the home indicator.
 
 ## Behaviour (JavaScript)
 

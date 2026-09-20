@@ -1,0 +1,4 @@
+<% times = (0..59).map { |i| @now - (59 - i).minutes } %>
+<% values = times.each_with_index.map { |_, i| i.between?(20, 24) ? nil : 35 + (Math.sin(i / 4.0) * 20).round } %>
+<%= chart [ { label: "CPU", values: values } ], labels: times, type: :line, format: :percent, max: 100,
+      title: "CPU, last hour", label_format: ->(t) { t.strftime("%H:%M") } %>

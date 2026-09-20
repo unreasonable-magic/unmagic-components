@@ -1,0 +1,7 @@
+<%= scroll_area max_height: "14rem", label: "Pipeline stages", class: "rounded-lg border border-neutral-200 dark:border-neutral-800" do %>
+  <ul class="m-0 list-none divide-y divide-neutral-200 p-0 text-sm dark:divide-neutral-800">
+    <% %w[Applied Screened Phone\ screen Take-home Onsite Offer Accepted Started Probation Confirmed Promoted Alumni].each do |stage| %>
+      <li class="px-4 py-2.5"><%= stage %></li>
+    <% end %>
+  </ul>
+<% end %>

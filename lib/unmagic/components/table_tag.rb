@@ -17,9 +17,13 @@ module Unmagic
       # pin columns with its own utilities (e.g. Tailwind's "w-[40%]").
       CSS_LENGTH = /\A-?[\d.]+(%|px|rem|em|ch|ex|vw|vh|fr)\z/
 
-      def initialize(view, headers, rows, aligns: [], widths: [], caption: nil, rows_id: nil, **attributes)
+      # labels: names each column for the cells' data-label when the headers
+      # carry more than a name (a sort link with its arrow), or when a row is
+      # rendered on its own.
+      def initialize(view, headers, rows, aligns: [], widths: [], caption: nil, rows_id: nil, labels: nil, **attributes)
         @view = view
         @headers = headers
+        @labels = labels
         @rows = rows
         @aligns = aligns
         @widths = widths
@@ -42,7 +46,7 @@ module Unmagic
       # row needs the same markup the table would have produced for it.
       def render_row(row)
         row = { cells: row } unless row.is_a?(Hash)
-        cells = Array(row[:cells]).each_with_index.map { |cell, index| render_cell(:td, cell, @aligns[index]) }
+        cells = Array(row[:cells]).each_with_index.map { |cell, index| render_cell(:td, cell, @aligns[index], label: header_text(index)) }
         tag.tr safe_join(cells), **row.except(:cells)
       end
 
@@ -82,11 +86,23 @@ module Unmagic
         tag.tbody safe_join(@rows.map { |row| render_row(row) }), id: @rows_id
       end
 
-      def render_cell(name, cell, align)
+      # A body cell carries its column's heading as data-label, which the
+      # stylesheet writes in front of it when the table stacks on a phone.
+      def render_cell(name, cell, align, label: nil)
         cell = { content: cell } unless cell.is_a?(Hash)
         attributes = cell.except(:content)
         attributes[:class] = class_names(ALIGN_CLASSES[align], attributes[:class]).presence
+        attributes[:"data-label"] = label if label.present? && !attributes.key?(:"data-label") && !attributes.key?(:colspan)
         tag.public_send(name, cell[:content], **attributes)
+      end
+
+      def header_text(index)
+        return @labels[index] if @labels
+        return if @headers.blank?
+
+        header = @headers[index]
+        header = header[:content] if header.is_a?(Hash)
+        view.strip_tags(header.to_s).squish.presence
       end
     end
   end

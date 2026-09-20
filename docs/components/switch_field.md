@@ -1,6 +1,6 @@
 # `FormBuilder#switch_field` and `#switch`
 
-> Status: draft
+> Status: built
 > Tier: 1 (no JS)
 > Replaces or relates to: Rails Blocks "Switch" (gap source);
 > `FormBuilder#check_box_field` (which it mirrors); `config.control_class`
@@ -116,6 +116,10 @@ CSS: in the `Forms` section, next to `UnmagicCheck` and `UnmagicRadio`.
   - The thumb uses `white`/`dark:neutral-700`, the "lifted out of a track"
     colour the selected tab already uses.
   - The off-track colour above is chosen so that the thumb shows against it.
+
+## Small screens
+
+The switch keeps its 36×20 size; the whole label row is the target, 44px tall on a phone.
 
 ## Behaviour (JavaScript)
 

@@ -2,6 +2,7 @@
 
 Unmagic::Components::Browser::Catalog.component :tooltip,
   name: "Tooltip",
+  group: "Overlays",
   helper: "tooltip",
   import: "unmagic/components/tooltip",
   description: "A hint on hover or focus, drawn in the top layer so nothing clips it. It flips to the other " \

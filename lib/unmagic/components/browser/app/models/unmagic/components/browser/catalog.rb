@@ -11,8 +11,8 @@ module Unmagic
       # overview. In development the files are loaded again on every request, so a
       # new example shows up without a restart.
       module Catalog
-        Component = Data.define(:slug, :name, :description, :helper, :import, :group, :examples)
-        Example = Data.define(:key, :title, :description, :layout)
+        Component = Data.define(:slug, :name, :description, :helper, :import, :group, :new, :examples)
+        Example = Data.define(:key, :title, :description, :layout, :server)
 
         # :center sits natural-width content in the middle of the frame; :full lets a
         # table, form or grid use the frame's whole width.
@@ -20,15 +20,17 @@ module Unmagic
 
         # The sidebar and the overview list ungrouped components first, under
         # "Components", then each group under its own heading in this order.
-        GROUPS = [ nil, "AI chat" ].freeze
+        GROUPS = [ nil, "Layout", "Forms", "Navigation", "Overlays", "Data display", "AI chat" ].freeze
 
         class << self
-          def component(slug, name:, description:, examples:, helper: nil, import: nil, group: nil)
+          # new: true marks a component added in the release being prepared, for a
+          # reviewer to find in the sidebar and on the overview.
+          def component(slug, name:, description:, examples:, helper: nil, import: nil, group: nil, new: false)
             raise ArgumentError, "unknown group #{group.inspect} for #{slug}" unless GROUPS.include?(group)
 
             registry[slug.to_s] = Component.new(
               slug: slug.to_s, name: name, description: description, helper: helper, import: import, group: group,
-              examples: examples.map { |example| build_example(slug, **example) }
+              new: new, examples: examples.map { |example| build_example(slug, **example) }
             )
           end
 
@@ -51,12 +53,15 @@ module Unmagic
             @registry
           end
 
-          def build_example(slug, key:, title:, description: nil, layout: :center)
+          # server: true marks an example that talks to the browser's own endpoints
+          # (a form that saves, a search), which a static export of the pages can't
+          # answer; the page says so there.
+          def build_example(slug, key:, title:, description: nil, layout: :center, server: false)
             unless LAYOUTS.include?(layout)
               raise ArgumentError, "unknown layout #{layout.inspect} for #{slug}/#{key} (expected one of #{LAYOUTS.inspect})"
             end
 
-            Example.new(key: key.to_s, title: title, description: description, layout: layout)
+            Example.new(key: key.to_s, title: title, description: description, layout: layout, server: server)
           end
         end
       end

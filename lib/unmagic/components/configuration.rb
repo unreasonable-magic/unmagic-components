@@ -8,7 +8,7 @@ module Unmagic
     # versions in an initializer.
     class Configuration
       attr_writer :empty_state, :pagination, :pagy_for, :submit_class, :control_class, :modal_frame_id, :flash_tones,
-        :code_block, :sortable_item, :sortable_url
+        :highlight, :code_block, :sortable_item, :sortable_url
 
       # The tone each flash type's toast wears, keyed by the flash type as a string.
       # A type that isn't listed is :info.
@@ -51,16 +51,26 @@ module Unmagic
         @submit_class ||= ->(_view, variant) { "UnmagicButton UnmagicButton--#{variant}" }
       end
 
-      # Renders a block of code: a tool call's payload, a failure's backtrace. Called
-      # with (view, source, language), where language is a symbol such as :json or
-      # :plaintext, and returns markup. The default is an unhighlighted
-      # <pre><code>; an app with a highlighter hands back its own.
+      # Colours a block of source. Called with (source, language), where language
+      # is a symbol or string such as :json or "ruby", a Rouge lexer, or nil for
+      # plain text; returns one html_safe string per line. The default lexes with
+      # Rouge and tags each token with Rouge's short class names, which the gem's
+      # stylesheet colours. An app with another highlighter hands back its own
+      # lines, escaped.
       #
-      #   config.code_block = ->(view, source, language) { view.highlight_code(source, language: language) }
+      #   config.highlight = ->(source, language) { MyHighlighter.lines(source, language) }
+      def highlight
+        @highlight ||= ->(source, language) { Highlight.lines(source, language) }
+      end
+
+      # Frames a block of code: a tool call's payload, a failure's backtrace, a
+      # code block in prose. Called with (view, source, language) and returns
+      # markup. The default is a code_view, coloured through highlight; an app
+      # that wants its own box hands back its own.
+      #
+      #   config.code_block = ->(view, source, language) { view.render("code", source: source, language: language) }
       def code_block
-        @code_block ||= lambda do |view, source, language|
-          view.tag.pre(view.tag.code(source, class: ("language-#{language}" if language)))
-        end
+        @code_block ||= ->(view, source, language) { view.code_view(source, language: language, copy: false) }
       end
 
       # What a sortable item carries for a record: its key and its rank. Called with

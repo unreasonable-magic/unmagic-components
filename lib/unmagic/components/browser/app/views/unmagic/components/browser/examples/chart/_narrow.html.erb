@@ -1,0 +1,8 @@
+<% days = (Date.new(2026, 9, 24)..Date.new(2026, 9, 30)).to_a %>
+<div class="grid gap-4 sm:grid-cols-3">
+  <% [ [ "Renders", 3 ], [ "Imports", 5 ], [ "Chats", 7 ] ].each do |name, k| %>
+    <%= card do %>
+      <%= chart [ { label: name, values: days.map { |d| (d.day * k) % 40 + 5 } } ], labels: days, title: name, width: 300, table: false %>
+    <% end %>
+  <% end %>
+</div>

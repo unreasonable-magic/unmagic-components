@@ -1,0 +1,17 @@
+<%= panel flush: true do |panel| %>
+  <% panel.tab "Source", href: "#", active: true, icon: :code %>
+  <% panel.tab "Preview", href: "#", icon: :eye %>
+  <% panel.tab "Poster", href: "#", icon: :image %>
+  <% panel.tab "Metadata", href: "#", icon: :list_checks %>
+
+  <%= code_view language: :json, class: "rounded-none border-0" do %>
+    {
+      "name": "kitchen.modelscene.json",
+      "viewports": [
+        { "camera": "front", "width": 1920, "height": 1080 },
+        { "camera": "top", "width": 1080, "height": 1080 }
+      ],
+      "lighting": "studio"
+    }
+  <% end %>
+<% end %>

@@ -1,0 +1,17 @@
+<%= section "Files", spacing: :tight do |section| %>
+  <% section.aside { badge "12" } %>
+  <% section.actions { button "Upload", href: "#", size: :small, icon: :plus } %>
+  <%= card flush: true do %>
+    <%= item title: "cat.png", description: "image/png · 12 KB", href: "#", mono: true do |item| %>
+      <% item.media { unmagic_icon "unmagic_components:lucide/image", class: "size-6" } %>
+    <% end %>
+    <%= item title: "notes.md", description: "text/markdown · 3 KB", href: "#", mono: true do |item| %>
+      <% item.media { unmagic_icon "unmagic_components:lucide/file", class: "size-6" } %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= section "Sources" do |section| %>
+  <% section.aside { badge "Syncing", tone: :info } %>
+  <%= empty_state "Connect a folder and its files show up here." %>
+<% end %>

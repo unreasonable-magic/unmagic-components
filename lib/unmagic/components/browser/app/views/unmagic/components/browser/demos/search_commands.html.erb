@@ -1,0 +1,5 @@
+<%= command_palette_results do |results| %>
+  <% results.group "Kilns" do |group| %>
+    <% @kilns.each { |kiln| group.link kiln, "#kiln-#{kiln.parameterize}", hint: "kiln", icon: :wrench } %>
+  <% end %>
+<% end %>

@@ -1,6 +1,6 @@
 # `disclosure` and `accordion`
 
-> Status: draft
+> Status: built
 > Tier: 1 (no JS)
 > Replaces or relates to: Rails Blocks "Accordion" and "Collapsible" (gap source);
 > `menu` (also built on `<details>`); `tree_view`
@@ -122,6 +122,10 @@ CSS sections: `Disclosures` and `Accordions`.
 - **Reduced motion:** the chevron rotation transition and the content
   transition are off.
 - Palette colours with `dark:` variants only.
+
+## Small screens
+
+Accordion rows are 44px tall on a coarse pointer, and the whole row is the target.
 
 ## Behaviour (JavaScript)
 

@@ -1,6 +1,6 @@
 # `command_palette`
 
-> Status: draft
+> Status: built
 > Tier: 3 (large)
 > Replaces or relates to: the gap source is Rails Blocks "Command Palette". Built on `combobox` (its `mode="activate"` and remote results) inside a native `<dialog>` wired by `dialog.js`. Related notes: `hotkey.md` (opening shortcut) and `kbd.md` (shortcut hints). Depends on [position.md](position.md) through `combobox`, so it is built after `position.js`, the `menu` migration and `combobox`. The palette's own listbox is inline in the dialog, so it isn't placed by `position.js`.
 
@@ -160,6 +160,10 @@ and entry animation, and every `UnmagicCombobox__*` option style.
   `max-height: 60vh`, with no popup shadow.
 - **Colour:** palette with `dark:` variants only, nothing new.
 - **Motion:** the dialog's existing entry transition, off under reduced motion.
+
+## Small screens
+
+Below 40rem the dialog fills the screen, the list takes the rest of the height, and the shortcut hint on the button hides.
 
 ## Behaviour (JavaScript)
 

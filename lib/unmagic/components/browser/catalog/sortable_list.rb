@@ -2,6 +2,7 @@
 
 Unmagic::Components::Browser::Catalog.component :sortable_list,
   name: "Sortable list",
+  group: "Data display",
   helper: "sortable_list",
   import: "unmagic/components/sortable",
   description: "A list whose items can be dragged, or moved with the keyboard, into a new place — here or in another " \

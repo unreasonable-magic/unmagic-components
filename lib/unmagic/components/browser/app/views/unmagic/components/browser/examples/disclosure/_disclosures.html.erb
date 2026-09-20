@@ -1,0 +1,9 @@
+<div class="flex flex-col gap-3">
+  <%= disclosure "Advanced options" do %>
+    <p>Timeouts, retries and the like.</p>
+  <% end %>
+  <%= disclosure open: true do |d| %>
+    <% d.summary { safe_join [ "Raw payload", badge("failed", tone: :bad) ], " " } %>
+    <%= code_view %({ "ok": false, "error": "timeout" }), language: :json, copy: false %>
+  <% end %>
+</div>

@@ -10,19 +10,26 @@ module Unmagic
     # states, so every dialog is framed identically. See ActionViewHelpers#dialog.
     class Dialog
       SIZES = %i[default wide].freeze
+      SIDES = %i[center start end].freeze
 
       attr_reader :title_id
 
       def titled? = @title.present?
 
-      def initialize(view, title: nil, size: :default, close: true, **options)
+      attr_reader :side
+
+      def initialize(view, title: nil, size: :default, side: :center, close: true, **options)
         unless SIZES.include?(size)
           raise ArgumentError, "unknown dialog size #{size.inspect} (expected one of #{SIZES.inspect})"
+        end
+        unless SIDES.include?(side)
+          raise ArgumentError, "unknown dialog side #{side.inspect} (expected one of #{SIDES.inspect})"
         end
 
         @view = view
         @title = title
         @size = size
+        @side = side
         @close = close
         @options = options
         @title_id = "unmagic_dialog_#{SecureRandom.hex(4)}_title"
@@ -36,9 +43,11 @@ module Unmagic
       end
 
       def render(body)
-        classes = view.class_names("UnmagicDialog", { "UnmagicDialog--wide" => @size == :wide }, @options[:class])
+        classes = view.class_names("UnmagicDialog", { "UnmagicDialog--wide" => @size == :wide, "UnmagicDialog--drawer" => @side != :center },
+          @options[:class])
+        data = (@options[:data] || {}).merge(side: (@side unless @side == :center)).compact
 
-        tag.div(**@options, class: classes) do
+        tag.div(**@options, class: classes, data: data.presence) do
           safe_join [
             header,
             tag.div(body, class: "UnmagicDialog__body"),

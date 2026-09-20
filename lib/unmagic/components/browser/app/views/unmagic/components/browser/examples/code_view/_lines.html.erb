@@ -1,0 +1,17 @@
+<%= code_view language: :erb, lines: true, max_height: "14rem", label: "Table example" do %>
+  <%%= table_for @users do |table| %>
+    <%% table.empty "No team members yet." %>
+
+    <%% table.column "Name", width: "38%" do |user| %>
+      <%%= link_to user.name, user %>
+    <%% end %>
+
+    <%% table.column "Created", sort: :created_at, direction: :desc do |user| %>
+      <%%= user.created_at.to_fs(:short) %>
+    <%% end %>
+
+    <%% table.column "Logins", :sign_in_count, numeric: true %>
+    <%% table.column "Role", :role %>
+    <%% table.column "Last seen", :last_seen_at %>
+  <%% end %>
+<% end %>

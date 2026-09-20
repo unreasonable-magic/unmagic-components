@@ -1,0 +1,8 @@
+<div class="w-44">
+  <%= sidebar id: "thumb_nav", collapse_below: :never do |nav| %>
+    <% nav.section do |s| %>
+      <% s.link "Inbox", "#", icon: :messages_square, badge: 3, active: true %>
+      <% s.link "Files", "#", icon: :folder, active: false %>
+    <% end %>
+  <% end %>
+</div>

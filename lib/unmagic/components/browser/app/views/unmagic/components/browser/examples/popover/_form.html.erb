@@ -1,0 +1,6 @@
+<%= popover "Rename", title: "Rename this scene" do |popover| %>
+  <%= form_with model: @profile, url: "#", builder: Unmagic::Components::FormBuilder do |form| %>
+    <%= form.field :name, "Name" %>
+    <% popover.footer { form.submit "Rename", size: :small } %>
+  <% end %>
+<% end %>

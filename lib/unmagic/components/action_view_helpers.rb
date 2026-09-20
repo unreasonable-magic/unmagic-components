@@ -154,6 +154,56 @@ module Unmagic
         builder.render
       end
 
+      # A key or a combination of keys, drawn as key caps.
+      #
+      #   <%= kbd "Esc" %>
+      #   <%= kbd :mod, "K" %>
+      #   <%= kbd hotkey: "mod+shift+p" %>
+      #   <%= kbd "G", "I", sequence: true %>
+      #
+      # Named keys (:cmd, :ctrl, :alt, :shift, :enter, :esc, :tab, :space, the
+      # arrows, :backspace, :delete) draw a glyph and carry their spoken name for
+      # a screen reader. :mod is ⌘ on Apple platforms and Ctrl elsewhere, guessed
+      # from the request and corrected by the browser when hotkey.js is loaded.
+      # hotkey: takes the same "mod+k" syntax. sequence: true is keys pressed one
+      # after another. Other options go on the outer <kbd>.
+      def kbd(*keys, hotkey: nil, sequence: false, **options)
+        Components::Kbd.new(self, *keys, hotkey: hotkey, sequence: sequence, **options).render
+      end
+
+      # The trail of pages above this one.
+      #
+      #   <%= breadcrumbs do |crumbs| %>
+      #     <% crumbs.link "Settings", settings_path %>
+      #     <% crumbs.link "Integrations", settings_integrations_path %>
+      #     <% crumbs.current "GitHub" %>
+      #   <% end %>
+      #
+      # crumbs.link takes link_to's arguments; crumbs.current is the page you are
+      # on, optional and last. An empty trail renders nothing. label: names the
+      # <nav> ("Breadcrumb"); other options go on it. page_header takes the same
+      # block as its breadcrumbs part.
+      def breadcrumbs(label: nil, **options, &block)
+        builder = Components::Breadcrumbs.new(self, label: label, **options)
+        capture(builder, &block)
+        builder.render
+      end
+
+      # Links to the pages around this one, for anything that pages like Pagy.
+      #
+      #   <%= pagination @pagy %>
+      #   <%= pagination @pagy, window: 1, turbo_frame: "results" %>
+      #
+      # The pager answers previous, next and page_url(page or :previous/:next);
+      # one that also answers page and last gets numbered links, window: pages
+      # either side of this one, with the first and last always shown. On a
+      # narrow screen the numbers give way to "3 of 12". turbo_frame: points the
+      # links at a frame. One page renders nothing. This is what a table_for
+      # draws under itself through config.pagination. Other options go on the <nav>.
+      def pagination(pager, window: 2, turbo_frame: nil, label: nil, **options)
+        Components::Pagination.new(self, pager, window: window, turbo_frame: turbo_frame, label: label, **options).render
+      end
+
       # The class string for a button, so the look composes with link_to, button_to
       # and form.submit alike.
       #
@@ -162,6 +212,85 @@ module Unmagic
       # variant: :default, :primary, :ghost, :danger or :icon. size: :small or :large.
       def button_classes(variant = :default, size: nil)
         Components::Button.classes(variant, size: size)
+      end
+
+      # A button, a link that looks like one, or a button_to form, from one call.
+      #
+      #   <%= button "Save", :primary, type: "submit" %>
+      #   <%= button "New label", href: new_label_path, icon: :plus %>
+      #   <%= button "Delete", :danger, href: label_path(@label), method: :delete, form: { data: { turbo_confirm: "Sure?" } } %>
+      #   <%= button "Close", :icon, icon: :x %>
+      #   <%= button "Saving", :primary, loading: true %>
+      #
+      # variant: is button_classes' (:default, :primary, :ghost, :danger, :icon) and
+      # size: :small or :large. href: renders a link; with a method: other than GET
+      # it renders button_to, whose options (form:, params:) pass through. icon: is
+      # a symbol from the gem's Lucide set or your own markup, and leads the label;
+      # the :icon variant shows only the icon and keeps the label for a screen
+      # reader and a hover. loading: true disables the button and turns a spinner
+      # in the icon's place. disabled: true disables a button, and marks a link
+      # aria-disabled and takes it out of the tab order. block: true fills the
+      # width. Other options go on the element.
+      def button(label = nil, variant = :default, **options, &block)
+        Components::ButtonTag.new(self, block ? capture(&block) : label, variant: variant, **options).render
+      end
+
+      # Buttons joined edge to edge into one control: a set of views, a pair of
+      # steps, a split action.
+      #
+      #   <%= button_group label: "View" do |group| %>
+      #     <% group.button "List", icon: :list_checks %>
+      #     <% group.button "Board", icon: :folder %>
+      #   <% end %>
+      #
+      # group.button takes the button helper's arguments; group.item takes anything
+      # else that belongs in the run. orientation: :vertical stacks them. label:
+      # names the group for a screen reader. Other options go on the group.
+      def button_group(label: nil, orientation: :horizontal, **options, &block)
+        builder = Components::ButtonGroup.new(self, label: label, orientation: orientation, **options)
+        capture(builder, &block)
+        builder.render
+      end
+
+      # A rule between two things: an <hr>, or with a word on it ("or"), or upright
+      # between items in a row.
+      #
+      #   <%= separator %>
+      #   <%= separator "or" %>
+      #   <%= separator orientation: :vertical %>
+      #
+      # Other options go on the element.
+      def separator(label = nil, orientation: :horizontal, **options)
+        Components::Separator.new(self, label, orientation: orientation, **options).render
+      end
+
+      # A bar filled to a fraction of the way.
+      #
+      #   <%= progress 42 %>
+      #   <%= progress 3, max: 8, tone: :good, label: "Uploaded" %>
+      #   <%= progress indeterminate: true, label: "Preparing" %>
+      #
+      # value: out of max: (100). tone: :neutral, :good, :warn, :bad or :info; size:
+      # :small, :medium or :large. label: is the accessible name ("Progress"). With
+      # indeterminate: true, or no value, the bar sweeps rather than fills. Other
+      # options go on the bar.
+      def progress(value = nil, max: 100, tone: :neutral, size: :medium, label: nil, indeterminate: false, **options)
+        Components::Progress.new(self, value, max: max, tone: tone, size: size, label: label,
+          indeterminate: indeterminate, **options).render
+      end
+
+      # A ring that turns while something loads.
+      #
+      #   <%= spinner %>
+      #   <%= spinner "Checking DNS…", size: :small %>
+      #   <button class="<%= button_classes %>" disabled><%= spinner size: :small, label: false %> Verifying</button>
+      #
+      # Visible text is the label and sits beside the ring. Otherwise label:
+      # ("Loading…") is read but not seen, and label: false makes the ring
+      # decorative, for a control that already says what is happening. size:
+      # :small, :medium or :large. Other options go on the element.
+      def spinner(text = nil, label: nil, size: :medium, **options)
+        Components::Spinner.new(self, text, label: label, size: size, **options).render
       end
 
       # The class string for a form control outside a form builder, so a select_tag
@@ -197,11 +326,11 @@ module Unmagic
       # link_to, aimed at the shared modal. Takes link_to's arguments.
       #
       #   <%= modal_link_to "Edit", edit_label_path(label), class: button_classes %>
-      def modal_link_to(name = nil, options = nil, html_options = nil, &block)
+      def modal_link_to(name = nil, options = nil, html_options = nil, side: nil, **html, &block)
         if block
-          link_to(name, modal_link_options(options), &block)
+          link_to(name, modal_link_options((options || {}).merge(html), side), &block)
         else
-          link_to(name, options, modal_link_options(html_options))
+          link_to(name, options, modal_link_options((html_options || {}).merge(html), side))
         end
       end
 
@@ -222,8 +351,9 @@ module Unmagic
       # failed save and the dialog stays open showing the errors.
       #
       # Without form: the block is yielded just the panel builder. size: :wide for a
-      # larger panel; close: false drops the close button; any other option rides on
-      # the panel.
+      # larger panel; side: :start or :end opens it as a drawer along that edge
+      # (pass the same side: to modal_link_to so the skeleton opens there too);
+      # close: false drops the close button; any other option rides on the panel.
       def dialog(title: nil, form: nil, **options, &block)
         builder = Components::Dialog.new(self, title: title, **options)
         panel =
@@ -249,13 +379,16 @@ module Unmagic
       #     <p>Scopes limit what a token can do.</p>
       #   <% end %>
       #
-      # The block is yielded the panel builder, for a footer. Extra options ride on
-      # the <dialog>. Needs import "unmagic/components/dialog".
-      def dialog_tag(id, title: nil, size: :default, close: true, **options, &block)
-        builder = Components::Dialog.new(self, title: title, size: size, close: close)
+      # The block is yielded the panel builder, for a footer. side: :start or :end
+      # makes it a drawer along that edge of the screen, for filters or a record's
+      # details; on a phone every dialog is a sheet from the bottom. Extra options
+      # ride on the <dialog>. Needs import "unmagic/components/dialog".
+      def dialog_tag(id, title: nil, size: :default, side: :center, close: true, **options, &block)
+        builder = Components::Dialog.new(self, title: title, size: size, side: side, close: close)
         panel = builder.render(capture(builder, &block))
 
         options[:class] = class_names("UnmagicDialogBox", options[:class])
+        options[:"data-side"] = side unless side == :center
         options[:"aria-labelledby"] ||= builder.title_id if builder.titled?
         options[:data] = (options[:data] || {}).merge(unmagic_dialog: "")
 
@@ -294,10 +427,16 @@ module Unmagic
       #
       # flush: true drops the body's padding, for a table or list that runs edge to
       # edge. href: makes the whole card one link, for a row that opens a record;
-      # nothing inside it should then be a link or button of its own. Other options
-      # go on the card.
-      def card(title: nil, href: nil, flush: false, **options, &block)
-        builder = Components::Card.new(self, title: title, href: href, flush: flush, **options)
+      # nothing inside it should then be a link or button of its own. border: false
+      # and background: false take those away, for a card nested in another
+      # surface. Other options go on the card.
+      #
+      # In place of a title, card.header { … } is a bar of your own across the top,
+      # ruled off from the body: a row of tabs, a search field, a run of badges.
+      # Its options go on the <header>.
+      def card(title: nil, href: nil, flush: false, border: true, background: true, **options, &block)
+        builder = Components::Card.new(self, title: title, href: href, flush: flush, border: border,
+          background: background, **options)
         builder.render(block ? capture(builder, &block) : nil)
       end
 
@@ -354,14 +493,81 @@ module Unmagic
       #     <%= modal_link_to "Edit", edit_label_path(@label), class: button_classes %>
       #   <% end %>
       #
+      # mono: true sets the title in monospace, for a page whose subject is a path
+      # or a filename. The builder's breadcrumbs { |crumbs| … } is the trail of pages
+      # above this one, where back: goes.
       # The builder also takes title and description blocks for markup, leading for
       # something before the title, such as an avatar, and trailing for markup
       # beside the title that is already rendered — a status partial, a row of
       # badges a helper returns — which can't go through badge because that would
       # wrap a badge in a badge. Other options go on the <header>.
-      def page_header(title: nil, description: nil, back: nil, **options, &block)
-        builder = Components::PageHeader.new(self, title: title, description: description, back: back, **options)
+      def page_header(title: nil, description: nil, back: nil, mono: false, **options, &block)
+        builder = Components::PageHeader.new(self, title: title, description: description, back: back, mono: mono, **options)
         builder.render(block ? capture(builder, &block) : nil)
+      end
+
+      # A titled run of a page: Files, Metadata, Sources. A small heading with what
+      # qualifies it beside it, the button that acts on the run hard right, and the
+      # run itself as the block.
+      #
+      #   <%= section "Files" do |section| %>
+      #     <% section.aside { badge "12" } %>
+      #     <% section.actions { button "Upload", href: new_upload_path, size: :small } %>
+      #     <%= table_for @files do |table| %>...<% end %>
+      #   <% end %>
+      #
+      # spacing: :normal (the default) keeps a run apart from what precedes it,
+      # :tight closes it up for the first on a page, :none leaves it to you.
+      # heading: is the heading level (:h2). On a narrow screen the actions drop
+      # under the heading. Other options go on the <section>.
+      def section(title, spacing: :normal, heading: :h2, **options, &block)
+        builder = Components::Section.new(self, title, spacing: spacing, heading: heading, **options)
+        builder.render(block ? capture(builder, &block) : nil)
+      end
+
+      # A row about one thing, wherever a list shows it: its picture on the left,
+      # its name over a line about it, and whatever the list wants beside it.
+      #
+      #   <%= item title: file.name, description: "#{file.content_type} · #{size}", href: file_path(file), mono: true do |item| %>
+      #     <% item.media { image_tag file.thumbnail } %>
+      #     <% item.meta { badge "Hidden" } %>
+      #     <% item.actions { menu … } %>
+      #   <% end %>
+      #
+      # title: and description: are strings, or blocks for markup; media is the
+      # picture, meta the flags beside the title, actions the right-hand side, and
+      # the block's own output goes under the description. href: makes the title
+      # a link whose hit area is the whole row, leaving the actions clickable on
+      # their own. mono: true sets the title in monospace, for a filename. Other
+      # options go on the row.
+      def item(title: nil, description: nil, href: nil, mono: false, **options, &block)
+        builder = Components::Item.new(self, title: title, description: description, href: href, mono: mono, **options)
+        builder.render(block ? capture(builder, &block) : nil)
+      end
+
+      # A chart drawn as inline SVG, with its legend, its tooltips and the same
+      # numbers as a table for anybody who can't or won't hover.
+      #
+      #   <%= chart [ { label: "Spent", values: spend_by_day } ], labels: days, format: :money, title: "Spend" %>
+      #   <%= chart series, labels: days, title: "Renders by kiln" %>
+      #   <%= chart [ { label: "CPU", values: readings } ], labels: times, type: :line, format: :percent, max: 100,
+      #         label_format: ->(time) { time.strftime("%H:%M") } %>
+      #
+      # labels: are the columns (or the points along a line), in order; each series
+      # is { label:, values: } with values keyed by label (or an array in the same
+      # order) and an optional total: for the legend. type: :column (stacked where
+      # there is more than one series) or :line, where a nil value is a gap.
+      # format: :count, :money or :percent says how every number reads. width: is
+      # the drawing's own width in its units (720; use 300 for one of three abreast);
+      # it scales to its box. max: pins the top of a line's axis. label_format: is
+      # how a label reads (dates read as "3 Sep"). legend: false and table: false
+      # drop those. Colours come from the stylesheet by slot, one per series, so a
+      # series is the same colour on every chart; slot: on a series picks one.
+      # Other options go on the <figure>.
+      def chart(series, labels:, type: :column, format: :count, title: nil, width: Components::Chart::WIDTH,
+        legend: true, table: true, max: nil, label_format: nil, **options)
+        Components::Chart.new(self, series, labels: labels, type: type, format: format, title: title, width: width,
+          legend: legend, table: table, max: max, label_format: label_format, **options).render
       end
 
       # A tinted note stating the state of something in place: a health check, a
@@ -384,9 +590,19 @@ module Unmagic
       # replaces one gets both.
       #
       #   <%= empty_state "No invitations yet." %>
-      def empty_state(content = nil, **options, &block)
-        Components.configuration.empty_state.call(self, block ? capture(&block) : content, **options)
+      #
+      #   <%= empty_state "Import a folder or drop files here.", title: "No files yet", icon: :folder do %>
+      #     <%= button "Import", :primary, href: new_import_path %>
+      #   <% end %>
+      #
+      # content is the line that says what's missing; title: a heading above it,
+      # icon: a glyph from the gem's Lucide set (or your own markup) above that,
+      # and the block the actions that fix it. All go through config.empty_state.
+      def empty_state(content = nil, title: nil, icon: nil, **options, &block)
+        actions = capture(&block) if block
+        Components.configuration.empty_state.call(self, content, title: title, icon: icon, actions: actions, **options)
       end
+
 
       # A timestamp shown in the viewer's own locale and time zone.
       #
@@ -429,10 +645,14 @@ module Unmagic
           .render(block ? capture(&block) : content)
       end
 
-      # A dropdown of actions.
+      # A dropdown of actions, on the Popover API: the panel is in the top layer,
+      # so no card, cell or scrolling box clips it.
       #
       #   <%= menu do |menu| %>
-      #     <% menu.link "Edit", edit_job_path(@job) %>
+      #     <% menu.section "Share" %>
+      #     <% menu.link "Edit", edit_job_path(@job), icon: :pencil %>
+      #     <% menu.item "Rename", data: { unmagic_dialog_open: "rename" } %>
+      #     <% menu.disclosure "Move to…" do %>…a small form…<% end %>
       #     <% menu.divider %>
       #     <% menu.button "Delete", job_path(@job), method: :delete, tone: :danger,
       #          form: { data: { turbo_confirm: "Delete this job?" } } %>
@@ -441,16 +661,243 @@ module Unmagic
       # With no label the trigger is a ⋮ icon button labelled "More actions"; pass
       # one for a text button with a chevron. align: :end (default) lines the panel
       # up with the trigger's right edge, :start with its left. link and button take
-      # link_to's and button_to's arguments, plus tone: :danger.
+      # link_to's and button_to's arguments, plus tone: :danger and icon:; item is a
+      # plain button for wiring to something on the page; section heads the items
+      # after it; disclosure folds a small form out in place, so the whole exchange
+      # happens inside the panel.
       #
-      # It closes on an outside click, Escape, choosing an item, or a Turbo
-      # navigation. Arrow keys, Home and End move between items, and opening it from
-      # the keyboard focuses the first. Other options go on the element. Needs import
-      # "unmagic/components/menu".
+      # Without script the trigger still opens and closes the panel, with light
+      # dismiss and Escape. The script places the panel against the trigger, keeps
+      # it there while open, moves between items with the arrow keys, Home and End,
+      # focuses the first item when opened from the keyboard, and closes on choosing
+      # an item or a Turbo navigation. On a narrow screen the panel is a sheet along
+      # the bottom of the screen. id: names the element and derives the panel's.
+      # Other options go on the element. Needs import "unmagic/components/menu".
       def menu(label = nil, align: :end, **options, &block)
         builder = Components::Menu.new(self, label: label, align: align, **options)
         capture(builder, &block)
         builder.render
+      end
+
+      # The same panel as menu, opened at the pointer on a right-click or a long
+      # press on the element with the given id, or at its corner on Shift+F10.
+      #
+      #   <%= context_menu for: dom_id(file) do |menu| %>
+      #     <% menu.link "Open", file_path(file) %>
+      #     <% menu.button "Delete", file_path(file), method: :delete, tone: :danger %>
+      #   <% end %>
+      #
+      # for: is required and can name any element, a table row included; the
+      # element itself can sit anywhere. label: names the menu ("Actions"). Keep
+      # the items reachable elsewhere too: without script the native context menu
+      # shows. Needs import "unmagic/components/menu".
+      def context_menu(label: nil, **options, &block)
+        region = options.delete(:for) or raise ArgumentError, "context_menu needs for: the id of the element it opens on"
+        builder = Components::Menu.new(self, label: label, context: region, **options)
+        capture(builder, &block)
+        builder.render
+      end
+
+      # A small panel of content behind a trigger: a form to rename something, a
+      # card about a person. Not a menu (that is menu) and not modal (that is dialog).
+      #
+      #   <%= popover "Rename", title: "Rename" do |popover| %>
+      #     <%= form_with model: @job, builder: Unmagic::Components::FormBuilder do |form| %>
+      #       <%= form.field :name, "Name" %>
+      #       <% popover.footer { form.submit "Rename" } %>
+      #     <% end %>
+      #   <% end %>
+      #
+      # The label is a text trigger with a chevron; popover.trigger { … } is a
+      # trigger of your own (an avatar) in its place. title: heads the panel and
+      # names it. placement: :bottom or :top, align: :start, :center or :end,
+      # size: :wide for a larger panel. The panel is in the top layer, placed by
+      # script and kept placed while open; on a narrow screen it is a sheet along
+      # the bottom. Fires unmagic-popover:open and :close. Other options go on the
+      # element. Needs import "unmagic/components/popover".
+      def popover(label = nil, title: nil, placement: :bottom, align: :start, size: :default, **options, &block)
+        builder = Components::Popover.new(self, label, title: title, placement: placement, align: align, size: size, **options)
+        builder.render(capture(builder, &block))
+      end
+
+      # A summary that folds a panel open, on <details>: advanced options under a
+      # form, a raw payload under a row.
+      #
+      #   <%= disclosure "Advanced options" do %>…<% end %>
+      #   <%= disclosure open: @delivery.failed? do |d| %>
+      #     <% d.summary { safe_join [ "Raw payload", badge("failed", tone: :bad) ], " " } %>
+      #     …
+      #   <% end %>
+      #
+      # open: true renders it open. Other options go on the <details>. No script.
+      def disclosure(summary = nil, open: false, **options, &block)
+        builder = Components::Disclosure.new(self, summary, open: open, **options)
+        builder.render(capture(builder, &block))
+      end
+
+      # A run of disclosures, and with exclusive: true one open at a time through
+      # the platform's own <details name>.
+      #
+      #   <%= accordion exclusive: true, id: "billing_faq" do |accordion| %>
+      #     <% accordion.item "When am I charged?", open: true do %>…<% end %>
+      #     <% accordion.item "Can I change plans?" do %>…<% end %>
+      #   <% end %>
+      #
+      # accordion.item takes disclosure's arguments. An empty accordion renders
+      # nothing; an exclusive one with two items open raises. No script.
+      def accordion(id: nil, exclusive: false, **options, &block)
+        builder = Components::Accordion.new(self, id: id, exclusive: exclusive, **options)
+        capture(builder, &block)
+        builder.render
+      end
+
+      # A box that scrolls, with shadows where there is more to see.
+      #
+      #   <%= scroll_area max_height: "20rem", label: "Pipeline stages" do %>…<% end %>
+      #   <%= scroll_area axis: :x do %>…a wide board…<% end %>
+      #
+      # axis: :y (the default), :x or :both. max_height: is a CSS length, set as
+      # the --unmagic-scroll-area-max-height knob; without it the height comes from
+      # the layout. label: makes it a named region a keyboard can reach and scroll;
+      # pass one whenever the content has no links or buttons of its own.
+      # shadows: false drops the edge shadows. Other options go on the <div>.
+      # No script.
+      def scroll_area(axis: :y, max_height: nil, label: nil, shadows: true, **options, &block)
+        Components::ScrollArea.new(self, axis: axis, max_height: max_height, label: label, shadows: shadows, **options)
+          .render(capture(&block))
+      end
+
+      # The navigation down the side of an app: sections of links with icons and
+      # counts, a header and a footer, and a sheet from the edge on a narrow screen.
+      #
+      #   <%= sidebar id: "app_nav", label: "Main" do |nav| %>
+      #     <% nav.header { link_to image_tag("logo.svg", alt: "Acme"), root_path } %>
+      #     <% nav.section do |s| %>
+      #       <% s.link "Inbox", inbox_path, icon: :messages_square, badge: @unread %>
+      #       <% s.link "Files", files_path, icon: :folder %>
+      #     <% end %>
+      #     <% nav.section "Settings", collapsible: true do |s| %>
+      #       <% s.link "Members", members_path %>
+      #     <% end %>
+      #     <% nav.footer { render "account_menu" } %>
+      #   <% end %>
+      #
+      #   <%# In the top bar, shown only below the breakpoint %>
+      #   <%= sidebar_toggle "app_nav" %>
+      #
+      # The <nav> is a popover: below collapse_below: (:md, :lg or :never) the
+      # toggle opens it as a sheet from the edge with no script; above it the
+      # stylesheet lays it out inline, so the links are never rendered twice. A
+      # link's active: marks the current page (nil falls back to current_page?);
+      # icon: is a symbol from the gem's set or markup; badge: a count. Other
+      # options go on the element. Needs import "unmagic/components/sidebar".
+      def sidebar(id:, label: nil, collapse_below: :lg, **options, &block)
+        builder = Components::Sidebar.new(self, id: id, label: label, collapse_below: collapse_below, **options)
+        capture(builder, &block)
+        builder.render
+      end
+
+      # The button that opens a sidebar's sheet, hidden above its breakpoint.
+      def sidebar_toggle(id, label: nil, **options)
+        label ||= I18n.t("unmagic.components.sidebar.menu", default: "Menu")
+        tag.button(Components::Icons.svg(self, :menu), type: "button", popovertarget: id, "aria-controls": id,
+          "aria-label": label, title: label, **options,
+          class: class_names(Components::Button.classes(:icon), "UnmagicSidebarToggle", options[:class]))
+      end
+
+      # The bar across the top of an app: a brand, a run of links and the actions
+      # at the end. On a narrow screen the links fold behind a menu button.
+      #
+      #   <%= navbar label: "Main", sticky: true do |nav| %>
+      #     <% nav.brand(root_path) { image_tag "logo.svg", alt: "Acme" } %>
+      #     <% nav.link "Jobs", jobs_path, current: current_page?(jobs_path) %>
+      #     <% nav.link "Candidates", candidates_path %>
+      #     <% nav.actions { menu("Ada") { |menu| … } } %>
+      #   <% end %>
+      #
+      # collapse: :sm, :md (the default), :lg or false is the width below which
+      # the links fold. Folding is a <details> and needs no script; the script
+      # closes it on Escape, on following a link, on an outside press and when
+      # the screen grows. Other options go on the <header>. Needs
+      # import "unmagic/components/navbar".
+      def navbar(label: nil, sticky: false, collapse: :md, **options, &block)
+        builder = Components::Navbar.new(self, label: label, sticky: sticky, collapse: collapse, **options)
+        capture(builder, &block)
+        builder.render
+      end
+
+      # A text input that filters a list of options, outside a form builder.
+      #
+      #   <%= combobox_tag "owner_id", collection: @members, text: :name, selected: params[:owner_id], placeholder: "Anyone" %>
+      #   <%= combobox_tag "label_ids", collection: @labels, text: :name, multiple: true, selected: @issue.label_ids %>
+      #   <%= combobox_tag "owner_id", collection: [ @owner ].compact, text: :name, src: search_members_path %>
+      #
+      # collection: is the options, read with value: (:id) and text: (:to_s), or
+      # with src: only what is already selected: the rest is fetched as you type,
+      # from an action answering ?q= with combobox_results. min_length: (1) and
+      # debounce: (200ms) pace the search. multiple: submits name[] with a chip
+      # per choice. A block records rich options, called with (combobox, record).
+      # The list is a popover in the top layer, placed by script; arrow keys move,
+      # Enter chooses, Escape closes and a status region reads the count. Other
+      # options go on the element. Needs import "unmagic/components/combobox".
+      def combobox_tag(name, collection: [], value: :id, text: :to_s, multiple: false, selected: nil, **options, &block)
+        Components::Combobox.new(self, name, collection: collection, value: value, text: text, multiple: multiple,
+          selected: selected, **options).build(&block).render
+      end
+
+      # The options a search answers with, for a combobox's src:.
+      #
+      #   <%= combobox_results @members, text: :name %>
+      #
+      # On a frame request it wraps itself in the frame the combobox asked
+      # through, so the same action answers a direct visit too.
+      def combobox_results(collection, value: :id, text: :to_s, **options, &block)
+        Components::Combobox.new(self, "results", collection: collection, value: value, text: text, **options).build(&block).results
+      end
+
+      # A dialog with a search box over every command in the app, opened with a
+      # shortcut. Render it once, in the layout, as modal_frame is.
+      #
+      #   <%= command_palette src: search_commands_path do |palette| %>
+      #     <% palette.group "Go to" do |group| %>
+      #       <% group.link "Dashboard", root_path, keywords: "home", shortcut: %w[G D] %>
+      #       <% group.link "Issues", issues_path, icon: :list_checks %>
+      #     <% end %>
+      #     <% palette.group "Actions" do |group| %>
+      #       <% group.link "New issue", new_issue_path, data: { turbo_frame: "modal" } %>
+      #       <% group.button "Sign out", session_path, method: :delete %>
+      #     <% end %>
+      #   <% end %>
+      #   <%= command_palette_button %>
+      #
+      # Each command holds a real link or button_to form, so Turbo frames and
+      # confirms work as they do anywhere. hotkey: ("mod+k", or false) opens it;
+      # src: fetches more commands as you type, from an action answering ?q= with
+      # command_palette_results. shortcut: draws kbd hints (display only).
+      # Escape clears the query, then closes. Other options go on the element.
+      # Needs import "unmagic/components/command_palette".
+      def command_palette(id: "command_palette", hotkey: "mod+k", src: nil, min_length: 2, placeholder: nil, **options, &block)
+        builder = Components::CommandPalette.new(self, id: id, hotkey: hotkey, src: src, min_length: min_length,
+          placeholder: placeholder, **options)
+        capture(builder, &block)
+        builder.render
+      end
+
+      # The visible way in to the command palette, labelled "Search" with the
+      # shortcut beside it.
+      def command_palette_button(label = nil, dialog: "command_palette", hotkey: "mod+k", **options)
+        label ||= I18n.t("unmagic.components.command_palette.button", default: "Search")
+        options[:class] = class_names(Components::Button.classes, "UnmagicCommandPaletteButton", options[:class])
+        dialog_button(dialog: dialog, **options) do
+          safe_join [ Components::Icons.svg(self, :search), tag.span(label), (kbd(hotkey: hotkey, class: "UnmagicCommandPaletteButton__hint") if hotkey) ].compact
+        end
+      end
+
+      # The commands a search answers with, for a command palette's src:.
+      def command_palette_results(**options, &block)
+        builder = Components::CommandPalette.new(self, src: "", **options)
+        capture(builder, &block)
+        builder.results
       end
 
       # A row of tabs.
@@ -464,9 +911,15 @@ module Unmagic
       #   <% end %>
       #
       # Panels pair with the enabled tabs in order; a tab with disabled: shows its
-      # reason and takes no panel. active: true picks the first tab shown. Arrow
-      # keys, Home and End move between tabs. With an id:, the chosen tab is
-      # remembered for the tab's session and survives a morph refresh.
+      # reason and takes no panel. active: true picks the first tab shown. icon:
+      # leads a label with a symbol from the gem's Lucide set (:folder) or rendered
+      # markup from your own icons. Arrow keys, Home and End move between tabs.
+      # With an id:, the chosen tab is remembered for the tab's session and survives
+      # a morph refresh.
+      #
+      # style: :segmented (the default) is an inset track with the chosen tab raised
+      # out of it. style: :bar is a row of pill tabs with no track, for a bar across
+      # a card or a page; on a narrow screen it scrolls sideways rather than wrapping.
       #
       # Tabs with href: are links to separate pages instead, rendered on the server
       # with no script; mark the current one active: true.
@@ -477,10 +930,39 @@ module Unmagic
       #   <% end %>
       #
       # Needs import "unmagic/components/tabs" for panels.
-      def tabs(id: nil, **options, &block)
-        builder = Components::Tabs.new(self, id: id, **options)
+      def tabs(id: nil, style: :segmented, **options, &block)
+        builder = Components::Tabs.new(self, id: id, style: style, **options)
         capture(builder, &block)
         builder.render
+      end
+
+      # A card with switcher buttons across its top bar and the open one's content
+      # below: a README beside the brief, a file's source beside its preview.
+      #
+      #   <%= panel id: "notes" do |panel| %>
+      #     <% panel.tab "README", icon: :book_open %>
+      #     <% panel.tab "Agents", icon: :bot %>
+      #     <% panel.panel { markdown @readme } %>
+      #     <% panel.panel { markdown @agents } %>
+      #   <% end %>
+      #
+      # The tabs are tabs' own, in the bar style: the same labels, icons, disabled:
+      # reasons and active: choice, switched in the page. Give each an href: instead
+      # and they are pages of their own: the server draws the open one, the block is
+      # its body, and the address names the tab.
+      #
+      #   <%= panel flush: true do |panel| %>
+      #     <% panel.tab "Source", href: file_path(@file, view: :source), active: @view == :source %>
+      #     <% panel.tab "Preview", href: file_path(@file, view: :preview), active: @view == :preview %>
+      #     <%= render "files/#{@view}", file: @file %>
+      #   <% end %>
+      #
+      # flush: true drops the body's padding, for a code view or a table that runs
+      # to the edges. Other options go on the outer element. Needs
+      # import "unmagic/components/tabs" for in-page tabs.
+      def panel(id: nil, flush: false, **options, &block)
+        builder = Components::Panel.new(self, id: id, flush: flush, **options)
+        builder.render(capture(builder, &block))
       end
 
       # A button that copies text to the clipboard, showing a check for a moment
@@ -499,9 +981,121 @@ module Unmagic
           .render(block ? capture(&block) : nil)
       end
 
+      # A block of source to read or copy: a file, a payload, a command to paste.
+      # Coloured with Rouge, wrapping long lines, with a copy button in the corner.
+      #
+      #   <%= code_view @file.source, language: @file.language %>
+      #   <%= code_view backtrace, language: :plaintext, lines: true, max_height: "20rem" %>
+      #   <%= code_view language: :shell, wrap: false, copy: false do %>
+      #     bin/rails db:prepare
+      #   <% end %>
+      #
+      # The source is the string, or the block's text with its indentation taken
+      # off, for a snippet written into the template (escape a tag as <%%).
+      # language: is a name Rouge knows (:json, "ruby", :erb) or a lexer; unknown or
+      # nil is plain text. lines: true numbers the lines (the numbers are drawn, so a
+      # copy leaves them behind). wrap: false scrolls sideways instead of wrapping.
+      # max_height: is a CSS length past which the block scrolls; a block that can
+      # scroll is focusable and named label: ("Code") for a keyboard. copy: false
+      # drops the button. id: names the wrapper; the <code> is "#{id}_code". Other
+      # options go on the wrapper. Colouring goes through config.highlight.
+      # Needs import "unmagic/components/clipboard" for the button.
+      def code_view(source = nil, language: nil, lines: false, wrap: true, max_height: nil, copy: true, label: nil,
+        id: nil, **options, &block)
+        source = Components::CodeView.snippet(capture(&block)) if block
+
+        Components::CodeView.new(self, source, language: language, lines: lines, wrap: wrap, max_height: max_height,
+          copy: copy, label: label, id: id, **options).render
+      end
+
       # text_area_tag, growing with its content. See FormBuilder#autogrow_text_area.
       def autogrow_text_area_tag(name, content = nil, **options)
         Components::Autogrow.wrap(self, text_area_tag(name, content, Components::Control.merge(self, options, :text_area)))
+      end
+
+      # A checkbox drawn as a switch, outside a form builder. With label: it
+      # renders the labelled layout. See FormBuilder#switch_field.
+      def switch_tag(name, value = "1", checked: false, label: nil, hint: nil, **options)
+        input = check_box_tag(name, value, checked, Components::Control.merge(self, options.merge(role: "switch"), :switch))
+        return input unless label
+
+        content_tag(:label, class: class_names("UnmagicCheckField UnmagicCheckField--switch", "UnmagicCheckField--hinted" => hint)) do
+          safe_join [
+            input,
+            content_tag(:span, class: "UnmagicCheckField__text") do
+              safe_join [ content_tag(:span, label, class: "UnmagicCheckField__label"), (content_tag(:span, hint, class: "UnmagicHint") if hint) ].compact
+            end
+          ]
+        end
+      end
+
+      # password_field_tag with the gem's look, and with reveal: true a button that
+      # shows what was typed. See FormBuilder#password_field.
+      def password_field_tag(name = "password", value = nil, options = {})
+        options = options.dup
+        reveal = options.delete(:reveal)
+        id = options[:id] || sanitize_to_id(name)
+        input = super(name, value, Components::Control.merge(self, options.merge(id: id), :password))
+        reveal ? Components::Password.wrap(self, input, id: id) : input
+      end
+
+      # One input for a code sent by SMS or email, outside a form builder. See
+      # FormBuilder#one_time_code_field.
+      def one_time_code_field_tag(name, value = nil, length: 6, charset: :numeric, submit: false, **options)
+        options = Components::OneTimeCode.input_options(options, length: length, charset: charset)
+        classes = class_names("UnmagicOneTimeCode__input", Components::Control.merge(self, options, :one_time_code)[:class])
+        input = text_field_tag(name, value, options.merge(class: classes))
+        Components::OneTimeCode.wrap(self, input, length: length, charset: charset, submit: submit)
+      end
+
+      # A control with something joined to either end: a unit, a scheme, a button.
+      #
+      #   <%= input_group prefix: "https://", suffix: ".example.com" do %>
+      #     <%= form.text_field :subdomain %>
+      #   <% end %>
+      #   <%= input_group suffix: button("Search", type: "submit") do %>
+      #     <%= search_field_tag :q, params[:q], class: control_classes(:input) %>
+      #   <% end %>
+      #
+      # Text becomes a tinted addon; markup (a button, an icon) is set in as it is.
+      # The block is the control. Other options go on the group.
+      def input_group(prefix: nil, suffix: nil, **options, &block)
+        Components::InputGroup.new(self, prefix: prefix, suffix: suffix, **options).render(capture(&block))
+      end
+
+      # A button that is on or off: bold, wrap lines, show archived.
+      #
+      #   <%= toggle "Bold", icon: :pencil, pressed: true %>
+      #   <%= toggle "Show archived", name: "archived", pressed: params[:archived] %>
+      #
+      # With a name: it is a checkbox drawn as a button, so a form submits it and
+      # no script is needed. Without one it is a button with aria-pressed, which
+      # import "unmagic/components/toggle" flips on click (firing
+      # unmagic-toggle:change). icon: leads the label; icon_only: true keeps the
+      # label for a screen reader. size: :small or :large. Other options go on
+      # the element.
+      def toggle(label, pressed: false, icon: nil, name: nil, value: "1", size: nil, disabled: false, **options)
+        Components::Toggle.new(self, label, pressed: pressed, icon: icon, name: name, value: value, size: size,
+          disabled: disabled, **options).render
+      end
+
+      # A choice of one, or with multiple: true several, as a run of joined
+      # toggles: a segmented control a form submits.
+      #
+      #   <%= toggle_group name: "range", value: params[:range] || "7d", label: "Range" do |group| %>
+      #     <% group.option "24 hours", "24h" %>
+      #     <% group.option "7 days", "7d" %>
+      #     <% group.option "30 days", "30d" %>
+      #   <% end %>
+      #
+      # Native radios (or checkboxes) drawn as buttons: the arrow keys move the
+      # choice, and no script is needed. group.option takes a label, a value, and
+      # an icon:. label: names the group. size: :small or :large. Other options go
+      # on the group. For links to pages, use tabs with href:.
+      def toggle_group(name:, value: nil, multiple: false, label: nil, size: nil, **options, &block)
+        builder = Components::ToggleGroup.new(self, name: name, value: value, multiple: multiple, label: label, size: size, **options)
+        capture(builder, &block)
+        builder.render
       end
 
       # A hidden field holding a fresh UUIDv7, outside a form builder. See
@@ -1094,9 +1688,11 @@ module Unmagic
 
       private
 
-      def modal_link_options(html_options)
+      def modal_link_options(html_options, side = nil)
         html_options = (html_options || {}).dup
-        html_options[:data] = { turbo_frame: Components.configuration.modal_frame_id }.merge(html_options[:data] || {})
+        data = { turbo_frame: Components.configuration.modal_frame_id }
+        data[:unmagic_modal_side] = side if side && side.to_sym != :center
+        html_options[:data] = data.merge(html_options[:data] || {})
         html_options
       end
 

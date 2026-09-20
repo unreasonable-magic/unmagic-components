@@ -22,7 +22,7 @@ These are documented in the README and have no notes here:
 - `table_for`, `row_for`, `table_tag`
 - `detail_list`
 - `FormBuilder`
-- `button_classes`, `badge`, `callout`, `card`, `page_header`, `empty_state`
+- `toggle`, `toggle_group`, `input_group`, `range_field`, `section`, `item`, `chart`, `button`, `button_group`, `button_classes`, `badge`, `callout`, `card`, `page_header`, `empty_state`, `panel`, `separator`, `progress`, `code_view`
 - skeletons
 - `modal_frame`, `dialog`, `dialog_tag`, the confirm dialog
 - `flash_toasts`
@@ -34,33 +34,33 @@ These are documented in the README and have no notes here:
 | Note | Rails Blocks gap | Status |
 |---|---|---|
 | [avatar](avatar.md) | Avatar | built |
-| [breadcrumbs](breadcrumbs.md) | Breadcrumb | draft |
-| [kbd](kbd.md) | KBD & Hotkey (the key hint) | draft |
-| [spinner](spinner.md) | Loading Indicator | draft |
+| [breadcrumbs](breadcrumbs.md) | Breadcrumb | built |
+| [kbd](kbd.md) | KBD & Hotkey (the key hint) | built |
+| [spinner](spinner.md) | Loading Indicator | built |
 | [steps](steps.md) | Stepper | draft |
-| [accordion](accordion.md) | Accordion, Collapsible | draft |
+| [accordion](accordion.md) | Accordion, Collapsible | built |
 | [tree_view](tree_view.md) | Tree View | draft |
 | [banner](banner.md) | Banner | draft |
-| [switch_field](switch_field.md) | Switch | draft |
-| [radio_button_collection](radio_button_collection.md) | Radio | draft |
+| [switch_field](switch_field.md) | Switch | built |
+| [radio_button_collection](radio_button_collection.md) | Radio | built |
 
 ## Tier 2: small custom elements
 
 | Note | Rails Blocks gap | Status |
 |---|---|---|
 | [bulk_select](bulk_select.md) | Checkbox Select All | draft |
-| [drawer](drawer.md) | Drawer, Slideover | draft |
-| [popover](popover.md) | Popover | draft |
-| [password_field](password_field.md) | Password | draft |
-| [one_time_code_field](one_time_code_field.md) | Two Factor | draft |
+| [drawer](drawer.md) | Drawer, Slideover | built |
+| [popover](popover.md) | Popover | built |
+| [password_field](password_field.md) | Password | built |
+| [one_time_code_field](one_time_code_field.md) | Two Factor | built |
 | [infinite_scroll](infinite_scroll.md) | Infinite Scroll | draft |
-| [sidebar](sidebar.md) | Sidebar | draft |
-| [context_menu](context_menu.md) | Context Menu | draft |
+| [sidebar](sidebar.md) | Sidebar | built |
+| [context_menu](context_menu.md) | Context Menu | built |
 | [animated_number](animated_number.md) | Animated Number | draft |
 | [hotkey](hotkey.md) | KBD & Hotkey (the shortcut) | draft |
 | [sortable_list](sortable_list.md) | (none) drag-and-drop ordering, extracted from hooops | built |
 | [board](board.md) | (none) a Trello-style board on sortable lists | built |
-| [position](position.md) | (infrastructure) shared placement and `menu` on the Popover API; build before popover, context_menu and combobox | draft |
+| [position](position.md) | (infrastructure) shared placement and `menu` on the Popover API | built |
 | [auto_scroll](auto_scroll.md) | (none) `<unmagic-autoscroll>`, extracted from hooops and toybox | built |
 | [optimistic](optimistic.md) | (none) `<unmagic-optimistic>`, the client half of the `upsert` contract | built |
 | [elapsed](elapsed.md) | (none) `<unmagic-elapsed>`, a clock counting up from a server-named moment | built |
@@ -69,8 +69,8 @@ These are documented in the README and have no notes here:
 
 | Note | Rails Blocks gap | Status |
 |---|---|---|
-| [combobox](combobox.md) | Combobox (Multi-select), Autocomplete | draft |
-| [command_palette](command_palette.md) | Command Palette | draft |
+| [combobox](combobox.md) | Combobox (Multi-select), Autocomplete | built |
+| [command_palette](command_palette.md) | Command Palette | built |
 | [carousel](carousel.md) | Carousel | draft |
 | [lightbox](lightbox.md) | Lightbox | draft |
 | [date_picker](date_picker.md) | Date Picker | draft |
@@ -83,9 +83,9 @@ Where marketing-style components belong is open decision 2 in the principles.
 
 | Note | Rails Blocks gap | Status |
 |---|---|---|
-| [navbar](navbar.md) | Navbar | draft |
+| [navbar](navbar.md) | Navbar | built |
 | [dark_mode_switcher](dark_mode_switcher.md) | Dark Mode Switcher | draft |
-| [scroll_area](scroll_area.md) | Scroll Area | draft |
+| [scroll_area](scroll_area.md) | Scroll Area | built |
 | [select](select.md) | Select | draft |
 | [onboarding_checklist](onboarding_checklist.md) | Onboarding Checklist | draft |
 | [feedback](feedback.md) | Feedback | draft |
@@ -117,7 +117,7 @@ inline proposals.
 | Dropdown | `menu` |
 | Forms | `FormBuilder` |
 | Modal | `modal_frame`, `dialog`, `dialog_tag` |
-| Pagination | the pagination seam |
+| Pagination | `pagination`, and the pagination seam |
 | Skeleton | `skeleton` |
 | Tabs | `tabs` |
 | Toast | `flash_toasts`, `turbo_stream.toast` |

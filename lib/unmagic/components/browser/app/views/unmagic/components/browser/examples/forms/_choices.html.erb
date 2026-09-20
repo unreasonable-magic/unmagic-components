@@ -1,0 +1,5 @@
+<% plans = [ [ "starter", "Starter", "For one person trying things out." ], [ "team", "Team", "Everybody in the shop, one bill." ], [ "studio", "Studio", "Priority renders and a kiln of your own." ] ].map { |id, name, summary| Struct.new(:id, :name, :summary).new(id, name, summary) } %>
+<%= form_with model: @profile, url: "#", builder: Unmagic::Components::FormBuilder, class: "max-w-2xl" do |form| %>
+  <%= form.radio_button_collection :role, plans, :id, :name, legend: "Plan", hint_method: :summary, variant: :cards, inline: true, required: true %>
+  <%= form.radio_button_collection :name, plans, :id, :name, legend: "The same, as a list", inline: true %>
+<% end %>

@@ -2,6 +2,7 @@
 
 Unmagic::Components::Browser::Catalog.component :card,
   name: "Card",
+  group: "Layout",
   helper: "card",
   import: nil,
   description: "A bordered surface for a section of a page, with an optional title, header actions and a " \
@@ -12,5 +13,8 @@ Unmagic::Components::Browser::Catalog.component :card,
       description: "href: makes the whole card a link, for a row that opens a record. Nothing inside should be " \
                    "a link or button of its own." },
     { key: :flush_table, title: "Flush, with a table", layout: :full,
-      description: "flush: true drops the body's padding, so a table runs edge to edge." }
+      description: "flush: true drops the body's padding, so a table runs edge to edge." },
+    { key: :header, title: "A bar of your own", layout: :full,
+      description: "card.header { … } is a bar across the top in place of the title: a search field, a " \
+                   "filter, a run of badges. panel puts a row of tabs in one." }
   ]

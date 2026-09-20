@@ -39,6 +39,8 @@ Gem::Specification.new do |spec|
   # own String#hash changes between processes.
   spec.add_dependency "unmagic-icon", "~> 0.3"
   spec.add_dependency "unmagic-color", "~> 0.3"
+  # Source is coloured with Rouge: code views, tool payloads and prose code blocks.
+  spec.add_dependency "rouge", ">= 4.0"
 
   spec.add_development_dependency "rspec", "~> 3.12"
   spec.add_development_dependency "rake", "~> 13.0"

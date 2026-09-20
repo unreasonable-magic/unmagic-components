@@ -40,6 +40,7 @@
           </div>
           <div class="px-4 py-3">
             <%= link_to component.name, component_path(component.slug), class: "text-sm font-semibold after:absolute after:inset-0" %>
+            <%= badge "New", tone: :info, class: "ml-1.5 align-middle" if component.new %>
             <p class="mt-0.5 text-xs text-neutral-500 dark:text-neutral-400"><%= pluralize(component.examples.size, "example") %></p>
           </div>
         </div>

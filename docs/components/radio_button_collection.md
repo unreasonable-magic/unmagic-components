@@ -1,6 +1,6 @@
 # `FormBuilder#radio_button_collection` and `#radio_button_field`
 
-> Status: draft
+> Status: built
 > Tier: 1 (no JS)
 > Replaces or relates to: Rails Blocks "Radio" (gap source);
 > `FormBuilder#check_box_collection` and `#check_box_field` (which it mirrors);
@@ -142,6 +142,10 @@ CSS: in the `Forms` section, beside `UnmagicCheck` and `UnmagicSwitch`.
 - **Shared by checkboxes:** the `UnmagicChoiceGroup`, `--cards` and `--card`
   rules apply to `check_box_collection` unchanged.
 - Palette colours with `dark:` variants only.
+
+## Small screens
+
+Cards stack in one column below 12rem each; the card is the target, not the dot.
 
 ## Behaviour (JavaScript)
 

@@ -2,6 +2,7 @@
 
 Unmagic::Components::Browser::Catalog.component :detail_list,
   name: "Detail list",
+  group: "Data display",
   helper: "detail_list",
   import: nil,
   description: "A <dl> of a record's fields, laid out inline or stacked. A blank value renders as an em dash, " \

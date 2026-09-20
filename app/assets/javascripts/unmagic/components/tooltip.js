@@ -2,16 +2,16 @@
 // `tooltip`.
 //
 // The hint is a manual popover, so it renders in the top layer and no ancestor's
-// overflow can clip it. It is placed with fixed, viewport coordinates each time it
+// overflow can clip it. It is placed by unmagic/components/position each time it
 // opens: on the preferred side (placement="top" or "bottom"), flipped when there
-// isn't room, and clamped so it never runs off the sides.
+// isn't room, clamped so it never runs off the sides, and kept in place while open.
 //
 // If the content has its own focusable element (a button, a link) the hint
 // describes that element; otherwise the element itself becomes focusable, so a
 // keyboard user can reach the explanation. Escape dismisses it.
 
-const GAP = 8
-const MARGIN = 8
+import { anchor } from "unmagic/components/position"
+
 const DELAY = 150
 const FOCUSABLE = "a[href], button, input, select, textarea, [tabindex]:not([tabindex='-1'])"
 
@@ -23,6 +23,7 @@ class UnmagicTooltip extends HTMLElement {
   #popup = null
   #pending = null
   #open = false
+  #release = null
 
   constructor() {
     super()
@@ -77,11 +78,9 @@ class UnmagicTooltip extends HTMLElement {
 
     this.#open = true
     popup.showPopover()
-    this.#position()
+    this.#release = anchor(popup, this, { side: this.getAttribute("placement") === "bottom" ? "bottom" : "top" })
     popup.setAttribute("data-open", "")
 
-    window.addEventListener("scroll", this.#reposition, { passive: true, capture: true })
-    window.addEventListener("resize", this.#reposition, { passive: true })
     document.addEventListener("keydown", this.#escape)
   }
 
@@ -92,9 +91,9 @@ class UnmagicTooltip extends HTMLElement {
     this.#open = false
     this.#popup.removeAttribute("data-open")
     this.#popup.hidePopover()
+    this.#release?.()
+    this.#release = null
 
-    window.removeEventListener("scroll", this.#reposition, { capture: true })
-    window.removeEventListener("resize", this.#reposition)
     document.removeEventListener("keydown", this.#escape)
   }
 
@@ -102,32 +101,6 @@ class UnmagicTooltip extends HTMLElement {
     if (event.key === "Escape") this.#hide()
   }
 
-  #reposition = () => {
-    if (this.#open) this.#position()
-  }
-
-  #position() {
-    const anchor = this.getBoundingClientRect()
-    const popup = this.#popup.getBoundingClientRect()
-    const viewportWidth = document.documentElement.clientWidth
-    const viewportHeight = document.documentElement.clientHeight
-
-    const above = anchor.top - popup.height - GAP
-    const below = anchor.bottom + GAP
-    const fitsAbove = above >= MARGIN
-    const fitsBelow = below + popup.height <= viewportHeight - MARGIN
-
-    const top = this.getAttribute("placement") === "bottom"
-      ? (fitsBelow || !fitsAbove ? below : above)
-      : (fitsAbove || !fitsBelow ? above : below)
-
-    const centred = anchor.left + anchor.width / 2 - popup.width / 2
-    const left = Math.max(MARGIN, Math.min(centred, viewportWidth - popup.width - MARGIN))
-
-    this.#popup.style.top = `${top}px`
-    this.#popup.style.left = `${left}px`
-    this.#popup.dataset.side = top === above ? "top" : "bottom"
-  }
 }
 
 customElements.get("unmagic-tooltip") || customElements.define("unmagic-tooltip", UnmagicTooltip)

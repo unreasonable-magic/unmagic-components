@@ -1,0 +1,4 @@
+<div class="grid gap-6">
+  <%= pagination @pager %>
+  <%= pagination Unmagic::Components::Browser::Pager.new(nil, 2, 1, 12), window: 1 %>
+</div>

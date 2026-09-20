@@ -1,0 +1,13 @@
+<div class="max-w-md">
+  <p class="text-sm">Sign in with your passkey.</p>
+  <%= separator "or" %>
+  <p class="text-sm">Email a link to yourself.</p>
+  <%= separator %>
+  <div class="flex items-center text-sm">
+    <span>Draft</span>
+    <%= separator orientation: :vertical %>
+    <span>Updated <%= local_time_tag @now, format: :relative %></span>
+    <%= separator orientation: :vertical %>
+    <span>3 comments</span>
+  </div>
+</div>

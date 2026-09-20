@@ -2,6 +2,7 @@
 
 Unmagic::Components::Browser::Catalog.component :skeleton,
   name: "Skeleton",
+  group: "Layout",
   helper: "skeleton",
   import: nil,
   description: "Blocks out an interface while it loads. Shapes take their size from what they stand in for, " \
