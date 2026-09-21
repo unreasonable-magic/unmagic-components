@@ -9,4 +9,7 @@
 *.gem
 
 mise.local.toml
-.claude
+/.claude/*
+!/.claude/hooks/
+!/.claude/settings.json
+/.env

@@ -42,3 +42,10 @@ bundle exec rubocop    # lint
 bin/dev                # builds the browser's CSS, then serves the browser at http://localhost:5701 (?theme=dark for dark)
 bundle exec rake browser:css  # rebuilds lib/unmagic/components/browser/assets/browser.css (commit it)
 ```
+
+## Git worktrees
+
+Use `bin/git-worktree checkout BRANCH` for an existing branch, or
+`bin/git-worktree setup` inside a manually created worktree. Setup assigns a
+separate component-browser port; `bin/dev` reads it from `.env`.
+See [docs/worktrees.md](docs/worktrees.md) for checkout, cleanup, and editor hooks.
