@@ -19,10 +19,35 @@ RSpec.describe "AI chat plans, workspaces and failures" do
 
       steps = plan.css("ol.UnmagicAIChatPlan__steps > li")
       expect(steps.map { |step| step["data-state"] }).to eq(%w[completed in_progress waiting pending])
-      expect(steps.map { |step| step.at(".UnmagicAIChatPlan__glyph .UnmagicVisuallyHidden").text })
-        .to eq([ "Done", "In progress", "Waiting on you", "To do" ])
+      expect(steps.map { |step| step.at(".UnmagicAIChatPlan__glyph .UnmagicVisuallyHidden")&.text })
+        .to eq([ "Done", "In progress", nil, "To do" ])
       expect(steps[1].at(".UnmagicAIChatSpinner")).not_to be_nil
       expect(steps[3].at(".UnmagicAIChatPlan__detail").text).to eq("To the whole team")
+    end
+
+    it "shows a waiting step's label as visible text after its title" do
+      plan = html(view.ai_chat_plan do |p|
+        p.step "Read the brief", state: :completed
+        p.step("Nudge Grace", state: :waiting) { "Needs your go-ahead" }
+      end)
+
+      waiting = plan.at('li[data-state="waiting"]')
+      badge = waiting.at(".UnmagicAIChatPlan__text > .UnmagicAIChatPlan__waiting")
+      expect(badge["class"]).to eq("UnmagicBadge UnmagicBadge--warn UnmagicAIChatPlan__waiting")
+      expect(badge.text).to eq("Waiting on you")
+      expect(badge.previous_element["class"]).to eq("UnmagicAIChatPlan__label")
+      expect(waiting.at(".UnmagicAIChatPlan__text").text).to eq("Nudge Grace Waiting on youNeeds your go-ahead")
+      expect(waiting.at(".UnmagicVisuallyHidden")).to be_nil
+      expect(plan.css(".UnmagicAIChatPlan__waiting").size).to eq(1)
+    end
+
+    it "translates the waiting label" do
+      I18n.backend.store_translations(:en, unmagic: { components: { ai_chat: { plan: { waiting: "Your turn" } } } })
+
+      expect(html(view.ai_chat_plan { |p| p.step "x", state: :waiting }).at(".UnmagicAIChatPlan__waiting").text)
+        .to eq("Your turn")
+    ensure
+      I18n.reload!
     end
 
     it "takes the reading it's given over the one it would count" do

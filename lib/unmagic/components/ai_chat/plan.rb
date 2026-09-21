@@ -66,19 +66,27 @@ module Unmagic
           end
         end
 
+        # A waiting step says so in words after its title, not only in amber: it is
+        # the one step that won't move until the person acts. The other states keep
+        # their label for screen readers only.
         def item(step)
+          label = AIChat.t("plan.#{step.state}", default: LABELS.fetch(step.state))
+          waiting = step.state == :waiting
+
           tag.li(class: "UnmagicAIChatPlan__step", data: { state: step.state }) do
             safe_join [
               tag.span(class: "UnmagicAIChatPlan__glyph") do
                 safe_join [
                   Icons.svg(view, GLYPHS.fetch(step.state),
                     class: ("UnmagicAIChatSpinner" if step.state == :in_progress)),
-                  tag.span(AIChat.t("plan.#{step.state}", default: LABELS.fetch(step.state)), class: "UnmagicVisuallyHidden")
-                ]
+                  (tag.span(label, class: "UnmagicVisuallyHidden") unless waiting)
+                ].compact
               end,
               tag.div(class: "UnmagicAIChatPlan__text") do
                 safe_join [
                   tag.span(step.title, class: "UnmagicAIChatPlan__label"),
+                  # The space keeps the title and the label apart when read aloud.
+                  (safe_join([ " ", tag.span(label, class: "#{Badge.classes(:warn)} UnmagicAIChatPlan__waiting") ]) if waiting),
                   (tag.div(step.detail, class: "UnmagicAIChatPlan__detail") if step.detail.present?)
                 ].compact
               end

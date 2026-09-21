@@ -159,13 +159,18 @@ sections of one panel and share a divider.
 - `__folder` and `__file` are the tree's rows, in `neutral-700` /
   `dark:neutral-300`.
 - `__path`, `__directory`, `__name` split a joined folder row: `__directory` is
-  `min-w-0 truncate` in `neutral-500` / `dark:neutral-400`, and `__name` is
+  `min-w-0 truncate` in `neutral-600` / `dark:neutral-400`, and `__name` is
   `shrink-0 max-w-full truncate`.
+- A file's size is `tree_view`'s meta, lifted to `neutral-600` /
+  `dark:neutral-400` inside the workspace.
 - A tree row keeps its own rounded focus ring over the AI chat family's
   squarer summary ring.
 
-Colours: neutrals only. Motion: the chevron's turn, off under reduced motion
-(`tree_view`'s).
+Colours: neutrals only, every text at least 4.5:1 on the panel and on a hovered
+row. The directory and size are neutral-600 in light (7.2:1 on a neutral-100
+hover) and neutral-400 in dark (5.8:1 on a neutral-800 hover). The head shares
+the plan's quiet label style. Motion: the chevron's turn, off under reduced
+motion (`tree_view`'s).
 
 ## Small screens
 
