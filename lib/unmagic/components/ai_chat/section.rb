@@ -5,7 +5,9 @@ module Unmagic
     module AIChat
       # The collapsible panel section a plan and a workspace share: a glyph, a
       # title, a count and a chevron over a body. Always rendered, empty or not,
-      # because both are broadcast targets.
+      # because both are broadcast targets. For the same reason the <details> is
+      # marked with its id, so ai_chat.js keeps a reader's open or shut across a
+      # replacement and the server's open: only decides the first render.
       class Section
         def initialize(view, block:, icon:, title:, count:, open:, collapsible:, title_tag:, options:)
           @view = view
@@ -23,7 +25,7 @@ module Unmagic
           classes = view.class_names(@block, { "#{@block}--static" => !@collapsible }, @options[:class])
 
           if @collapsible
-            tag.details(**@options, open: @open, class: classes) do
+            tag.details(**@options, open: @open, "data-ai-chat-disclosure": @options[:id], class: classes) do
               safe_join [ tag.summary(head(chevron: true), class: "#{@block}__head"), body ]
             end
           else

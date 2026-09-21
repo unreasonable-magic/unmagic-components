@@ -1452,7 +1452,9 @@ module Unmagic
       # unless completed:/total: are given. With no steps it shows empty: rather
       # than nothing, since it is a broadcast target. open: false starts it shut;
       # collapsible: false renders a plain section. title_tag: sets the heading
-      # level (:h2). Other options go on the root.
+      # level (:h2). Other options go on the root. With an id:, import
+      # "unmagic/components/ai_chat" keeps a person's open or shut across
+      # broadcasts; open: then only decides until they choose.
       def ai_chat_plan(title: nil, completed: nil, total: nil, open: true, empty: nil, collapsible: true,
         title_tag: :h2, **options, &block)
         builder = Components::AIChat::Plan.new(self, title: title, completed: completed, total: total, open: open,
@@ -1474,7 +1476,8 @@ module Unmagic
       # otherwise picked from the extension (:file_code, :file_text, :file_image,
       # …, or :file). Each row's title is its full path. The count is the number
       # of files. Takes ai_chat_plan's title:, count:, open:, empty:,
-      # collapsible: and title_tag:. Other options go on the root.
+      # collapsible: and title_tag:, and keeps a person's open or shut the same
+      # way. Other options go on the root.
       def ai_chat_workspace(title: nil, count: nil, open: true, empty: nil, collapsible: true, title_tag: :h2,
         **options, &block)
         builder = Components::AIChat::Workspace.new(self, title: title, count: count, open: open, empty: empty,

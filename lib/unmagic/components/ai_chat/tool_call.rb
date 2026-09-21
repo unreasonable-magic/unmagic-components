@@ -100,10 +100,11 @@ module Unmagic
 
         delegate :tag, :safe_join, to: :view, private: true
 
-        # <details> so the disclosure needs no script and no state to restore after
-        # a broadcast replaces the row, which happens on every change of state.
+        # <details> so the disclosure needs no script. A broadcast replaces the row
+        # on every change of state, so with an id it is marked for ai_chat.js to
+        # carry the reader's own open or shut across the replacement.
         def disclosure(payloads)
-          tag.details(open: @open, class: "UnmagicAIChatToolCall__disclosure") do
+          tag.details(open: @open, "data-ai-chat-disclosure": @id, class: "UnmagicAIChatToolCall__disclosure") do
             safe_join [
               tag.summary(row(chevron: true), class: "UnmagicAIChatToolCall__row"),
               tag.div(safe_join([ rail, *payloads ]), class: "UnmagicAIChatToolCall__body")

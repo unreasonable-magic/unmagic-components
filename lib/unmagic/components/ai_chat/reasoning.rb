@@ -23,12 +23,14 @@ module Unmagic
         end
 
         # Nothing at all when there is no reasoning, unless it is still arriving: a
-        # turn that didn't think should leave no chrome behind.
+        # turn that didn't think should leave no chrome behind. With an id, the
+        # reader's open or shut outlasts the turn being replaced as it settles.
         def render(content = nil)
           blocks = [ content, *@blocks ].select(&:present?)
           return "".html_safe if blocks.empty? && !@streaming
 
-          tag.details(**@options, open: @open, class: view.class_names("UnmagicAIChatReasoning", @options[:class])) do
+          tag.details(**@options, open: @open, "data-ai-chat-disclosure": @id,
+            class: view.class_names("UnmagicAIChatReasoning", @options[:class])) do
             safe_join [ summary, *blocks.each_with_index.map { |markup, index| body(markup, index) } ]
           end
         end

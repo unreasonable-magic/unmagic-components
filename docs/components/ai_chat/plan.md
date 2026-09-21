@@ -1,7 +1,7 @@
 # `ai_chat_plan`
 
 > Status: built
-> Tier: 1 (no JS)
+> Tier: 1 (no JS of its own; `ai_chat.js` keeps a reader's choice)
 > Relates to: [workspace](workspace.md), `card`, `steps`
 
 ## As built
@@ -9,6 +9,8 @@
 Where the build differs from this note:
 
 - The count reads `1/4`. Plan and workspace share `AIChat::Section` for the panel head.
+- A section a person collapsed stays collapsed through broadcasts (see Behaviour). `open:` is the first
+  render's state, not every render's.
 
 ## Purpose
 
@@ -42,7 +44,7 @@ on the same four states.
 |---|---|---|---|
 | `title:` | string | "Plan" | |
 | `completed:` / `total:` | integers | counted from the steps | The `3/7` reading |
-| `open:` | boolean | `true` | It is what the side of the page is for |
+| `open:` | boolean | `true` | It is what the side of the page is for. Until the person chooses |
 | `empty:` | string | a default sentence | Shown when there are no steps |
 | `collapsible:` | boolean | `true` | `false` renders a plain region, not a `<details>` |
 
@@ -119,7 +121,13 @@ The spinner pulses instead of rotating under `prefers-reduced-motion: reduce`.
 
 ## Behaviour (JavaScript)
 
-None.
+None of its own. A section given an `id:` keeps the person's own open or shut across broadcasts.
+The `<details>` carries `data-ai-chat-disclosure="<id>"`, and `ai_chat.js`
+remembers what the person last chose by clicking its summary. It applies that
+choice to the element with the same id when a Turbo Stream replaces the section,
+before it is painted, and it refuses a morph's reset of `open`. Until the person
+chooses, and always without the script, the server's `open:` decides, as a plain
+`<details>` would. The choices last until the page is loaded afresh.
 
 ## I18n
 
@@ -141,6 +149,7 @@ None.
 - No count at all when there are no steps.
 - The empty sentence when there are no steps, and the element still rendering.
 - `collapsible: false` renders a region, not a `<details>`.
+- `data-ai-chat-disclosure` carries the id, and is absent without one.
 - `title_tag:` changing the heading level.
 - `ArgumentError` for an unknown step state.
 - Passthrough `class:` and attributes.
@@ -150,7 +159,10 @@ None.
 Page: `ai_chat`. A plan with all four states present, an empty one, a long one
 (twenty steps) inside a narrow panel, and a collapsed one.
 
-By hand: keyboard open/close; dark theme; reduced motion.
+By hand: keyboard open/close; dark theme; reduced motion. On the "Kept shut
+across updates" example, collapse the plan and the workspace and send updates:
+each stays shut, and one left alone follows the server. A morph refresh
+(`Turbo.visit(location.href, { action: "replace" })`) keeps them too.
 
 ## Open questions
 

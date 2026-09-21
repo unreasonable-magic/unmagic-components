@@ -33,6 +33,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A long path in `ai_chat_workspace` no longer truncates the file's name away:
   a file's row is its name alone, and a row of joined folders shortens from the
   front.
+- A plan or workspace section someone collapsed no longer reopens on every live
+  update. Given an `id:`, it keeps the person's open or shut across a Turbo
+  Stream replace and a morph, and the server's `open:` decides only until they
+  choose. A tool call's details and reasoning with an `id:` do the same. Needs
+  `import "unmagic/components/ai_chat"`.
 
 ## [0.6.0] - 2026-09-20
 

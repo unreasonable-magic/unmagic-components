@@ -146,6 +146,32 @@ RSpec.describe "AI chat plans, workspaces and failures" do
     end
   end
 
+  # ai_chat.js carries a reader's open or shut across a broadcast by this mark;
+  # the script itself is checked by hand on the plan's browser page.
+  describe "disclosures a broadcast replaces" do
+    it "marks a plan and a workspace with their id, so a reader's choice outlasts a replace" do
+      expect(html(view.ai_chat_plan(id: "plan")).at("details#plan")["data-ai-chat-disclosure"]).to eq("plan")
+      expect(html(view.ai_chat_plan(id: "plan", open: false)).at("details#plan")["open"]).to be_nil
+      expect(html(view.ai_chat_workspace(id: "files")).at("details#files")["data-ai-chat-disclosure"]).to eq("files")
+    end
+
+    it "marks a tool call's details and reasoning with the id they were given" do
+      call = html(view.ai_chat_tool_call(name: "search", state: :running, id: "call_1") { |tool| tool.asked "car seat" })
+      expect(call.at("#call_1 details")["data-ai-chat-disclosure"]).to eq("call_1")
+
+      reasoning = html(view.ai_chat_reasoning(id: "thinking_1", streaming: true) { "Considering…" })
+      expect(reasoning.at("details")["data-ai-chat-disclosure"]).to eq("thinking_1")
+    end
+
+    it "leaves one without an id, or one that doesn't collapse, unmarked" do
+      expect(html(view.ai_chat_plan).at("details")["data-ai-chat-disclosure"]).to be_nil
+      expect(html(view.ai_chat_plan(id: "plan", collapsible: false)).at("[data-ai-chat-disclosure]")).to be_nil
+      call = html(view.ai_chat_tool_call(name: "search", state: :done) { |tool| tool.asked "x" })
+      expect(call.at("details")["data-ai-chat-disclosure"]).to be_nil
+      expect(html(view.ai_chat_reasoning { "x" }).at("details")["data-ai-chat-disclosure"]).to be_nil
+    end
+  end
+
   describe "#ai_chat_failure" do
     it "says what happened, folds away the diagnostics, and offers a retry" do
       failure = html(view.ai_chat_failure("The assistant couldn't finish this reply.", class: "extra") do |f|

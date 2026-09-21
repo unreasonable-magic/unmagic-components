@@ -104,10 +104,12 @@ is the seam and a tick is the fallback.
 </div>
 ```
 
-Built on `<details>`, so the disclosure needs no JavaScript and no state to
-restore after a broadcast replaces the element — which happens on every state
-change. This is the "native elements first" rule paying for itself: a scripted
-disclosure would have to remember open-ness across four redraws per call.
+Built on `<details>`, so the disclosure needs no JavaScript. A broadcast
+replaces the element on every state change, though, and would put it back to
+`open:` each time, so a call given an `id:` marks its `<details>` with
+`data-ai-chat-disclosure` and `ai_chat.js` carries the person's own open or shut
+across the replacement (see [plan](plan.md#behaviour-javascript)). Without the
+script, the server's `open:` decides every render.
 
 ## Accessibility
 
@@ -161,7 +163,8 @@ named exception, since a frozen spinner reads as a hang.
 ## Behaviour (JavaScript)
 
 None of its own. It composes `<unmagic-elapsed>` for a running clock, and
-`<details>` does the rest.
+`<details>` does the rest. `ai_chat.js` keeps a person's open or shut across
+replacements of a call with an `id:`.
 
 `tool.progress(text)` renders an element with its own id
 (`#{id}_progress`) so the host can replace just that line as a tool reports. The

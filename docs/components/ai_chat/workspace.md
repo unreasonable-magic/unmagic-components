@@ -1,7 +1,7 @@
 # `ai_chat_workspace`
 
 > Status: built
-> Tier: 1 (no JS)
+> Tier: 1 (no JS of its own; `ai_chat.js` keeps a reader's choice)
 > Relates to: [plan](plan.md), [attachments](attachments.md), [`../tree_view`](../tree_view.md), `card`
 
 ## As built
@@ -175,6 +175,10 @@ pointer is coarse; names truncate and sizes stay whole.
 ## Behaviour (JavaScript)
 
 None. `<details>` folds the folders.
+
+Like the [plan](plan.md), a workspace given an `id:` keeps the person's open or
+shut across broadcasts: `ai_chat.js` reapplies their last choice to the
+replacement. The server's `open:` decides until they choose.
 
 ## I18n
 
