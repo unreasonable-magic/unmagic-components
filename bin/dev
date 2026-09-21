@@ -42,4 +42,23 @@ css
 watcher=$!
 trap 'kill "$watcher" 2>/dev/null' EXIT
 
-bundle exec rackup -s puma -p "$PORT" -o 0.0.0.0
+# Stop a server an earlier bin/dev left running, so it can't keep answering
+# on this port with old code. The pid is checked to still be a puma before it's
+# killed, in case it's been reused.
+pidfile=tmp/pids/browser.pid
+mkdir -p "$(dirname "$pidfile")"
+if [ -f "$pidfile" ]; then
+  old=$(cat "$pidfile")
+  if [ -n "$old" ] && ps -p "$old" -o command= 2>/dev/null | grep -q puma; then
+    echo "Stopping the earlier server (pid $old)"
+    kill "$old"
+    for _ in 1 2 3 4 5 6 7 8 9 10; do
+      kill -0 "$old" 2>/dev/null || break
+      sleep 0.5
+    done
+    kill -0 "$old" 2>/dev/null && kill -9 "$old"
+  fi
+  rm -f "$pidfile"
+fi
+
+bundle exec rackup -s puma -p "$PORT" -o 0.0.0.0 -P "$pidfile"
