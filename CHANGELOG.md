@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Theming says how to put the components on your own greys: redefine the
+  `--color-neutral-*` ramp in your `@theme` to change it everywhere, or on a
+  wrapper to change it for one panel, keeping each shade's lightness so contrast
+  holds. The browser shows a warm grey ramp on the AI chat workspace.
+
 ## [0.6.0] - 2026-09-20
 
 ### Added

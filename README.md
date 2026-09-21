@@ -156,6 +156,73 @@ components follow:
 }
 ```
 
+**Your own greys.** Every grey the components draw, text, borders and surfaces
+alike, is a `neutral` shade, and Tailwind compiles each one to
+`var(--color-neutral-…)`. So your brand's greys replace them in one of two ways,
+and the gem has no grey setting of its own.
+
+Everywhere, by redefining the ramp in your `@theme`. Every `neutral` in your app
+changes with it:
+
+```css
+@theme {
+  --color-neutral-50: oklch(98.5% 0.004 70);
+  --color-neutral-100: oklch(97% 0.007 70);
+  --color-neutral-200: oklch(92.2% 0.012 70);
+  --color-neutral-300: oklch(87% 0.016 70);
+  --color-neutral-400: oklch(70.8% 0.024 70);
+  --color-neutral-500: oklch(55.6% 0.03 70);
+  --color-neutral-600: oklch(43.9% 0.028 70);
+  --color-neutral-700: oklch(37.1% 0.025 70);
+  --color-neutral-800: oklch(26.9% 0.02 70);
+  --color-neutral-900: oklch(20.5% 0.016 70);
+  --color-neutral-950: oklch(14.5% 0.012 70);
+}
+```
+
+Or in one place, by redefining the same variables on a wrapper, in plain CSS
+in your Tailwind input file. Everything inside it, the wrapper included, draws from your
+greys, and `neutral` stays Tailwind's everywhere else. This keeps a panel on
+one palette when its surroundings use your greys but the rest of the app
+doesn't:
+
+```css
+.brand-greys {
+  --color-neutral-50: oklch(98.5% 0.004 70);
+  /* …the rest of the ramp, as above */
+  --color-neutral-950: oklch(14.5% 0.012 70);
+}
+```
+
+```erb
+<aside class="brand-greys rounded-xl border border-neutral-200 bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900">
+  <%= ai_chat_plan do |plan| %>…<% end %>
+  <%= ai_chat_workspace do |workspace| %>…<% end %>
+</aside>
+```
+
+Either way:
+
+- **Redefine the whole ramp, 50 to 950.** Light and dark use different
+  shades of the same colour (`text-neutral-500`, `dark:text-neutral-400`), so
+  a partial ramp mixes palettes in one mode or the other.
+- **Keep each shade's lightness.** Contrast is mostly lightness, and the
+  components' text pairs are chosen against Tailwind's ramp: `neutral-500` on
+  white or `neutral-50` is only just over 4.5:1. Hold the `L` of each shade
+  (the first `oklch` value) and change the chroma and hue, as above, and every
+  pair keeps its ratio. If you move a shade's lightness, check its pairs again.
+- **White and black aren't greys.** Surfaces drawn `bg-white` stay white. Set
+  `--color-white` too, or give the wrapper a `neutral-50` surface, if you want
+  them tinted.
+- **Translucent greys follow in current browsers.** A shade with an opacity
+  (`bg-neutral-800/50`) compiles to `color-mix()` over the variable, with a
+  fixed fallback for browsers without `color-mix()` in `oklab`. Only those
+  browsers keep Tailwind's grey there, and only with the scoped override.
+- **The scoped override is inherited, not global.** A popover or dialog you
+  render outside the wrapper keeps Tailwind's greys; put the class on it too.
+
+The browser shows the scoped override on the AI chat workspace.
+
 **One component** takes utilities through `class:`, like any other option.
 The gem's rules sit in `@layer components`, which Tailwind orders before
 `@layer utilities`, so your utilities win:
