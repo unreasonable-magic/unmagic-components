@@ -1,0 +1,20 @@
+<%# A host's warm greys, scoped to this panel: the neutral ramp redefined on the
+    wrapper, at the same lightness as Tailwind's so every text pair keeps its
+    contrast. In an app this rule lives in your Tailwind input file. %>
+<% warm_greys = {
+  50 => "98.5% 0.004", 100 => "97% 0.007", 200 => "92.2% 0.012", 300 => "87% 0.016",
+  400 => "70.8% 0.024", 500 => "55.6% 0.03", 600 => "43.9% 0.028", 700 => "37.1% 0.025",
+  800 => "26.9% 0.02", 900 => "20.5% 0.016", 950 => "14.5% 0.012"
+}.map { |shade, value| "--color-neutral-#{shade}: oklch(#{value} 70);" }.join(" ") %>
+
+<div style="<%= warm_greys %>" class="w-80 rounded-xl border border-neutral-200 bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900">
+  <%= ai_chat_plan id: "warm_greys_plan" do |plan| %>
+    <% plan.step "Gather references", state: :completed %>
+    <% plan.step "Draft the scene", state: :in_progress %>
+  <% end %>
+  <%= ai_chat_workspace id: "warm_greys_files" do |workspace| %>
+    <% workspace.file "references/lantern-red.png", size: 1_480_000, url: "#" %>
+    <% workspace.file "scene.json", size: 6_120 %>
+    <% workspace.file "notes.md", size: 812, icon: :pencil %>
+  <% end %>
+</div>
