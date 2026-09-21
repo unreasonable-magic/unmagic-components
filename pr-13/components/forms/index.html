@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" class="dark:[color-scheme:dark]">
+  <head>
+    <title>Form builder · unmagic-components</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:,">
+    <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="Rsb6deqm9thT2ewHgutqtdWcxa-I81KO1AhsVMsxjimKkhiX4I_5doexH4mRBFhj0HRO05SkaEhhmqiWkaHS3g" />
+    <meta name="turbo-refresh-method" content="morph">
+    <meta name="turbo-refresh-scroll" content="preserve">
+    <script nonce="">
+      (function () {
+        var key = "unmagic-components-browser-theme"
+        var asked = new URLSearchParams(location.search).get("theme")
+        try {
+          if (asked === "dark" || asked === "light") localStorage.setItem(key, asked)
+          var theme = asked || localStorage.getItem(key)
+          if (theme) document.documentElement.dataset.theme = theme
+        } catch (_) {}
+        document.addEventListener("DOMContentLoaded", function () {
+          var link = document.querySelector("[data-theme-toggle]")
+          if (link) link.href = "?theme=" + (document.documentElement.dataset.theme === "dark" ? "light" : "dark")
+        })
+      })()
+    </script>
+    <link rel="stylesheet" href="/unmagic-components/pr-13/assets/stylesheets/browser.css?v=0.6.0-1790013952">
+    <script type="importmap">{"imports":{"@hotwired/turbo-rails":"/unmagic-components/pr-13/assets/turbo/turbo.min.js?v=2.0.23-1789500601","unmagic/components":"/unmagic-components/pr-13/assets/javascripts/unmagic/components.js?v=0.6.0-1790013952","unmagic/components/ai_chat":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/ai_chat.js?v=0.6.0-1790013952","unmagic/components/autogrow":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/autogrow.js?v=0.6.0-1790013952","unmagic/components/autoscroll":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/autoscroll.js?v=0.6.0-1790013952","unmagic/components/board":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/board.js?v=0.6.0-1790013952","unmagic/components/clipboard":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/clipboard.js?v=0.6.0-1790013952","unmagic/components/combobox":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/combobox.js?v=0.6.0-1790013952","unmagic/components/command_palette":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/command_palette.js?v=0.6.0-1790013952","unmagic/components/confirm":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/confirm.js?v=0.6.0-1790013952","unmagic/components/dialog":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/dialog.js?v=0.6.0-1790013952","unmagic/components/dropzone":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/dropzone.js?v=0.6.0-1790013952","unmagic/components/elapsed":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/elapsed.js?v=0.6.0-1790013952","unmagic/components/menu":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/menu.js?v=0.6.0-1790013952","unmagic/components/modal":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/modal.js?v=0.6.0-1790013952","unmagic/components/navbar":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/navbar.js?v=0.6.0-1790013952","unmagic/components/one_time_code":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/one_time_code.js?v=0.6.0-1790013952","unmagic/components/optimistic":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/optimistic.js?v=0.6.0-1790013952","unmagic/components/password":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/password.js?v=0.6.0-1790013952","unmagic/components/placement":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/placement.js?v=0.6.0-1790013952","unmagic/components/popover":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/popover.js?v=0.6.0-1790013952","unmagic/components/position":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/position.js?v=0.6.0-1790013952","unmagic/components/sidebar":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/sidebar.js?v=0.6.0-1790013952","unmagic/components/slash_menu":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/slash_menu.js?v=0.6.0-1790013952","unmagic/components/sortable":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/sortable.js?v=0.6.0-1790013952","unmagic/components/sortable_item":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/sortable_item.js?v=0.6.0-1790013952","unmagic/components/sortable_list":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/sortable_list.js?v=0.6.0-1790013952","unmagic/components/sortable_param":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/sortable_param.js?v=0.6.0-1790013952","unmagic/components/sortable_session":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/sortable_session.js?v=0.6.0-1790013952","unmagic/components/streaming_markdown":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/streaming_markdown.js?v=0.6.0-1790013952","unmagic/components/tabs":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/tabs.js?v=0.6.0-1790013952","unmagic/components/time":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/time.js?v=0.6.0-1790013952","unmagic/components/toasts":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/toasts.js?v=0.6.0-1790013952","unmagic/components/toggle":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/toggle.js?v=0.6.0-1790013952","unmagic/components/toolbar":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/toolbar.js?v=0.6.0-1790013952","unmagic/components/tooltip":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/tooltip.js?v=0.6.0-1790013952","unmagic/components/upsert":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/upsert.js?v=0.6.0-1790013952","unmagic/components/uuid_input":"/unmagic-components/pr-13/assets/javascripts/unmagic/components/uuid_input.js?v=0.6.0-1790013952"}}</script>
+<script type="module">import "unmagic/components"</script>
+  </head>
+  <body class="min-h-screen bg-white text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-100">
+    <aside class="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-neutral-200 bg-neutral-50/70 lg:flex dark:border-neutral-800 dark:bg-neutral-900/40">
+      <div class="flex h-14 shrink-0 items-center px-5">
+        <a class="flex items-center gap-2.5 text-sm font-semibold" href="/unmagic-components/pr-13/">
+          <span class="grid size-6 place-items-center rounded-md bg-neutral-900 text-[0.625rem] font-bold text-white dark:bg-white dark:text-neutral-900">um</span>
+          unmagic-components
+</a>      </div>
+      <nav class="flex-1 overflow-y-auto px-3 pb-10" aria-label="Components">
+        
+<p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-4">Getting started</p>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/pr-13/">Overview</a>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/pr-13/installation">Installation</a>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/pr-13/theming">Theming</a>
+
+  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Layout</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/card">
+      Card
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/empty_state">
+      Empty state
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/item">
+      Item
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/page_header">
+      Page header
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/panel">
+      Panel
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/scroll_area">
+      Scroll area
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/section">
+      Section
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/separator">
+      Separator
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/skeleton">
+      Skeleton
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Forms</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/button">
+      Button
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/combobox">
+      Combobox
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm font-medium bg-neutral-200/70 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100 flex items-center justify-between gap-2" aria-current="page" href="/unmagic-components/pr-13/components/forms">
+      Form builder
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/toggle">
+      Toggle
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Navigation</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/breadcrumbs">
+      Breadcrumbs
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/command_palette">
+      Command palette
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/context_menu">
+      Context menu
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/menu">
+      Menu
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/navbar">
+      Navbar
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/pagination">
+      Pagination
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/sidebar">
+      Sidebar
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/tabs">
+      Tabs
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/tree_view">
+      Tree view
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Overlays</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/confirm">
+      Confirm
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/dialog">
+      Dialog
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/disclosure">
+      Disclosure
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/popover">
+      Popover
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/toast">
+      Toast
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/tooltip">
+      Tooltip
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Data display</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/avatar">
+      Avatar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/badge">
+      Badge
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/board">
+      Board
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/callout">
+      Callout
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/chart">
+      Chart
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/code_view">
+      Code view
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/copy_button">
+      Copy button
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/detail_list">
+      Detail list
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/elapsed">
+      Elapsed
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/kbd">
+      Kbd
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/local_time">
+      Local time
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/progress">
+      Progress
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/sortable_list">
+      Sortable list
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/spinner">
+      Spinner
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/table">
+      Table
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">AI chat</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_action_bar">
+      Action bar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_attachments">
+      Attachments
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_branch_picker">
+      Branch picker
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_citation">
+      Citation
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_composer">
+      Composer
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat">
+      Conversation
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_failure">
+      Failure
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_message">
+      Message
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_payload">
+      Payload
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_permission">
+      Permission
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_plan">
+      Plan
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_proposal">
+      Proposal
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_reasoning">
+      Reasoning
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_request">
+      Request
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_slash_menu">
+      Slash menu
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/streaming_markdown">
+      Streaming Markdown
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_tool_call">
+      Tool call
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_welcome">
+      Welcome
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_workspace">
+      Workspace
+      
+</a>
+      </nav>
+    </aside>
+
+    <div class="lg:pl-64">
+      <header class="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-neutral-200 bg-white/85 px-4 backdrop-blur sm:px-8 dark:border-neutral-800 dark:bg-neutral-950/85">
+        <details class="relative lg:hidden">
+          <summary class="UnmagicButton UnmagicButton--icon list-none [&::-webkit-details-marker]:hidden" aria-label="Menu">
+            <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </summary>
+          <nav class="absolute left-0 top-11 max-h-[75vh] w-64 overflow-y-auto rounded-xl border border-neutral-200 bg-white p-2 shadow-lg dark:border-neutral-800 dark:bg-neutral-900" aria-label="Components">
+            
+<p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-4">Getting started</p>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/pr-13/">Overview</a>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/pr-13/installation">Installation</a>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/pr-13/theming">Theming</a>
+
+  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Layout</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/card">
+      Card
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/empty_state">
+      Empty state
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/item">
+      Item
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/page_header">
+      Page header
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/panel">
+      Panel
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/scroll_area">
+      Scroll area
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/section">
+      Section
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/separator">
+      Separator
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/skeleton">
+      Skeleton
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Forms</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/button">
+      Button
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/combobox">
+      Combobox
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm font-medium bg-neutral-200/70 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100 flex items-center justify-between gap-2" aria-current="page" href="/unmagic-components/pr-13/components/forms">
+      Form builder
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/toggle">
+      Toggle
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Navigation</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/breadcrumbs">
+      Breadcrumbs
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/command_palette">
+      Command palette
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/context_menu">
+      Context menu
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/menu">
+      Menu
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/navbar">
+      Navbar
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/pagination">
+      Pagination
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/sidebar">
+      Sidebar
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/tabs">
+      Tabs
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/tree_view">
+      Tree view
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Overlays</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/confirm">
+      Confirm
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/dialog">
+      Dialog
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/disclosure">
+      Disclosure
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/popover">
+      Popover
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/toast">
+      Toast
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/tooltip">
+      Tooltip
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Data display</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/avatar">
+      Avatar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/badge">
+      Badge
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/board">
+      Board
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/callout">
+      Callout
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/chart">
+      Chart
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/code_view">
+      Code view
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/copy_button">
+      Copy button
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/detail_list">
+      Detail list
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/elapsed">
+      Elapsed
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/kbd">
+      Kbd
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/local_time">
+      Local time
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/progress">
+      Progress
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/sortable_list">
+      Sortable list
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/spinner">
+      Spinner
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/table">
+      Table
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">AI chat</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_action_bar">
+      Action bar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_attachments">
+      Attachments
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_branch_picker">
+      Branch picker
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_citation">
+      Citation
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_composer">
+      Composer
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat">
+      Conversation
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_failure">
+      Failure
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_message">
+      Message
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_payload">
+      Payload
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_permission">
+      Permission
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_plan">
+      Plan
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_proposal">
+      Proposal
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_reasoning">
+      Reasoning
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_request">
+      Request
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_slash_menu">
+      Slash menu
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/streaming_markdown">
+      Streaming Markdown
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_tool_call">
+      Tool call
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_welcome">
+      Welcome
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-13/components/ai_chat_workspace">
+      Workspace
+      
+</a>
+          </nav>
+        </details>
+
+        <nav class="flex min-w-0 items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400" aria-label="Breadcrumb">
+              <a class="shrink-0 hover:text-neutral-900 dark:hover:text-neutral-100" href="/unmagic-components/pr-13/">Forms</a>
+  <svg class="size-3.5 shrink-0 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+
+    <span class="truncate font-medium text-neutral-900 dark:text-neutral-100" aria-current="page">Form builder</span>
+
+
+        </nav>
+
+        <div class="ml-auto flex items-center gap-1">
+          <a class="UnmagicButton UnmagicButton--icon" aria-label="Switch theme" title="Switch theme" data-theme-toggle="" data-turbo="false" href="?theme=dark">
+            <svg class="hidden size-4 dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-2.93 1.41-1.41m11.32-11.32 1.41-1.41M2 12h2m16 0h2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41"/></svg>
+            <svg class="size-4 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+</a>          <a class="UnmagicButton UnmagicButton--icon" aria-label="GitHub" title="GitHub" href="https://github.com/unreasonable-magic/unmagic-components">
+            <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-5-2"/></svg>
+</a>        </div>
+      </header>
+
+      <main class="mx-auto max-w-6xl px-4 py-10 sm:px-8 lg:py-14">
+        
+
+<div class="xl:grid xl:grid-cols-[minmax(0,1fr)_12rem] xl:gap-12">
+  <article class="min-w-0">
+    <header class="mb-12">
+      <h1 class="text-3xl font-semibold tracking-tight">Form builder</h1>
+      <p class="mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400">The chrome around a form control — the wrapper, the label and its required marker, the hint and the error line — and the look of the controls it builds, through config.control_class.</p>
+      <div class="mt-5 flex flex-wrap items-center gap-2">
+        <span class="UnmagicBadge UnmagicBadge--info">New in 0.6.0</span>
+        <span class="UnmagicBadge"><code>FormBuilder</code></span>
+        
+        <span class="UnmagicBadge">9 examples</span>
+      </div>
+    </header>
+
+    <div class="space-y-14">
+        
+<section id="forms_fields" class="PreviewExample scroll-mt-20">
+  <div class="mb-3 min-h-9 pr-40">
+    <h2 class="text-base font-semibold">
+      <a href="#forms_fields" class="hover:underline">Fields</a>
+    </h2>
+      <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">field builds its control from as:, or takes one from a block; group lays fields out in a row.</p>
+  </div>
+
+
+  <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="forms_fields_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="forms_fields_view_tab_0" class="UnmagicTabs__tab" aria-controls="forms_fields_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="forms_fields_view_tab_1" class="UnmagicTabs__tab" aria-controls="forms_fields_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="forms_fields_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="forms_fields_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
+        <div class="w-full">
+          <form action="/unmagic-components/pr-13/components/forms" accept-charset="UTF-8" method="get">
+  <div class="UnmagicFieldGroup">
+    <div class="UnmagicField UnmagicField--in-row" data-field=""><label class="UnmagicLabel" for="person_first_name">First name <span class="UnmagicLabel__required">*</span></label><input placeholder="Ada" required="required" class="UnmagicInput" type="text" name="person[first_name]" id="person_first_name" /></div>
+    <div class="UnmagicField UnmagicField--in-row" data-field=""><label class="UnmagicLabel" for="person_last_name">Last name</label><input placeholder="Lovelace" class="UnmagicInput" type="text" name="person[last_name]" id="person_last_name" /></div>
+</div>
+  <div class="UnmagicField" data-field=""><label class="UnmagicLabel" for="person_email">Email</label><input placeholder="ada@example.com" class="UnmagicInput" type="email" name="person[email]" id="person_email" /><p class="UnmagicHint">Only used to sign you in.</p></div>
+
+  <div class="UnmagicFieldGroup">
+    <div class="UnmagicField UnmagicField--in-row" data-field=""><label class="UnmagicLabel" for="person_password">Password</label><input id="person_password" class="UnmagicInput" type="password" name="person[password]" /></div>
+    <div class="UnmagicField UnmagicField--in-row" data-field=""><label class="UnmagicLabel" for="person_starts_on">Starts on</label><input class="UnmagicInput" type="date" name="person[starts_on]" id="person_starts_on" /></div>
+</div>
+  <div class="UnmagicField" data-field=""><label class="UnmagicLabel" for="person_role">Role</label>
+    <select class="UnmagicSelect" name="person[role]" id="person_role"><option value="">Choose a role</option>
+<option value="Engineer">Engineer</option>
+<option value="Designer">Designer</option>
+<option value="Manager">Manager</option></select>
+</div>
+  <div class="UnmagicField" data-field=""><label class="UnmagicLabel" for="person_bio">Bio</label><textarea rows="3" placeholder="A line or two about yourself." class="UnmagicInput" name="person[bio]" id="person_bio">
+</textarea></div>
+
+  <div class="mb-4 grid gap-3">
+    <label class="UnmagicCheckField"><input name="person[releases]" type="hidden" value="0" autocomplete="off" /><input class="UnmagicCheck" type="checkbox" value="1" name="person[releases]" id="person_releases" /><span class="UnmagicCheckField__text"><span class="UnmagicCheckField__label">Email me about new releases</span><span class="UnmagicHint">Roughly once a month.</span></span></label>
+    <div class="UnmagicCheckList--inline"><input type="hidden" name="person[teams][]" value="" autocomplete="off" /><label class="UnmagicCheckField"><input class="UnmagicCheck" type="checkbox" value="1" name="person[teams][]" id="person_teams_1" /><span class="UnmagicCheckField__label">Platform</span></label><label class="UnmagicCheckField"><input class="UnmagicCheck" type="checkbox" value="2" name="person[teams][]" id="person_teams_2" /><span class="UnmagicCheckField__label">Billing</span></label><label class="UnmagicCheckField"><input class="UnmagicCheck" type="checkbox" value="3" name="person[teams][]" id="person_teams_3" /><span class="UnmagicCheckField__label">Growth</span></label></div>
+  </div>
+
+  <button type="submit" class="UnmagicButton UnmagicButton--primary" data-turbo-submits-with="Saving…">Save</button>
+</form>
+        </div>
+      </div>
+</div><div role="tabpanel" id="forms_fields_view_panel_1" class="UnmagicTabs__panel" aria-labelledby="forms_fields_view_tab_1" tabindex="0" hidden="hidden">      <div class="UnmagicCodeView UnmagicCodeView--copy rounded-xl" id="forms_fields_source"><pre class="UnmagicCodeView__pre"><code id="forms_fields_source_code" class="UnmagicCodeView__code language-erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">url: </span><span class="n">request</span><span class="p">.</span><span class="nf">path</span><span class="p">,</span> <span class="ss">method: :get</span><span class="p">,</span> <span class="ss">scope: :person</span><span class="p">,</span> <span class="ss">builder: </span><span class="no">Unmagic</span><span class="o">::</span><span class="no">Components</span><span class="o">::</span><span class="no">FormBuilder</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">group</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">field</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="s2">&quot;First name&quot;</span><span class="p">,</span> <span class="ss">required: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">&quot;Ada&quot;</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">field</span> <span class="ss">:last_name</span><span class="p">,</span> <span class="s2">&quot;Last name&quot;</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">&quot;Lovelace&quot;</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">field</span> <span class="ss">:email</span><span class="p">,</span> <span class="s2">&quot;Email&quot;</span><span class="p">,</span> <span class="ss">as: :email_field</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">&quot;ada@example.com&quot;</span><span class="p">,</span>
+        <span class="ss">hint: </span><span class="s2">&quot;Only used to sign you in.&quot;</span> <span class="cp">%&gt;</span>
+
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">group</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">field</span> <span class="ss">:password</span><span class="p">,</span> <span class="s2">&quot;Password&quot;</span><span class="p">,</span> <span class="ss">as: :password_field</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">field</span> <span class="ss">:starts_on</span><span class="p">,</span> <span class="s2">&quot;Starts on&quot;</span><span class="p">,</span> <span class="ss">as: :date_field</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">field</span> <span class="ss">:role</span><span class="p">,</span> <span class="s2">&quot;Role&quot;</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">select</span> <span class="ss">:role</span><span class="p">,</span> <span class="p">[</span> <span class="s2">&quot;Engineer&quot;</span><span class="p">,</span> <span class="s2">&quot;Designer&quot;</span><span class="p">,</span> <span class="s2">&quot;Manager&quot;</span> <span class="p">],</span> <span class="ss">include_blank: </span><span class="s2">&quot;Choose a role&quot;</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">field</span> <span class="ss">:bio</span><span class="p">,</span> <span class="s2">&quot;Bio&quot;</span><span class="p">,</span> <span class="ss">as: :text_area</span><span class="p">,</span> <span class="ss">rows: </span><span class="mi">3</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">&quot;A line or two about yourself.&quot;</span> <span class="cp">%&gt;</span>
+
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;mb-4 grid gap-3&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">check_box_field</span> <span class="ss">:releases</span><span class="p">,</span> <span class="s2">&quot;Email me about new releases&quot;</span><span class="p">,</span> <span class="ss">hint: </span><span class="s2">&quot;Roughly once a month.&quot;</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">check_box_collection</span> <span class="ss">:teams</span><span class="p">,</span> <span class="p">[</span> <span class="p">[</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Platform&quot;</span> <span class="p">],</span> <span class="p">[</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Billing&quot;</span> <span class="p">],</span> <span class="p">[</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;Growth&quot;</span> <span class="p">]</span> <span class="p">],</span>
+          <span class="ss">:first</span><span class="p">,</span> <span class="ss">:last</span><span class="p">,</span> <span class="ss">inline: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">submit</span> <span class="s2">&quot;Save&quot;</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span></code></pre><div class="UnmagicCodeView__copy"><unmagic-clipboard for="forms_fields_source_code" class="UnmagicClipboard" data-copied-label="Copied"><button type="button" aria-label="Copy" title="Copy" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard></div></div>
+
+</div></unmagic-tabs></section>
+
+        
+<section id="forms_states" class="PreviewExample scroll-mt-20">
+  <div class="mb-3 min-h-9 pr-40">
+    <h2 class="text-base font-semibold">
+      <a href="#forms_states" class="hover:underline">Invalid, disabled and read-only</a>
+    </h2>
+      <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">An attribute with errors marks its control aria-invalid and reads the errors underneath.</p>
+  </div>
+
+
+  <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="forms_states_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="forms_states_view_tab_0" class="UnmagicTabs__tab" aria-controls="forms_states_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="forms_states_view_tab_1" class="UnmagicTabs__tab" aria-controls="forms_states_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="forms_states_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="forms_states_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
+        <div class="w-full">
+          <form action="/unmagic-components/pr-13/components/forms" accept-charset="UTF-8" method="get">
+  <div class="UnmagicField" data-field=""><div class="field_with_errors"><label class="UnmagicLabel" for="profile_name">Name <span class="UnmagicLabel__required">*</span></label></div><div class="field_with_errors"><input required="required" aria-invalid="true" class="UnmagicInput" type="text" value="" name="profile[name]" id="profile_name" /></div><p class="UnmagicError">can&#39;t be blank</p></div>
+  <div class="UnmagicField" data-field=""><label class="UnmagicLabel" for="profile_role">Role</label><input disabled="disabled" class="UnmagicInput" type="text" value="Engineer" name="profile[role]" id="profile_role" /><p class="UnmagicHint">Set by your administrator.</p></div>
+</form>
+<form action="/unmagic-components/pr-13/components/forms" accept-charset="UTF-8" method="get">
+  <div class="UnmagicField" data-field=""><label class="UnmagicLabel" for="locked_profile_role">Role (read-only)</label><input readonly="readonly" class="UnmagicInput" type="text" value="Engineer" name="profile[role]" id="locked_profile_role" /></div>
+  <label class="UnmagicCheckField"><input name="profile[name]" disabled="disabled" type="hidden" value="0" autocomplete="off" /><input disabled="disabled" class="UnmagicCheck" type="checkbox" value="1" checked="checked" name="profile[name]" id="locked_profile_name" /><span class="UnmagicCheckField__text"><span class="UnmagicCheckField__label">Locked option</span></span></label>
+</form>
+        </div>
+      </div>
+</div><div role="tabpanel" id="forms_states_view_panel_1" class="UnmagicTabs__panel" aria-labelledby="forms_states_view_tab_1" tabindex="0" hidden="hidden">      <div class="UnmagicCodeView UnmagicCodeView--copy rounded-xl" id="forms_states_source"><pre class="UnmagicCodeView__pre"><code id="forms_states_source_code" class="UnmagicCodeView__code language-erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="vi">@invalid_profile</span><span class="p">,</span> <span class="ss">url: </span><span class="n">request</span><span class="p">.</span><span class="nf">path</span><span class="p">,</span> <span class="ss">method: :get</span><span class="p">,</span>
+      <span class="ss">builder: </span><span class="no">Unmagic</span><span class="o">::</span><span class="no">Components</span><span class="o">::</span><span class="no">FormBuilder</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">field</span> <span class="ss">:name</span><span class="p">,</span> <span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="ss">required: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">field</span> <span class="ss">:role</span><span class="p">,</span> <span class="s2">&quot;Role&quot;</span><span class="p">,</span> <span class="ss">disabled: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">hint: </span><span class="s2">&quot;Set by your administrator.&quot;</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+
+<span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="vi">@profile</span><span class="p">,</span> <span class="ss">url: </span><span class="n">request</span><span class="p">.</span><span class="nf">path</span><span class="p">,</span> <span class="ss">method: :get</span><span class="p">,</span> <span class="ss">namespace: :locked</span><span class="p">,</span>
+      <span class="ss">builder: </span><span class="no">Unmagic</span><span class="o">::</span><span class="no">Components</span><span class="o">::</span><span class="no">FormBuilder</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">field</span> <span class="ss">:role</span><span class="p">,</span> <span class="s2">&quot;Role (read-only)&quot;</span><span class="p">,</span> <span class="ss">readonly: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">check_box_field</span> <span class="ss">:name</span><span class="p">,</span> <span class="s2">&quot;Locked option&quot;</span><span class="p">,</span> <span class="ss">disabled: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">checked: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span></code></pre><div class="UnmagicCodeView__copy"><unmagic-clipboard for="forms_states_source_code" class="UnmagicClipboard" data-copied-label="Copied"><button type="button" aria-label="Copy" title="Copy" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard></div></div>
+
+</div></unmagic-tabs></section>
+
+        
+<section id="forms_control_classes" class="PreviewExample scroll-mt-20">
+  <div class="mb-3 min-h-9 pr-40">
+    <h2 class="text-base font-semibold">
+      <a href="#forms_control_classes" class="hover:underline">control_classes, outside a builder</a>
+    </h2>
+      <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">A select_tag or a hand-written input wears the same classes, sized to sit level with buttons.</p>
+  </div>
+
+
+  <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="forms_control_classes_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="forms_control_classes_view_tab_0" class="UnmagicTabs__tab" aria-controls="forms_control_classes_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="forms_control_classes_view_tab_1" class="UnmagicTabs__tab" aria-controls="forms_control_classes_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="forms_control_classes_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="forms_control_classes_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
+        <div class="w-full">
+          <div class="grid gap-4">
+  <div class="flex flex-wrap items-center gap-2">
+    <input type="search" name="people[q]" id="people_q" placeholder="Search people" aria-label="Search people" class="UnmagicInput UnmagicInput--small" />
+    <select name="people[status]" id="people_status" aria-label="Status" class="UnmagicSelect UnmagicSelect--small"><option value="Active">Active</option>
+<option value="Invited">Invited</option>
+<option value="Removed">Removed</option></select>
+    <button type="button" class="UnmagicButton UnmagicButton--small">Filter</button>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-2">
+    <input type="text" name="key[slug]" id="key_slug" value="deploy-key" aria-label="Slug" class="UnmagicInput" />
+    <select name="key[scope]" id="key_scope" aria-label="Scope" class="UnmagicSelect"><option value="Read">Read</option>
+<option value="Read and write">Read and write</option></select>
+    <button type="button" class="UnmagicButton UnmagicButton--primary">Save</button>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-2">
+    <input type="text" name="report[title]" id="report_title" value="Quarterly review" aria-label="Title" class="UnmagicInput UnmagicInput--large" />
+    <button type="button" class="UnmagicButton UnmagicButton--primary UnmagicButton--large">Publish</button>
+  </div>
+
+  <fieldset class="m-0 border-0 p-0">
+    <legend class="UnmagicLabel mb-2">Notify me</legend>
+    <div class="UnmagicCheckList--inline">
+        <label class="UnmagicCheckField">
+          <input type="radio" name="notify" id="notify_immediately" value="immediately" class="UnmagicRadio" checked="checked" />
+          <span class="UnmagicCheckField__label">Immediately</span>
+        </label>
+        <label class="UnmagicCheckField">
+          <input type="radio" name="notify" id="notify_daily" value="daily" class="UnmagicRadio" />
+          <span class="UnmagicCheckField__label">Daily</span>
+        </label>
+        <label class="UnmagicCheckField">
+          <input type="radio" name="notify" id="notify_never" value="never" class="UnmagicRadio" />
+          <span class="UnmagicCheckField__label">Never</span>
+        </label>
+      <label class="UnmagicCheckField">
+        <input type="radio" name="notify" id="notify_paused" value="paused" disabled="disabled" class="UnmagicRadio" />
+        <span class="UnmagicCheckField__label">Paused (disabled)</span>
+      </label>
+    </div>
+  </fieldset>
+
+  <div class="UnmagicCheckList--inline">
+    <label class="UnmagicCheckField">
+      <input type="checkbox" name="all_teams" id="control_classes_all_teams" value="1" class="UnmagicCheck" />
+      <span class="UnmagicCheckField__label">All teams (indeterminate)</span>
+    </label>
+    <label class="UnmagicCheckField">
+      <input type="checkbox" name="archived" id="control_classes_archived" value="1" class="UnmagicCheck" aria-invalid="true" checked="checked" />
+      <span class="UnmagicCheckField__label">Invalid</span>
+    </label>
+  </div>
+
+  <script>
+//<![CDATA[
+
+    document.getElementById("control_classes_all_teams").indeterminate = true
+
+//]]>
+</script></div>
+
+        </div>
+      </div>
+</div><div role="tabpanel" id="forms_control_classes_view_panel_1" class="UnmagicTabs__panel" aria-labelledby="forms_control_classes_view_tab_1" tabindex="0" hidden="hidden">      <div class="UnmagicCodeView UnmagicCodeView--copy rounded-xl" id="forms_control_classes_source"><pre class="UnmagicCodeView__pre"><code id="forms_control_classes_source_code" class="UnmagicCodeView__code language-erb"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;grid gap-4&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;flex flex-wrap items-center gap-2&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">search_field_tag</span> <span class="s2">&quot;people[q]&quot;</span><span class="p">,</span> <span class="kp">nil</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">&quot;Search people&quot;</span><span class="p">,</span> <span class="s2">&quot;aria-label&quot;</span><span class="p">:</span> <span class="s2">&quot;Search people&quot;</span><span class="p">,</span>
+          <span class="ss">class: </span><span class="n">control_classes</span><span class="p">(</span><span class="ss">:input</span><span class="p">,</span> <span class="ss">size: :small</span><span class="p">)</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">select_tag</span> <span class="s2">&quot;people[status]&quot;</span><span class="p">,</span> <span class="n">options_for_select</span><span class="p">(</span><span class="sx">%w[Active Invited Removed]</span><span class="p">),</span> <span class="s2">&quot;aria-label&quot;</span><span class="p">:</span> <span class="s2">&quot;Status&quot;</span><span class="p">,</span>
+          <span class="ss">class: </span><span class="n">control_classes</span><span class="p">(</span><span class="ss">:select</span><span class="p">,</span> <span class="ss">size: :small</span><span class="p">)</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">tag</span><span class="p">.</span><span class="nf">button</span> <span class="s2">&quot;Filter&quot;</span><span class="p">,</span> <span class="ss">type: </span><span class="s2">&quot;button&quot;</span><span class="p">,</span> <span class="ss">class: </span><span class="n">button_classes</span><span class="p">(</span><span class="ss">:default</span><span class="p">,</span> <span class="ss">size: :small</span><span class="p">)</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;flex flex-wrap items-center gap-2&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">text_field_tag</span> <span class="s2">&quot;key[slug]&quot;</span><span class="p">,</span> <span class="s2">&quot;deploy-key&quot;</span><span class="p">,</span> <span class="s2">&quot;aria-label&quot;</span><span class="p">:</span> <span class="s2">&quot;Slug&quot;</span><span class="p">,</span> <span class="ss">class: </span><span class="n">control_classes</span><span class="p">(</span><span class="ss">:input</span><span class="p">)</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">select_tag</span> <span class="s2">&quot;key[scope]&quot;</span><span class="p">,</span> <span class="n">options_for_select</span><span class="p">([</span> <span class="s2">&quot;Read&quot;</span><span class="p">,</span> <span class="s2">&quot;Read and write&quot;</span> <span class="p">]),</span> <span class="s2">&quot;aria-label&quot;</span><span class="p">:</span> <span class="s2">&quot;Scope&quot;</span><span class="p">,</span>
+          <span class="ss">class: </span><span class="n">control_classes</span><span class="p">(</span><span class="ss">:select</span><span class="p">)</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">tag</span><span class="p">.</span><span class="nf">button</span> <span class="s2">&quot;Save&quot;</span><span class="p">,</span> <span class="ss">type: </span><span class="s2">&quot;button&quot;</span><span class="p">,</span> <span class="ss">class: </span><span class="n">button_classes</span><span class="p">(</span><span class="ss">:primary</span><span class="p">)</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;flex flex-wrap items-center gap-2&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">text_field_tag</span> <span class="s2">&quot;report[title]&quot;</span><span class="p">,</span> <span class="s2">&quot;Quarterly review&quot;</span><span class="p">,</span> <span class="s2">&quot;aria-label&quot;</span><span class="p">:</span> <span class="s2">&quot;Title&quot;</span><span class="p">,</span>
+          <span class="ss">class: </span><span class="n">control_classes</span><span class="p">(</span><span class="ss">:input</span><span class="p">,</span> <span class="ss">size: :large</span><span class="p">)</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">tag</span><span class="p">.</span><span class="nf">button</span> <span class="s2">&quot;Publish&quot;</span><span class="p">,</span> <span class="ss">type: </span><span class="s2">&quot;button&quot;</span><span class="p">,</span> <span class="ss">class: </span><span class="n">button_classes</span><span class="p">(</span><span class="ss">:primary</span><span class="p">,</span> <span class="ss">size: :large</span><span class="p">)</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+
+  <span class="nt">&lt;fieldset</span> <span class="na">class=</span><span class="s">&quot;m-0 border-0 p-0&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;legend</span> <span class="na">class=</span><span class="s">&quot;UnmagicLabel mb-2&quot;</span><span class="nt">&gt;</span>Notify me<span class="nt">&lt;/legend&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;UnmagicCheckList--inline&quot;</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%</span> <span class="p">[</span> <span class="s2">&quot;Immediately&quot;</span><span class="p">,</span> <span class="s2">&quot;Daily&quot;</span><span class="p">,</span> <span class="s2">&quot;Never&quot;</span> <span class="p">].</span><span class="nf">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">choice</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span> <span class="cp">%&gt;</span>
+        <span class="nt">&lt;label</span> <span class="na">class=</span><span class="s">&quot;UnmagicCheckField&quot;</span><span class="nt">&gt;</span>
+          <span class="cp">&lt;%=</span> <span class="n">radio_button_tag</span> <span class="s2">&quot;notify&quot;</span><span class="p">,</span> <span class="n">choice</span><span class="p">.</span><span class="nf">downcase</span><span class="p">,</span> <span class="n">index</span><span class="p">.</span><span class="nf">zero?</span><span class="p">,</span> <span class="ss">class: </span><span class="n">control_classes</span><span class="p">(</span><span class="ss">:radio</span><span class="p">)</span> <span class="cp">%&gt;</span>
+          <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;UnmagicCheckField__label&quot;</span><span class="nt">&gt;</span><span class="cp">&lt;%=</span> <span class="n">choice</span> <span class="cp">%&gt;</span><span class="nt">&lt;/span&gt;</span>
+        <span class="nt">&lt;/label&gt;</span>
+      <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;label</span> <span class="na">class=</span><span class="s">&quot;UnmagicCheckField&quot;</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">radio_button_tag</span> <span class="s2">&quot;notify&quot;</span><span class="p">,</span> <span class="s2">&quot;paused&quot;</span><span class="p">,</span> <span class="kp">false</span><span class="p">,</span> <span class="ss">disabled: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">class: </span><span class="n">control_classes</span><span class="p">(</span><span class="ss">:radio</span><span class="p">)</span> <span class="cp">%&gt;</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;UnmagicCheckField__label&quot;</span><span class="nt">&gt;</span>Paused (disabled)<span class="nt">&lt;/span&gt;</span>
+      <span class="nt">&lt;/label&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;/fieldset&gt;</span>
+
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;UnmagicCheckList--inline&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;label</span> <span class="na">class=</span><span class="s">&quot;UnmagicCheckField&quot;</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">check_box_tag</span> <span class="s2">&quot;all_teams&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="kp">false</span><span class="p">,</span> <span class="ss">id: </span><span class="s2">&quot;control_classes_all_teams&quot;</span><span class="p">,</span> <span class="ss">class: </span><span class="n">control_classes</span><span class="p">(</span><span class="ss">:check</span><span class="p">)</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;UnmagicCheckField__label&quot;</span><span class="nt">&gt;</span>All teams (indeterminate)<span class="nt">&lt;/span&gt;</span>
+    <span class="nt">&lt;/label&gt;</span>
+    <span class="nt">&lt;label</span> <span class="na">class=</span><span class="s">&quot;UnmagicCheckField&quot;</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">check_box_tag</span> <span class="s2">&quot;archived&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">id: </span><span class="s2">&quot;control_classes_archived&quot;</span><span class="p">,</span> <span class="ss">class: </span><span class="n">control_classes</span><span class="p">(</span><span class="ss">:check</span><span class="p">),</span>
+            <span class="s2">&quot;aria-invalid&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;UnmagicCheckField__label&quot;</span><span class="nt">&gt;</span>Invalid<span class="nt">&lt;/span&gt;</span>
+    <span class="nt">&lt;/label&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+
+  <span class="cp">&lt;%=</span> <span class="n">javascript_tag</span> <span class="ss">nonce: </span><span class="kp">true</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+    document.getElementById(&quot;control_classes_all_teams&quot;).indeterminate = true
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre><div class="UnmagicCodeView__copy"><unmagic-clipboard for="forms_control_classes_source_code" class="UnmagicClipboard" data-copied-label="Copied"><button type="button" aria-label="Copy" title="Copy" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard></div></div>
+
+</div></unmagic-tabs></section>
+
+        
+<section id="forms_switches" class="PreviewExample scroll-mt-20">
+  <div class="mb-3 min-h-9 pr-40">
+    <h2 class="text-base font-semibold">
+      <a href="#forms_switches" class="hover:underline">Switches and sliders</a>
+    </h2>
+      <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">switch_field is a checkbox with role switch, drawn as one. range_field is the native slider styled to match.</p>
+  </div>
+
+
+  <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="forms_switches_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="forms_switches_view_tab_0" class="UnmagicTabs__tab" aria-controls="forms_switches_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="forms_switches_view_tab_1" class="UnmagicTabs__tab" aria-controls="forms_switches_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="forms_switches_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="forms_switches_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
+        <div class="w-full">
+          <form class="max-w-md" action="#" accept-charset="UTF-8" method="post"><input type="hidden" name="_method" value="patch" autocomplete="off" /><input type="hidden" name="authenticity_token" value="Wgkh2TuwKtGW2WdIsWnsbhuzg2io9yEOqT8yVPpGnkH6KvEoluK8fi174sbIYXBIpasFdKPNhm2uNXAOIXSIoQ" autocomplete="off" />
+  <label class="UnmagicCheckField UnmagicCheckField--switch"><input name="profile[notify]" type="hidden" value="0" autocomplete="off" /><input role="switch" class="UnmagicSwitch" type="checkbox" value="1" checked="checked" name="profile[notify]" id="profile_notify" /><span class="UnmagicCheckField__text"><span class="UnmagicCheckField__label">Email me about new replies</span></span></label>
+  <label class="UnmagicCheckField UnmagicCheckField--switch UnmagicCheckField--hinted"><input name="profile[two_factor]" type="hidden" value="0" autocomplete="off" /><input role="switch" class="UnmagicSwitch" type="checkbox" value="1" name="profile[two_factor]" id="profile_two_factor" /><span class="UnmagicCheckField__text"><span class="UnmagicCheckField__label">Require two-factor</span><span class="UnmagicHint">Members without it are signed out.</span></span></label>
+  <div class="UnmagicField" data-field=""><label class="UnmagicLabel" for="profile_volume">Volume</label><input min="0" max="100" class="UnmagicRange" type="range" value="40" name="profile[volume]" id="profile_volume" /><p class="UnmagicHint">A slider, styled to match.</p></div>
+</form>
+        </div>
+      </div>
+</div><div role="tabpanel" id="forms_switches_view_panel_1" class="UnmagicTabs__panel" aria-labelledby="forms_switches_view_tab_1" tabindex="0" hidden="hidden">      <div class="UnmagicCodeView UnmagicCodeView--copy rounded-xl" id="forms_switches_source"><pre class="UnmagicCodeView__pre"><code id="forms_switches_source_code" class="UnmagicCodeView__code language-erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="vi">@profile</span><span class="p">,</span> <span class="ss">url: </span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">builder: </span><span class="no">Unmagic</span><span class="o">::</span><span class="no">Components</span><span class="o">::</span><span class="no">FormBuilder</span><span class="p">,</span> <span class="ss">class: </span><span class="s2">&quot;max-w-md&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">switch_field</span> <span class="ss">:notify</span><span class="p">,</span> <span class="s2">&quot;Email me about new replies&quot;</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">switch_field</span> <span class="ss">:two_factor</span><span class="p">,</span> <span class="s2">&quot;Require two-factor&quot;</span><span class="p">,</span> <span class="ss">hint: </span><span class="s2">&quot;Members without it are signed out.&quot;</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">field</span> <span class="ss">:volume</span><span class="p">,</span> <span class="s2">&quot;Volume&quot;</span><span class="p">,</span> <span class="ss">as: :range_field</span><span class="p">,</span> <span class="ss">min: </span><span class="mi">0</span><span class="p">,</span> <span class="ss">max: </span><span class="mi">100</span><span class="p">,</span> <span class="ss">hint: </span><span class="s2">&quot;A slider, styled to match.&quot;</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span></code></pre><div class="UnmagicCodeView__copy"><unmagic-clipboard for="forms_switches_source_code" class="UnmagicClipboard" data-copied-label="Copied"><button type="button" aria-label="Copy" title="Copy" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard></div></div>
+
+</div></unmagic-tabs></section>
+
+        
+<section id="forms_choices" class="PreviewExample scroll-mt-20">
+  <div class="mb-3 min-h-9 pr-40">
+    <h2 class="text-base font-semibold">
+      <a href="#forms_choices" class="hover:underline">Radio groups</a>
+    </h2>
+      <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">radio_button_collection in a fieldset named by legend:, with a hint under each option; variant: :cards makes the whole card the target.</p>
+  </div>
+
+
+  <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="forms_choices_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="forms_choices_view_tab_0" class="UnmagicTabs__tab" aria-controls="forms_choices_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="forms_choices_view_tab_1" class="UnmagicTabs__tab" aria-controls="forms_choices_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="forms_choices_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="forms_choices_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
+        <div class="w-full">
+          <form class="max-w-2xl" action="#" accept-charset="UTF-8" method="post"><input type="hidden" name="_method" value="patch" autocomplete="off" /><input type="hidden" name="authenticity_token" value="Y5fJZVIaoWXdQ-G3DahM9W1WDUTcKDJsc8dAUxOGcAvDtBmU_0g3ymbhZDl0oNDT006LWNcSlQ90zQIJyLRm6w" autocomplete="off" />
+  <fieldset class="UnmagicChoiceGroup"><legend class="UnmagicLabel">Plan <span class="UnmagicLabel__required">*</span></legend><div class="UnmagicCheckList UnmagicCheckList--cards UnmagicCheckList--cards-inline"><input type="hidden" name="profile[role]" value="" autocomplete="off" /><label class="UnmagicCheckField UnmagicCheckField--card"><input required="required" class="UnmagicRadio" type="radio" value="starter" name="profile[role]" id="profile_role_starter" /><span class="UnmagicCheckField__text"><span class="UnmagicCheckField__label">Starter</span><span class="UnmagicHint">For one person trying things out.</span></span></label><label class="UnmagicCheckField UnmagicCheckField--card"><input required="required" class="UnmagicRadio" type="radio" value="team" name="profile[role]" id="profile_role_team" /><span class="UnmagicCheckField__text"><span class="UnmagicCheckField__label">Team</span><span class="UnmagicHint">Everybody in the shop, one bill.</span></span></label><label class="UnmagicCheckField UnmagicCheckField--card"><input required="required" class="UnmagicRadio" type="radio" value="studio" name="profile[role]" id="profile_role_studio" /><span class="UnmagicCheckField__text"><span class="UnmagicCheckField__label">Studio</span><span class="UnmagicHint">Priority renders and a kiln of your own.</span></span></label></div></fieldset>
+  <fieldset class="UnmagicChoiceGroup"><legend class="UnmagicLabel">The same, as a list</legend><div class="UnmagicCheckList UnmagicCheckList--inline"><input type="hidden" name="profile[name]" value="" autocomplete="off" /><label class="UnmagicCheckField"><input class="UnmagicRadio" type="radio" value="starter" name="profile[name]" id="profile_name_starter" /><span class="UnmagicCheckField__text"><span class="UnmagicCheckField__label">Starter</span></span></label><label class="UnmagicCheckField"><input class="UnmagicRadio" type="radio" value="team" name="profile[name]" id="profile_name_team" /><span class="UnmagicCheckField__text"><span class="UnmagicCheckField__label">Team</span></span></label><label class="UnmagicCheckField"><input class="UnmagicRadio" type="radio" value="studio" name="profile[name]" id="profile_name_studio" /><span class="UnmagicCheckField__text"><span class="UnmagicCheckField__label">Studio</span></span></label></div></fieldset>
+</form>
+        </div>
+      </div>
+</div><div role="tabpanel" id="forms_choices_view_panel_1" class="UnmagicTabs__panel" aria-labelledby="forms_choices_view_tab_1" tabindex="0" hidden="hidden">      <div class="UnmagicCodeView UnmagicCodeView--copy rounded-xl" id="forms_choices_source"><pre class="UnmagicCodeView__pre"><code id="forms_choices_source_code" class="UnmagicCodeView__code language-erb"><span class="cp">&lt;%</span> <span class="n">plans</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[</span> <span class="s2">&quot;starter&quot;</span><span class="p">,</span> <span class="s2">&quot;Starter&quot;</span><span class="p">,</span> <span class="s2">&quot;For one person trying things out.&quot;</span> <span class="p">],</span> <span class="p">[</span> <span class="s2">&quot;team&quot;</span><span class="p">,</span> <span class="s2">&quot;Team&quot;</span><span class="p">,</span> <span class="s2">&quot;Everybody in the shop, one bill.&quot;</span> <span class="p">],</span> <span class="p">[</span> <span class="s2">&quot;studio&quot;</span><span class="p">,</span> <span class="s2">&quot;Studio&quot;</span><span class="p">,</span> <span class="s2">&quot;Priority renders and a kiln of your own.&quot;</span> <span class="p">]</span> <span class="p">].</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="nb">id</span><span class="p">,</span> <span class="nb">name</span><span class="p">,</span> <span class="n">summary</span><span class="o">|</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:id</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:summary</span><span class="p">).</span><span class="nf">new</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="nb">name</span><span class="p">,</span> <span class="n">summary</span><span class="p">)</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="vi">@profile</span><span class="p">,</span> <span class="ss">url: </span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">builder: </span><span class="no">Unmagic</span><span class="o">::</span><span class="no">Components</span><span class="o">::</span><span class="no">FormBuilder</span><span class="p">,</span> <span class="ss">class: </span><span class="s2">&quot;max-w-2xl&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">radio_button_collection</span> <span class="ss">:role</span><span class="p">,</span> <span class="n">plans</span><span class="p">,</span> <span class="ss">:id</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">legend: </span><span class="s2">&quot;Plan&quot;</span><span class="p">,</span> <span class="ss">hint_method: :summary</span><span class="p">,</span> <span class="ss">variant: :cards</span><span class="p">,</span> <span class="ss">inline: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">required: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">radio_button_collection</span> <span class="ss">:name</span><span class="p">,</span> <span class="n">plans</span><span class="p">,</span> <span class="ss">:id</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">legend: </span><span class="s2">&quot;The same, as a list&quot;</span><span class="p">,</span> <span class="ss">inline: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span></code></pre><div class="UnmagicCodeView__copy"><unmagic-clipboard for="forms_choices_source_code" class="UnmagicClipboard" data-copied-label="Copied"><button type="button" aria-label="Copy" title="Copy" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard></div></div>
+
+</div></unmagic-tabs></section>
+
+        
+<section id="forms_secrets" class="PreviewExample scroll-mt-20">
+  <div class="mb-3 min-h-9 pr-40">
+    <h2 class="text-base font-semibold">
+      <a href="#forms_secrets" class="hover:underline">Passwords and one-time codes</a>
+    </h2>
+      <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">password_field reveal: true adds a button that shows what was typed. one_time_code_field is one real input drawn as a row of boxes, so paste and autofill just work. Needs import &quot;unmagic/components/password&quot; and &quot;unmagic/components/one_time_code&quot;.</p>
+  </div>
+
+
+  <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="forms_secrets_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="forms_secrets_view_tab_0" class="UnmagicTabs__tab" aria-controls="forms_secrets_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="forms_secrets_view_tab_1" class="UnmagicTabs__tab" aria-controls="forms_secrets_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="forms_secrets_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="forms_secrets_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
+        <div class="w-full">
+          <form class="max-w-md" action="#" accept-charset="UTF-8" method="post"><input type="hidden" name="_method" value="patch" autocomplete="off" /><input type="hidden" name="authenticity_token" value="gUf5RnFbh_dj6hB49EGAp8sy8I-1okscMSlasAvm3lUhZCm33AkRWNhIlfaNSRyBdSp2k76Y7H82Ixjq0NTItQ" autocomplete="off" />
+  <div class="UnmagicField" data-field=""><label class="UnmagicLabel" for="profile_password">Password</label><unmagic-password class="UnmagicPassword"><input autocomplete="new-password" id="profile_password" class="UnmagicInput" type="password" name="profile[password]" /><button type="button" class="UnmagicButton UnmagicButton--icon UnmagicPassword__toggle" aria-controls="profile_password" aria-pressed="false" aria-label="Show password" title="Show password" hidden="hidden"><svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+ class="unmagic-icon UnmagicIcon UnmagicPassword__show" data-unmagic-icon="unmagic_components:lucide/eye" aria-hidden="true">
+  <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+  <circle cx="12" cy="12" r="3" />
+</svg>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+ class="unmagic-icon UnmagicIcon UnmagicPassword__hide" data-unmagic-icon="unmagic_components:lucide/eye-off" aria-hidden="true">
+  <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" />
+  <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
+  <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" />
+  <path d="m2 2 20 20" />
+</svg>
+</button></unmagic-password><p class="UnmagicHint">The button shows what you typed; the caret stays put.</p></div>
+  <div class="UnmagicField" data-field=""><label class="UnmagicLabel" for="profile_code">Verification code</label><unmagic-one-time-code class="UnmagicOneTimeCode" length="6" charset="numeric"><input type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" spellcheck="false" autocapitalize="off" class="UnmagicInput UnmagicOneTimeCode__input" size="6" name="profile[code]" id="profile_code" /></unmagic-one-time-code><p class="UnmagicHint">Paste it, or let the phone fill it in.</p></div>
+</form>
+        </div>
+      </div>
+</div><div role="tabpanel" id="forms_secrets_view_panel_1" class="UnmagicTabs__panel" aria-labelledby="forms_secrets_view_tab_1" tabindex="0" hidden="hidden">      <div class="UnmagicCodeView UnmagicCodeView--copy rounded-xl" id="forms_secrets_source"><pre class="UnmagicCodeView__pre"><code id="forms_secrets_source_code" class="UnmagicCodeView__code language-erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="vi">@profile</span><span class="p">,</span> <span class="ss">url: </span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">builder: </span><span class="no">Unmagic</span><span class="o">::</span><span class="no">Components</span><span class="o">::</span><span class="no">FormBuilder</span><span class="p">,</span> <span class="ss">class: </span><span class="s2">&quot;max-w-md&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">field</span> <span class="ss">:password</span><span class="p">,</span> <span class="s2">&quot;Password&quot;</span><span class="p">,</span> <span class="ss">as: :password_field</span><span class="p">,</span> <span class="ss">reveal: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">autocomplete: </span><span class="s2">&quot;new-password&quot;</span><span class="p">,</span> <span class="ss">hint: </span><span class="s2">&quot;The button shows what you typed; the caret stays put.&quot;</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">field</span> <span class="ss">:code</span><span class="p">,</span> <span class="s2">&quot;Verification code&quot;</span><span class="p">,</span> <span class="ss">as: :one_time_code_field</span><span class="p">,</span> <span class="ss">length: </span><span class="mi">6</span><span class="p">,</span> <span class="ss">hint: </span><span class="s2">&quot;Paste it, or let the phone fill it in.&quot;</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span></code></pre><div class="UnmagicCodeView__copy"><unmagic-clipboard for="forms_secrets_source_code" class="UnmagicClipboard" data-copied-label="Copied"><button type="button" aria-label="Copy" title="Copy" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard></div></div>
+
+</div></unmagic-tabs></section>
+
+        
+<section id="forms_input_groups" class="PreviewExample scroll-mt-20">
+  <div class="mb-3 min-h-9 pr-40">
+    <h2 class="text-base font-semibold">
+      <a href="#forms_input_groups" class="hover:underline">Input groups</a>
+    </h2>
+      <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">input_group joins a unit, a scheme, an icon or a button to either end of a control.</p>
+  </div>
+
+
+  <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="forms_input_groups_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="forms_input_groups_view_tab_0" class="UnmagicTabs__tab" aria-controls="forms_input_groups_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="forms_input_groups_view_tab_1" class="UnmagicTabs__tab" aria-controls="forms_input_groups_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="forms_input_groups_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="forms_input_groups_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
+        <div class="w-full">
+          <div class="grid max-w-md gap-4">
+  <div class="UnmagicInputGroup"><span class="UnmagicInputGroup__addon UnmagicInputGroup__addon--text">https://</span>
+    <input type="text" name="subdomain" id="subdomain" value="kidbook" class="UnmagicInput" aria-label="Subdomain" />
+<span class="UnmagicInputGroup__addon UnmagicInputGroup__addon--text">.example.com</span></div>  <div class="UnmagicInputGroup"><span class="UnmagicInputGroup__addon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon size-4 mx-3 text-neutral-500" data-unmagic-icon="unmagic_components:lucide/messages-square"><path d="M16 10a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 14.286V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/><path d="M20 9a2 2 0 0 1 2 2v10.286a.71.71 0 0 1-1.212.502l-2.202-2.202A2 2 0 0 0 17.172 19H10a2 2 0 0 1-2-2v-1"/></svg></span>
+    <input type="text" name="handle" id="handle" placeholder="Search messages" class="UnmagicInput" aria-label="Search" />
+</div>  <div class="UnmagicInputGroup">
+    <input type="email" name="email" id="email" placeholder="you@example.com" class="UnmagicInput" aria-label="Email" />
+<span class="UnmagicInputGroup__addon"><button type="button" class="UnmagicButton UnmagicButton--primary"><span class="UnmagicButton__label">Send</span></button></span></div></div>
+
+        </div>
+      </div>
+</div><div role="tabpanel" id="forms_input_groups_view_panel_1" class="UnmagicTabs__panel" aria-labelledby="forms_input_groups_view_tab_1" tabindex="0" hidden="hidden">      <div class="UnmagicCodeView UnmagicCodeView--copy rounded-xl" id="forms_input_groups_source"><pre class="UnmagicCodeView__pre"><code id="forms_input_groups_source_code" class="UnmagicCodeView__code language-erb"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;grid max-w-md gap-4&quot;</span><span class="nt">&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">input_group</span> <span class="ss">prefix: </span><span class="s2">&quot;https://&quot;</span><span class="p">,</span> <span class="ss">suffix: </span><span class="s2">&quot;.example.com&quot;</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">text_field_tag</span> <span class="ss">:subdomain</span><span class="p">,</span> <span class="s2">&quot;kidbook&quot;</span><span class="p">,</span> <span class="ss">class: </span><span class="n">control_classes</span><span class="p">(</span><span class="ss">:input</span><span class="p">),</span> <span class="s2">&quot;aria-label&quot;</span><span class="p">:</span> <span class="s2">&quot;Subdomain&quot;</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">input_group</span> <span class="ss">prefix: </span><span class="n">unmagic_icon</span><span class="p">(</span><span class="s2">&quot;unmagic_components:lucide/messages-square&quot;</span><span class="p">,</span> <span class="ss">class: </span><span class="s2">&quot;size-4 mx-3 text-neutral-500&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">text_field_tag</span> <span class="ss">:handle</span><span class="p">,</span> <span class="kp">nil</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">&quot;Search messages&quot;</span><span class="p">,</span> <span class="ss">class: </span><span class="n">control_classes</span><span class="p">(</span><span class="ss">:input</span><span class="p">),</span> <span class="s2">&quot;aria-label&quot;</span><span class="p">:</span> <span class="s2">&quot;Search&quot;</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">input_group</span> <span class="ss">suffix: </span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Send&quot;</span><span class="p">,</span> <span class="ss">:primary</span><span class="p">,</span> <span class="ss">type: </span><span class="s2">&quot;button&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">email_field_tag</span> <span class="ss">:email</span><span class="p">,</span> <span class="kp">nil</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">&quot;you@example.com&quot;</span><span class="p">,</span> <span class="ss">class: </span><span class="n">control_classes</span><span class="p">(</span><span class="ss">:input</span><span class="p">),</span> <span class="s2">&quot;aria-label&quot;</span><span class="p">:</span> <span class="s2">&quot;Email&quot;</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre><div class="UnmagicCodeView__copy"><unmagic-clipboard for="forms_input_groups_source_code" class="UnmagicClipboard" data-copied-label="Copied"><button type="button" aria-label="Copy" title="Copy" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard></div></div>
+
+</div></unmagic-tabs></section>
+
+        
+<section id="forms_autogrow" class="PreviewExample scroll-mt-20">
+  <div class="mb-3 min-h-9 pr-40">
+    <h2 class="text-base font-semibold">
+      <a href="#forms_autogrow" class="hover:underline">Autogrowing textarea</a>
+    </h2>
+      <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">Grows from its rows up to its max-height, then scrolls. Needs import &quot;unmagic/components/autogrow&quot;.</p>
+  </div>
+
+
+  <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="forms_autogrow_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="forms_autogrow_view_tab_0" class="UnmagicTabs__tab" aria-controls="forms_autogrow_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="forms_autogrow_view_tab_1" class="UnmagicTabs__tab" aria-controls="forms_autogrow_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="forms_autogrow_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="forms_autogrow_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
+        <div class="w-full">
+          <form action="/unmagic-components/pr-13/components/forms" accept-charset="UTF-8" method="get">
+  <div class="UnmagicField" data-field=""><label class="UnmagicLabel" for="note_body">Message</label><unmagic-autogrow class="UnmagicAutogrow"><textarea rows="2" placeholder="Type a few lines, then keep going past ten rems…" class="UnmagicInput max-h-40" name="note[body]" id="note_body">
+</textarea></unmagic-autogrow></div>
+</form>
+        </div>
+      </div>
+</div><div role="tabpanel" id="forms_autogrow_view_panel_1" class="UnmagicTabs__panel" aria-labelledby="forms_autogrow_view_tab_1" tabindex="0" hidden="hidden">      <div class="UnmagicCodeView UnmagicCodeView--copy rounded-xl" id="forms_autogrow_source"><pre class="UnmagicCodeView__pre"><code id="forms_autogrow_source_code" class="UnmagicCodeView__code language-erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">url: </span><span class="n">request</span><span class="p">.</span><span class="nf">path</span><span class="p">,</span> <span class="ss">method: :get</span><span class="p">,</span> <span class="ss">scope: :note</span><span class="p">,</span> <span class="ss">builder: </span><span class="no">Unmagic</span><span class="o">::</span><span class="no">Components</span><span class="o">::</span><span class="no">FormBuilder</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">field</span> <span class="ss">:body</span><span class="p">,</span> <span class="s2">&quot;Message&quot;</span><span class="p">,</span> <span class="ss">as: :autogrow_text_area</span><span class="p">,</span> <span class="ss">rows: </span><span class="mi">2</span><span class="p">,</span> <span class="ss">class: </span><span class="s2">&quot;max-h-40&quot;</span><span class="p">,</span>
+        <span class="ss">placeholder: </span><span class="s2">&quot;Type a few lines, then keep going past ten rems…&quot;</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span></code></pre><div class="UnmagicCodeView__copy"><unmagic-clipboard for="forms_autogrow_source_code" class="UnmagicClipboard" data-copied-label="Copied"><button type="button" aria-label="Copy" title="Copy" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard></div></div>
+
+</div></unmagic-tabs></section>
+
+        
+<section id="forms_uuid_field" class="PreviewExample scroll-mt-20">
+  <div class="mb-3 min-h-9 pr-40">
+    <h2 class="text-base font-semibold">
+      <a href="#forms_uuid_field" class="hover:underline">UUID field</a>
+    </h2>
+      <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">A hidden field holding a fresh UUIDv7, minted again when the element upgrades and on every form reset. Needs import &quot;unmagic/components/uuid_input&quot;.</p>
+  </div>
+
+
+  <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="forms_uuid_field_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="forms_uuid_field_view_tab_0" class="UnmagicTabs__tab" aria-controls="forms_uuid_field_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="forms_uuid_field_view_tab_1" class="UnmagicTabs__tab" aria-controls="forms_uuid_field_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="forms_uuid_field_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="forms_uuid_field_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
+        <div class="w-full">
+          <form action="/unmagic-components/pr-13/components/forms" accept-charset="UTF-8" method="get">
+  <unmagic-uuid-input name="message[id]"><input type="hidden" name="message[id]" value="01a0c525-c10c-7747-9ff4-56afc057db89" autocomplete="off" /></unmagic-uuid-input>
+  <div class="UnmagicField" data-field=""><label class="UnmagicLabel" for="message_body">Message</label><input class="UnmagicInput" type="text" name="message[body]" id="message_body" /><p class="UnmagicHint">Submits with a client-minted id; resetting the form mints another.</p></div>
+
+  <div class="flex gap-2">
+    <button type="submit" class="UnmagicButton UnmagicButton--primary" data-turbo-submits-with="Sending…">Send</button>
+    <button type="reset" class="UnmagicButton">Reset the form</button>
+  </div>
+</form>
+        </div>
+      </div>
+</div><div role="tabpanel" id="forms_uuid_field_view_panel_1" class="UnmagicTabs__panel" aria-labelledby="forms_uuid_field_view_tab_1" tabindex="0" hidden="hidden">      <div class="UnmagicCodeView UnmagicCodeView--copy rounded-xl" id="forms_uuid_field_source"><pre class="UnmagicCodeView__pre"><code id="forms_uuid_field_source_code" class="UnmagicCodeView__code language-erb"><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">url: </span><span class="n">request</span><span class="p">.</span><span class="nf">path</span><span class="p">,</span> <span class="ss">method: :get</span><span class="p">,</span> <span class="ss">scope: :message</span><span class="p">,</span> <span class="ss">builder: </span><span class="no">Unmagic</span><span class="o">::</span><span class="no">Components</span><span class="o">::</span><span class="no">FormBuilder</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">uuid_field</span> <span class="ss">:id</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">field</span> <span class="ss">:body</span><span class="p">,</span> <span class="s2">&quot;Message&quot;</span><span class="p">,</span> <span class="ss">hint: </span><span class="s2">&quot;Submits with a client-minted id; resetting the form mints another.&quot;</span> <span class="cp">%&gt;</span>
+
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;flex gap-2&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">submit</span> <span class="s2">&quot;Send&quot;</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;reset&quot;</span> <span class="na">class=</span><span class="s">&quot;</span><span class="cp">&lt;%=</span> <span class="n">button_classes</span> <span class="cp">%&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span>Reset the form<span class="nt">&lt;/button&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span></code></pre><div class="UnmagicCodeView__copy"><unmagic-clipboard for="forms_uuid_field_source_code" class="UnmagicClipboard" data-copied-label="Copied"><button type="button" aria-label="Copy" title="Copy" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard></div></div>
+
+</div></unmagic-tabs></section>
+
+    </div>
+
+    <nav class="mt-16 grid gap-4 border-t border-neutral-200 pt-8 sm:grid-cols-2 dark:border-neutral-800" aria-label="More components">
+        <a class="block rounded-xl border border-neutral-200 p-4 hover:border-neutral-300 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:border-neutral-700 dark:hover:bg-neutral-900" href="/unmagic-components/pr-13/components/combobox">
+          <span class="block text-xs text-neutral-500">Previous</span>
+          <span class="mt-1 block text-sm font-medium">Combobox</span>
+</a>        <a class="block rounded-xl border border-neutral-200 p-4 hover:border-neutral-300 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:border-neutral-700 dark:hover:bg-neutral-900 text-right sm:col-start-2" href="/unmagic-components/pr-13/components/toggle">
+          <span class="block text-xs text-neutral-500">Next</span>
+          <span class="mt-1 block text-sm font-medium">Toggle</span>
+</a>    </nav>
+  </article>
+
+  <aside class="hidden xl:block">
+    <div class="sticky top-24">
+      <p class="text-xs font-semibold text-neutral-500 dark:text-neutral-400">On this page</p>
+      <ul class="mt-3 space-y-1 border-l border-neutral-200 dark:border-neutral-800">
+          <li>
+            <a href="#forms_fields" class="-ml-px block border-l border-transparent py-1 pl-3 text-sm text-neutral-600 hover:border-neutral-400 hover:text-neutral-900 dark:text-neutral-400 dark:hover:border-neutral-500 dark:hover:text-neutral-100">Fields</a>
+          </li>
+          <li>
+            <a href="#forms_states" class="-ml-px block border-l border-transparent py-1 pl-3 text-sm text-neutral-600 hover:border-neutral-400 hover:text-neutral-900 dark:text-neutral-400 dark:hover:border-neutral-500 dark:hover:text-neutral-100">Invalid, disabled and read-only</a>
+          </li>
+          <li>
+            <a href="#forms_control_classes" class="-ml-px block border-l border-transparent py-1 pl-3 text-sm text-neutral-600 hover:border-neutral-400 hover:text-neutral-900 dark:text-neutral-400 dark:hover:border-neutral-500 dark:hover:text-neutral-100">control_classes, outside a builder</a>
+          </li>
+          <li>
+            <a href="#forms_switches" class="-ml-px block border-l border-transparent py-1 pl-3 text-sm text-neutral-600 hover:border-neutral-400 hover:text-neutral-900 dark:text-neutral-400 dark:hover:border-neutral-500 dark:hover:text-neutral-100">Switches and sliders</a>
+          </li>
+          <li>
+            <a href="#forms_choices" class="-ml-px block border-l border-transparent py-1 pl-3 text-sm text-neutral-600 hover:border-neutral-400 hover:text-neutral-900 dark:text-neutral-400 dark:hover:border-neutral-500 dark:hover:text-neutral-100">Radio groups</a>
+          </li>
+          <li>
+            <a href="#forms_secrets" class="-ml-px block border-l border-transparent py-1 pl-3 text-sm text-neutral-600 hover:border-neutral-400 hover:text-neutral-900 dark:text-neutral-400 dark:hover:border-neutral-500 dark:hover:text-neutral-100">Passwords and one-time codes</a>
+          </li>
+          <li>
+            <a href="#forms_input_groups" class="-ml-px block border-l border-transparent py-1 pl-3 text-sm text-neutral-600 hover:border-neutral-400 hover:text-neutral-900 dark:text-neutral-400 dark:hover:border-neutral-500 dark:hover:text-neutral-100">Input groups</a>
+          </li>
+          <li>
+            <a href="#forms_autogrow" class="-ml-px block border-l border-transparent py-1 pl-3 text-sm text-neutral-600 hover:border-neutral-400 hover:text-neutral-900 dark:text-neutral-400 dark:hover:border-neutral-500 dark:hover:text-neutral-100">Autogrowing textarea</a>
+          </li>
+          <li>
+            <a href="#forms_uuid_field" class="-ml-px block border-l border-transparent py-1 pl-3 text-sm text-neutral-600 hover:border-neutral-400 hover:text-neutral-900 dark:text-neutral-400 dark:hover:border-neutral-500 dark:hover:text-neutral-100">UUID field</a>
+          </li>
+      </ul>
+    </div>
+  </aside>
+</div>
+
+      </main>
+    </div>
+
+    <unmagic-modal><dialog class="UnmagicDialogBox" data-unmagic-dialog=""><turbo-frame id="modal"></turbo-frame><template data-unmagic-modal-skeleton=""><div class="UnmagicDialog" role="status"><span class="UnmagicVisuallyHidden">Loading…</span><header class="UnmagicDialog__header"><div class="UnmagicSkeleton UnmagicDialog__skeleton-title"></div></header><div class="UnmagicDialog__body"><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div></div><div class="UnmagicDialog__footer"><div class="UnmagicSkeleton UnmagicDialog__skeleton-button"></div></div></div></template><template data-unmagic-modal-error=""><div role="alert" class="UnmagicDialog"><header class="UnmagicDialog__header"><h2 id="unmagic_dialog_0ebb3424_title" class="UnmagicDialog__title">Couldn’t load</h2><button type="button" class="UnmagicButton UnmagicButton--icon UnmagicDialog__close" aria-label="Close" data-unmagic-dialog-close=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/x" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></header><div class="UnmagicDialog__body"><div class="UnmagicDialog__error"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/circle-x" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg><p>Something went wrong loading this. Check your connection and try again.</p></div></div><div class="UnmagicDialog__footer"><button type="button" class="UnmagicButton UnmagicButton--primary" data-unmagic-modal-retry=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/rotate-cw" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>Try again</button></div></div></template></dialog></unmagic-modal>
+    <template data-unmagic-confirm=""><dialog class="UnmagicDialogBox" role="alertdialog" data-unmagic-dialog=""><form method="dialog" class="UnmagicDialog"><header class="UnmagicDialog__header"><h2 class="UnmagicDialog__title" data-unmagic-confirm-title="">Are you sure?</h2></header><div class="UnmagicDialog__body"><p data-unmagic-confirm-message=""></p></div><div class="UnmagicDialog__footer"><button value="cancel" class="UnmagicButton" data-unmagic-confirm-cancel="">Cancel</button><button value="confirm" class="UnmagicButton UnmagicButton--primary" data-unmagic-confirm-accept="">Confirm</button></div></form></dialog></template>
+    <unmagic-toasts id="unmagic_toasts" duration="5000"><div class="UnmagicToasts__stack" id="unmagic_toasts_stack" popover="manual" aria-live="polite" data-turbo-permanent=""></div></unmagic-toasts>
+  </body>
+</html>
