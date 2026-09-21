@@ -189,6 +189,35 @@ module Unmagic
         builder.render
       end
 
+      # A nested, collapsible list of things inside other things: a repository's
+      # files, an organisation's teams, a documentation sidebar.
+      #
+      #   <%= tree_view label: "Files" do |tree| %>
+      #     <% tree.branch "app", icon: :folder do |app| %>
+      #       <% app.leaf "user.rb", href: blob_path("app/models/user.rb"), icon: :file, current: true %>
+      #     <% end %>
+      #     <% tree.leaf "Gemfile", href: blob_path("Gemfile"), icon: :file %>
+      #   <% end %>
+      #
+      # label: names the root list and is required. guides: false drops the
+      # vertical line beside each level (true). tree.branch(label, icon:, open:,
+      # meta:) yields a builder with the same branch and leaf, to any depth; it is
+      # open when a leaf inside it is current, unless open: says otherwise, and a
+      # branch with nothing in it says "Empty". tree.leaf(label, href:, icon:,
+      # current:, meta:) is a link with href: and plain text without; a block
+      # gives it markup in place of label, and current: true marks it
+      # aria-current="page". meta: is a short reading kept whole at the row's end
+      # (a size, a count) while the label truncates. icon: is an Icons name
+      # (none by default). Other options on a branch or leaf go on its row; a
+      # string label is also the row's title. An empty tree renders nothing.
+      # Other options go on the root <ul>. No script: Tab moves through the open
+      # rows, and Enter or Space folds a branch.
+      def tree_view(label:, guides: true, **options, &block)
+        builder = Components::TreeView.new(self, label: label, guides: guides, **options)
+        capture(builder, &block) if block
+        builder.render
+      end
+
       # Links to the pages around this one, for anything that pages like Pagy.
       #
       #   <%= pagination @pagy %>

@@ -1,0 +1,7 @@
+<%= tree_view label: "Files", class: "w-48" do |tree| %>
+  <% tree.branch "app", icon: :folder do |app| %>
+    <% app.leaf "invoice.rb", href: "#", icon: :file_code, current: true %>
+    <% app.leaf "user.rb", href: "#", icon: :file_code %>
+  <% end %>
+  <% tree.leaf "README.md", href: "#", icon: :file_text %>
+<% end %>

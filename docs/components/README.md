@@ -39,7 +39,7 @@ These are documented in the README and have no notes here:
 | [spinner](spinner.md) | Loading Indicator | built |
 | [steps](steps.md) | Stepper | draft |
 | [accordion](accordion.md) | Accordion, Collapsible | built |
-| [tree_view](tree_view.md) | Tree View | draft |
+| [tree_view](tree_view.md) | Tree View | built |
 | [banner](banner.md) | Banner | draft |
 | [switch_field](switch_field.md) | Switch | built |
 | [radio_button_collection](radio_button_collection.md) | Radio | built |
