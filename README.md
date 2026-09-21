@@ -852,6 +852,38 @@ The trail of pages above this one. `crumbs.link` takes `link_to`'s arguments;
 show. `page_header` takes the same block as its `breadcrumbs` part, where
 `back:` goes; `mono: true` on a page header sets its title in monospace.
 
+### `tree_view(label:, guides: true, **options, &block)`
+
+```erb
+<%= tree_view label: "Files" do |tree| %>
+  <% tree.branch "app", icon: :folder do |app| %>
+    <% app.leaf "user.rb", href: blob_path("app/models/user.rb"), icon: :file_code, current: true %>
+  <% end %>
+  <% tree.leaf "Gemfile", href: blob_path("Gemfile"), icon: :file %>
+<% end %>
+```
+
+A nested, collapsible list of things inside other things: nested lists and
+`<details>`, so Tab moves through the open rows and Enter or Space folds a
+branch, with no script. `label:` names the root list and is required;
+`guides: false` drops the line beside each level.
+
+- **`tree.branch(label, icon:, open:, meta:)`** yields a builder with the same
+  `branch` and `leaf`, to any depth. It starts open when a leaf inside it is
+  current, unless `open:` says otherwise. A branch with nothing in it says
+  "Empty".
+- **`tree.leaf(label, href:, icon:, current:, meta:)`** is a link with `href:`
+  and plain text without; a block gives it markup in place of `label`.
+  `current: true` marks it `aria-current="page"`.
+- **`meta:`** is a short reading (a size, a count) kept whole at the end of the
+  row while the label truncates. `icon:` is one of the gem's icons; none by
+  default.
+- Other options on a branch or a leaf go on its row, and a string label is the
+  row's `title`. Other options on `tree_view` go on the root `<ul>`. An empty
+  tree renders nothing.
+
+I18n: `unmagic.components.tree.empty`.
+
 ### `kbd(*keys, hotkey: nil, sequence: false, **options)`
 
 A key or a combination drawn as key caps: `kbd "Esc"`, `kbd :mod, "K"`,
@@ -1730,8 +1762,15 @@ always render, empty or not, so a broadcast has something to replace.
 - **`plan.step(title, state:)`:** `:pending`, `:in_progress`, `:waiting` or
   `:completed`, with an optional block for detail. The count reads
   completed/total, or `completed:`/`total:` when a panel shows only some steps.
-- **`workspace.file(path, size:, url:, icon:)`:** a flat list of paths. A file
-  with a url is a link.
+- **`workspace.file(path, size:, url:, icon:)`:** the workspace folds the
+  paths into a `tree_view` of folders, open, with folders ahead of the files
+  beside them. A folder that holds only one folder joins it in a single row,
+  which shortens from the front so the last folder's name stays. A file with a
+  url is a link, and its glyph comes from its extension (`:file_code`,
+  `:file_text`, `:file_image`, `:file_json`, `:file_spreadsheet`,
+  `:file_archive`, `:file_audio`, `:file_video`, else `:file`) unless `icon:`
+  says otherwise. Each row's title is its full path; the count is the number of
+  files.
 - **Both take** `title:`, `open:`, `empty:`, `collapsible:` and `title_tag:`
   (`:h2`). The workspace also takes `count:`.
 

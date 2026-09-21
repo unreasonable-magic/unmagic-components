@@ -1,0 +1,9 @@
+<div class="w-72">
+  <%= tree_view label: "Guides", guides: false do |tree| %>
+    <% tree.branch "Getting started", open: true do |start| %>
+      <% start.leaf "Installation", href: "#" %>
+      <% start.leaf "Theming", href: "#" %>
+    <% end %>
+    <% tree.branch "Recipes", open: true %>
+  <% end %>
+</div>

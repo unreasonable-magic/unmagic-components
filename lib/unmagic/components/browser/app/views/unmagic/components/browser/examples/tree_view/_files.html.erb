@@ -1,0 +1,18 @@
+<div class="w-72">
+  <%= tree_view label: "Files" do |tree| %>
+    <% tree.branch "app", icon: :folder do |app| %>
+      <% app.branch "models", icon: :folder do |models| %>
+        <% models.branch "concerns", icon: :folder do |concerns| %>
+          <% concerns.leaf "searchable.rb", href: "#", icon: :file_code %>
+        <% end %>
+        <% models.leaf "invoice.rb", href: "#", icon: :file_code, current: true %>
+        <% models.leaf "invoice_line_item_with_a_rather_long_name.rb", href: "#", icon: :file_code %>
+      <% end %>
+      <% app.branch "views", icon: :folder do |views| %>
+        <% views.leaf "index.html.erb", href: "#", icon: :file_code %>
+      <% end %>
+    <% end %>
+    <% tree.leaf "Gemfile", href: "#", icon: :file %>
+    <% tree.leaf "README.md", href: "#", icon: :file_text %>
+  <% end %>
+</div>

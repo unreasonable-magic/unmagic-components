@@ -1,0 +1,12 @@
+<div class="w-72">
+  <%= tree_view label: "Teams" do |tree| %>
+    <% tree.branch "Engineering", open: true, meta: 3 do |engineering| %>
+      <% engineering.leaf href: "#" do %>Platform <%= badge "on call", tone: :warn %><% end %>
+      <% engineering.leaf "Payments", href: "#", meta: 8 %>
+      <% engineering.leaf "Search and recommendations", href: "#", meta: 5 %>
+    <% end %>
+    <% tree.branch "Design", meta: 1 do |design| %>
+      <% design.leaf "Brand", href: "#", meta: 4 %>
+    <% end %>
+  <% end %>
+</div>

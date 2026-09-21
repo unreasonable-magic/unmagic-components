@@ -8,7 +8,44 @@
 
 Where the build differs from this note:
 
-- Flat only, as the open question proposed: no `tree:` option and no depth knob. A file's directory is shown, dimmed, before its name.
+- **Always a tree, drawn with [`tree_view`](../tree_view.md).** There is no
+  `tree:` option: paths with no folders render as a tree with no branches,
+  which is a plain list of leaves anyway (`tree_view` uses nested `<ul>`s and
+  `<details>`, not `role="tree"`), so there is nothing to force either way.
+- **No depth knob.** `tree_view`'s nesting indents each level, so
+  `--unmagic-ai-chat-workspace-depth` isn't needed.
+- The first build was a flat list with each file's directory dimmed before its
+  name. It was replaced by the tree, and its long-path bug (the ellipsis ate the
+  file name) went with it; see Decisions.
+
+## Decisions
+
+- **The caller gives paths; the workspace builds the folders.**
+  `workspace.file(path, size:, url:, icon:)` is unchanged. Paths are split on
+  `/`, ignoring empty and `.` segments, so `/scratch/./data/rows.csv` sits in
+  `scratch/data`.
+- **Order.** Folders keep the order their first file arrived in, and come
+  before the files beside them; files keep the order they were given. A caller
+  who wants them sorted sorts them.
+- **Folders start open.** The workspace is there to show what the agent made,
+  so nothing is hidden until someone folds it. A broadcast or a morph that
+  replaces the workspace opens them again, which is the server's state.
+- **A folder that holds only one folder joins it** in a single row
+  (`careers.example.com/jobs`), as editors compact folders: a deep path costs
+  one row, not one per level. A folder holding a single file stays a folder,
+  so every file sits under the folder it's in.
+- **The name that matters is never truncated away.** A file's row is its name
+  alone (the full path is its `title`), and truncates only when the name by
+  itself doesn't fit, while its size stays whole (`tree_view`'s `meta:`). A
+  joined folder row is split into `__directory` and `__name`: the leading
+  folders shorten first, and the last folder's name keeps its room.
+- **A glyph per kind of file.** Without `icon:`, the extension picks one of
+  Lucide's file glyphs from `Workspace::FILE_ICONS`: `file_code` (html, rb, js,
+  css, yml, …), `file_text` (md, txt, pdf, …), `file_image`, `file_json`,
+  `file_spreadsheet` (csv, xlsx, …), `file_archive`, `file_audio` and
+  `file_video`; anything else, or no extension, is `file`. An explicit `icon:`
+  wins. `Workspace.icon_for(path)` answers the same question for a caller.
+- **The count is the number of files**, not rows or folders.
 
 ## Purpose
 
@@ -16,15 +53,14 @@ The files the agent has put aside while it works — captures, notes, renders,
 scratch data — so a person can see what it has actually produced rather than
 inferring it from the prose.
 
-hooops and toybox both built this and both docked it under the plan in a side
-panel. hooops renders a real tree (it reuses the file explorer from elsewhere in
-the app); toybox renders a flat list. The tree is right when paths nest and
-overkill when they do not, so the component does both and decides from the paths
-it is given.
+Applications that have built this dock it under the plan in a side panel. Some
+render a real tree, some a flat list. The tree is right when paths nest, and
+when they don't it is just a list, so the component always builds the tree
+from the paths it is given.
 
 For the agent's own output. Not for what a person attached — that is
-[attachments](attachments.md) — and not for a file browser, which is the planned
-[`tree_view`](../tree_view.md) this should be built on rather than beside.
+[attachments](attachments.md) — and not for a file browser, which is
+[`tree_view`](../tree_view.md), the component this one draws its tree with.
 
 ## API
 
@@ -38,85 +74,107 @@ For the agent's own output. Not for what a person attached — that is
 
 | Option | Values | Default | Notes |
 |---|---|---|---|
-| `title:` | string | "Workspace" | |
-| `open:` | boolean | `true` | |
+| `title:` | string | "Workspace" | Also the tree's `aria-label` |
+| `open:` | boolean | `true` | The section, not its folders |
 | `count:` | integer | counted from the files | The reading beside the title |
 | `empty:` | string | a default sentence | |
-| `tree:` | boolean | inferred | Force the nested or the flat rendering |
+| `collapsible:` | boolean | `true` | `false` renders a plain section |
+| `title_tag:` | symbol | `:h2` | |
 
 Builder part: `workspace.file(path, size:, url:, icon:)`.
 
-- `path` is the full path; the tree is derived from it. Giving flat names yields a
-  flat list, which is why `tree:` rarely needs setting.
+- `path` is the full path; the folders are derived from it.
+- `size:` is bytes, shown with `number_to_human_size`.
+- `icon:` is an icon name; without it the extension picks one.
 - Like [plan](plan.md), it renders its empty state rather than nothing, because
   it is a broadcast target.
-- A file with no `url:` is not a link. Both applications' workspaces are
-  read-only in the UI, and a link that goes nowhere is worse than plain text.
+- A file with no `url:` is not a link. Workspaces are usually read-only in the
+  UI, and a link that goes nowhere is worse than plain text.
 
 ## Markup
 
 ```html
 <details id="workspace" class="UnmagicAIChatWorkspace" open>
   <summary class="UnmagicAIChatWorkspace__head">
-    <svg aria-hidden="true">…</svg>
+    <svg aria-hidden="true">…folder…</svg>
     <h2 class="UnmagicAIChatWorkspace__title">Workspace</h2>
-    <p class="UnmagicAIChatWorkspace__count">4</p>
+    <svg class="UnmagicAIChatChevron" aria-hidden="true">…</svg>
+    <span class="UnmagicAIChatWorkspace__count">3</span>
   </summary>
 
-  <ul class="UnmagicAIChatWorkspace__files" role="tree">
-    <li role="treeitem" class="UnmagicAIChatWorkspace__folder" aria-expanded="true">
-      <span>captures/</span>
-      <ul role="group">
-        <li role="treeitem" class="UnmagicAIChatWorkspace__file" style="--unmagic-ai-chat-workspace-depth: 1">
-          <svg aria-hidden="true">…</svg>
-          <span class="UnmagicAIChatWorkspace__name">brief.png</span>
-          <span class="UnmagicAIChatWorkspace__size">42 KB</span>
-        </li>
-      </ul>
+  <ul class="UnmagicTree UnmagicTree--guides UnmagicAIChatWorkspace__files" aria-label="Workspace">
+    <li class="UnmagicTree__node">
+      <details class="UnmagicTree__branch" open>
+        <summary class="UnmagicTree__row UnmagicAIChatWorkspace__folder" title="captures/example.com/jobs">
+          <svg class="UnmagicTree__toggle" aria-hidden="true">…</svg>
+          <svg class="UnmagicTree__icon" aria-hidden="true">…folder…</svg>
+          <span class="UnmagicTree__label">
+            <span class="UnmagicAIChatWorkspace__path">
+              <span class="UnmagicAIChatWorkspace__directory">captures/example.com</span>
+              <span class="UnmagicAIChatWorkspace__name">/jobs</span>
+            </span>
+          </span>
+        </summary>
+        <ul class="UnmagicTree__children">
+          <li class="UnmagicTree__node">
+            <a class="UnmagicTree__row UnmagicTree__row--leaf UnmagicAIChatWorkspace__file"
+               href="/files/1" title="captures/example.com/jobs/senior-engineer.html">
+              <svg class="UnmagicTree__icon" aria-hidden="true">…file-code…</svg>
+              <span class="UnmagicTree__label">senior-engineer.html</span>
+              <span class="UnmagicTree__meta">82 KB</span>
+            </a>
+          </li>
+        </ul>
+      </details>
+    </li>
+    <li class="UnmagicTree__node">
+      <span class="UnmagicTree__row UnmagicTree__row--leaf UnmagicAIChatWorkspace__file" title="notes.md">…</span>
     </li>
   </ul>
 </details>
 ```
 
-The flat rendering drops the `role="tree"` wiring entirely and is a plain `<ul>`
-— a list of four files is not a tree and should not be announced as one.
-
 ## Accessibility
 
-- Nested: the WAI-ARIA [tree view pattern](https://www.w3.org/WAI/ARIA/apg/patterns/treeview/),
-  which [`tree_view`](../tree_view.md) is already designing. This component
-  should use it rather than reimplement it, and that is the main thing to settle
-  before building.
-- Flat: a plain list, no tree roles.
+- Whatever [`tree_view`](../tree_view.md) gives: nested lists that announce
+  their level and size, and folders as `<summary>` rows, expandable buttons
+  that Enter or Space folds. Tab moves through the open rows. No
+  `role="tree"`, which would promise arrow keys this tier doesn't have.
+- The tree is labelled with the section's title.
 - File-type icons are `aria-hidden`; the name is the text.
 - Sizes are `tabular-nums` and read after the name.
-- Each file carries a `title` with its full path, since the tree shows only the
-  leaf.
+- Each row carries a `title` with its full path, since the tree shows only the
+  last part.
 
 ## Styling
 
-CSS section: **AI chat workspace**, next to **AI chat plans** — they are two sections
-of one panel and share a divider in every application that has both.
+CSS section: **AI chat workspace**, after **AI chat plans**: they are two
+sections of one panel and share a divider.
 
-- `.UnmagicAIChatWorkspace`, `__head`, `__title`, `__count`, `__files`,
-  `__folder`, `__file`, `__name`, `__size`
+- `.UnmagicAIChatWorkspace`, `__head`, `__title`, `__count`, `__empty`, shared
+  with the plan.
+- `__files` is the tree's root: it reaches into the section's padding
+  (`-mx-2`), so a top-level chevron sits under the section's glyph and hover
+  fills the panel's width.
+- `__folder` and `__file` are the tree's rows, in `neutral-700` /
+  `dark:neutral-300`.
+- `__path`, `__directory`, `__name` split a joined folder row: `__directory` is
+  `min-w-0 truncate` in `neutral-500` / `dark:neutral-400`, and `__name` is
+  `shrink-0 max-w-full truncate`.
+- A tree row keeps its own rounded focus ring over the AI chat family's
+  squarer summary ring.
 
-Indentation is a knob, so the depth arithmetic lives in CSS rather than in an
-inline `style` computed in Ruby:
+Colours: neutrals only. Motion: the chevron's turn, off under reduced motion
+(`tree_view`'s).
 
-```css
-.UnmagicAIChatWorkspace__file { padding-inline-start: calc(0.5rem + var(--unmagic-ai-chat-workspace-depth, 0) * 0.75rem); }
-```
+## Small screens
 
-`--unmagic-ai-chat-workspace-depth` is the component's only knob, named per the
-principles, carrying a layout value for one instance.
-
-Colours: neutrals only. Motion: none.
+`tree_view`'s: folder and file-link rows are at least 44px tall where the
+pointer is coarse; names truncate and sizes stay whole.
 
 ## Behaviour (JavaScript)
 
-None of its own if flat. Nested rendering uses whatever
-[`tree_view`](../tree_view.md) ships for keyboard navigation.
+None. `<details>` folds the folders.
 
 ## I18n
 
@@ -127,28 +185,30 @@ None of its own if flat. Nested rendering uses whatever
 
 ## Specs
 
-`spec/unmagic/components/ai_chat_workspace_spec.rb`:
+`spec/unmagic/components/ai_chat_panels_spec.rb`:
 
-- Flat paths render a plain list with no tree roles; nested paths render the tree.
-- `tree:` forcing each way.
+- Files sharing a directory sit once under an open, collapsible folder; a file
+  with a url is a link and one without is not; the size and the full-path
+  `title`.
+- Nesting, folders before files, a joined single-folder chain split into
+  `__directory` and `__name`, and `.` or empty segments ignored.
+- The icon from the extension for each kind, the fallback to `file`, an
+  explicit `icon:` winning, and every mapped icon existing.
 - The count from the files, and an explicit `count:` overriding it.
 - The empty sentence, with the element still rendered.
-- A file with a url is a link; one without is not.
-- The depth knob's value per level.
-- `title` carrying the full path.
-- Passthrough `class:` and attributes.
+- Passthrough `class:`.
 
 ## Preview
 
-Page: `ai_chat`. A flat workspace; a nested one three levels deep; an empty one;
-and both docked under a plan in a card, which is the layout they ship in.
+Page: `ai_chat_workspace`. Files beside a plan, the layout they ship in; and a
+narrow panel with nested folders, a dozen files in one folder, a joined
+folder chain and a very long file name.
 
-By hand: keyboard through the tree; dark theme; long filenames truncate rather
-than wrapping the size off the edge.
+By hand: Tab through the folders and fold one with Enter; dark theme; the
+joined row keeps its last folder's name at a narrow width.
 
 ## Open questions
 
-- **Build order.** This should not be built before
-  [`tree_view`](../tree_view.md), or the gem ends up with two tree
-  implementations. Proposed: ship the flat rendering in this round and add the
-  nested one when `tree_view` lands. The API does not change.
+- **Folder state across broadcasts.** A replaced workspace opens every folder
+  again. Remembering what a person folded would need script (Tier 2), as would
+  arrow-key navigation; both wait on a scripted `tree_view`.

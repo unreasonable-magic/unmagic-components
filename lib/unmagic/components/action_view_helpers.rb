@@ -189,6 +189,35 @@ module Unmagic
         builder.render
       end
 
+      # A nested, collapsible list of things inside other things: a repository's
+      # files, an organisation's teams, a documentation sidebar.
+      #
+      #   <%= tree_view label: "Files" do |tree| %>
+      #     <% tree.branch "app", icon: :folder do |app| %>
+      #       <% app.leaf "user.rb", href: blob_path("app/models/user.rb"), icon: :file, current: true %>
+      #     <% end %>
+      #     <% tree.leaf "Gemfile", href: blob_path("Gemfile"), icon: :file %>
+      #   <% end %>
+      #
+      # label: names the root list and is required. guides: false drops the
+      # vertical line beside each level (true). tree.branch(label, icon:, open:,
+      # meta:) yields a builder with the same branch and leaf, to any depth; it is
+      # open when a leaf inside it is current, unless open: says otherwise, and a
+      # branch with nothing in it says "Empty". tree.leaf(label, href:, icon:,
+      # current:, meta:) is a link with href: and plain text without; a block
+      # gives it markup in place of label, and current: true marks it
+      # aria-current="page". meta: is a short reading kept whole at the row's end
+      # (a size, a count) while the label truncates. icon: is an Icons name
+      # (none by default). Other options on a branch or leaf go on its row; a
+      # string label is also the row's title. An empty tree renders nothing.
+      # Other options go on the root <ul>. No script: Tab moves through the open
+      # rows, and Enter or Space folds a branch.
+      def tree_view(label:, guides: true, **options, &block)
+        builder = Components::TreeView.new(self, label: label, guides: guides, **options)
+        capture(builder, &block) if block
+        builder.render
+      end
+
       # Links to the pages around this one, for anything that pages like Pagy.
       #
       #   <%= pagination @pagy %>
@@ -1438,9 +1467,14 @@ module Unmagic
       #     <% @files.each { |file| workspace.file file.path, size: file.byte_size } %>
       #   <% end %>
       #
-      # A flat list of paths; url: makes a row a link and icon: changes its glyph
-      # (:file). Takes ai_chat_plan's title:, count:, open:, empty:, collapsible:
-      # and title_tag:. Other options go on the root.
+      # Give it paths and it draws them as a tree_view of folders, open, with
+      # folders ahead of the files beside them; a folder that holds only one
+      # folder joins it in a single row (captures/example.com/jobs). url: makes a
+      # file a link, size: shows beside it, and icon: changes its glyph, which is
+      # otherwise picked from the extension (:file_code, :file_text, :file_image,
+      # …, or :file). Each row's title is its full path. The count is the number
+      # of files. Takes ai_chat_plan's title:, count:, open:, empty:,
+      # collapsible: and title_tag:. Other options go on the root.
       def ai_chat_workspace(title: nil, count: nil, open: true, empty: nil, collapsible: true, title_tag: :h2,
         **options, &block)
         builder = Components::AIChat::Workspace.new(self, title: title, count: count, open: open, empty: empty,

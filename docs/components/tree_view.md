@@ -1,9 +1,32 @@
 # `tree_view`
 
-> Status: draft
+> Status: built
 > Tier: 1 (no JS)
 > Replaces or relates to: Rails Blocks "Tree View" (gap source); `disclosure`
 > (the same `<details>` toggle); `breadcrumbs`
+
+## As built
+
+Where the build differs from this note:
+
+- **`meta:`** on a branch or a leaf: a short reading (a size, a count) kept
+  whole at the end of the row, in `UnmagicTree__meta`, while the label
+  truncates. `ai_chat_workspace` needs it for file sizes, and a teams tree for
+  head counts.
+- **Row options.** Other options on a branch or a leaf go on its row (the
+  `<summary>`, `<a>` or `<span>`), so a caller can add a class, a `data-`
+  attribute or its own `title:`. A string label is the row's `title` unless one
+  is given; markup has none.
+- **An empty tree** renders nothing, as `breadcrumbs` does. An empty branch
+  says "Empty" in a `<p class="UnmagicTree__empty">`, not a one-item list.
+- **Indentation.** Each level hangs from the middle of its parent's chevron
+  (`margin-left: 1rem`, `padding-left: 0.25rem`, and the border always drawn,
+  transparent without `guides`), so a tree lines up the same with or without
+  guides. Icons and the toggle are `neutral-500`/`dark:neutral-400`.
+- **Preview** is its own page, `tree_view`, in the Navigation group.
+- **Not built:** `icon:` taking a block. The gem's Lucide subset now carries
+  the file-type glyphs (`file_code`, `file_text`, `file_image`, `file_json`,
+  `file_spreadsheet`, `file_archive`, `file_audio`, `file_video`).
 
 ## Purpose
 
@@ -122,6 +145,13 @@ CSS section: `Trees`.
 - **Reduced motion:** the toggle's rotation transition is off.
 - Palette colours with `dark:` variants only.
 
+## Small screens
+
+- Rows that act (a branch's summary, a leaf link) are at least 44px tall
+  where the pointer is coarse.
+- Labels truncate rather than wrap, and `meta:` stays whole. Nothing is
+  revealed on hover.
+
 ## Behaviour (JavaScript)
 
 _None. CSS and markup only._
@@ -154,7 +184,7 @@ visible.
 
 ## Preview
 
-`primitives` page, `tree_view` section:
+Page: `tree_view` (Navigation):
 - a file tree three levels deep with the current file
 - a teams tree with badges in leaf labels
 - `guides: false`
