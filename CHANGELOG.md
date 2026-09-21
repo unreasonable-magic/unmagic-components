@@ -27,6 +27,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   in front of it. `workspace.file` is unchanged; the count is still the number
   of files.
 - A workspace file's glyph comes from its extension when `icon:` isn't given.
+- `ai_chat_plan` shows a waiting step's "Waiting on you" as a visible warn badge
+  after its title, not only as an amber glyph.
+- `ai_chat_plan` and `ai_chat_workspace` have quieter heads (a small uppercase
+  muted title, a `size-3.5` glyph, `py-3`), and every muted text in them is at
+  least 4.5:1 in light and dark.
 
 ### Fixed
 

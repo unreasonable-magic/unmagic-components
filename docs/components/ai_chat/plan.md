@@ -11,6 +11,11 @@ Where the build differs from this note:
 - The count reads `1/4`. Plan and workspace share `AIChat::Section` for the panel head.
 - A section a person collapsed stays collapsed through broadcasts (see Behaviour). `open:` is the first
   render's state, not every render's.
+- A waiting step shows its label as visible text: a warn badge after the title
+  (see Accessibility).
+- The head is quiet, because the panel sits beside the conversation: the title is
+  a small uppercase label in muted text, the head glyph is `size-3.5` like the
+  step glyphs, and the section pads `px-4 py-3`.
 
 ## Purpose
 
@@ -86,8 +91,15 @@ in order.
 
 - `<details>`/`<summary>` for the disclosure, as everywhere else in this family.
 - Each step's glyph is `aria-hidden` with a visually hidden state label —
-  "Done", "In progress", "Waiting on you", "To do" — since the state is carried
-  by a glyph, a colour and a strikethrough, none of which reach a screen reader.
+  "Done", "In progress", "To do" — since the state is carried by a glyph, a
+  colour and a strikethrough, none of which reach a screen reader.
+- A waiting step's label, "Waiting on you", is visible instead: an amber
+  `UnmagicBadge UnmagicBadge--warn` after the title, with a space between them so
+  they read apart. It is the one step that won't move until the person acts, so
+  it can't rest on a small amber glyph in a column of glyphs, and colour alone
+  mustn't carry it. It is not also visually hidden, so it is read once.
+- Every text colour is at least 4.5:1 on the panel's surface (white, or
+  neutral-900 in dark). Only glyphs are fainter.
 - The count is plain text in the summary, so it is read with the heading.
 - The list is not a live region. A plan rewritten five times a turn, announced
   each time, is unusable; the steps' own states are what a reader checks.
@@ -99,15 +111,15 @@ in order.
 CSS section: **AI chat plans**.
 
 - `.UnmagicAIChatPlan`, `__head`, `__title`, `__chevron`, `__count`, `__steps`,
-  `__step`, `__glyph`, `__label`
+  `__step`, `__glyph`, `__label`, `__waiting`
 
 State from `[data-state]`, not classes:
 
 ```css
 .UnmagicAIChatPlan__step[data-state="completed"] .UnmagicAIChatPlan__label {
-  @apply text-neutral-400 line-through dark:text-neutral-500;
+  @apply text-neutral-500 line-through dark:text-neutral-400;
 }
-.UnmagicAIChatPlan__step[data-state="pending"]  .UnmagicAIChatPlan__label { @apply text-neutral-600 dark:text-neutral-400; }
+.UnmagicAIChatPlan__step[data-state="pending"]  .UnmagicAIChatPlan__label { @apply text-neutral-600 dark:text-neutral-300; }
 .UnmagicAIChatPlan__step[data-state="in_progress"] .UnmagicAIChatPlan__label,
 .UnmagicAIChatPlan__step[data-state="waiting"]     .UnmagicAIChatPlan__label { @apply font-medium text-neutral-900 dark:text-neutral-100; }
 ```
@@ -116,6 +128,15 @@ Glyph colours: completed green, in-progress neutral and spinning, waiting amber,
 pending a faint neutral dashed circle. Waiting is the one that carries a colour,
 for the reason the whole family uses amber: it is the only state that will not
 move on its own.
+
+Contrast, on white and on neutral-900 (WCAG, from Tailwind v4's oklch values):
+
+| Text | Light | Dark |
+|---|---|---|
+| Title, count, empty sentence, detail, done step | neutral-500, 4.7:1 | neutral-400, 6.9:1 |
+| To-do step | neutral-600, 7.8:1 | neutral-300, 12.1:1 |
+| Waiting badge | amber-700 on amber-50, 4.9:1 | amber-400 on amber-400/10, 8.6:1 |
+| In-progress and waiting step | neutral-900 | neutral-100 |
 
 The spinner pulses instead of rotating under `prefers-reduced-motion: reduce`.
 
@@ -145,6 +166,8 @@ chooses, and always without the script, the server's `open:` decides, as a plain
 `spec/unmagic/components/ai_chat_plan_spec.rb`:
 
 - Each state's `data-state`, glyph and visually hidden label.
+- A waiting step's visible warn badge after the title, its translated label, and
+  no visually hidden copy.
 - The count from the steps, and an explicit `completed:`/`total:` overriding it.
 - No count at all when there are no steps.
 - The empty sentence when there are no steps, and the element still rendering.

@@ -3860,10 +3860,17 @@
   /* ---------------------------------------------------------- AI chat plans */
 
   /* A plan and a workspace are two sections of one panel, so they share a shape,
-     and a divider when one follows the other. */
+     and a divider when one follows the other. Dense, because they sit in a side
+     panel beside the conversation.
+
+     Every text colour here is at least 4.5:1 on the panel's white or neutral-900
+     surface, and on the neutral-100 or neutral-800 of a hovered row. Muted text
+     is neutral-500 in light (4.7:1 on white) and neutral-400 in dark (6.9:1 on
+     neutral-900); text that sits on a hover is neutral-600 in light. Only the
+     glyphs, which carry nothing a label doesn't, are fainter. */
   .UnmagicAIChatPlan,
   .UnmagicAIChatWorkspace {
-    @apply block p-4 text-sm text-neutral-900 dark:text-neutral-100;
+    @apply block px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100;
   }
 
   .UnmagicAIChatPlan + .UnmagicAIChatWorkspace {
@@ -3872,22 +3879,29 @@
 
   .UnmagicAIChatPlan__head,
   .UnmagicAIChatWorkspace__head {
-    @apply flex items-center gap-2 text-neutral-400 dark:text-neutral-500;
+    @apply flex items-center gap-1.5 text-neutral-400 dark:text-neutral-500;
   }
 
+  /* The head's glyph matches the step glyphs, so the title doesn't outweigh the
+     list under it. */
+  :is(.UnmagicAIChatPlan__head, .UnmagicAIChatWorkspace__head) > .UnmagicIcon {
+    @apply size-3.5;
+  }
+
+  /* A label, not a heading to read first: the content is what the panel is for. */
   .UnmagicAIChatPlan__title,
   .UnmagicAIChatWorkspace__title {
-    @apply m-0 text-sm font-medium text-neutral-900 dark:text-neutral-100;
+    @apply m-0 text-xs font-semibold tracking-wide text-neutral-500 uppercase dark:text-neutral-400;
   }
 
   .UnmagicAIChatPlan__count,
   .UnmagicAIChatWorkspace__count {
-    @apply ml-auto shrink-0 text-xs text-neutral-400 tabular-nums;
+    @apply ml-auto shrink-0 text-xs text-neutral-500 tabular-nums dark:text-neutral-400;
   }
 
   .UnmagicAIChatPlan__empty,
   .UnmagicAIChatWorkspace__empty {
-    @apply mt-2 mb-0 text-neutral-400 dark:text-neutral-500;
+    @apply mt-1.5 mb-0 text-xs text-neutral-500 dark:text-neutral-400;
   }
 
   .UnmagicAIChatPlan__steps {
@@ -3911,7 +3925,14 @@
   }
 
   .UnmagicAIChatPlan__detail {
-    @apply mt-1 text-xs text-neutral-500;
+    @apply mt-1 text-xs text-neutral-500 dark:text-neutral-400;
+  }
+
+  /* The one state label that is shown as well as spoken. It sits after the title
+     on the badge's warn tone (amber-700 on amber-50, 4.9:1; amber-400 on
+     neutral-900 tinted amber, 8.6:1). */
+  .UnmagicAIChatPlan__waiting {
+    @apply ml-0.5 align-middle;
   }
 
   /* A done step recedes and the one being worked stands up, so a long plan reads as
@@ -3922,7 +3943,7 @@
   }
 
   .UnmagicAIChatPlan__step[data-state="completed"] .UnmagicAIChatPlan__label {
-    @apply text-neutral-400 line-through dark:text-neutral-500;
+    @apply text-neutral-500 line-through dark:text-neutral-400;
   }
 
   .UnmagicAIChatPlan__step[data-state="in_progress"] .UnmagicAIChatPlan__glyph {
@@ -3942,8 +3963,9 @@
     @apply text-neutral-300 dark:text-neutral-600;
   }
 
+  /* Brighter than a done step in dark too, now that done is neutral-400 there. */
   .UnmagicAIChatPlan__step[data-state="pending"] .UnmagicAIChatPlan__label {
-    @apply text-neutral-600 dark:text-neutral-400;
+    @apply text-neutral-600 dark:text-neutral-300;
   }
 
   /* ------------------------------------------------------ AI chat workspace */
@@ -3972,12 +3994,18 @@
     @apply flex min-w-0;
   }
 
+  /* neutral-600, not 500: a row can be hovered, and 500 is 4.3:1 on neutral-100. */
   .UnmagicAIChatWorkspace__directory {
-    @apply min-w-0 shrink truncate text-neutral-500 dark:text-neutral-400;
+    @apply min-w-0 shrink truncate text-neutral-600 dark:text-neutral-400;
   }
 
   .UnmagicAIChatWorkspace__name {
     @apply max-w-full shrink-0 truncate;
+  }
+
+  /* A file's size, as tree_view's meta: neutral-600 here for the same reason. */
+  .UnmagicAIChatWorkspace .UnmagicTree__meta {
+    @apply text-neutral-600 dark:text-neutral-400;
   }
 
   /* ------------------------------------------------------- AI chat composer */
