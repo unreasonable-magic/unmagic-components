@@ -88,6 +88,10 @@ None of its own. When `streaming:`, the block is wrapped in
 `<unmagic-streaming-markdown>` so reasoning reveals at the same pace the reply
 does.
 
+Given an `id:`, the `<details>` is marked `data-ai-chat-disclosure`, so a person
+who opened it while it streamed keeps it open when the settled turn replaces it
+(`ai_chat.js`). Until they choose, the server's `open:` decides.
+
 ## I18n
 
 | Key | Default |

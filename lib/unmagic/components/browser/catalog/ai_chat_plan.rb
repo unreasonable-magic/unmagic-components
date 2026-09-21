@@ -10,5 +10,8 @@ Unmagic::Components::Browser::Catalog.component :ai_chat_plan,
     { key: :states, title: "A plan under way",
       description: "Waiting is the one step in colour: the only state that won't move on its own." },
     { key: :empty, title: "Empty",
-      description: "It still renders, so a broadcast has something to replace." }
+      description: "It still renders, so a broadcast has something to replace." },
+    { key: :live, title: "Kept shut across updates",
+      description: "Collapse the plan or the workspace, then send updates: each replaces the section, as a " \
+                   "broadcast would, and it stays the way you left it. Until you choose, the server's open: decides." }
   ]

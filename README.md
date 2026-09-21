@@ -1773,6 +1773,11 @@ always render, empty or not, so a broadcast has something to replace.
   files.
 - **Both take** `title:`, `open:`, `empty:`, `collapsible:` and `title_tag:`
   (`:h2`). The workspace also takes `count:`.
+- **Collapsed stays collapsed.** Given an `id:`, a section keeps the person's
+  open or shut when a broadcast replaces or morphs it, so `open:` decides only
+  until they choose. A tool call or reasoning given an `id:` does the same.
+  Needs `import "unmagic/components/ai_chat"`; without it the server's `open:`
+  applies on every render.
 
 I18n under `unmagic.components.ai_chat`: `plan.title`, `plan.empty`,
 `plan.pending`, `plan.in_progress`, `plan.waiting`, `plan.completed`,
