@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lucide's file-type glyphs: `file_code`, `file_text`, `file_image`,
   `file_json`, `file_spreadsheet`, `file_archive`, `file_audio` and
   `file_video`.
+- Theming says how to put the components on your own greys: redefine the
+  `--color-neutral-*` ramp in your `@theme` to change it everywhere, or on a
+  wrapper to change it for one panel, keeping each shade's lightness so contrast
+  holds. The browser shows a warm grey ramp on the AI chat workspace.
 
 ### Changed
 

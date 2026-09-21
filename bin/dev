@@ -10,6 +10,12 @@
 set -e
 cd "$(dirname "$0")/.."
 
+# Load only the browser port; .env is data, not shell code.
+if [ -z "${PORT:-}" ] && [ -f .env ]; then
+  PORT=$(sed -n 's/^PORT=\([0-9][0-9]*\)$/\1/p' .env | head -1)
+fi
+PORT=${PORT:-5701}
+
 browser=lib/unmagic/components/browser
 
 css() {
@@ -36,4 +42,4 @@ css
 watcher=$!
 trap 'kill "$watcher" 2>/dev/null' EXIT
 
-bundle exec rackup -s puma -p 5701 -o 0.0.0.0
+bundle exec rackup -s puma -p "$PORT" -o 0.0.0.0

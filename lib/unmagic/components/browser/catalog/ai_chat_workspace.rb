@@ -14,5 +14,9 @@ Unmagic::Components::Browser::Catalog.component :ai_chat_workspace,
       description: "Folders open and fold, and come before the files beside them. A folder that holds only a " \
                    "folder joins it in one row, which shortens from the front so the last folder's name " \
                    "stays; a long file name truncates only when it alone doesn't fit. Each row's title is " \
-                   "its full path. The count is the number of files." }
+                   "its full path. The count is the number of files." },
+    { key: :warm_greys, title: "In a host's warm greys",
+      description: "The same panel with Tailwind's neutral ramp redefined on its wrapper, so its text, borders and " \
+                   "surfaces share one warm palette. Each shade keeps neutral's lightness, so contrast holds in " \
+                   "light and dark. Nothing else on the page changes." }
   ]

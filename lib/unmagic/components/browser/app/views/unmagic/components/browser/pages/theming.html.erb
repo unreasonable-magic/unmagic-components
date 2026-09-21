@@ -30,6 +30,22 @@
     <%= render "code", id: "theming_theme", source: "@theme {\n  --color-neutral-900: oklch(0.21 0.03 265);\n  --radius-md: 0.25rem;\n}" %>
   </div>
 
+  <h2 class="<%= step %>">Your own greys</h2>
+  <p class="<%= prose %>">
+    Every grey the components draw, text, borders and surfaces alike, is a <code>neutral</code> shade, and
+    Tailwind compiles each one to <code>var(--color-neutral-…)</code>. Redefine the ramp in your
+    <code>@theme</code> to change it everywhere, or on a wrapper to change it for what's inside:
+  </p>
+  <div class="mt-4">
+    <%= render "code", id: "theming_greys", source: ".brand-greys {\n  --color-neutral-50: oklch(98.5% 0.004 70);\n  /* …every shade to 950 */\n  --color-neutral-950: oklch(14.5% 0.012 70);\n}" %>
+  </div>
+  <p class="<%= prose %>">
+    Redefine the whole ramp, since light and dark use different shades, and keep each shade's lightness so
+    the components' text keeps its 4.5:1 contrast. The
+    <%= link_to "AI chat workspace", component_path("ai_chat_workspace", anchor: "ai_chat_workspace_warm_greys"), class: "underline" %>
+    shows it on a panel.
+  </p>
+
   <h2 class="<%= step %>">One component</h2>
   <p class="<%= prose %>">
     Pass utilities through <code>class:</code>. The gem's rules sit in <code>@layer components</code>, which

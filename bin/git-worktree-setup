@@ -1,0 +1,5 @@
+#!/bin/sh
+# Back-compat shim — the logic lives in bin/git-worktree. supacode.json, the
+# Claude Code worktree hooks, and worktrees cut from older branches invoke this
+# name, so it stays as a dispatch to `git-worktree setup`.
+exec "$(dirname "$0")/git-worktree" setup "$@"

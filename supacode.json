@@ -1,0 +1,35 @@
+{
+  "setupScript": "bin/git-worktree-setup",
+  "deleteScript": "bin/git-worktree-teardown --keep .",
+  "runScript": "bin/dev",
+  "worktreeBaseRef": "origin/main",
+  "copyIgnoredOnWorktreeCreate": true,
+  "copyUntrackedOnWorktreeCreate": false,
+  "pullRequestMergeStrategy": "merge",
+  "scripts": [
+    {
+      "command": "bin/dev",
+      "id": "61B1B81C-18CF-44EF-A977-8CC1D96818F8",
+      "kind": "run",
+      "name": "Run"
+    },
+    {
+      "command": "bundle exec rspec",
+      "id": "4DDF2792-D1BA-4409-84B5-172C028B32F5",
+      "kind": "test",
+      "name": "Test"
+    },
+    {
+      "command": "bundle exec rspec && bundle exec rubocop",
+      "id": "67BBA273-E56F-46D9-827E-AA6C9CFD5E8D",
+      "kind": "lint",
+      "name": "CI"
+    },
+    {
+      "command": "bundle exec rubocop -a",
+      "id": "425A27A5-BA02-469F-91B9-3CA7C902BC0A",
+      "kind": "format",
+      "name": "Format"
+    }
+  ]
+}
