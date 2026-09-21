@@ -1467,9 +1467,14 @@ module Unmagic
       #     <% @files.each { |file| workspace.file file.path, size: file.byte_size } %>
       #   <% end %>
       #
-      # A flat list of paths; url: makes a row a link and icon: changes its glyph
-      # (:file). Takes ai_chat_plan's title:, count:, open:, empty:, collapsible:
-      # and title_tag:. Other options go on the root.
+      # Give it paths and it draws them as a tree_view of folders, open, with
+      # folders ahead of the files beside them; a folder that holds only one
+      # folder joins it in a single row (captures/example.com/jobs). url: makes a
+      # file a link, size: shows beside it, and icon: changes its glyph, which is
+      # otherwise picked from the extension (:file_code, :file_text, :file_image,
+      # …, or :file). Each row's title is its full path. The count is the number
+      # of files. Takes ai_chat_plan's title:, count:, open:, empty:,
+      # collapsible: and title_tag:. Other options go on the root.
       def ai_chat_workspace(title: nil, count: nil, open: true, empty: nil, collapsible: true, title_tag: :h2,
         **options, &block)
         builder = Components::AIChat::Workspace.new(self, title: title, count: count, open: open, empty: empty,

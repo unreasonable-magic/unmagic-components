@@ -3948,45 +3948,36 @@
 
   /* ------------------------------------------------------ AI chat workspace */
 
+  /* The files are a tree_view. Its rows reach into the section's padding, so a
+     top-level chevron sits under the section's own glyph and a row's hover
+     fills the panel's width. */
   .UnmagicAIChatWorkspace__files {
-    @apply mx-0 mt-3 mb-0 flex list-none flex-col p-0;
+    @apply -mx-2 mt-3 mb-0;
   }
 
-  .UnmagicAIChatWorkspace__file,
-  .UnmagicAIChatWorkspace__link {
-    @apply flex min-w-0 items-center gap-1.5;
-  }
-
+  .UnmagicAIChatWorkspace__folder,
   .UnmagicAIChatWorkspace__file {
-    @apply rounded-md px-1 py-1 text-neutral-700 dark:text-neutral-300;
+    @apply text-neutral-700 dark:text-neutral-300;
   }
 
-  .UnmagicAIChatWorkspace__link {
-    @apply flex-1 text-inherit no-underline;
+  /* The family's summary focus ring is squarer than a tree row; keep the row's. */
+  .UnmagicAIChatWorkspace .UnmagicTree__row:focus-visible {
+    @apply rounded-md;
   }
 
-  .UnmagicAIChatWorkspace__file:has(> .UnmagicAIChatWorkspace__link):hover {
-    @apply bg-neutral-100 dark:bg-neutral-800;
-  }
-
-  .UnmagicAIChatWorkspace__link:focus-visible {
-    @apply rounded-xs outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
-  }
-
-  .UnmagicAIChatWorkspace__icon {
-    @apply text-neutral-400 dark:text-neutral-500;
-  }
-
-  .UnmagicAIChatWorkspace__name {
-    @apply min-w-0 truncate;
+  /* A row for a run of folders keeps the last folder's name whole, and the
+     folders before it shorten; the name gives way only when it alone doesn't
+     fit. The full path is in the row's title. */
+  .UnmagicAIChatWorkspace__path {
+    @apply flex min-w-0;
   }
 
   .UnmagicAIChatWorkspace__directory {
-    @apply text-neutral-400 dark:text-neutral-500;
+    @apply min-w-0 shrink truncate text-neutral-500 dark:text-neutral-400;
   }
 
-  .UnmagicAIChatWorkspace__size {
-    @apply ml-auto shrink-0 pl-2 text-xs text-neutral-400 tabular-nums;
+  .UnmagicAIChatWorkspace__name {
+    @apply max-w-full shrink-0 truncate;
   }
 
   /* ------------------------------------------------------- AI chat composer */

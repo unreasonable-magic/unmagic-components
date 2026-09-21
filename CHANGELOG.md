@@ -12,6 +12,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `tree_view`, a nested, collapsible list of things inside other things, on
   nested lists and `<details>` with no script. Branches containing the current
   leaf start open; `meta:` keeps a size or a count whole at the end of a row.
+- Lucide's file-type glyphs: `file_code`, `file_text`, `file_image`,
+  `file_json`, `file_spreadsheet`, `file_archive`, `file_audio` and
+  `file_video`.
+
+### Changed
+
+- `ai_chat_workspace` draws its files as a `tree_view` of collapsible folders
+  built from their paths, rather than a flat list with each file's directory
+  in front of it. `workspace.file` is unchanged; the count is still the number
+  of files.
+- A workspace file's glyph comes from its extension when `icon:` isn't given.
+
+### Fixed
+
+- A long path in `ai_chat_workspace` no longer truncates the file's name away:
+  a file's row is its name alone, and a row of joined folders shortens from the
+  front.
 
 ## [0.6.0] - 2026-09-20
 

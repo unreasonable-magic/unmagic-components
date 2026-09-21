@@ -1695,8 +1695,15 @@ always render, empty or not, so a broadcast has something to replace.
 - **`plan.step(title, state:)`:** `:pending`, `:in_progress`, `:waiting` or
   `:completed`, with an optional block for detail. The count reads
   completed/total, or `completed:`/`total:` when a panel shows only some steps.
-- **`workspace.file(path, size:, url:, icon:)`:** a flat list of paths. A file
-  with a url is a link.
+- **`workspace.file(path, size:, url:, icon:)`:** the workspace folds the
+  paths into a `tree_view` of folders, open, with folders ahead of the files
+  beside them. A folder that holds only one folder joins it in a single row,
+  which shortens from the front so the last folder's name stays. A file with a
+  url is a link, and its glyph comes from its extension (`:file_code`,
+  `:file_text`, `:file_image`, `:file_json`, `:file_spreadsheet`,
+  `:file_archive`, `:file_audio`, `:file_video`, else `:file`) unless `icon:`
+  says otherwise. Each row's title is its full path; the count is the number of
+  files.
 - **Both take** `title:`, `open:`, `empty:`, `collapsible:` and `title_tag:`
   (`:h2`). The workspace also takes `count:`.
 

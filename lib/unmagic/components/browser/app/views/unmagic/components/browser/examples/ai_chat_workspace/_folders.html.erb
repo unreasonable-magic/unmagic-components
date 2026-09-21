@@ -1,0 +1,13 @@
+<div class="w-72 rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900">
+  <%= ai_chat_workspace id: "workspace_folders" do |workspace| %>
+    <% workspace.file "summary.md", size: 2_400, url: "#" %>
+    <% workspace.file "captures/careers.example-international.com/jobs/senior-platform-engineer-infrastructure-and-reliability.html", size: 84_200, url: "#" %>
+    <% %w[acme bluebird cobalt driftwood ember fernway goldcrest harbour ironbark juniper kestrel lumen].each_with_index do |company, index| %>
+      <% workspace.file "captures/boards/#{company}.html", size: 18_000 + (index * 2_750), url: "#" %>
+    <% end %>
+    <% workspace.file "data/applicants.csv", size: 12_900 %>
+    <% workspace.file "data/raw/applicants.json", size: 48_300 %>
+    <% workspace.file "data/raw/resumes.zip", size: 3_400_000 %>
+    <% workspace.file "renders/shortlist.png", size: 412_000 %>
+  <% end %>
+</div>
