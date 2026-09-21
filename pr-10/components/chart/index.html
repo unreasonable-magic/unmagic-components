@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" class="dark:[color-scheme:dark]">
+  <head>
+    <title>Chart · unmagic-components</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:,">
+    <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="kEtBxQ48pW2Wp2jNUcEwU89e3DNPG_ESeQBV25RnLLGwBS9d6H0stoZwSrHbEDff_BEI7smci_-Lr5uFAJElkA" />
+    <meta name="turbo-refresh-method" content="morph">
+    <meta name="turbo-refresh-scroll" content="preserve">
+    <script nonce="">
+      (function () {
+        var key = "unmagic-components-browser-theme"
+        var asked = new URLSearchParams(location.search).get("theme")
+        try {
+          if (asked === "dark" || asked === "light") localStorage.setItem(key, asked)
+          var theme = asked || localStorage.getItem(key)
+          if (theme) document.documentElement.dataset.theme = theme
+        } catch (_) {}
+        document.addEventListener("DOMContentLoaded", function () {
+          var link = document.querySelector("[data-theme-toggle]")
+          if (link) link.href = "?theme=" + (document.documentElement.dataset.theme === "dark" ? "light" : "dark")
+        })
+      })()
+    </script>
+    <link rel="stylesheet" href="/unmagic-components/pr-10/assets/stylesheets/browser.css?v=0.6.0-1790013488">
+    <script type="importmap">{"imports":{"@hotwired/turbo-rails":"/unmagic-components/pr-10/assets/turbo/turbo.min.js?v=2.0.23-1789500601","unmagic/components":"/unmagic-components/pr-10/assets/javascripts/unmagic/components.js?v=0.6.0-1790013488","unmagic/components/ai_chat":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/ai_chat.js?v=0.6.0-1790013488","unmagic/components/autogrow":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/autogrow.js?v=0.6.0-1790013488","unmagic/components/autoscroll":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/autoscroll.js?v=0.6.0-1790013488","unmagic/components/board":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/board.js?v=0.6.0-1790013488","unmagic/components/clipboard":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/clipboard.js?v=0.6.0-1790013488","unmagic/components/combobox":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/combobox.js?v=0.6.0-1790013488","unmagic/components/command_palette":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/command_palette.js?v=0.6.0-1790013488","unmagic/components/confirm":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/confirm.js?v=0.6.0-1790013488","unmagic/components/dialog":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/dialog.js?v=0.6.0-1790013488","unmagic/components/dropzone":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/dropzone.js?v=0.6.0-1790013488","unmagic/components/elapsed":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/elapsed.js?v=0.6.0-1790013488","unmagic/components/menu":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/menu.js?v=0.6.0-1790013488","unmagic/components/modal":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/modal.js?v=0.6.0-1790013488","unmagic/components/navbar":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/navbar.js?v=0.6.0-1790013488","unmagic/components/one_time_code":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/one_time_code.js?v=0.6.0-1790013488","unmagic/components/optimistic":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/optimistic.js?v=0.6.0-1790013488","unmagic/components/password":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/password.js?v=0.6.0-1790013488","unmagic/components/placement":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/placement.js?v=0.6.0-1790013488","unmagic/components/popover":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/popover.js?v=0.6.0-1790013488","unmagic/components/position":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/position.js?v=0.6.0-1790013488","unmagic/components/sidebar":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/sidebar.js?v=0.6.0-1790013488","unmagic/components/slash_menu":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/slash_menu.js?v=0.6.0-1790013488","unmagic/components/sortable":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/sortable.js?v=0.6.0-1790013488","unmagic/components/sortable_item":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/sortable_item.js?v=0.6.0-1790013488","unmagic/components/sortable_list":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/sortable_list.js?v=0.6.0-1790013488","unmagic/components/sortable_param":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/sortable_param.js?v=0.6.0-1790013488","unmagic/components/sortable_session":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/sortable_session.js?v=0.6.0-1790013488","unmagic/components/streaming_markdown":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/streaming_markdown.js?v=0.6.0-1790013488","unmagic/components/tabs":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/tabs.js?v=0.6.0-1790013488","unmagic/components/time":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/time.js?v=0.6.0-1790013488","unmagic/components/toasts":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/toasts.js?v=0.6.0-1790013488","unmagic/components/toggle":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/toggle.js?v=0.6.0-1790013488","unmagic/components/toolbar":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/toolbar.js?v=0.6.0-1790013488","unmagic/components/tooltip":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/tooltip.js?v=0.6.0-1790013488","unmagic/components/upsert":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/upsert.js?v=0.6.0-1790013488","unmagic/components/uuid_input":"/unmagic-components/pr-10/assets/javascripts/unmagic/components/uuid_input.js?v=0.6.0-1790013488"}}</script>
+<script type="module">import "unmagic/components"</script>
+  </head>
+  <body class="min-h-screen bg-white text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-100">
+    <aside class="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-neutral-200 bg-neutral-50/70 lg:flex dark:border-neutral-800 dark:bg-neutral-900/40">
+      <div class="flex h-14 shrink-0 items-center px-5">
+        <a class="flex items-center gap-2.5 text-sm font-semibold" href="/unmagic-components/pr-10/">
+          <span class="grid size-6 place-items-center rounded-md bg-neutral-900 text-[0.625rem] font-bold text-white dark:bg-white dark:text-neutral-900">um</span>
+          unmagic-components
+</a>      </div>
+      <nav class="flex-1 overflow-y-auto px-3 pb-10" aria-label="Components">
+        
+<p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-4">Getting started</p>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/pr-10/">Overview</a>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/pr-10/installation">Installation</a>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/pr-10/theming">Theming</a>
+
+  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Layout</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/card">
+      Card
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/empty_state">
+      Empty state
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/item">
+      Item
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/page_header">
+      Page header
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/panel">
+      Panel
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/scroll_area">
+      Scroll area
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/section">
+      Section
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/separator">
+      Separator
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/skeleton">
+      Skeleton
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Forms</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/button">
+      Button
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/combobox">
+      Combobox
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/forms">
+      Form builder
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/toggle">
+      Toggle
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Navigation</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/breadcrumbs">
+      Breadcrumbs
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/command_palette">
+      Command palette
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/context_menu">
+      Context menu
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/menu">
+      Menu
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/navbar">
+      Navbar
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/pagination">
+      Pagination
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/sidebar">
+      Sidebar
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/tabs">
+      Tabs
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Overlays</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/confirm">
+      Confirm
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/dialog">
+      Dialog
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/disclosure">
+      Disclosure
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/popover">
+      Popover
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/toast">
+      Toast
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/tooltip">
+      Tooltip
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Data display</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/avatar">
+      Avatar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/badge">
+      Badge
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/board">
+      Board
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/callout">
+      Callout
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm font-medium bg-neutral-200/70 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100 flex items-center justify-between gap-2" aria-current="page" href="/unmagic-components/pr-10/components/chart">
+      Chart
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/code_view">
+      Code view
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/copy_button">
+      Copy button
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/detail_list">
+      Detail list
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/elapsed">
+      Elapsed
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/kbd">
+      Kbd
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/local_time">
+      Local time
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/progress">
+      Progress
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/sortable_list">
+      Sortable list
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/spinner">
+      Spinner
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/table">
+      Table
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">AI chat</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_action_bar">
+      Action bar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_attachments">
+      Attachments
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_branch_picker">
+      Branch picker
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_citation">
+      Citation
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_composer">
+      Composer
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat">
+      Conversation
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_failure">
+      Failure
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_message">
+      Message
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_payload">
+      Payload
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_permission">
+      Permission
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_plan">
+      Plan
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_proposal">
+      Proposal
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_reasoning">
+      Reasoning
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_request">
+      Request
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_slash_menu">
+      Slash menu
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/streaming_markdown">
+      Streaming Markdown
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_tool_call">
+      Tool call
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_welcome">
+      Welcome
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_workspace">
+      Workspace
+      
+</a>
+      </nav>
+    </aside>
+
+    <div class="lg:pl-64">
+      <header class="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-neutral-200 bg-white/85 px-4 backdrop-blur sm:px-8 dark:border-neutral-800 dark:bg-neutral-950/85">
+        <details class="relative lg:hidden">
+          <summary class="UnmagicButton UnmagicButton--icon list-none [&::-webkit-details-marker]:hidden" aria-label="Menu">
+            <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </summary>
+          <nav class="absolute left-0 top-11 max-h-[75vh] w-64 overflow-y-auto rounded-xl border border-neutral-200 bg-white p-2 shadow-lg dark:border-neutral-800 dark:bg-neutral-900" aria-label="Components">
+            
+<p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-4">Getting started</p>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/pr-10/">Overview</a>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/pr-10/installation">Installation</a>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/pr-10/theming">Theming</a>
+
+  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Layout</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/card">
+      Card
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/empty_state">
+      Empty state
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/item">
+      Item
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/page_header">
+      Page header
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/panel">
+      Panel
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/scroll_area">
+      Scroll area
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/section">
+      Section
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/separator">
+      Separator
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/skeleton">
+      Skeleton
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Forms</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/button">
+      Button
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/combobox">
+      Combobox
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/forms">
+      Form builder
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/toggle">
+      Toggle
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Navigation</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/breadcrumbs">
+      Breadcrumbs
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/command_palette">
+      Command palette
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/context_menu">
+      Context menu
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/menu">
+      Menu
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/navbar">
+      Navbar
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/pagination">
+      Pagination
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/sidebar">
+      Sidebar
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/tabs">
+      Tabs
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Overlays</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/confirm">
+      Confirm
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/dialog">
+      Dialog
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/disclosure">
+      Disclosure
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/popover">
+      Popover
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/toast">
+      Toast
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/tooltip">
+      Tooltip
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Data display</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/avatar">
+      Avatar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/badge">
+      Badge
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/board">
+      Board
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/callout">
+      Callout
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm font-medium bg-neutral-200/70 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100 flex items-center justify-between gap-2" aria-current="page" href="/unmagic-components/pr-10/components/chart">
+      Chart
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/code_view">
+      Code view
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/copy_button">
+      Copy button
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/detail_list">
+      Detail list
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/elapsed">
+      Elapsed
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/kbd">
+      Kbd
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/local_time">
+      Local time
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/progress">
+      Progress
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/sortable_list">
+      Sortable list
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/spinner">
+      Spinner
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/table">
+      Table
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">AI chat</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_action_bar">
+      Action bar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_attachments">
+      Attachments
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_branch_picker">
+      Branch picker
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_citation">
+      Citation
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_composer">
+      Composer
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat">
+      Conversation
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_failure">
+      Failure
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_message">
+      Message
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_payload">
+      Payload
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_permission">
+      Permission
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_plan">
+      Plan
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_proposal">
+      Proposal
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_reasoning">
+      Reasoning
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_request">
+      Request
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_slash_menu">
+      Slash menu
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/streaming_markdown">
+      Streaming Markdown
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_tool_call">
+      Tool call
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_welcome">
+      Welcome
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/pr-10/components/ai_chat_workspace">
+      Workspace
+      
+</a>
+          </nav>
+        </details>
+
+        <nav class="flex min-w-0 items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400" aria-label="Breadcrumb">
+              <a class="shrink-0 hover:text-neutral-900 dark:hover:text-neutral-100" href="/unmagic-components/pr-10/">Data display</a>
+  <svg class="size-3.5 shrink-0 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+
+    <span class="truncate font-medium text-neutral-900 dark:text-neutral-100" aria-current="page">Chart</span>
+
+
+        </nav>
+
+        <div class="ml-auto flex items-center gap-1">
+          <a class="UnmagicButton UnmagicButton--icon" aria-label="Switch theme" title="Switch theme" data-theme-toggle="" data-turbo="false" href="?theme=dark">
+            <svg class="hidden size-4 dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-2.93 1.41-1.41m11.32-11.32 1.41-1.41M2 12h2m16 0h2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41"/></svg>
+            <svg class="size-4 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+</a>          <a class="UnmagicButton UnmagicButton--icon" aria-label="GitHub" title="GitHub" href="https://github.com/unreasonable-magic/unmagic-components">
+            <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-5-2"/></svg>
+</a>        </div>
+      </header>
+
+      <main class="mx-auto max-w-6xl px-4 py-10 sm:px-8 lg:py-14">
+        
+
+<div class="xl:grid xl:grid-cols-[minmax(0,1fr)_12rem] xl:gap-12">
+  <article class="min-w-0">
+    <header class="mb-12">
+      <h1 class="text-3xl font-semibold tracking-tight">Chart</h1>
+      <p class="mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400">A chart drawn as inline SVG, no script: columns over a set of labels, stacked where there is more than one series, or a line over time. Every column answers to hover, and the same numbers sit under it as a table for anybody who can&#39;t or won&#39;t.</p>
+      <div class="mt-5 flex flex-wrap items-center gap-2">
+        <span class="UnmagicBadge UnmagicBadge--info">New in 0.6.0</span>
+        <span class="UnmagicBadge"><code>chart</code></span>
+        
+        <span class="UnmagicBadge">3 examples</span>
+      </div>
+    </header>
+
+    <div class="space-y-14">
+        
+<section id="chart_columns" class="PreviewExample scroll-mt-20">
+  <div class="mb-3 min-h-9 pr-40">
+    <h2 class="text-base font-semibold">
+      <a href="#chart_columns" class="hover:underline">Stacked columns over days</a>
+    </h2>
+      <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">One { label:, values: } per series, values keyed by the label. format: says how every number reads; a total: shows in the legend.</p>
+  </div>
+
+
+  <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="chart_columns_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="chart_columns_view_tab_0" class="UnmagicTabs__tab" aria-controls="chart_columns_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="chart_columns_view_tab_1" class="UnmagicTabs__tab" aria-controls="chart_columns_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="chart_columns_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="chart_columns_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
+        <div class="w-full">
+          <figure class="UnmagicChart UnmagicChart--column"><figcaption class="UnmagicChart__head"><span class="UnmagicChart__title">Spend by provider</span><ul class="UnmagicChart__legend"><li class="UnmagicChart__series"><span class="UnmagicChart__swatch UnmagicChart__swatch--1" aria-hidden="true"></span> Suno <span class="UnmagicChart__total">· $152</span></li><li class="UnmagicChart__series"><span class="UnmagicChart__swatch UnmagicChart__swatch--2" aria-hidden="true"></span> ElevenLabs <span class="UnmagicChart__total">· $156</span></li><li class="UnmagicChart__series"><span class="UnmagicChart__swatch UnmagicChart__swatch--3" aria-hidden="true"></span> Meshy <span class="UnmagicChart__total">· $140</span></li></ul></figcaption><svg viewBox="0 0 720 200" class="UnmagicChart__svg" role="img" aria-label="Spend by provider"><line x1="56" x2="712" y1="176.0" y2="176.0" class="UnmagicChart__axis" /><text x="48" y="180.0" text-anchor="end">$0</text><line x1="56" x2="712" y1="94.0" y2="94.0" class="UnmagicChart__grid" /><text x="48" y="98.0" text-anchor="end">$20</text><line x1="56" x2="712" y1="12.0" y2="12.0" class="UnmagicChart__grid" /><text x="48" y="16.0" text-anchor="end">$40</text><g class="UnmagicChart__column"><title>1 Sep
+$0.30 Meshy
+$1.90 ElevenLabs
+$8.90 Suno</title><rect x="56.0" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M57.0,139.51 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v36.49 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M57.0,131.72 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v5.79 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /></g><g class="UnmagicChart__column"><title>2 Sep
+$0.60 Meshy
+$3.80 ElevenLabs
+$8.10 Suno</title><rect x="77.86666666666667" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M78.87,142.79 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v33.21 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M78.87,127.21 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v13.58 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M78.87,124.98 a0.22999999999999998,0.22999999999999998 0 0 1 0.22999999999999998,-0.22999999999999998 h19.41 a0.22999999999999998,0.22999999999999998 0 0 1 0.22999999999999998,0.22999999999999998 v0.23 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>3 Sep
+$0.90 Meshy
+$5.70 ElevenLabs
+$7.30 Suno</title><rect x="99.73333333333333" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M100.73,146.07 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v29.93 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M100.73,122.7 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v21.37 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M100.73,119.85 a0.845,0.845 0 0 1 0.845,-0.845 h18.18 a0.845,0.845 0 0 1 0.845,0.845 v0.85 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>4 Sep
+$1.20 Meshy
+$7.60 ElevenLabs
+$6.50 Suno</title><rect x="121.6" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M122.6,149.35 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v26.65 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M122.6,118.19 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v29.16 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M122.6,114.73 a1.46,1.46 0 0 1 1.46,-1.46 h16.95 a1.46,1.46 0 0 1 1.46,1.46 v1.46 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>5 Sep
+$1.50 Meshy
+$9.50 ElevenLabs
+$5.70 Suno</title><rect x="143.46666666666667" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M144.47,152.63 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v23.37 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M144.47,113.68 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v36.95 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M144.47,109.6 a2.075,2.075 0 0 1 2.075,-2.075 h15.72 a2.075,2.075 0 0 1 2.075,2.075 v2.08 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>6 Sep
+$1.80 Meshy
+$1.70 ElevenLabs
+$4.90 Suno</title><rect x="165.33333333333334" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M166.33,155.91 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v20.09 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M166.33,148.94 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v4.97 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M166.33,144.25 a2.69,2.69 0 0 1 2.69,-2.69 h14.49 a2.69,2.69 0 0 1 2.69,2.69 v2.69 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>7 Sep
+$2.10 Meshy
+$3.60 ElevenLabs
+$4.10 Suno</title><rect x="187.2" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M188.2,159.19 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v16.81 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M188.2,144.43 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v12.76 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M188.2,139.13 a3.3049999999999997,3.3049999999999997 0 0 1 3.3049999999999997,-3.3049999999999997 h13.26 a3.3049999999999997,3.3049999999999997 0 0 1 3.3049999999999997,3.3049999999999997 v3.31 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>8 Sep
+$2.40 Meshy
+$5.50 ElevenLabs
+$3.30 Suno</title><rect x="209.06666666666666" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M210.07,162.47 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v13.53 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M210.07,139.92 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v20.55 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M210.07,134.0 a3.92,3.92 0 0 1 3.92,-3.92 h12.03 a3.92,3.92 0 0 1 3.92,3.92 v3.92 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>9 Sep
+$2.70 Meshy
+$7.40 ElevenLabs
+$2.50 Suno</title><rect x="230.93333333333334" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M231.93,165.75 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v10.25 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M231.93,135.41 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v28.34 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M231.93,128.34 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v5.07 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>10 Sep
+$3.00 Meshy
+$9.30 ElevenLabs
+$1.70 Suno</title><rect x="252.8" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M253.8,169.03 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v6.97 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M253.8,130.9 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v36.13 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M253.8,122.6 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v6.3 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>11 Sep
+$3.30 Meshy
+$1.50 ElevenLabs
+$0.90 Suno</title><rect x="274.6666666666667" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M275.67,172.31 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v3.69 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M275.67,166.16 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v4.15 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M275.67,156.63 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v7.53 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>12 Sep
+$3.60 Meshy
+$3.40 ElevenLabs
+$0.10 Suno</title><rect x="296.5333333333333" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M297.53,175.59 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v0.41 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M297.53,161.65 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v11.94 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M297.53,150.89 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v8.76 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>13 Sep
+$3.90 Meshy
+$5.30 ElevenLabs
+$9.00 Suno</title><rect x="318.4" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M319.4,139.1 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v36.9 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M319.4,117.37 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v19.73 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M319.4,105.38 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v9.99 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>14 Sep
+$4.20 Meshy
+$7.20 ElevenLabs
+$8.20 Suno</title><rect x="340.26666666666665" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M341.27,142.38 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v33.62 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M341.27,112.86 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v27.52 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M341.27,99.64 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v11.22 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>15 Sep
+$4.50 Meshy
+$9.10 ElevenLabs
+$7.40 Suno</title><rect x="362.1333333333333" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M363.13,145.66 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v30.34 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M363.13,108.35 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v35.31 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M363.13,93.9 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v12.45 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>16 Sep
+$4.80 Meshy
+$1.30 ElevenLabs
+$6.60 Suno</title><rect x="384.0" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M385.0,148.94 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v27.06 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M385.0,143.61 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v3.33 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M385.0,127.93 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v13.68 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>17 Sep
+$5.10 Meshy
+$3.20 ElevenLabs
+$5.80 Suno</title><rect x="405.8666666666667" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M406.87,152.22 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v23.78 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M406.87,139.1 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v11.12 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M406.87,122.19 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v14.91 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>18 Sep
+$5.40 Meshy
+$5.10 ElevenLabs
+$5.00 Suno</title><rect x="427.73333333333335" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M428.73,155.5 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v20.5 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M428.73,134.59 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v18.91 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M428.73,116.45 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v16.14 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>19 Sep
+$5.70 Meshy
+$7.00 ElevenLabs
+$4.20 Suno</title><rect x="449.6" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M450.6,158.78 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v17.22 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M450.6,130.08 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v26.7 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M450.6,110.71 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v17.37 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>20 Sep
+$6.00 Meshy
+$8.90 ElevenLabs
+$3.40 Suno</title><rect x="471.4666666666667" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M472.47,162.06 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v13.94 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M472.47,125.57 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v34.49 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M472.47,104.97 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v18.6 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>21 Sep
+$6.30 Meshy
+$1.10 ElevenLabs
+$2.60 Suno</title><rect x="493.33333333333337" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M494.33,165.34 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v10.66 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M494.33,160.83 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v2.51 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M494.33,139.0 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v19.83 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>22 Sep
+$6.60 Meshy
+$3.00 ElevenLabs
+$1.80 Suno</title><rect x="515.2" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M516.2,168.62 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v7.38 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M516.2,156.32 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v10.3 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M516.2,133.26 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v21.06 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>23 Sep
+$6.90 Meshy
+$4.90 ElevenLabs
+$1.00 Suno</title><rect x="537.0666666666666" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M538.07,171.9 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v4.1 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M538.07,151.81 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v18.09 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M538.07,127.52 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v22.29 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>24 Sep
+$7.20 Meshy
+$6.80 ElevenLabs
+$0.20 Suno</title><rect x="558.9333333333334" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M559.93,175.18 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v0.82 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M559.93,147.3 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v25.88 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M559.93,121.78 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v23.52 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>25 Sep
+$7.50 Meshy
+$8.70 ElevenLabs
+$9.10 Suno</title><rect x="580.8" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M581.8,138.69 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v37.31 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M581.8,103.02 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v33.67 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M581.8,76.27 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v24.75 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>26 Sep
+$7.80 Meshy
+$0.90 ElevenLabs
+$8.30 Suno</title><rect x="602.6666666666666" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M603.67,141.97 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v34.03 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M603.67,138.28 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v1.69 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M603.67,110.3 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v25.98 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>27 Sep
+$8.10 Meshy
+$2.80 ElevenLabs
+$7.50 Suno</title><rect x="624.5333333333333" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M625.53,145.25 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v30.75 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M625.53,133.77 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v9.48 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M625.53,104.56 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v27.21 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>28 Sep
+$8.40 Meshy
+$4.70 ElevenLabs
+$6.70 Suno</title><rect x="646.4" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M647.4,148.53 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v27.47 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M647.4,129.26 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v17.27 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M647.4,98.82 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v28.44 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>29 Sep
+$8.70 Meshy
+$6.60 ElevenLabs
+$5.90 Suno</title><rect x="668.2666666666667" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M669.27,151.81 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v24.19 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M669.27,124.75 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v25.06 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M669.27,93.08 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v29.67 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><g class="UnmagicChart__column"><title>30 Sep
+$9.00 Meshy
+$8.50 ElevenLabs
+$5.10 Suno</title><rect x="690.1333333333333" y="12" width="21.866666666666667" height="164" class="UnmagicChart__hit" /><path d="M691.13,155.09 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v20.91 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--1" /><path d="M691.13,120.24 a0,0 0 0 1 0,-0 h19.87 a0,0 0 0 1 0,0 v32.85 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--2" /><path d="M691.13,87.34 a4,4 0 0 1 4,-4 h11.87 a4,4 0 0 1 4,4 v30.9 h-19.87 z" class="UnmagicChart__mark UnmagicChart__mark--3" /></g><text x="66.93" y="194" text-anchor="middle">1 Sep</text><text x="176.27" y="194" text-anchor="middle">6 Sep</text><text x="285.6" y="194" text-anchor="middle">11 Sep</text><text x="394.93" y="194" text-anchor="middle">16 Sep</text><text x="504.27" y="194" text-anchor="middle">21 Sep</text><text x="613.6" y="194" text-anchor="middle">26 Sep</text><text x="701.07" y="194" text-anchor="middle">30 Sep</text></svg><details class="UnmagicChart__table"><summary>As a table</summary><table class="UnmagicTable UnmagicTable--full UnmagicChart__numbers"><thead><tr><th>Label</th><th class="is-right">Suno</th><th class="is-right">ElevenLabs</th><th class="is-right">Meshy</th></tr></thead><tbody><tr><td data-label="Label">1 Sep</td><td class="is-right" data-label="Suno">$8.90</td><td class="is-right" data-label="ElevenLabs">$1.90</td><td class="is-right" data-label="Meshy">$0.30</td></tr><tr><td data-label="Label">2 Sep</td><td class="is-right" data-label="Suno">$8.10</td><td class="is-right" data-label="ElevenLabs">$3.80</td><td class="is-right" data-label="Meshy">$0.60</td></tr><tr><td data-label="Label">3 Sep</td><td class="is-right" data-label="Suno">$7.30</td><td class="is-right" data-label="ElevenLabs">$5.70</td><td class="is-right" data-label="Meshy">$0.90</td></tr><tr><td data-label="Label">4 Sep</td><td class="is-right" data-label="Suno">$6.50</td><td class="is-right" data-label="ElevenLabs">$7.60</td><td class="is-right" data-label="Meshy">$1.20</td></tr><tr><td data-label="Label">5 Sep</td><td class="is-right" data-label="Suno">$5.70</td><td class="is-right" data-label="ElevenLabs">$9.50</td><td class="is-right" data-label="Meshy">$1.50</td></tr><tr><td data-label="Label">6 Sep</td><td class="is-right" data-label="Suno">$4.90</td><td class="is-right" data-label="ElevenLabs">$1.70</td><td class="is-right" data-label="Meshy">$1.80</td></tr><tr><td data-label="Label">7 Sep</td><td class="is-right" data-label="Suno">$4.10</td><td class="is-right" data-label="ElevenLabs">$3.60</td><td class="is-right" data-label="Meshy">$2.10</td></tr><tr><td data-label="Label">8 Sep</td><td class="is-right" data-label="Suno">$3.30</td><td class="is-right" data-label="ElevenLabs">$5.50</td><td class="is-right" data-label="Meshy">$2.40</td></tr><tr><td data-label="Label">9 Sep</td><td class="is-right" data-label="Suno">$2.50</td><td class="is-right" data-label="ElevenLabs">$7.40</td><td class="is-right" data-label="Meshy">$2.70</td></tr><tr><td data-label="Label">10 Sep</td><td class="is-right" data-label="Suno">$1.70</td><td class="is-right" data-label="ElevenLabs">$9.30</td><td class="is-right" data-label="Meshy">$3.00</td></tr><tr><td data-label="Label">11 Sep</td><td class="is-right" data-label="Suno">$0.90</td><td class="is-right" data-label="ElevenLabs">$1.50</td><td class="is-right" data-label="Meshy">$3.30</td></tr><tr><td data-label="Label">12 Sep</td><td class="is-right" data-label="Suno">$0.10</td><td class="is-right" data-label="ElevenLabs">$3.40</td><td class="is-right" data-label="Meshy">$3.60</td></tr><tr><td data-label="Label">13 Sep</td><td class="is-right" data-label="Suno">$9.00</td><td class="is-right" data-label="ElevenLabs">$5.30</td><td class="is-right" data-label="Meshy">$3.90</td></tr><tr><td data-label="Label">14 Sep</td><td class="is-right" data-label="Suno">$8.20</td><td class="is-right" data-label="ElevenLabs">$7.20</td><td class="is-right" data-label="Meshy">$4.20</td></tr><tr><td data-label="Label">15 Sep</td><td class="is-right" data-label="Suno">$7.40</td><td class="is-right" data-label="ElevenLabs">$9.10</td><td class="is-right" data-label="Meshy">$4.50</td></tr><tr><td data-label="Label">16 Sep</td><td class="is-right" data-label="Suno">$6.60</td><td class="is-right" data-label="ElevenLabs">$1.30</td><td class="is-right" data-label="Meshy">$4.80</td></tr><tr><td data-label="Label">17 Sep</td><td class="is-right" data-label="Suno">$5.80</td><td class="is-right" data-label="ElevenLabs">$3.20</td><td class="is-right" data-label="Meshy">$5.10</td></tr><tr><td data-label="Label">18 Sep</td><td class="is-right" data-label="Suno">$5.00</td><td class="is-right" data-label="ElevenLabs">$5.10</td><td class="is-right" data-label="Meshy">$5.40</td></tr><tr><td data-label="Label">19 Sep</td><td class="is-right" data-label="Suno">$4.20</td><td class="is-right" data-label="ElevenLabs">$7.00</td><td class="is-right" data-label="Meshy">$5.70</td></tr><tr><td data-label="Label">20 Sep</td><td class="is-right" data-label="Suno">$3.40</td><td class="is-right" data-label="ElevenLabs">$8.90</td><td class="is-right" data-label="Meshy">$6.00</td></tr><tr><td data-label="Label">21 Sep</td><td class="is-right" data-label="Suno">$2.60</td><td class="is-right" data-label="ElevenLabs">$1.10</td><td class="is-right" data-label="Meshy">$6.30</td></tr><tr><td data-label="Label">22 Sep</td><td class="is-right" data-label="Suno">$1.80</td><td class="is-right" data-label="ElevenLabs">$3.00</td><td class="is-right" data-label="Meshy">$6.60</td></tr><tr><td data-label="Label">23 Sep</td><td class="is-right" data-label="Suno">$1.00</td><td class="is-right" data-label="ElevenLabs">$4.90</td><td class="is-right" data-label="Meshy">$6.90</td></tr><tr><td data-label="Label">24 Sep</td><td class="is-right" data-label="Suno">$0.20</td><td class="is-right" data-label="ElevenLabs">$6.80</td><td class="is-right" data-label="Meshy">$7.20</td></tr><tr><td data-label="Label">25 Sep</td><td class="is-right" data-label="Suno">$9.10</td><td class="is-right" data-label="ElevenLabs">$8.70</td><td class="is-right" data-label="Meshy">$7.50</td></tr><tr><td data-label="Label">26 Sep</td><td class="is-right" data-label="Suno">$8.30</td><td class="is-right" data-label="ElevenLabs">$0.90</td><td class="is-right" data-label="Meshy">$7.80</td></tr><tr><td data-label="Label">27 Sep</td><td class="is-right" data-label="Suno">$7.50</td><td class="is-right" data-label="ElevenLabs">$2.80</td><td class="is-right" data-label="Meshy">$8.10</td></tr><tr><td data-label="Label">28 Sep</td><td class="is-right" data-label="Suno">$6.70</td><td class="is-right" data-label="ElevenLabs">$4.70</td><td class="is-right" data-label="Meshy">$8.40</td></tr><tr><td data-label="Label">29 Sep</td><td class="is-right" data-label="Suno">$5.90</td><td class="is-right" data-label="ElevenLabs">$6.60</td><td class="is-right" data-label="Meshy">$8.70</td></tr><tr><td data-label="Label">30 Sep</td><td class="is-right" data-label="Suno">$5.10</td><td class="is-right" data-label="ElevenLabs">$8.50</td><td class="is-right" data-label="Meshy">$9.00</td></tr></tbody></table></details></figure>
+
+        </div>
+      </div>
+</div><div role="tabpanel" id="chart_columns_view_panel_1" class="UnmagicTabs__panel" aria-labelledby="chart_columns_view_tab_1" tabindex="0" hidden="hidden">      <div class="UnmagicCodeView UnmagicCodeView--copy rounded-xl" id="chart_columns_source"><pre class="UnmagicCodeView__pre"><code id="chart_columns_source_code" class="UnmagicCodeView__code language-erb"><span class="cp">&lt;%</span> <span class="n">days</span> <span class="o">=</span> <span class="p">(</span><span class="no">Date</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">2026</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">..</span><span class="no">Date</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">2026</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">30</span><span class="p">)).</span><span class="nf">to_a</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="n">seed</span> <span class="o">=</span> <span class="o">-&gt;</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span> <span class="p">((</span><span class="n">d</span><span class="p">.</span><span class="nf">day</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="mi">7919</span><span class="p">)</span> <span class="o">%</span> <span class="mi">97</span><span class="p">)</span> <span class="o">/</span> <span class="mf">10.0</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">chart</span> <span class="p">[</span>
+      <span class="p">{</span> <span class="ss">label: </span><span class="s2">&quot;Suno&quot;</span><span class="p">,</span> <span class="ss">values: </span><span class="n">days</span><span class="p">.</span><span class="nf">to_h</span> <span class="p">{</span> <span class="o">|</span><span class="n">d</span><span class="o">|</span> <span class="p">[</span> <span class="n">d</span><span class="p">,</span> <span class="n">seed</span><span class="o">.</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="p">]</span> <span class="p">},</span> <span class="ss">total: </span><span class="n">days</span><span class="p">.</span><span class="nf">sum</span> <span class="p">{</span> <span class="o">|</span><span class="n">d</span><span class="o">|</span> <span class="n">seed</span><span class="o">.</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="p">}</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="ss">label: </span><span class="s2">&quot;ElevenLabs&quot;</span><span class="p">,</span> <span class="ss">values: </span><span class="n">days</span><span class="p">.</span><span class="nf">to_h</span> <span class="p">{</span> <span class="o">|</span><span class="n">d</span><span class="o">|</span> <span class="p">[</span> <span class="n">d</span><span class="p">,</span> <span class="n">seed</span><span class="o">.</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="p">]</span> <span class="p">},</span> <span class="ss">total: </span><span class="n">days</span><span class="p">.</span><span class="nf">sum</span> <span class="p">{</span> <span class="o">|</span><span class="n">d</span><span class="o">|</span> <span class="n">seed</span><span class="o">.</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="p">}</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="ss">label: </span><span class="s2">&quot;Meshy&quot;</span><span class="p">,</span> <span class="ss">values: </span><span class="n">days</span><span class="p">.</span><span class="nf">to_h</span> <span class="p">{</span> <span class="o">|</span><span class="n">d</span><span class="o">|</span> <span class="p">[</span> <span class="n">d</span><span class="p">,</span> <span class="n">seed</span><span class="o">.</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span> <span class="p">]</span> <span class="p">},</span> <span class="ss">total: </span><span class="n">days</span><span class="p">.</span><span class="nf">sum</span> <span class="p">{</span> <span class="o">|</span><span class="n">d</span><span class="o">|</span> <span class="n">seed</span><span class="o">.</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span> <span class="p">}</span> <span class="p">}</span>
+    <span class="p">],</span> <span class="ss">labels: </span><span class="n">days</span><span class="p">,</span> <span class="ss">title: </span><span class="s2">&quot;Spend by provider&quot;</span><span class="p">,</span> <span class="ss">format: :money</span> <span class="cp">%&gt;</span></code></pre><div class="UnmagicCodeView__copy"><unmagic-clipboard for="chart_columns_source_code" class="UnmagicClipboard" data-copied-label="Copied"><button type="button" aria-label="Copy" title="Copy" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard></div></div>
+
+</div></unmagic-tabs></section>
+
+        
+<section id="chart_line" class="PreviewExample scroll-mt-20">
+  <div class="mb-3 min-h-9 pr-40">
+    <h2 class="text-base font-semibold">
+      <a href="#chart_line" class="hover:underline">A line over time</a>
+    </h2>
+      <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">type: :line for a reading that&#39;s always there. A nil value is a gap the line doesn&#39;t bridge, and the newest reading gets a dot. max: pins the top of the axis.</p>
+  </div>
+
+
+  <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="chart_line_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="chart_line_view_tab_0" class="UnmagicTabs__tab" aria-controls="chart_line_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="chart_line_view_tab_1" class="UnmagicTabs__tab" aria-controls="chart_line_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="chart_line_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="chart_line_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
+        <div class="w-full">
+          <figure class="UnmagicChart UnmagicChart--line"><figcaption class="UnmagicChart__head"><span class="UnmagicChart__title">CPU, last hour</span></figcaption><svg viewBox="0 0 720 200" class="UnmagicChart__svg" role="img" aria-label="CPU, last hour"><line x1="56" x2="712" y1="176.0" y2="176.0" class="UnmagicChart__axis" /><text x="48" y="180.0" text-anchor="end">0%</text><line x1="56" x2="712" y1="94.0" y2="94.0" class="UnmagicChart__grid" /><text x="48" y="98.0" text-anchor="end">50%</text><line x1="56" x2="712" y1="12.0" y2="12.0" class="UnmagicChart__grid" /><text x="48" y="16.0" text-anchor="end">100%</text><path d="M56.0,118.6 L67.1,110.4 L78.2,102.2 L89.4,95.6 L100.5,90.7 L111.6,87.4 L122.7,85.8 L133.8,85.8 L144.9,89.1 L156.1,92.4 L167.2,98.9 L178.3,105.5 L189.4,113.7 L200.5,121.9 L211.7,130.1 L222.8,136.6 L233.9,143.2 L245.0,148.1 L256.1,151.4 L267.3,151.4 M334.0,120.2 L345.1,112.0 L356.2,103.8 L367.3,97.3 L378.4,92.4 L389.6,87.4 L400.7,85.8 L411.8,85.8 L422.9,89.1 L434.0,92.4 L445.2,98.9 L456.3,105.5 L467.4,113.7 L478.5,121.9 L489.6,128.4 L500.7,136.6 L511.9,143.2 L523.0,148.1 L534.1,149.8 L545.2,151.4 L556.3,149.8 L567.5,148.1 L578.6,143.2 L589.7,136.6 L600.8,128.4 L611.9,120.2 L623.1,112.0 L634.2,105.5 L645.3,97.3 L656.4,92.4 L667.5,87.4 L678.6,85.8 L689.8,85.8 L700.9,87.4 L712.0,92.4" class="UnmagicChart__line UnmagicChart__line--1" /><circle cx="712.0" cy="92.4" r="4" class="UnmagicChart__dot UnmagicChart__dot--1" /><g class="UnmagicChart__column"><title>16:59
+35% CPU</title><rect x="50.4" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:00
+40% CPU</title><rect x="61.6" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:01
+45% CPU</title><rect x="72.7" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:02
+49% CPU</title><rect x="83.8" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:03
+52% CPU</title><rect x="94.9" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:04
+54% CPU</title><rect x="106.0" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:05
+55% CPU</title><rect x="117.2" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:06
+55% CPU</title><rect x="128.3" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:07
+53% CPU</title><rect x="139.4" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:08
+51% CPU</title><rect x="150.5" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:09
+47% CPU</title><rect x="161.6" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:10
+43% CPU</title><rect x="172.7" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:11
+38% CPU</title><rect x="183.9" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:12
+33% CPU</title><rect x="195.0" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:13
+28% CPU</title><rect x="206.1" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:14
+24% CPU</title><rect x="217.2" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:15
+20% CPU</title><rect x="228.3" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:16
+17% CPU</title><rect x="239.5" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:17
+15% CPU</title><rect x="250.6" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:18
+15% CPU</title><rect x="261.7" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:19
+no reading CPU</title><rect x="272.8" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:20
+no reading CPU</title><rect x="283.9" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:21
+no reading CPU</title><rect x="295.1" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:22
+no reading CPU</title><rect x="306.2" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:23
+no reading CPU</title><rect x="317.3" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:24
+34% CPU</title><rect x="328.4" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:25
+39% CPU</title><rect x="339.5" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:26
+44% CPU</title><rect x="350.6" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:27
+48% CPU</title><rect x="361.8" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:28
+51% CPU</title><rect x="372.9" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:29
+54% CPU</title><rect x="384.0" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:30
+55% CPU</title><rect x="395.1" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:31
+55% CPU</title><rect x="406.2" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:32
+53% CPU</title><rect x="417.4" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:33
+51% CPU</title><rect x="428.5" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:34
+47% CPU</title><rect x="439.6" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:35
+43% CPU</title><rect x="450.7" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:36
+38% CPU</title><rect x="461.8" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:37
+33% CPU</title><rect x="472.9" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:38
+29% CPU</title><rect x="484.1" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:39
+24% CPU</title><rect x="495.2" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:40
+20% CPU</title><rect x="506.3" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:41
+17% CPU</title><rect x="517.4" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:42
+16% CPU</title><rect x="528.5" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:43
+15% CPU</title><rect x="539.7" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:44
+16% CPU</title><rect x="550.8" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:45
+17% CPU</title><rect x="561.9" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:46
+20% CPU</title><rect x="573.0" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:47
+24% CPU</title><rect x="584.1" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:48
+29% CPU</title><rect x="595.3" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:49
+34% CPU</title><rect x="606.4" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:50
+39% CPU</title><rect x="617.5" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:51
+43% CPU</title><rect x="628.6" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:52
+48% CPU</title><rect x="639.7" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:53
+51% CPU</title><rect x="650.8" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:54
+54% CPU</title><rect x="662.0" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:55
+55% CPU</title><rect x="673.1" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:56
+55% CPU</title><rect x="684.2" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:57
+54% CPU</title><rect x="695.3" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>17:58
+51% CPU</title><rect x="706.4" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><text x="56.0" y="194" text-anchor="start">16:59</text><text x="189.4" y="194" text-anchor="middle">17:11</text><text x="322.8" y="194" text-anchor="middle">17:23</text><text x="445.2" y="194" text-anchor="middle">17:34</text><text x="578.6" y="194" text-anchor="middle">17:46</text><text x="712.0" y="194" text-anchor="end">17:58</text></svg><details class="UnmagicChart__table"><summary>As a table</summary><table class="UnmagicTable UnmagicTable--full UnmagicChart__numbers"><thead><tr><th>Label</th><th class="is-right">CPU</th></tr></thead><tbody><tr><td data-label="Label">16:59</td><td class="is-right" data-label="CPU">35%</td></tr><tr><td data-label="Label">17:00</td><td class="is-right" data-label="CPU">40%</td></tr><tr><td data-label="Label">17:01</td><td class="is-right" data-label="CPU">45%</td></tr><tr><td data-label="Label">17:02</td><td class="is-right" data-label="CPU">49%</td></tr><tr><td data-label="Label">17:03</td><td class="is-right" data-label="CPU">52%</td></tr><tr><td data-label="Label">17:04</td><td class="is-right" data-label="CPU">54%</td></tr><tr><td data-label="Label">17:05</td><td class="is-right" data-label="CPU">55%</td></tr><tr><td data-label="Label">17:06</td><td class="is-right" data-label="CPU">55%</td></tr><tr><td data-label="Label">17:07</td><td class="is-right" data-label="CPU">53%</td></tr><tr><td data-label="Label">17:08</td><td class="is-right" data-label="CPU">51%</td></tr><tr><td data-label="Label">17:09</td><td class="is-right" data-label="CPU">47%</td></tr><tr><td data-label="Label">17:10</td><td class="is-right" data-label="CPU">43%</td></tr><tr><td data-label="Label">17:11</td><td class="is-right" data-label="CPU">38%</td></tr><tr><td data-label="Label">17:12</td><td class="is-right" data-label="CPU">33%</td></tr><tr><td data-label="Label">17:13</td><td class="is-right" data-label="CPU">28%</td></tr><tr><td data-label="Label">17:14</td><td class="is-right" data-label="CPU">24%</td></tr><tr><td data-label="Label">17:15</td><td class="is-right" data-label="CPU">20%</td></tr><tr><td data-label="Label">17:16</td><td class="is-right" data-label="CPU">17%</td></tr><tr><td data-label="Label">17:17</td><td class="is-right" data-label="CPU">15%</td></tr><tr><td data-label="Label">17:18</td><td class="is-right" data-label="CPU">15%</td></tr><tr><td data-label="Label">17:24</td><td class="is-right" data-label="CPU">34%</td></tr><tr><td data-label="Label">17:25</td><td class="is-right" data-label="CPU">39%</td></tr><tr><td data-label="Label">17:26</td><td class="is-right" data-label="CPU">44%</td></tr><tr><td data-label="Label">17:27</td><td class="is-right" data-label="CPU">48%</td></tr><tr><td data-label="Label">17:28</td><td class="is-right" data-label="CPU">51%</td></tr><tr><td data-label="Label">17:29</td><td class="is-right" data-label="CPU">54%</td></tr><tr><td data-label="Label">17:30</td><td class="is-right" data-label="CPU">55%</td></tr><tr><td data-label="Label">17:31</td><td class="is-right" data-label="CPU">55%</td></tr><tr><td data-label="Label">17:32</td><td class="is-right" data-label="CPU">53%</td></tr><tr><td data-label="Label">17:33</td><td class="is-right" data-label="CPU">51%</td></tr><tr><td data-label="Label">17:34</td><td class="is-right" data-label="CPU">47%</td></tr><tr><td data-label="Label">17:35</td><td class="is-right" data-label="CPU">43%</td></tr><tr><td data-label="Label">17:36</td><td class="is-right" data-label="CPU">38%</td></tr><tr><td data-label="Label">17:37</td><td class="is-right" data-label="CPU">33%</td></tr><tr><td data-label="Label">17:38</td><td class="is-right" data-label="CPU">29%</td></tr><tr><td data-label="Label">17:39</td><td class="is-right" data-label="CPU">24%</td></tr><tr><td data-label="Label">17:40</td><td class="is-right" data-label="CPU">20%</td></tr><tr><td data-label="Label">17:41</td><td class="is-right" data-label="CPU">17%</td></tr><tr><td data-label="Label">17:42</td><td class="is-right" data-label="CPU">16%</td></tr><tr><td data-label="Label">17:43</td><td class="is-right" data-label="CPU">15%</td></tr><tr><td data-label="Label">17:44</td><td class="is-right" data-label="CPU">16%</td></tr><tr><td data-label="Label">17:45</td><td class="is-right" data-label="CPU">17%</td></tr><tr><td data-label="Label">17:46</td><td class="is-right" data-label="CPU">20%</td></tr><tr><td data-label="Label">17:47</td><td class="is-right" data-label="CPU">24%</td></tr><tr><td data-label="Label">17:48</td><td class="is-right" data-label="CPU">29%</td></tr><tr><td data-label="Label">17:49</td><td class="is-right" data-label="CPU">34%</td></tr><tr><td data-label="Label">17:50</td><td class="is-right" data-label="CPU">39%</td></tr><tr><td data-label="Label">17:51</td><td class="is-right" data-label="CPU">43%</td></tr><tr><td data-label="Label">17:52</td><td class="is-right" data-label="CPU">48%</td></tr><tr><td data-label="Label">17:53</td><td class="is-right" data-label="CPU">51%</td></tr><tr><td data-label="Label">17:54</td><td class="is-right" data-label="CPU">54%</td></tr><tr><td data-label="Label">17:55</td><td class="is-right" data-label="CPU">55%</td></tr><tr><td data-label="Label">17:56</td><td class="is-right" data-label="CPU">55%</td></tr><tr><td data-label="Label">17:57</td><td class="is-right" data-label="CPU">54%</td></tr><tr><td data-label="Label">17:58</td><td class="is-right" data-label="CPU">51%</td></tr></tbody></table></details></figure>
+
+        </div>
+      </div>
+</div><div role="tabpanel" id="chart_line_view_panel_1" class="UnmagicTabs__panel" aria-labelledby="chart_line_view_tab_1" tabindex="0" hidden="hidden">      <div class="UnmagicCodeView UnmagicCodeView--copy rounded-xl" id="chart_line_source"><pre class="UnmagicCodeView__pre"><code id="chart_line_source_code" class="UnmagicCodeView__code language-erb"><span class="cp">&lt;%</span> <span class="n">times</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="mi">59</span><span class="p">).</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="vi">@now</span> <span class="o">-</span> <span class="p">(</span><span class="mi">59</span> <span class="o">-</span> <span class="n">i</span><span class="p">).</span><span class="nf">minutes</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="n">values</span> <span class="o">=</span> <span class="n">times</span><span class="p">.</span><span class="nf">each_with_index</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">_</span><span class="p">,</span> <span class="n">i</span><span class="o">|</span> <span class="n">i</span><span class="p">.</span><span class="nf">between?</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">24</span><span class="p">)</span> <span class="p">?</span> <span class="kp">nil</span> <span class="p">:</span> <span class="mi">35</span> <span class="o">+</span> <span class="p">(</span><span class="no">Math</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="n">i</span> <span class="o">/</span> <span class="mf">4.0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">20</span><span class="p">).</span><span class="nf">round</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">chart</span> <span class="p">[</span> <span class="p">{</span> <span class="ss">label: </span><span class="s2">&quot;CPU&quot;</span><span class="p">,</span> <span class="ss">values: </span><span class="n">values</span> <span class="p">}</span> <span class="p">],</span> <span class="ss">labels: </span><span class="n">times</span><span class="p">,</span> <span class="ss">type: :line</span><span class="p">,</span> <span class="ss">format: :percent</span><span class="p">,</span> <span class="ss">max: </span><span class="mi">100</span><span class="p">,</span>
+      <span class="ss">title: </span><span class="s2">&quot;CPU, last hour&quot;</span><span class="p">,</span> <span class="ss">label_format: </span><span class="o">-&gt;</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="p">{</span> <span class="n">t</span><span class="p">.</span><span class="nf">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M&quot;</span><span class="p">)</span> <span class="p">}</span> <span class="cp">%&gt;</span></code></pre><div class="UnmagicCodeView__copy"><unmagic-clipboard for="chart_line_source_code" class="UnmagicClipboard" data-copied-label="Copied"><button type="button" aria-label="Copy" title="Copy" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard></div></div>
+
+</div></unmagic-tabs></section>
+
+        
+<section id="chart_narrow" class="PreviewExample scroll-mt-20">
+  <div class="mb-3 min-h-9 pr-40">
+    <h2 class="text-base font-semibold">
+      <a href="#chart_narrow" class="hover:underline">Three abreast</a>
+    </h2>
+      <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">width: is the drawing&#39;s own width; it scales to its box, so a narrow one keeps a readable axis.</p>
+  </div>
+
+
+  <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="chart_narrow_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="chart_narrow_view_tab_0" class="UnmagicTabs__tab" aria-controls="chart_narrow_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="chart_narrow_view_tab_1" class="UnmagicTabs__tab" aria-controls="chart_narrow_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="chart_narrow_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="chart_narrow_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
+        <div class="w-full">
+          <div class="grid gap-4 sm:grid-cols-3">
+    <section class="UnmagicCard"><div class="UnmagicCard__body">
+      <figure class="UnmagicChart UnmagicChart--column"><figcaption class="UnmagicChart__head"><span class="UnmagicChart__title">Renders</span></figcaption><svg viewBox="0 0 300 200" class="UnmagicChart__svg" role="img" aria-label="Renders"><line x1="56" x2="292" y1="176.0" y2="176.0" class="UnmagicChart__axis" /><text x="48" y="180.0" text-anchor="end">0</text><line x1="56" x2="292" y1="94.0" y2="94.0" class="UnmagicChart__grid" /><text x="48" y="98.0" text-anchor="end">25</text><line x1="56" x2="292" y1="12.0" y2="12.0" class="UnmagicChart__grid" /><text x="48" y="16.0" text-anchor="end">50</text><g class="UnmagicChart__column"><title>24 Sep
+37 Renders</title><rect x="56.0" y="12" width="33.714285714285715" height="164" class="UnmagicChart__hit" /><path d="M60.86,58.64 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v117.36 h-24 z" class="UnmagicChart__mark UnmagicChart__mark--1" /></g><g class="UnmagicChart__column"><title>25 Sep
+40 Renders</title><rect x="89.71428571428572" y="12" width="33.714285714285715" height="164" class="UnmagicChart__hit" /><path d="M94.57,48.8 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v127.2 h-24 z" class="UnmagicChart__mark UnmagicChart__mark--1" /></g><g class="UnmagicChart__column"><title>26 Sep
+43 Renders</title><rect x="123.42857142857143" y="12" width="33.714285714285715" height="164" class="UnmagicChart__hit" /><path d="M128.29,38.96 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v137.04 h-24 z" class="UnmagicChart__mark UnmagicChart__mark--1" /></g><g class="UnmagicChart__column"><title>27 Sep
+6 Renders</title><rect x="157.14285714285714" y="12" width="33.714285714285715" height="164" class="UnmagicChart__hit" /><path d="M162.0,160.32 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v15.68 h-24 z" class="UnmagicChart__mark UnmagicChart__mark--1" /></g><g class="UnmagicChart__column"><title>28 Sep
+9 Renders</title><rect x="190.85714285714286" y="12" width="33.714285714285715" height="164" class="UnmagicChart__hit" /><path d="M195.71,150.48 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v25.52 h-24 z" class="UnmagicChart__mark UnmagicChart__mark--1" /></g><g class="UnmagicChart__column"><title>29 Sep
+12 Renders</title><rect x="224.57142857142858" y="12" width="33.714285714285715" height="164" class="UnmagicChart__hit" /><path d="M229.43,140.64 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v35.36 h-24 z" class="UnmagicChart__mark UnmagicChart__mark--1" /></g><g class="UnmagicChart__column"><title>30 Sep
+15 Renders</title><rect x="258.2857142857143" y="12" width="33.714285714285715" height="164" class="UnmagicChart__hit" /><path d="M263.14,130.8 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v45.2 h-24 z" class="UnmagicChart__mark UnmagicChart__mark--1" /></g><text x="72.86" y="194" text-anchor="middle">24 Sep</text><text x="207.71" y="194" text-anchor="middle">28 Sep</text><text x="275.14" y="194" text-anchor="middle">30 Sep</text></svg></figure>
+</div></section>    <section class="UnmagicCard"><div class="UnmagicCard__body">
+      <figure class="UnmagicChart UnmagicChart--column"><figcaption class="UnmagicChart__head"><span class="UnmagicChart__title">Imports</span></figcaption><svg viewBox="0 0 300 200" class="UnmagicChart__svg" role="img" aria-label="Imports"><line x1="56" x2="292" y1="176.0" y2="176.0" class="UnmagicChart__axis" /><text x="48" y="180.0" text-anchor="end">0</text><line x1="56" x2="292" y1="94.0" y2="94.0" class="UnmagicChart__grid" /><text x="48" y="98.0" text-anchor="end">20</text><line x1="56" x2="292" y1="12.0" y2="12.0" class="UnmagicChart__grid" /><text x="48" y="16.0" text-anchor="end">40</text><g class="UnmagicChart__column"><title>24 Sep
+5 Imports</title><rect x="56.0" y="12" width="33.714285714285715" height="164" class="UnmagicChart__hit" /><path d="M60.86,159.5 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v16.5 h-24 z" class="UnmagicChart__mark UnmagicChart__mark--1" /></g><g class="UnmagicChart__column"><title>25 Sep
+10 Imports</title><rect x="89.71428571428572" y="12" width="33.714285714285715" height="164" class="UnmagicChart__hit" /><path d="M94.57,139.0 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v37.0 h-24 z" class="UnmagicChart__mark UnmagicChart__mark--1" /></g><g class="UnmagicChart__column"><title>26 Sep
+15 Imports</title><rect x="123.42857142857143" y="12" width="33.714285714285715" height="164" class="UnmagicChart__hit" /><path d="M128.29,118.5 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v57.5 h-24 z" class="UnmagicChart__mark UnmagicChart__mark--1" /></g><g class="UnmagicChart__column"><title>27 Sep
+20 Imports</title><rect x="157.14285714285714" y="12" width="33.714285714285715" height="164" class="UnmagicChart__hit" /><path d="M162.0,98.0 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v78.0 h-24 z" class="UnmagicChart__mark UnmagicChart__mark--1" /></g><g class="UnmagicChart__column"><title>28 Sep
+25 Imports</title><rect x="190.85714285714286" y="12" width="33.714285714285715" height="164" class="UnmagicChart__hit" /><path d="M195.71,77.5 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v98.5 h-24 z" class="UnmagicChart__mark UnmagicChart__mark--1" /></g><g class="UnmagicChart__column"><title>29 Sep
+30 Imports</title><rect x="224.57142857142858" y="12" width="33.714285714285715" height="164" class="UnmagicChart__hit" /><path d="M229.43,57.0 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v119.0 h-24 z" class="UnmagicChart__mark UnmagicChart__mark--1" /></g><g class="UnmagicChart__column"><title>30 Sep
+35 Imports</title><rect x="258.2857142857143" y="12" width="33.714285714285715" height="164" class="UnmagicChart__hit" /><path d="M263.14,36.5 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v139.5 h-24 z" class="UnmagicChart__mark UnmagicChart__mark--1" /></g><text x="72.86" y="194" text-anchor="middle">24 Sep</text><text x="207.71" y="194" text-anchor="middle">28 Sep</text><text x="275.14" y="194" text-anchor="middle">30 Sep</text></svg></figure>
+</div></section>    <section class="UnmagicCard"><div class="UnmagicCard__body">
+      <figure class="UnmagicChart UnmagicChart--column"><figcaption class="UnmagicChart__head"><span class="UnmagicChart__title">Chats</span></figcaption><svg viewBox="0 0 300 200" class="UnmagicChart__svg" role="img" aria-label="Chats"><line x1="56" x2="292" y1="176.0" y2="176.0" class="UnmagicChart__axis" /><text x="48" y="180.0" text-anchor="end">0</text><line x1="56" x2="292" y1="94.0" y2="94.0" class="UnmagicChart__grid" /><text x="48" y="98.0" text-anchor="end">25</text><line x1="56" x2="292" y1="12.0" y2="12.0" class="UnmagicChart__grid" /><text x="48" y="16.0" text-anchor="end">50</text><g class="UnmagicChart__column"><title>24 Sep
+13 Chats</title><rect x="56.0" y="12" width="33.714285714285715" height="164" class="UnmagicChart__hit" /><path d="M60.86,137.36 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v38.64 h-24 z" class="UnmagicChart__mark UnmagicChart__mark--1" /></g><g class="UnmagicChart__column"><title>25 Sep
+20 Chats</title><rect x="89.71428571428572" y="12" width="33.714285714285715" height="164" class="UnmagicChart__hit" /><path d="M94.57,114.4 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v61.6 h-24 z" class="UnmagicChart__mark UnmagicChart__mark--1" /></g><g class="UnmagicChart__column"><title>26 Sep
+27 Chats</title><rect x="123.42857142857143" y="12" width="33.714285714285715" height="164" class="UnmagicChart__hit" /><path d="M128.29,91.44 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v84.56 h-24 z" class="UnmagicChart__mark UnmagicChart__mark--1" /></g><g class="UnmagicChart__column"><title>27 Sep
+34 Chats</title><rect x="157.14285714285714" y="12" width="33.714285714285715" height="164" class="UnmagicChart__hit" /><path d="M162.0,68.48 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v107.52 h-24 z" class="UnmagicChart__mark UnmagicChart__mark--1" /></g><g class="UnmagicChart__column"><title>28 Sep
+41 Chats</title><rect x="190.85714285714286" y="12" width="33.714285714285715" height="164" class="UnmagicChart__hit" /><path d="M195.71,45.52 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v130.48 h-24 z" class="UnmagicChart__mark UnmagicChart__mark--1" /></g><g class="UnmagicChart__column"><title>29 Sep
+8 Chats</title><rect x="224.57142857142858" y="12" width="33.714285714285715" height="164" class="UnmagicChart__hit" /><path d="M229.43,153.76 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v22.24 h-24 z" class="UnmagicChart__mark UnmagicChart__mark--1" /></g><g class="UnmagicChart__column"><title>30 Sep
+15 Chats</title><rect x="258.2857142857143" y="12" width="33.714285714285715" height="164" class="UnmagicChart__hit" /><path d="M263.14,130.8 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v45.2 h-24 z" class="UnmagicChart__mark UnmagicChart__mark--1" /></g><text x="72.86" y="194" text-anchor="middle">24 Sep</text><text x="207.71" y="194" text-anchor="middle">28 Sep</text><text x="275.14" y="194" text-anchor="middle">30 Sep</text></svg></figure>
+</div></section></div>
+
+        </div>
+      </div>
+</div><div role="tabpanel" id="chart_narrow_view_panel_1" class="UnmagicTabs__panel" aria-labelledby="chart_narrow_view_tab_1" tabindex="0" hidden="hidden">      <div class="UnmagicCodeView UnmagicCodeView--copy rounded-xl" id="chart_narrow_source"><pre class="UnmagicCodeView__pre"><code id="chart_narrow_source_code" class="UnmagicCodeView__code language-erb"><span class="cp">&lt;%</span> <span class="n">days</span> <span class="o">=</span> <span class="p">(</span><span class="no">Date</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">2026</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">24</span><span class="p">)</span><span class="o">..</span><span class="no">Date</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">2026</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">30</span><span class="p">)).</span><span class="nf">to_a</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;grid gap-4 sm:grid-cols-3&quot;</span><span class="nt">&gt;</span>
+  <span class="cp">&lt;%</span> <span class="p">[</span> <span class="p">[</span> <span class="s2">&quot;Renders&quot;</span><span class="p">,</span> <span class="mi">3</span> <span class="p">],</span> <span class="p">[</span> <span class="s2">&quot;Imports&quot;</span><span class="p">,</span> <span class="mi">5</span> <span class="p">],</span> <span class="p">[</span> <span class="s2">&quot;Chats&quot;</span><span class="p">,</span> <span class="mi">7</span> <span class="p">]</span> <span class="p">].</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span> <span class="n">k</span><span class="o">|</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">card</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">chart</span> <span class="p">[</span> <span class="p">{</span> <span class="ss">label: </span><span class="nb">name</span><span class="p">,</span> <span class="ss">values: </span><span class="n">days</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">d</span><span class="o">|</span> <span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="nf">day</span> <span class="o">*</span> <span class="n">k</span><span class="p">)</span> <span class="o">%</span> <span class="mi">40</span> <span class="o">+</span> <span class="mi">5</span> <span class="p">}</span> <span class="p">}</span> <span class="p">],</span> <span class="ss">labels: </span><span class="n">days</span><span class="p">,</span> <span class="ss">title: </span><span class="nb">name</span><span class="p">,</span> <span class="ss">width: </span><span class="mi">300</span><span class="p">,</span> <span class="ss">table: </span><span class="kp">false</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre><div class="UnmagicCodeView__copy"><unmagic-clipboard for="chart_narrow_source_code" class="UnmagicClipboard" data-copied-label="Copied"><button type="button" aria-label="Copy" title="Copy" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard></div></div>
+
+</div></unmagic-tabs></section>
+
+    </div>
+
+    <nav class="mt-16 grid gap-4 border-t border-neutral-200 pt-8 sm:grid-cols-2 dark:border-neutral-800" aria-label="More components">
+        <a class="block rounded-xl border border-neutral-200 p-4 hover:border-neutral-300 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:border-neutral-700 dark:hover:bg-neutral-900" href="/unmagic-components/pr-10/components/callout">
+          <span class="block text-xs text-neutral-500">Previous</span>
+          <span class="mt-1 block text-sm font-medium">Callout</span>
+</a>        <a class="block rounded-xl border border-neutral-200 p-4 hover:border-neutral-300 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:border-neutral-700 dark:hover:bg-neutral-900 text-right sm:col-start-2" href="/unmagic-components/pr-10/components/code_view">
+          <span class="block text-xs text-neutral-500">Next</span>
+          <span class="mt-1 block text-sm font-medium">Code view</span>
+</a>    </nav>
+  </article>
+
+  <aside class="hidden xl:block">
+    <div class="sticky top-24">
+      <p class="text-xs font-semibold text-neutral-500 dark:text-neutral-400">On this page</p>
+      <ul class="mt-3 space-y-1 border-l border-neutral-200 dark:border-neutral-800">
+          <li>
+            <a href="#chart_columns" class="-ml-px block border-l border-transparent py-1 pl-3 text-sm text-neutral-600 hover:border-neutral-400 hover:text-neutral-900 dark:text-neutral-400 dark:hover:border-neutral-500 dark:hover:text-neutral-100">Stacked columns over days</a>
+          </li>
+          <li>
+            <a href="#chart_line" class="-ml-px block border-l border-transparent py-1 pl-3 text-sm text-neutral-600 hover:border-neutral-400 hover:text-neutral-900 dark:text-neutral-400 dark:hover:border-neutral-500 dark:hover:text-neutral-100">A line over time</a>
+          </li>
+          <li>
+            <a href="#chart_narrow" class="-ml-px block border-l border-transparent py-1 pl-3 text-sm text-neutral-600 hover:border-neutral-400 hover:text-neutral-900 dark:text-neutral-400 dark:hover:border-neutral-500 dark:hover:text-neutral-100">Three abreast</a>
+          </li>
+      </ul>
+    </div>
+  </aside>
+</div>
+
+      </main>
+    </div>
+
+    <unmagic-modal><dialog class="UnmagicDialogBox" data-unmagic-dialog=""><turbo-frame id="modal"></turbo-frame><template data-unmagic-modal-skeleton=""><div class="UnmagicDialog" role="status"><span class="UnmagicVisuallyHidden">Loading…</span><header class="UnmagicDialog__header"><div class="UnmagicSkeleton UnmagicDialog__skeleton-title"></div></header><div class="UnmagicDialog__body"><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div></div><div class="UnmagicDialog__footer"><div class="UnmagicSkeleton UnmagicDialog__skeleton-button"></div></div></div></template><template data-unmagic-modal-error=""><div role="alert" class="UnmagicDialog"><header class="UnmagicDialog__header"><h2 id="unmagic_dialog_eac95ce4_title" class="UnmagicDialog__title">Couldn’t load</h2><button type="button" class="UnmagicButton UnmagicButton--icon UnmagicDialog__close" aria-label="Close" data-unmagic-dialog-close=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/x" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></header><div class="UnmagicDialog__body"><div class="UnmagicDialog__error"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/circle-x" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg><p>Something went wrong loading this. Check your connection and try again.</p></div></div><div class="UnmagicDialog__footer"><button type="button" class="UnmagicButton UnmagicButton--primary" data-unmagic-modal-retry=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/rotate-cw" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>Try again</button></div></div></template></dialog></unmagic-modal>
+    <template data-unmagic-confirm=""><dialog class="UnmagicDialogBox" role="alertdialog" data-unmagic-dialog=""><form method="dialog" class="UnmagicDialog"><header class="UnmagicDialog__header"><h2 class="UnmagicDialog__title" data-unmagic-confirm-title="">Are you sure?</h2></header><div class="UnmagicDialog__body"><p data-unmagic-confirm-message=""></p></div><div class="UnmagicDialog__footer"><button value="cancel" class="UnmagicButton" data-unmagic-confirm-cancel="">Cancel</button><button value="confirm" class="UnmagicButton UnmagicButton--primary" data-unmagic-confirm-accept="">Confirm</button></div></form></dialog></template>
+    <unmagic-toasts id="unmagic_toasts" duration="5000"><div class="UnmagicToasts__stack" id="unmagic_toasts_stack" popover="manual" aria-live="polite" data-turbo-permanent=""></div></unmagic-toasts>
+  </body>
+</html>
