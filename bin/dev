@@ -27,21 +27,6 @@ checksum() {
     \( -name "*.css" -o -name "*.erb" -o -name "*.rb" \) -print0 2>/dev/null | sort -z | xargs -0 cat | cksum
 }
 
-css
-
-(
-  last=$(checksum)
-  while sleep 1; do
-    now=$(checksum)
-    if [ "$now" != "$last" ]; then
-      last=$now
-      css || true
-    fi
-  done
-) &
-watcher=$!
-trap 'kill "$watcher" 2>/dev/null' EXIT
-
 # Stop a server an earlier bin/dev left running, so it can't keep answering
 # on this port with old code. The pid is checked to still be a puma before it's
 # killed, in case it's been reused.
@@ -60,5 +45,29 @@ if [ -f "$pidfile" ]; then
   fi
   rm -f "$pidfile"
 fi
+
+# Anything else still on the port has to be stopped by hand. Puma won't refuse
+# to start: on macOS it can bind 0.0.0.0 alongside a server on 127.0.0.1, and
+# localhost would then keep reaching the other one.
+holder=$(lsof -nP -iTCP:"$PORT" -sTCP:LISTEN -t 2>/dev/null | head -1 || true)
+if [ -n "$holder" ]; then
+  echo "Port $PORT is already in use by pid $holder: $(ps -p "$holder" -o command=)" >&2
+  exit 1
+fi
+
+css
+
+(
+  last=$(checksum)
+  while sleep 1; do
+    now=$(checksum)
+    if [ "$now" != "$last" ]; then
+      last=$now
+      css || true
+    fi
+  done
+) &
+watcher=$!
+trap 'kill "$watcher" 2>/dev/null' EXIT
 
 bundle exec rackup -s puma -p "$PORT" -o 0.0.0.0 -P "$pidfile"
