@@ -1,0 +1,5 @@
+<%= turbo_stream.toast(tone: :info, **options) do |toast| %>
+  <% toast.body do %>
+    <%= render partial: "unmagic/components/browser/examples/toast/upload_content", formats: [ :html ] %>
+  <% end %>
+<% end %>

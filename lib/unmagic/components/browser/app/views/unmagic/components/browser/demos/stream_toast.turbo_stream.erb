@@ -1,4 +1,4 @@
-<% if %w[content actions leading custom].include?(params[:example]) %>
+<% if %w[content actions leading custom image upload].include?(params[:example]) %>
   <%= render partial: "unmagic/components/browser/examples/toast/#{params[:example]}",
         formats: [ :turbo_stream ], locals: { options: @toast_options } %>
 <% else %>
