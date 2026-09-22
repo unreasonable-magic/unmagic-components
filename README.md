@@ -1393,7 +1393,86 @@ render turbo_stream: turbo_stream.toast("Project saved.", target: "project_toast
 options on the mount. A scoped mount stays inside its panel and does not use the
 top layer. Render empty flashes (`{}`) for secondary mounts to avoid duplication.
 
+JavaScript can use the same mount directly, without Turbo or a server request:
+
+```js
+import { toast } from "unmagic/components/toasts";
+
+const id = toast.show("Preparing your export…", { duration: 0, tone: "info" });
+toast.update(id, { message: "Export ready.", tone: "good", duration: 5000 });
+toast.dismiss(id);
+toast.dismissAll(); // Only the default mount.
+```
+
+`show` returns a logical string id; optionally supply `id` yourself. Active ids
+must be unique across mounts. `update` and `dismiss` return `false` for an unknown,
+expired or leaving toast. `dismissAll({ target: "project_toasts" })` returns the
+number dismissed from that mount. The `<unmagic-toasts>` element itself exposes
+`show`, `update`, `dismiss`, and `dismissAll`, scoped to that element.
+
+JavaScript supports `title`, `tone`, `duration`, `position`, `width`, `layout`,
+`closeButton`, `target`, and `actions`. Values match the Ruby API; keys use
+camelCase. `icon: false` hides the default icon and `icon: null` restores it.
+Custom icon names, HTML strings and body/leading slots remain Rails features.
+Message/title/action labels are plain text. At least a message or title is
+required. Invalid options, missing mounts and duplicate ids throw an error.
+
+```js
+toast.show("Archive this item?", {
+  duration: 0,
+  closeButton: false,
+  actions: [
+    { label: "Archive", onClick: async ({ id }) => { await archiveItem(); } },
+    { label: "Dismiss" },
+  ],
+});
+```
+
+An action dismisses after its callback succeeds, or immediately if there is no
+callback. Set `dismiss: false` on the action to keep the toast. Promise-returning
+callbacks disable their button and pause the timer until completion. Rejection
+keeps the toast, re-enables the action and emits `unmagic-toast:action-error`;
+the app can use that event to display an error. Other close controls still work
+while an action runs. Completion after dismissal never brings a toast back.
+
+Updates change only supplied fields and retain the same root node. An omitted
+duration preserves the remaining countdown; supplying duration restarts it,
+including `0` to make it sticky. Hover, focus and pending actions pause timers.
+Clear the title with `title: null`, or actions with `actions: []`. Changing the
+position moves the toast within its mount; target and id cannot be updated.
+Updating title/message on a Rails custom body switches it to the standard text
+layout. Other updates preserve captured server content and actions.
+
+To address a Rails-created toast from JavaScript, give it `toast_id:`:
+
+```ruby
+render turbo_stream: turbo_stream.toast("Export queued.", toast_id: "export-result", duration: 0)
+```
+
+```js
+toast.update("export-result", { message: "Ready.", duration: 5000 });
+```
+
+`toast_id:` is separate from the existing root HTML `id:`. Incoming templates
+with duplicate logical ids are discarded and emit `unmagic-toast:error`.
+Events bubble from the mount: `unmagic-toast:show`, `unmagic-toast:update`, and
+`unmagic-toast:dismiss` include `{ id }`; dismiss also includes
+`reason: "timeout" | "close" | "action" | "api"`. Both error events include
+`{ id, error }`. Dismiss fires once at the start of the exit animation.
+
+```js
+document.addEventListener("unmagic-toast:action-error", ({ detail: { id, error } }) => {
+  toast.update(id, { message: error.message, tone: "bad", duration: 0 });
+});
+```
+
+Each mount includes inert Ruby-rendered prototypes, so client-created toasts use
+the same markup, translated close label, and icons. Active callbacks survive
+Turbo visits and morphs; stale cache snapshots do not resurrect dismissed toasts.
+Re-resolve element references after navigation, or use the imported facade.
+
 The stack sits in the browser's top layer, so a toast shows above an open dialog.
+Existing toasts are raised again when a dialog opens, even if no new toast arrives.
 It can't be hovered or dismissed until that dialog closes, because a modal dialog
 makes the rest of the page inert, but it still times out on its own.
 

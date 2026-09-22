@@ -18,6 +18,7 @@ module Unmagic
       # close_button: true by default; false hides only the built-in close button.
       # For duration: 0, provide a dismiss action when hiding the close button.
       # layout: :horizontal (default) or :vertical places actions below the message.
+      # toast_id: optional logical id for JavaScript update/dismiss; id: remains the HTML id.
       # target: selects a flash_toasts mount. Other options go on the toast root.
       # A block yields a builder with leading, actions and body capture slots.
       def toast(message = nil, tone: :good, target: Toast::TARGET, **options, &block)

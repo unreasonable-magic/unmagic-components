@@ -75,7 +75,7 @@ RSpec.describe Unmagic::Components::Browser do
     end
 
     it "renders all toast stream examples" do
-      %w[content actions leading custom boundaries].each do |example|
+      %w[content actions leading custom boundaries javascript_rails].each do |example|
         response = app.post("http://localhost#{prefix}/toasts/stream",
           params: { example: example, message: "Example", tone: "neutral" })
         expect(response.status).to eq(200), "#{example}: #{response.body[0, 500]}"

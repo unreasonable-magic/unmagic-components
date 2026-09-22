@@ -13,7 +13,7 @@ module Unmagic
       def render
         view.content_tag("unmagic-toasts", **@options, id: @id, duration: @duration,
           position: @position, scoped: (@scoped ? "" : nil)) do
-          safe_join [ *stacks, *templates ]
+          safe_join [ *stacks, *blueprints, *templates ]
         end
       end
 
@@ -30,6 +30,20 @@ module Unmagic
             popover: (@scoped ? nil : "manual"), "aria-live": "polite",
             data: { turbo_permanent: "", position: position })
         end
+      end
+
+      # JavaScript clones the same Ruby-rendered structure as streamed toasts.
+      # These templates are deliberately distinct from incoming toast templates.
+      def blueprints
+        prototype = Toast.new(view, "", title: "")
+        prototype.actions { tag.button("", type: "button", class: Button.classes(size: :small)) }
+        [
+          tag.template(prototype.render, data: { unmagic_toast_blueprint: "" }),
+          *Toast::TONES.map do |tone|
+            tag.template(Icons.svg(view, Icons::TONE_ICONS.fetch(tone, :info), class: "UnmagicToast__icon"),
+              data: { unmagic_toast_icon: tone })
+          end
+        ]
       end
 
       def templates

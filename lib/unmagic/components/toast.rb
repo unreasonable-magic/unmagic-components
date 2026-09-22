@@ -11,7 +11,7 @@ module Unmagic
       TARGET = "unmagic_toasts"
 
       def initialize(view, message = nil, tone: :good, title: nil, icon: nil, duration: nil,
-        position: nil, width: :short, layout: :horizontal, close_button: true, **options)
+        position: nil, width: :short, layout: :horizontal, close_button: true, toast_id: nil, **options)
         self.class.validate(:tone, tone, TONES)
         self.class.validate(:position, position, POSITIONS) unless position.nil?
         self.class.validate(:layout, layout, LAYOUTS)
@@ -20,6 +20,10 @@ module Unmagic
           raise ArgumentError, "toast width must be :short, :long, or a positive pixel integer"
         end
 
+        if !toast_id.nil? && (!toast_id.is_a?(String) || toast_id.strip.empty?)
+          raise ArgumentError, "toast_id must be a nonblank string"
+        end
+        @toast_id = toast_id
         @close_button = close_button
         @view, @message, @tone, @title, @icon = view, message, tone, title, icon
         @duration, @position, @width, @layout, @options = duration, position, WIDTHS.fetch(width, width), layout, options
@@ -57,7 +61,8 @@ module Unmagic
 
       def render
         data = (@options[:data] || {}).merge(unmagic_toast: "", duration: @duration,
-          position: @position, layout: (@layout unless @layout == :horizontal))
+          position: @position, layout: (@layout unless @layout == :horizontal), toast_id: @toast_id,
+          toast_icon: (@icon || @leading ? "custom" : (@icon == false ? "none" : "default")))
         tag.div(**@options, class: view.class_names("UnmagicToast", "UnmagicToast--#{@tone}", @options[:class]),
           role: (@tone == :bad ? "alert" : @options[:role]), data: data,
           style: "--unmagic-toast-width: #{@width}px; #{@options[:style]}") do

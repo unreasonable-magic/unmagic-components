@@ -1,0 +1,26 @@
+<unmagic-rails-toast-demo class="flex flex-wrap gap-2">
+  <%# The response calls turbo_stream.toast(message, toast_id: a_unique_id, duration: 0). %>
+  <%= button_to "Stream from Rails", stream_toast_path,
+        params: { example: "javascript_rails", message: "Created by Rails. Dismiss me from JavaScript." }, class: button_classes %>
+  <%= button_tag "Dismiss from JavaScript", type: "button", class: button_classes, data: { dismiss_rails: "" } %>
+</unmagic-rails-toast-demo>
+<script type="module">
+  import { toast } from "unmagic/components/toasts";
+
+  if (!customElements.get("unmagic-rails-toast-demo")) {
+    customElements.define("unmagic-rails-toast-demo", class extends HTMLElement {
+      #latest;
+      #shown = (event) => {
+        if (event.detail.id.startsWith("browser-export-")) this.#latest = event.detail.id;
+      };
+      constructor() {
+        super();
+        this.addEventListener("click", (event) => {
+          if (event.target.closest("[data-dismiss-rails]")) toast.dismiss(this.#latest);
+        });
+      }
+      connectedCallback() { document.addEventListener("unmagic-toast:show", this.#shown); }
+      disconnectedCallback() { document.removeEventListener("unmagic-toast:show", this.#shown); }
+    });
+  }
+</script>

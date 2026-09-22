@@ -8,6 +8,10 @@ Unmagic::Components::Browser::Catalog.component :toast,
   description: "Flashes and stream responses as toasts that dismiss themselves, pause while hovered or " \
                "focused, and survive Drive visits and morph refreshes.",
   examples: [
+    { key: :javascript, title: "JavaScript API", layout: :full,
+      description: "Show, update and dismiss notifications without a server request. Try an async action, a rejected action, or a scoped panel." },
+    { key: :javascript_rails, title: "Rails and JavaScript together", server: true,
+      description: "The response gives the toast a logical id. JavaScript can dismiss it using that id." },
     { key: :flash, title: "From a flash, after a redirect", server: true, layout: :full,
       description: "Each button sets flash[type] and redirects back. Hover a toast to hold it open." },
     { key: :stream, title: "From a stream response", server: true,

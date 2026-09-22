@@ -214,3 +214,32 @@ RSpec.describe "toast options and composition" do
     expect(markup).to include('data-duration="0"', "UnmagicToast__actions")
   end
 end
+
+RSpec.describe "JavaScript toast blueprints" do
+  let(:view) { build_view }
+
+  it "renders inert prototypes separately from incoming notifications" do
+    doc = html(view.flash_toasts({}))
+    blueprint = doc.at("template[data-unmagic-toast-blueprint]")
+    expect(blueprint).not_to be_nil
+    expect(doc.css("template[data-unmagic-toast-template]")).to be_empty
+    expect(doc.css("template[data-unmagic-toast-icon]").map { |node| node["data-unmagic-toast-icon"] }).to match_array(Unmagic::Components::Toast::TONES.map(&:to_s))
+    # Parse the template contents explicitly for Nokogiri versions treating them as inert.
+    content = html(blueprint.inner_html)
+    expect(content.at(".UnmagicToast__title")).not_to be_nil
+    expect(content.at(".UnmagicToast__actions button")["type"]).to eq("button")
+    expect(content.at(".UnmagicToast__dismiss")["aria-label"]).to eq("Dismiss")
+  end
+
+  it "keeps logical identity separate from the root HTML id" do
+    markup = Turbo::Streams::TagBuilder.new(view).toast("Saved", toast_id: "export-result", id: "export_toast")
+    expect(markup).to include('data-toast-id="export-result"', 'id="export_toast"')
+    expect { Unmagic::Components::Toast.new(view, "Saved", toast_id: " ") }.to raise_error(ArgumentError)
+    expect { Unmagic::Components::Toast.new(view, "Saved", toast_id: 12) }.to raise_error(ArgumentError)
+  end
+
+  it "marks custom and absent icons so tone updates preserve them" do
+    expect(html(Unmagic::Components::Toast.new(view, "Saved", icon: :x).render).at(".UnmagicToast")["data-toast-icon"]).to eq("custom")
+    expect(html(Unmagic::Components::Toast.new(view, "Saved", icon: false).render).at(".UnmagicToast")["data-toast-icon"]).to eq("none")
+  end
+end

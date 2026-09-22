@@ -68,6 +68,9 @@ module Unmagic
           @toast_options[:width] = 440 if params[:width] == "440"
           @toast_options[:layout] = :vertical if params[:layout] == "vertical"
           @toast_options[:target] = "toast_panel" if params[:example] == "boundaries"
+          if params[:example] == "javascript_rails"
+            @toast_options.merge!(toast_id: "browser-export-#{SecureRandom.hex(4)}", duration: 0)
+          end
           render :stream_toast, formats: [ :turbo_stream ]
         end
 

@@ -171,21 +171,5 @@ Not checked in this pass:
 - keyboard walkthroughs
 - reduced motion
 
-## Replay the toast examples
-
-With the browser running, open visible Chrome and exercise the toast examples:
-
-```sh
-BROWSER_URL=http://localhost:5701 RECORD=1 bundle exec ruby bin/demo-toasts
-```
-
-The script checks sticky and timed messages, every tone and position, widths,
-slots, action dismissal, panel containment, keyboard dismissal, hover/focus
-pausing, Turbo visits and morphs, and toasts above dialogs. It covers light and
-dark at 1280px and 390px, using touch emulation at phone width. Screenshots and
-optional WebM recordings land in `tmp/toast-demo/`; recording requires FFmpeg.
-Use `THEMES=dark WIDTHS=390` for one layout or `THEMES=''` for only the navigation,
-focus and dialog checks. `HEADLESS=1` runs without a visible window.
-
 Examples may provide a matching `_key.turbo_stream.erb` beside `_key.html.erb`.
 The Code tab includes both the trigger and the actual response source.

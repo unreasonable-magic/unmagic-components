@@ -4,6 +4,9 @@ Expand the existing Rails toast API and component-browser examples using the
 capabilities demonstrated by https://www.reshaped.so/docs/components/toast as a
 checklist. Implement the markup and behaviour in this library's own conventions.
 
+See [JavaScript toast API](toast_javascript_api.md) for client-side creation,
+updates, actions and events using these same mounts.
+
 ## API
 
 Keep `flash_toasts` and `turbo_stream.toast(message, tone: :good)` compatible.
@@ -37,7 +40,8 @@ Keep polite live regions and alert roles for errors. Pause timers on hover or
 focus; never steal focus on arrival. Restore focus to the triggering control
 when a focused toast is dismissed, if the control is still connected. All close
 buttons have translated accessible names. Keep the existing modal limitation:
-viewport toasts are visible above dialogs, but inert until the dialog closes.
+viewport toasts are raised above dialogs when they open, but remain inert until
+the dialog closes.
 Validate enumerations and numeric options in Ruby. Escape plain text and capture
 custom markup through Rails. No client-side HTML-string API.
 

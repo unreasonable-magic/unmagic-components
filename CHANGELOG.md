@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- JavaScript toast API: `toast.show`, `update`, `dismiss`, and `dismissAll`, plus
+  scoped element methods, async actions, lifecycle events and Rails `toast_id:`
+  interoperability. Client-side toasts clone Ruby-rendered prototypes.
+
 - `turbo_stream.toast(close_button: false)` hides the built-in × while preserving
   timers and custom dismiss actions. Close buttons remain enabled by default.
 
@@ -45,6 +49,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   least 4.5:1 in light and dark.
 
 ### Fixed
+
+- Existing viewport toasts are raised above a modal when it opens, without
+  waiting for a new toast. Dismissed toasts do not return from Turbo snapshots.
 
 - Toast action groups align with their message and move below it when space is
   tight; the horizontal two-action example uses a wider toast.

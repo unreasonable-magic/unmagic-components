@@ -1,0 +1,74 @@
+<unmagic-toast-demo class="block space-y-4">
+  <div class="flex flex-wrap gap-2">
+    <%= button_tag "Show notification", type: "button", class: button_classes, data: { demo: "show" } %>
+    <%= button_tag "Update to success", type: "button", class: button_classes, data: { demo: "update" } %>
+    <%= button_tag "Dismiss latest", type: "button", class: button_classes, data: { demo: "dismiss" } %>
+    <%= button_tag "Dismiss all", type: "button", class: button_classes, data: { demo: "all" } %>
+    <%= button_tag "Async action", type: "button", class: button_classes, data: { demo: "async" } %>
+    <%= button_tag "Action with an error", type: "button", class: button_classes, data: { demo: "error" } %>
+  </div>
+  <output class="block text-sm text-neutral-600 dark:text-neutral-400" aria-live="polite">Show a notification, then update or dismiss it.</output>
+  <div class="relative min-h-64 rounded-lg border border-neutral-200 p-4 dark:border-neutral-800">
+    <%= button_tag "Notify this panel", type: "button", class: button_classes, data: { demo: "scoped" } %>
+    <%= flash_toasts({}, id: "toast_api_panel", scoped: true, position: :bottom_end) %>
+  </div>
+</unmagic-toast-demo>
+
+<script type="module">
+  import { toast } from "unmagic/components/toasts";
+
+  if (!customElements.get("unmagic-toast-demo")) {
+    customElements.define("unmagic-toast-demo", class extends HTMLElement {
+      #latest;
+      constructor() {
+        super();
+        this.addEventListener("click", (event) => {
+          const action = event.target.closest("[data-demo]")?.dataset.demo;
+          const output = this.querySelector("output");
+          if (action === "show") {
+            this.#latest = toast.show("Preparing your export…", { duration: 0, tone: "info" });
+            output.textContent = "Notification shown. Update it when ready.";
+          } else if (action === "update") {
+            const updated = toast.update(this.#latest, { message: "Export ready.", tone: "good", duration: 5000 });
+            output.textContent = updated ? "Updated. It closes after five seconds." : "Show a notification first.";
+          } else if (action === "dismiss") {
+            output.textContent = toast.dismiss(this.#latest) ? "Dismissed." : "No active notification.";
+          } else if (action === "all") {
+            output.textContent = `Dismissed ${toast.dismissAll()} notifications from the page mount.`;
+          } else if (action === "scoped") {
+            toast.show("Saved inside this panel.", { target: "toast_api_panel", duration: 0 });
+          } else if (action === "async") {
+            toast.show("Ready to archive this item?", {
+              duration: 0, closeButton: false,
+              actions: [
+                { label: "Archive", onClick: async () => {
+                  output.textContent = "Archiving…";
+                  await new Promise(resolve => setTimeout(resolve, 1200));
+                  if (this.isConnected) output.textContent = "Archived. The notification closed after completion.";
+                } },
+                { label: "Dismiss" },
+              ],
+            });
+          } else if (action === "error") {
+            const id = toast.show("Try saving this draft.", {
+              duration: 0,
+              actions: [{ label: "Save", onClick: async () => {
+                await new Promise(resolve => setTimeout(resolve, 700));
+                throw new Error("The demo server is unavailable.");
+              } }],
+            });
+            const mount = document.getElementById("unmagic_toasts");
+            const controller = new AbortController();
+            mount.addEventListener("unmagic-toast:action-error", (event) => {
+              if (event.detail.id !== id) return;
+              toast.update(id, { message: event.detail.error.message, tone: "bad" });
+            }, { signal: controller.signal });
+            mount.addEventListener("unmagic-toast:dismiss", (event) => {
+              if (event.detail.id === id) controller.abort();
+            }, { signal: controller.signal });
+          }
+        });
+      }
+    });
+  }
+</script>
