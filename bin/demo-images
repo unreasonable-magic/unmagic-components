@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Replay the image demos in visible Chrome and save screenshots.
+# Start bin/dev first. HEADLESS=1 runs the same assertions without a window.
+require "bundler/setup"
+require "fileutils"
+require "unmagic/browser"
+
+base = ENV.fetch("BROWSER_URL", "http://localhost:5701")
+out = File.expand_path("../tmp/image-demo", __dir__)
+FileUtils.mkdir_p(out)
+driver = Unmagic::Browser::Driver::Local.new(headless: ENV["HEADLESS"] == "1", slow_mo: 20)
+browser = Unmagic::Browser.new(driver: driver)
+browser.open("#{base}/components/image_zoom") do |session|
+  %w[light dark].each do |theme|
+    [ 1280, 390 ].each do |width|
+      session.emulate(viewport: { width: width, height: 900 }, reduced_motion: :reduce)
+      session.visit("#{base}/components/image_zoom?theme=#{theme}")
+      session.find("#image_zoom_basic_demo button").click
+      session.wait_for(selector: "dialog[open]")
+      File.binwrite("#{out}/zoom-#{theme}-#{width}.png", session.screenshot)
+      session.press("Escape")
+      raise "Zoom did not close" if session.evaluate("!!document.querySelector('dialog[open]')")
+
+      session.visit("#{base}/components/image_crop?theme=#{theme}")
+      session.wait_for(selector: "[data-crop-apply]:not([disabled])")
+      session.find('#image_crop_basic_demo [data-crop-control="width"]').fill_in("400")
+      session.find("#image_crop_basic_demo [data-crop-apply]").click
+      session.wait_for(text: "400 × 500 PNG")
+      raise "Missing PNG" unless session.evaluate("document.querySelector('[data-image-result]').value.startsWith('data:image/png;base64,')")
+      File.binwrite("#{out}/crop-#{theme}-#{width}.png", session.find("#image_crop_basic_demo").screenshot)
+      session.find("#image_crop_circle_demo [data-crop-apply]").click
+      transparent = session.evaluate(<<~JS)
+        async () => {
+          const image = document.querySelector('#image_crop_circle_demo [data-crop-preview]');
+          await image.decode();
+          const canvas = document.createElement('canvas'); canvas.width = canvas.height = 1;
+          const ctx = canvas.getContext('2d'); ctx.drawImage(image, 0, 0);
+          return ctx.getImageData(0, 0, 1, 1).data[3] === 0;
+        }
+      JS
+      raise "Circular crop corner was not transparent" unless transparent
+
+      session.visit("#{base}/components/image_color_picker?theme=#{theme}")
+      session.find(".UnmagicImageColorPicker__surface").click
+      session.wait_for(selector: "output:not(:empty)")
+      raise "Wrong sampled color" unless session.evaluate("document.querySelector('#sampled_color').value === '#93c5fd'")
+      session.find(".UnmagicImageColorPicker__surface").press("ArrowRight")
+      session.find(".UnmagicImageColorPicker__surface").press("Enter")
+      File.binwrite("#{out}/picker-#{theme}-#{width}.png", session.find("#image_color_picker_basic_demo").screenshot)
+      puts "Passed #{theme} at #{width}px"
+    end
+  end
+end
+puts "Screenshots: #{out}"

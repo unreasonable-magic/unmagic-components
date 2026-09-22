@@ -92,6 +92,9 @@ require_relative "components/ai_chat/attachments"
 require_relative "components/ai_chat/slash_menu"
 require_relative "components/ai_chat/action_bar"
 require_relative "components/ai_chat/branch_picker"
+require_relative "components/image_zoom"
+require_relative "components/image_crop"
+require_relative "components/image_color_picker"
 require_relative "components/action_view_helpers"
 # ActionView pulls in a partial Rails namespace, so this checks for the constant it
 # actually needs rather than for Rails.

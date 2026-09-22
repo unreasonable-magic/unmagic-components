@@ -4,6 +4,28 @@ module Unmagic
   module Components
     # Mixed into ActionView by the engine, so every template can call these.
     module ActionViewHelpers
+      # <%= image_zoom "/photo.jpg", alt: "Coast", zoom_src: "/original.jpg" %>
+      # zoom_src defaults to src. Other options go on the root. Blank src raises.
+      # Needs import "unmagic/components/image_zoom".
+      def image_zoom(src, alt:, zoom_src: nil, **options)
+        Components::ImageZoom.new(self, src, alt: alt, zoom_src: zoom_src, **options).render
+      end
+
+      # <%= image_crop "/photo.jpg", alt: "Coast", aspect: 1, name: "avatar" %>
+      # aspect: nil is freeform; circular: false clips the PNG when true (aspect 1).
+      # name: nil optionally posts a PNG data URL. Other options go on the root.
+      # Blank src or invalid aspect raises. Needs import "unmagic/components/image_crop".
+      def image_crop(src, alt:, aspect: nil, circular: false, name: nil, **options)
+        Components::ImageCrop.new(self, src, alt: alt, aspect: aspect, circular: circular, name: name, **options).render
+      end
+
+      # <%= image_color_picker "/photo.jpg", alt: "Coast", input: "color" %>
+      # input names an existing field id. Other options go on the root.
+      # Blank src/input raises. Needs import "unmagic/components/image_color_picker".
+      def image_color_picker(src, alt:, input:, **options)
+        Components::ImageColorPicker.new(self, src, alt: alt, input: input, **options).render
+      end
+
       # Declarative tables in the spirit of form_for: table_for yields a builder
       # that collects column definitions, then renders the table chrome — the
       # card, header (with optional sort links), empty state, and pagination — so

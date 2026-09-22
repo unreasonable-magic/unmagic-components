@@ -35,3 +35,7 @@ import "unmagic/components/dropzone"
 import "unmagic/components/ai_chat"
 import "unmagic/components/sortable"
 import "unmagic/components/board"
+
+import "unmagic/components/image_zoom"
+import "unmagic/components/image_crop"
+import "unmagic/components/image_color_picker"

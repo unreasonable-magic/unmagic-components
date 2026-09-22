@@ -1869,6 +1869,56 @@ Needs `import "unmagic/components/toolbar"` and `"unmagic/components/ai_chat"`.
 I18n: `unmagic.components.ai_chat.action_bar.label` and
 `unmagic.components.ai_chat.branch_picker.label`, `.previous` and `.next`.
 
+## Image tools
+
+```erb
+<%= image_zoom "/photo.jpg", alt: "Mountain lake", zoom_src: "/original.jpg" %>
+<%= image_crop "/photo.jpg", alt: "Mountain lake", aspect: 1, name: "avatar" %>
+<%= image_crop "/photo.jpg", alt: "Mountain lake", circular: true %>
+<%= color_field_tag "color", "#ffffff", id: "chosen_color" %>
+<%= image_color_picker "/photo.jpg", alt: "Mountain lake", input: "chosen_color" %>
+```
+
+Import `unmagic/components` or the individual `image_zoom`, `image_crop`, and
+`image_color_picker` modules under `unmagic/components/`.
+All require `alt:`; HTML options apply to the root, and blank sources raise.
+
+Zoom opens a native dialog with Escape, backdrop dismissal and focus restoration.
+`zoom_src:` defaults to the thumbnail source. The element exposes `open()` and
+`close()` and emits `unmagic-image-zoom:change` with `{ open }`.
+
+Crop supports freeform selection (`aspect: nil`), a finite positive aspect ratio,
+and circular PNGs (`circular: true`, forcing a square). Drag the selection to move
+it or its lower-right handle to resize; labeled numeric fields offer the same
+controls in source pixels. `name: nil` optionally renders a hidden field containing
+the exported PNG data URL. `crop()` returns that URL and emits
+`unmagic-image-crop:crop` with `{ dataURL, x, y, width, height }`. Changing the
+selection clears the previous result. Exports preserve the selected source
+resolution; no upload or automatic compression is performed.
+
+The color picker extracts Toybox's image-to-field sampling. `input:` is the id of
+an existing editable field; a click samples that pixel, arrow keys move the cursor
+(one source pixel, or ten with Shift), and Enter/Space samples it. It writes
+`#rrggbb`, fires ordinary `input` and `change` events, and emits
+`unmagic-image-color-picker:change` with `{ value, x, y }`. It samples RGB;
+transparent pixels do not include an alpha value.
+
+Crop and sampling need same-origin images, data URLs, or remote images served
+with CORS permission. Failures announce a message and emit the component's
+`:error` event with `{ error }`. Images remain visible without JavaScript;
+interactive crop controls enable after the image loads.
+
+I18n keys under `unmagic.components`: `image_zoom.open`, `.close`;
+`image_crop.x`, `.y`, `.width`, `.height`, `.crop`, `.reset`, `.error`;
+`image_color_picker.pick`, `.error`.
+
+Run `bin/demo-images` with `bin/dev` running to replay the visible browser demo.
+It checks all three components at desktop and phone widths, in both themes,
+and saves screenshots under `tmp/image-demo/`. Set `HEADLESS=1` for automation.
+
+Interaction references: [Kibo Image Crop](https://www.kibo-ui.com/components/image-crop)
+and [Kibo Image Zoom](https://www.kibo-ui.com/components/image-zoom).
+
 ## Development
 
 ```sh
