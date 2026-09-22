@@ -1,0 +1,43 @@
+<div class="min-h-screen bg-neutral-50 dark:bg-neutral-950">
+  <%= navbar label: "Page navigation" do |nav| %>
+    <% nav.brand("#analytics_overview") { "Acme" } %>
+    <% nav.link "Overview", "#analytics_overview", current: true %>
+    <% nav.link "Acquisition", "#acquisition" %>
+    <% nav.link "Top pages", "#top_pages" %>
+    <% nav.actions { avatar "Ada Lovelace", size: :small } %>
+  <% end %>
+  <main id="analytics_overview" class="mx-auto max-w-6xl space-y-8 p-5 sm:p-10">
+    <%= page_header title: "Audience overview", description: "Understand how people find your product and where they go next." %>
+    <%# Sample measurements; replace with your analytics data. %>
+    <div class="grid gap-4 sm:grid-cols-3">
+      <% [ [ "Visitors", "24,860", "+12.8%" ], [ "Page views", "86,420", "+18.2%" ], [ "Average visit", "3m 42s", "+6.4%" ] ].each do |label, value, change| %>
+        <%= card title: label do %>
+          <p class="text-3xl font-semibold"><%= value %></p><p class="mt-3 text-sm"><%= badge change, tone: :good %> <span class="text-neutral-500">vs. last week</span></p>
+        <% end %>
+      <% end %>
+    </div>
+    <%= card title: "Visitors over time" do %>
+      <% days = (Date.new(2026, 9, 14)..Date.new(2026, 9, 20)).to_a %>
+      <%= chart [
+        { label: "This week", values: [ 2700, 3200, 2980, 4100, 3850, 3600, 4430 ] },
+        { label: "Last week", values: [ 2400, 2600, 2900, 3100, 3000, 3200, 3400 ] }
+      ], labels: days, type: :line, title: "Daily visitors" %>
+    <% end %>
+    <div class="grid gap-6 lg:grid-cols-2">
+      <section id="acquisition">
+        <%= card title: "Acquisition channels" do %>
+          <div class="space-y-5">
+            <% [ [ "Organic search", 48 ], [ "Direct", 27 ], [ "Referrals", 17 ], [ "Social", 8 ] ].each do |label, value| %>
+              <div><p class="mb-2 flex justify-between text-sm"><span><%= label %></span><span><%= value %>%</span></p><%= progress value, label: label, size: :small, tone: :info %></div>
+            <% end %>
+          </div>
+        <% end %>
+      </section>
+      <section id="top_pages">
+        <%= card title: "Top pages", flush: true do %>
+          <%= table_tag [ "Page", "Views" ], [ [ "/", "32,410" ], [ "/features", "18,620" ], [ "/pricing", "14,280" ], [ "/docs", "9,840" ] ], aligns: [ nil, :right ] %>
+        <% end %>
+      </section>
+    </div>
+  </main>
+</div>

@@ -42,6 +42,7 @@ every app (see Styling).
   - overview
   - installation
   - theming
+  - a Blocks gallery, one page per block, and isolated full-page previews
   - one page per component
   - the light/dark switch (`?theme=`, kept in the session)
 
@@ -173,3 +174,62 @@ Not checked in this pass:
 
 Examples may provide a matching `_key.turbo_stream.erb` beside `_key.html.erb`.
 The Code tab includes both the trigger and the actual response source.
+
+
+## Blocks and global navigation
+
+The full-width global header switches between Components and Blocks. Add future
+destinations to `ApplicationHelper#browser_sections`; the sidebar and mobile
+menu belong to the selected section.
+
+`BlockCatalog` lists composed pages separately from component primitives. Each
+entry names its category and component dependencies. Add a self-contained ERB
+partial under `app/views/unmagic/components/browser/blocks/_<slug>.html.erb`,
+with sample data defined in the partial so the displayed source can be copied.
+The detail page renders that exact file as source, links its component
+dependencies, and embeds the isolated `/blocks/:slug/preview` page. Preview
+frames load the browser stylesheet, JavaScript and remembered theme.
+
+The gallery, detail pages and previews are included in static exports. Blocks
+currently use local sample data and require no demo endpoints.
+
+The preview toolbar offers Desktop (available width), Tablet (768px), and
+Phone (390px) viewports, plus independent Light/Dark buttons, reload, and open.
+Fixed widths scroll horizontally when the browser itself is narrower.
+`preview_theme` overrides only the preview and never changes the saved global
+theme. Browser-only controls live in `assets/browser.js`, also exported.
+
+Authentication blocks use native validation and preview-only forms that never
+submit credentials. Replace the form method and action with your application's
+authentication endpoint when adopting the source.
+
+### Page families
+
+The gallery groups blocks by category, with individual blocks linked in the
+sidebar. Dashboard examples cover a workspace, audience analytics and sales.
+Settings cover profiles, billing and notifications. Authentication includes
+login, signup and password recovery; shared pages include a 404 layout.
+
+The settings and recovery forms use the same local preview handler as the
+authentication examples. A form can supply `data-block-demo-message` for its
+specific feedback. Reset clears both native fields and the feedback message.
+Forms do not persist or transmit changes.
+
+Page-type references: [Untitled UI settings pages](https://www.untitledui.com/react/components/settings-pages)
+and [dashboards](https://www.untitledui.com/react/components/dashboards).
+These blocks use original ERB compositions of this library's components.
+
+
+### Component coverage
+
+Every catalog component is used by at least one block. The gallery shows the
+coverage count, and component pages link back to their blocks. Declare the
+components a block actually uses in `BlockCatalog`; the browser specs reject
+unknown component names and new components with no block.
+
+The project planner demonstrates local drag ordering and a command palette;
+the asset studio includes crop, zoom and color sampling; the release monitor
+combines build logs and rollout states; the customer workspace demonstrates
+dialogs, confirmation, toast feedback and working local pagination. Two AI
+workspaces cover conversation/composer and review/diagnostic components.
+Copyable snippets include their local interaction scripts when needed.

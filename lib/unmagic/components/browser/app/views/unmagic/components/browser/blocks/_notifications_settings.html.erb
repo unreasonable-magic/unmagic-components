@@ -1,0 +1,49 @@
+<div class="min-h-screen bg-neutral-50 dark:bg-neutral-950">
+  <%= navbar label: "Page navigation" do |nav| %>
+    <% nav.brand("#preferences") { "Acme" } %>
+    <% nav.link "Preferences", "#preferences", current: true %>
+    <% nav.link "Delivery", "#delivery" %>
+    <% nav.actions { avatar "Ada Lovelace", size: :small } %>
+  <% end %>
+  <main id="preferences" class="mx-auto max-w-6xl space-y-8 p-5 sm:p-10">
+    <%= page_header title: "Make space for focus.", description: "Choose which updates reach you and how often." %>
+    <%# Replace the preview form with your preference update endpoint. %>
+    <form method="dialog" data-block-demo-form data-block-demo-message="Preview only. Notification preferences have not been saved." class="space-y-8">
+      <%= card title: "Email notifications" do %>
+        <div class="divide-y divide-neutral-200 dark:divide-neutral-800">
+          <% [
+            [ "mentions", "Mentions and replies", "When someone needs your input.", true ],
+            [ "assignments", "Assigned to you", "New tasks and changes to work you own.", true ],
+            [ "updates", "Project updates", "Milestones, status changes and project announcements.", false ],
+            [ "digest", "Weekly summary", "A quiet recap of what your team accomplished.", true ]
+          ].each do |key, title, description, checked| %>
+            <label class="flex cursor-pointer items-start justify-between gap-6 py-5">
+              <span><span class="block text-sm font-medium"><%= title %></span><span class="mt-1 block text-sm text-neutral-500"><%= description %></span></span>
+              <%= check_box_tag "notifications[#{key}]", "1", checked, class: control_classes(:check), aria: { label: title } %>
+            </label>
+          <% end %>
+        </div>
+      <% end %>
+      <section id="delivery" class="grid gap-6 md:grid-cols-2">
+        <%= card title: "Delivery schedule" do %>
+          <%= label_tag :notification_schedule, "Send updates", class: "UnmagicLabel mb-2 block" %>
+          <%= select_tag :notification_schedule, options_for_select([ "As they happen", "Once a day", "Once a week" ], "Once a day"), class: "#{control_classes(:select)} w-full" %>
+          <p class="mt-3 text-sm leading-6 text-neutral-500">Security and account emails are always delivered immediately.</p>
+        <% end %>
+        <%= card title: "Quiet hours" do %>
+          <div class="grid grid-cols-2 gap-4">
+            <div><%= label_tag :quiet_start, "From", class: "UnmagicLabel mb-2 block" %><%= time_field_tag :quiet_start, "18:00", class: "#{control_classes(:input)} w-full" %></div>
+            <div><%= label_tag :quiet_end, "Until", class: "UnmagicLabel mb-2 block" %><%= time_field_tag :quiet_end, "09:00", class: "#{control_classes(:input)} w-full" %></div>
+          </div>
+          <p class="mt-3 text-sm text-neutral-500">Times use your account's time zone.</p>
+        <% end %>
+      </section>
+
+        <div class="flex flex-wrap items-center justify-end gap-3 border-t border-neutral-200 pt-5 dark:border-neutral-800">
+          <%= tag.button "Reset", type: "reset", class: button_classes(:default) %>
+          <%= tag.button "Save preferences", type: "submit", class: button_classes(:primary) %>
+        </div>
+        <p data-block-demo-status role="status" class="text-sm text-neutral-500"></p>
+    </form>
+  </main>
+</div>

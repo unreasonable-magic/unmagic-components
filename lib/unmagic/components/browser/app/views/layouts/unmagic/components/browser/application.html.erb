@@ -21,6 +21,8 @@
           var theme = asked || localStorage.getItem(key)
           if (theme) document.documentElement.dataset.theme = theme
         } catch (_) {}
+        var previewTheme = new URLSearchParams(location.search).get("preview_theme")
+        if (previewTheme === "light" || previewTheme === "dark") document.documentElement.dataset.theme = previewTheme
         document.addEventListener("DOMContentLoaded", function () {
           var link = document.querySelector("[data-theme-toggle]")
           if (link) link.href = "?theme=" + (document.documentElement.dataset.theme === "dark" ? "light" : "dark")
@@ -29,6 +31,7 @@
     </script>
     <%= browser_stylesheet_tag %>
     <%= browser_importmap_tags %>
+    <%= javascript_include_tag browser_asset_path("browser", "browser.js"), type: "module", nonce: content_security_policy_nonce %>
     <script nonce="<%= content_security_policy_nonce %>">
       (function () {
         var scrollPositions = []
@@ -46,31 +49,27 @@
     </script>
   </head>
   <body class="min-h-screen bg-white text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-100">
-    <aside class="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-neutral-200 bg-neutral-50/70 lg:flex dark:border-neutral-800 dark:bg-neutral-900/40">
-      <div class="flex h-14 shrink-0 items-center px-5">
-        <%= link_to root_path, class: "flex items-center gap-2.5 text-sm font-semibold" do %>
-          <span class="grid size-6 place-items-center rounded-md bg-neutral-900 text-[0.625rem] font-bold text-white dark:bg-white dark:text-neutral-900">um</span>
-          unmagic-components
-        <% end %>
-      </div>
-      <nav class="flex-1 overflow-y-auto px-3 pb-10" aria-label="Components" data-browser-nav>
-        <%= render "nav" %>
-      </nav>
-    </aside>
-
-    <div class="lg:pl-64">
-      <header class="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-neutral-200 bg-white/85 px-4 backdrop-blur sm:px-8 dark:border-neutral-800 dark:bg-neutral-950/85">
+    <% if action_name == "block_preview" %>
+      <%= yield %>
+    <% else %>
+      <header class="sticky top-0 z-40 flex h-14 items-center gap-3 border-b border-neutral-200 bg-white/85 px-4 backdrop-blur sm:px-8 dark:border-neutral-800 dark:bg-neutral-950/85">
         <details class="relative lg:hidden">
           <summary class="<%= button_classes(:icon) %> list-none [&::-webkit-details-marker]:hidden" aria-label="Menu">
             <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
           </summary>
-          <nav class="absolute left-0 top-11 max-h-[75vh] w-64 overflow-y-auto rounded-xl border border-neutral-200 bg-white p-2 shadow-lg dark:border-neutral-800 dark:bg-neutral-900" aria-label="Components" data-browser-nav>
+          <nav class="absolute left-0 top-11 max-h-[75vh] w-64 overflow-y-auto rounded-xl border border-neutral-200 bg-white p-2 shadow-lg dark:border-neutral-800 dark:bg-neutral-900" aria-label="<%= blocks_section? ? "Blocks" : "Components" %>" data-browser-nav>
             <%= render "nav" %>
           </nav>
         </details>
 
-        <nav class="flex min-w-0 items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400" aria-label="Breadcrumb">
-          <%= yield :breadcrumbs %>
+        <%= link_to root_path, class: "flex shrink-0 items-center gap-2 text-sm font-semibold", "aria-label": "Unmagic home" do %>
+          <span class="grid size-7 place-items-center rounded-md bg-neutral-900 text-xs font-bold text-white dark:bg-white dark:text-neutral-900">um</span>
+          <span class="hidden sm:inline">unmagic</span>
+        <% end %>
+        <nav class="flex min-w-0 items-center gap-1 overflow-x-auto sm:ml-6" aria-label="Global">
+          <% browser_sections.each do |section| %>
+            <%= link_to section[:label], section[:path], class: "rounded-md px-3 py-2 text-sm whitespace-nowrap #{section[:current] ? 'bg-neutral-100 font-semibold text-neutral-900 dark:bg-neutral-800 dark:text-white' : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'}", "aria-current": ("page" if section[:current]) %>
+          <% end %>
         </nav>
 
         <div class="ml-auto flex items-center gap-1">
@@ -86,11 +85,26 @@
           <% end %>
         </div>
       </header>
+    <aside class="fixed bottom-0 top-14 left-0 z-30 hidden w-64 flex-col border-r border-neutral-200 bg-neutral-50/70 lg:flex dark:border-neutral-800 dark:bg-neutral-900/40">
+      <nav class="flex-1 overflow-y-auto px-3 pb-10" aria-label="<%= blocks_section? ? "Blocks" : "Components" %>" data-browser-nav>
+        <%= render "nav" %>
+      </nav>
+    </aside>
+
+
+    <div class="lg:pl-64">
+      <div class="border-b border-neutral-200 px-4 py-3 sm:px-8 dark:border-neutral-800">
+        <nav class="flex min-w-0 items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400" aria-label="Breadcrumb">
+          <%= yield :breadcrumbs %>
+        </nav>
+      </div>
 
       <main class="mx-auto max-w-6xl px-4 py-10 sm:px-8 lg:py-14">
         <%= yield %>
       </main>
     </div>
+
+    <% end %>
 
     <%= modal_frame %>
     <%= confirm_dialog_template %>

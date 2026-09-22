@@ -3,6 +3,16 @@
 <% current = "block rounded-md px-2.5 py-1.5 text-sm font-medium bg-neutral-200/70 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100" %>
 <% heading = "px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400" %>
 
+<% if blocks_section? %>
+  <p class="<%= heading %> pt-5">Blocks</p>
+  <%= link_to "All blocks", blocks_path, class: current_page?(blocks_path) ? current : item, "aria-current": ("page" if current_page?(blocks_path)) %>
+  <% Unmagic::Components::Browser::BlockCatalog.grouped.each do |category, blocks| %>
+    <p class="<%= heading %> pt-6"><%= category %></p>
+    <% blocks.each do |block| %>
+      <%= link_to block.name, block_path(block.slug), class: @block == block ? current : item, "aria-current": ("page" if @block == block) %>
+    <% end %>
+  <% end %>
+<% else %>
 <p class="<%= heading %> pt-4">Getting started</p>
 <% [ [ "Overview", root_path ], [ "Installation", installation_path ], [ "Theming", theming_path ] ].each do |label, path| %>
   <%= link_to label, path, class: current_page?(path) ? current : item, "aria-current": ("page" if current_page?(path)) %>
@@ -17,4 +27,6 @@
       <%= tag.span "New", class: "rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950" if component.new %>
     <% end %>
   <% end %>
+<% end %>
+
 <% end %>

@@ -16,6 +16,10 @@ RSpec.describe Unmagic::Components::Browser::Export do
 
     expect(written).to include("index.html", "installation/index.html", "theming/index.html", "404.html",
       "components/card/index.html", "components/code_view/index.html", "dialogs/profile/index.html",
+      "blocks/index.html", "blocks/workspace/index.html", "blocks/workspace/preview/index.html",
+      "blocks/team/index.html", "blocks/team/preview/index.html",
+      "blocks/login/preview/index.html", "blocks/signup/preview/index.html", "blocks/sidebar/preview/index.html",
+      "assets/browser/browser.js",
       "assets/stylesheets/browser.css", "assets/javascripts/unmagic/components.js",
       "assets/javascripts/unmagic/components/tabs.js", "assets/turbo/turbo.min.js")
     expect(written.grep(%r{\Acomponents/}).size).to eq(Unmagic::Components::Browser::Catalog.all.size)

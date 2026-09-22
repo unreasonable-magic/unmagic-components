@@ -1,0 +1,63 @@
+<main class="mx-auto min-h-screen max-w-7xl space-y-8 p-5 sm:p-10">
+  <%= page_header title: "Northstar Studio", description: "Customer details, account notes and recent conversations in one place." %>
+  <div class="flex flex-wrap items-center gap-3">
+    <%= popover "Account owner" do |popover| %>
+      <% popover.trigger { "Account owner" } %>
+      <%= avatar "Ada Lovelace" %><p class="mt-3 font-medium">Ada Lovelace</p><p class="text-sm text-neutral-500">Customer success · London</p>
+    <% end %>
+    <%= dialog_button "Account notes", dialog: "customer_notes", class: button_classes %>
+    <button type="button" id="customer_archive" class="<%= button_classes(:default) %>">Archive preview</button>
+  </div>
+  <%= dialog_tag "customer_notes", title: "Account notes" do |dialog| %>
+    <p>Northstar is preparing a new studio launch. Follow up after the design review.</p>
+    <% dialog.footer { tag.button "Done", type: "button", class: button_classes(:primary), data: { unmagic_dialog_close: "" } } %>
+  <% end %>
+  <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
+    <%= card title: "Contacts", flush: true, id: "customer_contacts" do %>
+      <% contacts = [ [ "Ada Lovelace", "Primary contact" ], [ "Grace Hopper", "Technical lead" ], [ "Radia Perlman", "Finance" ], [ "Katherine Johnson", "Analytics" ] ] %>
+      <%# Any pager with previous, next, page, last and page_url works.
+          This local pager links to sample panels, so it also works in static exports. %>
+      <% pager_class = Struct.new(:page) do
+        def previous = page > 1 ? page - 1 : nil
+        def next = page < 2 ? page + 1 : nil
+        def last = 2
+        def page_url(target)
+          number = target == :previous ? previous : target == :next ? self.next : target
+          "#contacts_page_#{number}"
+        end
+      end %>
+      <% [1, 2].each do |number| %>
+        <%= tag.div id: "contacts_page_#{number}", hidden: number != 1, data: { contacts_page: true }, tabindex: -1 do %>
+          <%= table_tag [ "Name", "Role" ], contacts.slice((number - 1) * 2, 2) %>
+          <div class="p-4"><%= pagination pager_class.new(number) %></div>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= card title: "Account details" do %>
+      <%= detail_list variant: :stacked do |list| %><% list.item "Plan", "Studio" %><% list.item "Seats", "18 active" %><% list.item "Status", badge("Healthy", tone: :good) %><% end %>
+    <% end %>
+  </div>
+  <%= card title: "Shared brief" do %>
+    <p id="customer_brief" tabindex="0" class="rounded-lg bg-neutral-50 p-4 text-sm dark:bg-neutral-900">Launch planning brief · right-click or use Shift+F10 for actions.</p>
+    <%= context_menu for: "customer_brief", label: "Brief actions" do |menu| %><% menu.link "Read notes", "#customer_summary", icon: :file_text %><% menu.link "View contacts", "#customer_contacts", icon: :user_plus %><% end %>
+    <p id="customer_summary" class="mt-4 text-sm text-neutral-500">Prepare launch assets and agree on the review schedule.</p>
+  <% end %>
+  <%# The app layout should render flash_toasts and confirm_dialog_template. %>
+  <script type="module">
+    import { confirm } from "unmagic/components/confirm"
+    import { toast } from "unmagic/components/toasts"
+    document.querySelectorAll('[data-contacts-page] a').forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault()
+        const target = document.querySelector(link.getAttribute("href"))
+        document.querySelectorAll("[data-contacts-page]").forEach((page) => { page.hidden = page !== target })
+        target.focus({ preventScroll: true })
+      })
+    })
+    document.getElementById("customer_archive").addEventListener("click", async () => {
+      if (await confirm("Archive this sample account? No customer data will be changed.")) {
+        toast.show("Preview only: the account has not been archived.", { tone: "info" })
+      }
+    })
+  </script>
+</main>

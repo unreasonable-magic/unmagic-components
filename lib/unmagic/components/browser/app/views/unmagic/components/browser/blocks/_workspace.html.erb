@@ -1,0 +1,64 @@
+<%# Sample data: replace these hashes with your application's records. %>
+<% projects = [
+  { name: "Design system", owner: "Ada Lovelace", progress: 78, status: "In progress" },
+  { name: "Customer portal", owner: "Grace Hopper", progress: 45, status: "In progress" },
+  { name: "September release", owner: "Katherine Johnson", progress: 100, status: "Complete" }
+] %>
+<div class="min-h-screen bg-neutral-50 dark:bg-neutral-950">
+  <%= navbar label: "Workspace" do |nav| %>
+    <% nav.brand("#overview") { "Acme / Workspace" } %>
+    <% nav.link "Overview", "#overview", current: true %>
+    <% nav.link "Projects", "#projects" %>
+    <% nav.link "Team", "#team" %>
+    <% nav.actions { avatar "Ada Lovelace", size: :small } %>
+  <% end %>
+
+  <main id="overview" class="mx-auto max-w-6xl space-y-8 p-5 sm:p-8">
+    <%= page_header title: "Workspace overview", description: "A little progress, every day. Here's where your team stands." do |header| %>
+      <% header.badge "September 2026", tone: :neutral %>
+    <% end %>
+
+    <div class="grid gap-4 sm:grid-cols-3">
+      <% [ [ "Active projects", "12", "3 ready for review" ], [ "Tasks completed", "148", "24 completed this week" ], [ "Team members", "8", "Across 3 projects" ] ].each do |label, value, detail| %>
+        <%= card title: label do %>
+          <p class="text-3xl font-semibold tracking-tight"><%= value %></p>
+          <p class="mt-2 text-sm text-neutral-500"><%= detail %></p>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%= card title: "Activity this week" do %>
+      <% days = (Date.new(2026, 9, 14)..Date.new(2026, 9, 20)).to_a %>
+      <%= chart [
+        { label: "Completed tasks", values: days.zip([ 12, 19, 15, 24, 18, 8, 11 ]).to_h }
+      ], labels: days, title: "Completed tasks" %>
+    <% end %>
+
+    <div class="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      <section id="projects">
+        <%= card title: "Project health", flush: true do %>
+          <%= table_for projects do |table| %>
+            <% table.column("Project") { |project| tag.span project[:name], class: "font-medium" } %>
+            <% table.column("Progress") { |project| progress project[:progress], label: "#{project[:name]} completion", size: :small } %>
+            <% table.column("Status") { |project| badge project[:status], tone: project[:progress] == 100 ? :good : :info } %>
+          <% end %>
+        <% end %>
+      </section>
+      <section id="team">
+        <%= card title: "Working together" do %>
+          <div class="space-y-5">
+            <% projects.each do |project| %>
+              <div class="flex items-center gap-3">
+                <%= avatar project[:owner], size: :small %>
+                <div class="min-w-0">
+                  <p class="truncate text-sm font-medium"><%= project[:owner] %></p>
+                  <p class="text-xs text-neutral-500"><%= project[:name] %></p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </section>
+    </div>
+  </main>
+</div>

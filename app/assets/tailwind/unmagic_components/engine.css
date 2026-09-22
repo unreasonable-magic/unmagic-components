@@ -2849,8 +2849,8 @@
   /* ---------------------------------------------------------------- Sidebar */
 
   /* One <nav> for both widths: a popover sheet from the edge below the
-     breakpoint, laid out inline above it. The UA hides a popover that isn't
-     open; above the breakpoint that rule is overridden. */
+     breakpoint, laid out inline above it. Hide closed popovers explicitly:
+     the panel's flex display overrides the user agent's default hiding rule. */
   .UnmagicSidebar {
     @apply block;
   }
@@ -2859,6 +2859,10 @@
     @apply fixed inset-y-0 left-0 m-0 flex h-dvh w-[min(18rem,85vw)] flex-col gap-1 overflow-y-auto border-0 border-r border-neutral-200 bg-white p-3 text-sm shadow-xl;
     @apply dark:border-neutral-800 dark:bg-neutral-900;
     inset-inline: 0 auto;
+  }
+
+  .UnmagicSidebar__panel[popover]:not(:popover-open) {
+    display: none;
   }
 
   .UnmagicSidebar__panel::backdrop {

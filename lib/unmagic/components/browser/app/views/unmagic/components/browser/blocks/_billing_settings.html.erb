@@ -1,0 +1,45 @@
+<div class="min-h-screen bg-neutral-50 dark:bg-neutral-950">
+  <%= navbar label: "Page navigation" do |nav| %>
+    <% nav.brand("#plan") { "Acme" } %>
+    <% nav.link "Plan", "#plan", current: true %>
+    <% nav.link "Usage", "#usage" %>
+    <% nav.link "Invoices", "#invoices" %>
+    <% nav.actions { avatar "Ada Lovelace", size: :small } %>
+  <% end %>
+  <main id="plan" class="mx-auto max-w-6xl space-y-8 p-5 sm:p-10">
+    <%= page_header title: "Plan and billing", description: "A clear view of your subscription, usage and invoices." %>
+    <div class="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      <%= card title: "Team plan" do |card| %>
+        <% card.actions { badge "Monthly", tone: :info } %>
+        <p class="text-4xl font-semibold tracking-tight">$48<span class="text-sm font-normal text-neutral-500"> / month</span></p>
+        <p class="mt-3 text-sm text-neutral-500">A shared workspace for a small, ambitious team.</p>
+        <ul class="mt-6 space-y-3 text-sm"><li>✓ 10 team seats</li><li>✓ Unlimited projects</li><li>✓ 100 GB of shared storage</li></ul>
+        <% card.footer { "Next invoice: October 1, 2026" } %>
+      <% end %>
+      <%= card title: "Payment details" do %>
+        <%= detail_list variant: :stacked do |list| %>
+          <% list.item "Card", "Visa ending in 4242" %>
+          <% list.item "Expires", "12 / 2028" %>
+          <% list.item "Billing contact", "billing@example.com" %>
+        <% end %>
+      <% end %>
+    </div>
+    <section id="usage" class="grid gap-6 sm:grid-cols-2">
+      <%= card title: "Team seats" do %>
+        <p class="mb-4 text-sm text-neutral-500">7 of 10 seats used</p><%= progress 7, max: 10, label: "Team seats", tone: :info %>
+      <% end %>
+      <%= card title: "Storage" do %>
+        <p class="mb-4 text-sm text-neutral-500">32 GB of 100 GB used</p><%= progress 32, label: "Storage", tone: :good %>
+      <% end %>
+    </section>
+    <section id="invoices">
+      <%= card title: "Invoice history", flush: true do %>
+        <%= table_tag [ "Invoice", "Date", "Amount", "Status" ], [
+          [ "INV-2026-009", "September 1, 2026", "$48.00", badge("Paid", tone: :good) ],
+          [ "INV-2026-008", "August 1, 2026", "$48.00", badge("Paid", tone: :good) ],
+          [ "INV-2026-007", "July 1, 2026", "$48.00", badge("Paid", tone: :good) ]
+        ] %>
+      <% end %>
+    </section>
+  </main>
+</div>

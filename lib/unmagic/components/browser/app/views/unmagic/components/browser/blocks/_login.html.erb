@@ -1,0 +1,34 @@
+<div class="grid min-h-screen place-items-center bg-neutral-50 px-6 py-12 dark:bg-neutral-950">
+  <main class="w-full max-w-sm">
+    <div class="mb-8 flex items-center justify-center gap-2 text-sm font-semibold">
+      <span class="grid size-8 place-items-center rounded-lg bg-neutral-900 text-white dark:bg-white dark:text-neutral-900">a</span>
+      Acme
+    </div>
+    <%= card do %>
+      <div class="mb-6 text-center">
+        <h1 class="text-2xl font-semibold tracking-tight">Welcome back</h1>
+        <p class="mt-2 text-sm text-neutral-500">Sign in to your workspace.</p>
+      </div>
+      <%# Preview-only form: set method="post" and your authentication action in your app. %>
+      <form method="dialog" data-block-demo-form>
+        <div class="space-y-4">
+          <div>
+            <%= label_tag :login_email, "Email", class: "UnmagicLabel mb-1.5 block" %>
+            <%= email_field_tag :email, nil, id: "login_email", autocomplete: "email", placeholder: "you@example.com", required: true, class: "#{control_classes(:input)} w-full" %>
+          </div>
+          <div>
+            <%= label_tag :login_password, "Password", class: "UnmagicLabel mb-1.5 block" %>
+            <%= password_field_tag :password, nil, id: "login_password", autocomplete: "current-password", required: true, class: "#{control_classes(:input)} w-full" %>
+          </div>
+          <label class="flex items-center gap-2 text-sm">
+            <%= check_box_tag :remember_me, "1", false, class: control_classes(:check) %>
+            Remember me
+          </label>
+          <%= tag.button "Sign in", type: "submit", class: "#{button_classes(:primary)} w-full" %>
+          <p data-block-demo-status role="status" class="text-xs leading-5 text-neutral-500"></p>
+        </div>
+      </form>
+    <% end %>
+    <p class="mt-6 text-center text-xs text-neutral-500">Your next good idea starts here.</p>
+  </main>
+</div>

@@ -1,0 +1,31 @@
+<main class="mx-auto min-h-screen max-w-7xl space-y-8 p-5 sm:p-10">
+  <%= page_header title: "Review the proposed changes", description: "A completed agent run with decisions, permissions, alternatives and a recoverable failure." %>
+  <div class="grid gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+    <div class="min-w-0 space-y-6">
+      <%= ai_chat_request state: :accepted do |request| %><% request.question "What should this run focus on?", header: "Scope", picked: [ "Documentation only" ] %><% end %>
+      <%= ai_chat_permission tool: "read_repository", state: :granted do |permission| %><% permission.argument "path", "docs/" %><% permission.summary { tag.p "Read the documentation to prepare an update." } %><% end %>
+      <%= ai_chat_proposal state: :accepted, id: "review_proposal" do |proposal| %><% proposal.claim "Add a quick-start checklist" %><% proposal.meta "docs/getting-started.md" %><% proposal.outcome "Included in the draft" %><% end %>
+      <%= card title: "Draft alternatives" do %>
+        <%= tabs id: "review_alternatives" do |tabs| %>
+          <% tabs.tab "Concise" %><% tabs.tab "Detailed" %>
+          <% tabs.panel do %><p id="concise_draft" class="text-sm leading-7">Install the gem, import the stylesheet, and render your first component.</p><%= ai_chat_branch_picker index: 1, count: 2, next: "#detailed_draft" %><% end %>
+          <% tabs.panel do %><p id="detailed_draft" class="text-sm leading-7">Start by adding the gem to your bundle. Import the engine stylesheet into Tailwind, load the JavaScript, and use the helpers in a Rails view.</p><%= ai_chat_branch_picker index: 2, count: 2, previous: "#concise_draft" %><% end %>
+        <% end %>
+      <% end %>
+      <%= ai_chat_failure "The optional link check could not finish." do |failure| %><% failure.cause "The documentation host did not respond." %><% failure.detail "Last attempt", { url: "https://example.com/docs", status: "timeout" }, language: :json %><% end %>
+    </div>
+    <aside class="min-w-0 space-y-6">
+      <%= card title: "Run summary" do %><%= detail_list do |list| %><% list.item "Files changed", "1" %><% list.item "Permission", "Read only" %><% list.item "Outcome", "Draft ready" %><% end %><% end %>
+      <%= ai_chat_payload({ run: "docs-review", files_read: 4, drafts: 2, writes: 0 }, label: "Run metadata", language: :json) %>
+    </aside>
+  </div>
+  <script type="module">
+    // Branch links select the matching local draft instead of requesting a server.
+    for (const [anchor, index] of [["#concise_draft", 0], ["#detailed_draft", 1]]) {
+      document.querySelector(`a[href="${anchor}"]`).addEventListener("click", (event) => {
+        event.preventDefault()
+        document.getElementById(`review_alternatives_tab_${index}`).click()
+      })
+    }
+  </script>
+</main>

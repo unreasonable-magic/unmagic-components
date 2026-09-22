@@ -1,0 +1,54 @@
+<% projects = [
+  [ "Website refresh", "Design", "In progress" ],
+  [ "Mobile app", "Engineering", "In review" ],
+  [ "Customer research", "Product", "Complete" ]
+] %>
+<div class="flex min-h-screen">
+  <aside class="shrink-0 border-neutral-200 bg-neutral-50 lg:w-60 lg:border-r dark:border-neutral-800 dark:bg-neutral-900">
+    <%= sidebar id: "workspace_sidebar", label: "Workspace navigation", collapse_below: :lg, class: "h-full" do |nav| %>
+      <% nav.header { tag.span "Acme workspace", class: "font-semibold" } %>
+      <% nav.section "Workspace" do |section| %>
+        <% section.link "Overview", "#workspace_overview", icon: :house, active: true %>
+        <% section.link "Projects", "#workspace_projects", icon: :folder, badge: 3 %>
+        <% section.link "Team", "#workspace_team", icon: :messages_square %>
+      <% end %>
+      <% nav.section "Projects", collapsible: true, open: true do |section| %>
+        <% projects.each_with_index do |project, index| %>
+          <% section.link project.first, "#workspace_project_#{index}", icon: :circle_dashed %>
+        <% end %>
+      <% end %>
+      <% nav.footer do %>
+        <div class="flex items-center gap-3">
+          <%= avatar "Ada Lovelace", size: :small %>
+          <div><p class="text-sm font-medium">Ada Lovelace</p><p class="text-xs text-neutral-500">Personal workspace</p></div>
+        </div>
+      <% end %>
+    <% end %>
+  </aside>
+  <div class="min-w-0 flex-1">
+    <header class="flex h-16 items-center gap-3 border-b border-neutral-200 px-6 dark:border-neutral-800">
+      <%= sidebar_toggle "workspace_sidebar" %>
+      <p class="text-sm text-neutral-500">Workspace <span class="mx-2">/</span> <span class="font-medium text-neutral-900 dark:text-white">Overview</span></p>
+    </header>
+    <main id="workspace_overview" class="mx-auto max-w-5xl space-y-8 p-6 sm:p-10">
+      <%= page_header title: "Let's make something good.", description: "Your projects and people, all in one place." %>
+      <section id="workspace_projects" class="grid gap-4 xl:grid-cols-3">
+        <% projects.each_with_index do |(name, team, status), index| %>
+          <%= card title: name, id: "workspace_project_#{index}" do %>
+            <p class="mb-4 text-sm text-neutral-500"><%= team %></p>
+            <%= badge status, tone: status == "Complete" ? :good : :info %>
+          <% end %>
+        <% end %>
+      </section>
+      <section id="workspace_team">
+        <%= card title: "Your team", flush: true do %>
+          <%= table_tag [ "Name", "Role", "Location" ], [
+            [ "Ada Lovelace", "Engineer", "London" ],
+            [ "Grace Hopper", "Engineer", "New York" ],
+            [ "Katherine Johnson", "Analyst", "Hampton" ]
+          ] %>
+        <% end %>
+      </section>
+    </main>
+  </div>
+</div>

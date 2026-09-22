@@ -6,7 +6,18 @@ module Unmagic
       # The browser's pages: the overview, the getting-started pages, and one page
       # per component with every example it lists, live and as source.
       class PagesController < ApplicationController
-        before_action :load_fixtures, only: %i[overview component]
+        before_action :load_fixtures, only: %i[overview component block_preview]
+
+        before_action :load_block, only: %i[block block_preview]
+
+        def blocks
+        end
+
+        def block
+        end
+
+        def block_preview
+        end
 
         def overview
         end
@@ -23,6 +34,11 @@ module Unmagic
         end
 
         private
+
+        def load_block
+          @block = BlockCatalog.find(params[:slug])
+          raise ActionController::RoutingError, "No block named #{params[:slug]}" unless @block
+        end
 
         # The data examples and thumbnails render from, set for every page that
         # shows either, so any example can use any of it.

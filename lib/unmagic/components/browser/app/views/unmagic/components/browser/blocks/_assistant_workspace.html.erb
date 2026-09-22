@@ -1,0 +1,53 @@
+<main class="mx-auto min-h-screen max-w-7xl space-y-8 p-5 sm:p-10">
+  <%= page_header title: "Your research partner", description: "A conversation workspace with source material, a plan and a place to keep writing." %>
+  <% now = Time.current %>
+  <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_18rem]">
+    <div class="min-w-0 space-y-6">
+      <%= tabs id: "assistant_modes" do |tabs| %>
+        <% tabs.tab "Conversation" %><% tabs.tab "Start a conversation" %>
+        <% tabs.panel do %>
+          <div id="assistant_scroll" class="max-h-[34rem] overflow-y-auto">
+            <%= ai_chat id: "assistant_entries", scroller: "#assistant_scroll" do %>
+              <%= ai_chat_message role: :user, id: "assistant_question" do |turn| %>
+                <% turn.attachments do %><%= ai_chat_attachments do |files| %><% files.file "launch-brief.md", size: 1840 %><% end %><% end %>
+                Summarize the launch brief and suggest the next steps.
+              <% end %>
+              <%= ai_chat_reasoning duration: 3.4 do %><p>Review the brief, identify unresolved decisions, and separate launch requirements from later improvements.</p><% end %>
+              <%= ai_chat_tool_call name: "read_brief", state: :done, id: "assistant_read" do |tool| %>
+                <% tool.summary "launch-brief.md" %><% tool.timing duration: 0.18 %><% tool.asked({ path: "launch-brief.md" }) %><% tool.answered({ sections: 4, open_questions: 2 }) %>
+              <% end %>
+              <%= ai_chat_message role: :assistant, id: "assistant_answer" do |turn| %>
+                <p>The launch needs three things: final artwork, a clear onboarding flow, and a support handoff.</p>
+                <%= ai_chat_citation do |cite| %><% cite.who "Launch brief" %><% cite.when now %><% cite.quote "A new member should reach their first project in under five minutes." %><% end %>
+                <% turn.actions do %>
+                  <%= ai_chat_action_bar for: "assistant_answer", reveal: :always do |bar| %><% bar.copy "Finalize artwork, review onboarding, and prepare the support handoff." %><% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+        <% tabs.panel do %>
+          <%= ai_chat_welcome heading: "What are we working on?", composer: "assistant_composer" do |welcome| %>
+            <% welcome.body "Turn a brief into a plan or find the open questions in your project." %>
+            <% welcome.suggestion "Plan a launch", fill: true, value: "Help me plan the launch." %>
+            <% welcome.suggestion "Review a brief", fill: true, value: "Review this brief for open questions." %>
+          <% end %>
+        <% end %>
+      <% end %>
+      <%# In your app, bind a model and post this form to your chat endpoint. %>
+      <% form = Unmagic::Components::FormBuilder.new(:message, nil, self, { id: "assistant_composer" }) %>
+      <form method="dialog" id="assistant_composer" data-block-demo-form data-block-demo-message="Preview only. Connect your chat endpoint to send messages.">
+        <%= ai_chat_composer form: form, field: :content, placeholder: "Ask a follow-up, or type /…" do |composer| %>
+          <% composer.menu do %>
+            <%= ai_chat_slash_menu above: true do |menu| %><% menu.item "summarize", description: "Summarize the brief" %><% menu.item "plan", description: "Draft next steps" %><% end %>
+          <% end %>
+        <% end %>
+        <p data-block-demo-status role="status" class="mt-3 text-sm text-neutral-500"></p>
+      </form>
+    </div>
+    <aside class="h-fit rounded-xl border border-neutral-200 dark:border-neutral-800">
+      <%= ai_chat_plan id: "assistant_plan" do |plan| %><% plan.step "Read launch brief", state: :completed %><% plan.step "Identify open questions", state: :completed %><% plan.step "Agree next steps", state: :pending %><% end %>
+      <%= ai_chat_workspace id: "assistant_files" do |workspace| %><% workspace.file "launch-brief.md", size: 1840 %><% workspace.file "notes/open-questions.md", size: 620 %><% end %>
+    </aside>
+  </div>
+</main>

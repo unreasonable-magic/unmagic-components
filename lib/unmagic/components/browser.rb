@@ -36,6 +36,7 @@ module Unmagic
         def asset_roots
           roots = {
             "stylesheets" => root.join("assets"),
+            "browser" => root.join("assets"),
             "javascripts" => Components::Engine.root.join("app/assets/javascripts")
           }
           roots["turbo"] = ::Turbo::Engine.root.join("app/assets/javascripts") if defined?(::Turbo::Engine)

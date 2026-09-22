@@ -1,0 +1,57 @@
+<div class="min-h-screen bg-neutral-50 dark:bg-neutral-950">
+  <%= navbar label: "Page navigation" do |nav| %>
+    <% nav.brand("#profile") { "Acme" } %>
+    <% nav.link "Profile", "#profile", current: true %>
+    <% nav.link "Personal details", "#details" %>
+    <% nav.link "About you", "#about" %>
+    <% nav.actions { avatar "Ada Lovelace", size: :small } %>
+  <% end %>
+  <main id="profile" class="mx-auto max-w-6xl space-y-8 p-5 sm:p-10">
+    <%= page_header title: "Your profile", description: "Manage the details you share with your workspace." %>
+    <%# Replace method="dialog" and action with your profile update endpoint. %>
+    <form method="dialog" data-block-demo-form data-block-demo-message="Preview only. Your changes have not been saved." class="space-y-8">
+      <div class="grid gap-6 border-b border-neutral-200 pb-8 md:grid-cols-[16rem_minmax(0,1fr)] dark:border-neutral-800">
+        <div><h2 class="font-semibold">Profile picture</h2><p class="mt-2 text-sm leading-6 text-neutral-500">Your name and avatar help teammates recognize you.</p></div>
+        <div class="flex items-center gap-4"><%= avatar "Ada Lovelace" %><div><p class="font-medium">Ada Lovelace</p><%= badge "Workspace admin", tone: :accent %></div></div>
+      </div>
+      <section id="details" class="grid gap-6 md:grid-cols-[16rem_minmax(0,1fr)]">
+        <div><h2 class="font-semibold">Personal details</h2><p class="mt-2 text-sm leading-6 text-neutral-500">Your contact information and role.</p></div>
+        <%= card do %>
+          <div class="space-y-5">
+          <div>
+            <%= label_tag :profile_name, "Full name", class: "UnmagicLabel mb-2 block" %>
+            <%= text_field_tag :profile_name, "Ada Lovelace", required: true, class: "#{control_classes(:input)} w-full" %>
+          </div>
+          <div>
+            <%= label_tag :profile_email, "Email address", class: "UnmagicLabel mb-2 block" %>
+            <%= email_field_tag :profile_email, "ada@example.com", required: true, class: "#{control_classes(:input)} w-full" %>
+          </div>
+          <div>
+            <%= label_tag :profile_role, "Role", class: "UnmagicLabel mb-2 block" %>
+            <%= text_field_tag :profile_role, "Product engineer", required: true, class: "#{control_classes(:input)} w-full" %>
+          </div>
+
+          <div>
+            <%= label_tag :profile_timezone, "Time zone", class: "UnmagicLabel mb-2 block" %>
+            <%= select_tag :profile_timezone, options_for_select([ "London", "New York", "Perth", "Tokyo" ], "London"), class: "#{control_classes(:select)} w-full" %>
+          </div>
+          </div>
+        <% end %>
+      </section>
+      <section id="about" class="grid gap-6 md:grid-cols-[16rem_minmax(0,1fr)]">
+        <div><h2 class="font-semibold">About you</h2><p class="mt-2 text-sm leading-6 text-neutral-500">A short introduction for your team.</p></div>
+        <div>
+          <%= label_tag :profile_bio, "Bio", class: "UnmagicLabel mb-2 block" %>
+          <%= text_area_tag :profile_bio, "Building thoughtful tools for teams.", rows: 4, maxlength: 300, class: "#{control_classes(:input)} w-full", aria: { describedby: "profile_bio_hint" } %>
+          <p id="profile_bio_hint" class="mt-2 text-xs text-neutral-500">Up to 300 characters.</p>
+        </div>
+      </section>
+
+        <div class="flex flex-wrap items-center justify-end gap-3 border-t border-neutral-200 pt-5 dark:border-neutral-800">
+          <%= tag.button "Reset", type: "reset", class: button_classes(:default) %>
+          <%= tag.button "Save changes", type: "submit", class: button_classes(:primary) %>
+        </div>
+        <p data-block-demo-status role="status" class="text-sm text-neutral-500"></p>
+    </form>
+  </main>
+</div>

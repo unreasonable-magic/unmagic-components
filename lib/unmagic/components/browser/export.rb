@@ -25,7 +25,7 @@ module Unmagic
       # dialog's form is written out as the frame the modal fetches, so that one
       # still opens. rake browser:export[dir,base] does all this from the gem.
       class Export
-        PAGES = %w[/ /installation /theming].freeze
+        PAGES = %w[/ /installation /theming /blocks].freeze
 
         attr_reader :dir, :mount, :written
 
@@ -50,7 +50,8 @@ module Unmagic
 
         # The pages: the getting-started ones and one per component.
         def pages
-          PAGES + Catalog.all.map { |component| "/components/#{component.slug}" }
+          PAGES + Catalog.all.map { |component| "/components/#{component.slug}" } +
+            BlockCatalog.all.flat_map { |block| [ "/blocks/#{block.slug}", "/blocks/#{block.slug}/preview" ] }
         end
 
         private
@@ -83,6 +84,7 @@ module Unmagic
           Browser.asset_roots.each do |kind, root|
             files = case kind
             when "stylesheets" then [ "browser.css" ]
+            when "browser" then [ "browser.js" ]
             when "javascripts" then Dir[root.join("unmagic/components{,/**/*}.js")].map { |f| Pathname(f).relative_path_from(root).to_s }
             when "turbo" then [ "turbo.min.js" ]
             end

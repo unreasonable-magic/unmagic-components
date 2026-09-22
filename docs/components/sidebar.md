@@ -130,6 +130,9 @@ Without JavaScript the whole thing still works: popovers and details are HTML.
 - **Motion:** a 150ms transform on open, removed under reduced motion.
 - **Colour:** palette with `dark:` variants only.
 
+Closed popovers are explicitly hidden below the breakpoint; the panel’s flex
+display otherwise overrides the user agent’s hiding rule.
+
 ## Small screens
 
 Below the breakpoint the nav is a popover sheet from the edge, 85vw at most, with a backdrop; links are 44px tall on a coarse pointer.

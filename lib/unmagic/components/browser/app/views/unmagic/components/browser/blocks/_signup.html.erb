@@ -1,0 +1,37 @@
+<div class="grid min-h-screen lg:grid-cols-2">
+  <aside class="hidden flex-col justify-between bg-neutral-900 lg:flex p-8 text-white sm:p-12">
+    <p class="text-lg font-semibold">acme</p>
+    <div class="max-w-md py-12">
+      <p class="text-sm font-medium text-neutral-300">A space for your best work</p>
+      <h2 class="mt-6 text-4xl font-semibold leading-tight tracking-tight">Small team.<br>Big possibilities.</h2>
+      <p class="mt-5 text-base leading-7 text-neutral-300">Bring your projects, people, and ideas into one calm place. Make room for the work that matters.</p>
+    </div>
+    <p class="text-sm text-neutral-400">Built for people who build together.</p>
+  </aside>
+  <main class="grid place-items-center px-6 py-12 sm:px-12">
+    <div class="w-full max-w-sm">
+      <h1 class="text-2xl font-semibold tracking-tight">Create your account</h1>
+      <p class="mb-8 mt-2 text-sm text-neutral-500">A fresh workspace is waiting for you.</p>
+      <%# Preview-only form: set method="post" and your registration action in your app. %>
+      <form method="dialog" data-block-demo-form>
+        <div class="space-y-5">
+          <div>
+            <%= label_tag :signup_name, "Full name", class: "UnmagicLabel mb-1.5 block" %>
+            <%= text_field_tag :name, nil, id: "signup_name", autocomplete: "name", placeholder: "Ada Lovelace", required: true, class: "#{control_classes(:input)} w-full" %>
+          </div>
+          <div>
+            <%= label_tag :signup_email, "Work email", class: "UnmagicLabel mb-1.5 block" %>
+            <%= email_field_tag :email, nil, id: "signup_email", autocomplete: "email", placeholder: "you@example.com", required: true, class: "#{control_classes(:input)} w-full" %>
+          </div>
+          <div>
+            <%= label_tag :signup_password, "Password", class: "UnmagicLabel mb-1.5 block" %>
+            <%= password_field_tag :password, nil, id: "signup_password", autocomplete: "new-password", minlength: 8, required: true, aria: { describedby: "signup_password_hint" }, class: "#{control_classes(:input)} w-full" %>
+            <p id="signup_password_hint" class="mt-2 text-xs text-neutral-500">Use at least 8 characters.</p>
+          </div>
+          <%= tag.button "Create account", type: "submit", class: "#{button_classes(:primary)} w-full" %>
+          <p data-block-demo-status role="status" class="text-xs leading-5 text-neutral-500"></p>
+        </div>
+      </form>
+    </div>
+  </main>
+</div>

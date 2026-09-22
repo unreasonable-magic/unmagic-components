@@ -1,0 +1,51 @@
+<main class="mx-auto min-h-screen max-w-7xl space-y-8 p-5 sm:p-10">
+  <%= page_header title: "A good week of work.", description: "Plan the sprint, prioritize the backlog, and move work forward." %>
+  <%= breadcrumbs do |crumbs| %><% crumbs.link "Workspace", "#sprint" %><% crumbs.current "September sprint" %><% end %>
+  <div class="flex flex-wrap items-center justify-between gap-4">
+    <%= combobox_tag "owners", collection: [ [ 1, "Ada Lovelace" ], [ 2, "Grace Hopper" ] ], value: :first, text: :last, multiple: true, label: "Sprint owners", placeholder: "Choose owners", id: "sprint_owners", input: { "aria-label": "Sprint owners" } %>
+    <div class="flex items-center gap-3">
+      <%= tooltip text: "Search the sections on this page." do %><%= command_palette_button dialog: "planner_commands" %><% end %>
+      <%= kbd "⌘", "K" %>
+      <%= menu do |menu| %><% menu.link "View backlog", "#backlog" %><% menu.link "Sprint guide", "#guide" %><% end %>
+    </div>
+  </div>
+  <%= command_palette id: "planner_commands" do |palette| %>
+    <% palette.group "Jump to" do |group| %>
+      <% group.link "Sprint board", "#sprint", icon: :folder %>
+      <% group.link "Prioritized backlog", "#backlog", icon: :list_checks %>
+      <% group.link "Sprint guide", "#guide", icon: :book_open %>
+    <% end %>
+  <% end %>
+  <%= section "Sprint board", id: "sprint" do |section| %>
+    <% section.aside { badge "6 tasks", tone: :info } %>
+    <%= board id: "sprint_board", label: "Sprint tasks", column_height: "25rem" do |board| %>
+      <% [
+        [ "planned", "Planned", [ "Write onboarding copy", "Audit keyboard navigation" ] ],
+        [ "progress", "In progress", [ "Build account settings", "Review mobile layouts" ] ],
+        [ "done", "Done", [ "Define type scale", "Document design tokens" ] ]
+      ].each_with_index do |(key, title, tasks), column_index| %>
+        <% board.column key: key, rank: column_index, title: title do |column| %>
+          <% tasks.each_with_index do |task, index| %>
+            <% column.card key: "#{key}_#{index}", rank: index, label: task do %>
+              <p class="font-medium"><%= task %></p><div class="mt-4 flex items-center justify-between"><%= badge "Design" %><%= avatar "Ada Lovelace", size: :small %></div>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <p class="mt-3 text-xs text-neutral-500">Drag cards or use their keyboard controls. This preview keeps changes only until reload.</p>
+  <% end %>
+  <div class="grid gap-6 md:grid-cols-2">
+    <%= section "Up next", id: "backlog" do %>
+      <%= sortable_list namespace: "sprint_backlog", label: "Prioritized backlog", class: "space-y-2" do |list| %>
+        <% [ "Invite flow", "Activity feed", "Project templates" ].each do |task| %>
+          <%= list.item key: task.parameterize, label: task do %><%= card { task } %><% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= card title: "Sprint guide", id: "guide" do %>
+      <p class="mb-4 text-sm text-neutral-500">Keep tasks small, leave room for review, and celebrate completed work.</p>
+      <%= toggle "Available for new work", name: "available", pressed: true %>
+    <% end %>
+  </div>
+</main>

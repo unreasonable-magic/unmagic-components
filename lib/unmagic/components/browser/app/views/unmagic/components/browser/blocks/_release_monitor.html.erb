@@ -1,0 +1,49 @@
+<main class="mx-auto min-h-screen max-w-7xl space-y-8 p-5 sm:p-10">
+  <%= page_header title: "Release 0.8.0", description: "A deployment workspace with logs, build artifacts and rollout status." %>
+  <% now = Time.current %>
+  <%= callout "Preview deployment in progress", tone: :info do %>Build finished. Waiting for the health check before sending traffic.<% end %>
+  <div class="flex flex-wrap items-center gap-3 text-sm text-neutral-500">
+    <%= spinner "Checking health", size: :small %><%= separator orientation: :vertical %>
+    <span>Running for <%= elapsed_tag now - 42 %></span><%= separator orientation: :vertical %>
+    <span>Started <%= local_time_tag now - 42, format: :relative %></span>
+  </div>
+  <div class="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+    <div class="min-w-0">
+      <%= panel id: "release_panels" do |panel| %>
+        <% panel.tab "Build output", icon: :code %><% panel.tab "Release notes", icon: :file_text %><% panel.tab "Metrics", icon: :timer %>
+        <% panel.panel do %>
+          <%= scroll_area max_height: "24rem", label: "Build output" do %>
+            <%= code_view "Fetching dependencies…
+Compiling assets…
+Running 142 checks…
+142 passed, 0 failed
+Uploading build…
+Waiting for healthy instances…", language: :plaintext, id: "release_log" %>
+          <% end %>
+        <% end %>
+        <% panel.panel do %>
+          <%= streaming_markdown_tag id: "release_notes", final: true, class: "UnmagicProse" do %><h2>What changed</h2><p>This release improves keyboard navigation and adds a calmer onboarding flow.</p><ul><li>Accessible menus</li><li>Faster asset delivery</li></ul><% end %>
+        <% end %>
+        <% panel.panel do %>
+          <p class="mb-4 text-sm text-neutral-500">Live metrics become available after the first healthy instance.</p>
+          <%= skeleton label: "Waiting for deployment metrics" do |skeleton| %><%= skeleton.text lines: 2 %><%= skeleton.block height: "10rem" %><% end %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="space-y-6">
+      <%= card title: "Build artifacts" do %>
+        <%= tree_view label: "Build artifacts" do |tree| %>
+          <% tree.branch "release", icon: :folder do |folder| %><% folder.leaf "app.js", icon: :file_code %><% folder.leaf "app.css", icon: :file_code %><% folder.leaf "manifest.json", icon: :file_json %><% end %>
+        <% end %>
+      <% end %>
+      <%= card title: "Deployment activity" do %>
+        <%= timeline label: "Deployment activity" do |timeline| %>
+          <% timeline.event "Build queued", time: now - 120, icon: :clock %><% timeline.event "Checks passed", time: now - 65, icon: :check %><% timeline.event "Health check started", time: now - 42, icon: :play %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <%= accordion id: "release_help" do |accordion| %>
+    <% accordion.item "What happens if a health check fails?" do %>Traffic stays with the previous release. Inspect the logs, fix the issue, and start a new deployment.<% end %>
+  <% end %>
+</main>

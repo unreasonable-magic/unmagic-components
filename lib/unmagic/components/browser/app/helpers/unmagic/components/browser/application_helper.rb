@@ -4,6 +4,18 @@ module Unmagic
   module Components
     module Browser
       module ApplicationHelper
+        def blocks_section? = %w[blocks block block_preview].include?(action_name)
+        def block_partial(block) = "unmagic/components/browser/blocks/#{block.slug}"
+        def block_source(block) = Browser.root.join("app/views/unmagic/components/browser/blocks/_#{block.slug}.html.erb").read.rstrip
+
+        # Add future top-level destinations here; local navigation stays separate.
+        def browser_sections
+          [
+            { label: "Components", path: root_path, current: !blocks_section? },
+            { label: "Blocks", path: blocks_path, current: blocks_section? }
+          ]
+        end
+
         EXAMPLES = "unmagic/components/browser/examples"
 
         # The browser's own importmap: the names config/importmap.rb pins for a

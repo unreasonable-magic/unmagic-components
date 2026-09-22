@@ -1,0 +1,30 @@
+<main class="mx-auto min-h-screen max-w-7xl space-y-8 p-5 sm:p-10">
+  <%= page_header title: "A home for your assets.", description: "Inspect artwork, prepare a crop, and find the colors that make it yours." %>
+  <% artwork = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgODAwIDUwMCI+PHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiM5M2M1ZmQiLz48Y2lyY2xlIGN4PSI2MTAiIGN5PSIxMTAiIHI9IjU1IiBmaWxsPSIjZmJiZjI0Ii8+PHBhdGggZD0iTTAgMzgwIDI0MCA5MCA0OTAgMzgwWiIgZmlsbD0iIzMzNDE1NSIvPjxwYXRoIGQ9Im0yNDAgOTAtNzAgODQgMTMwLTE0WiIgZmlsbD0iI2Y4ZmFmYyIvPjxwYXRoIGQ9Ik0yNzAgMzkwIDUzMCAxODUgODAwIDM5MFoiIGZpbGw9IiM2NDc0OGIiLz48cGF0aCBkPSJNMCAzNzBRMjAwIDMzMCA0MDAgMzkwVDgwMCAzNjBWNTAwSDBaIiBmaWxsPSIjMTRiOGE2Ii8+PC9zdmc+" %>
+  <div class="grid gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+    <div class="min-w-0">
+      <%= tabs id: "studio_tools" do |tabs| %>
+        <% tabs.tab "Preview" %><% tabs.tab "Crop" %><% tabs.tab "Colors" %>
+        <% tabs.panel do %><%= image_zoom artwork, alt: "Illustrated mountain lake", id: "studio_zoom" %><% end %>
+        <% tabs.panel do %><%= image_crop artwork, alt: "Illustrated mountain lake", id: "studio_crop", name: "artwork_crop", aspect: 1.5 %><% end %>
+        <% tabs.panel do %>
+          <%= image_color_picker artwork, alt: "Illustrated mountain lake", input: "studio_color", id: "studio_picker" %>
+          <%= label_tag :studio_color, "Selected color", class: "mt-4 block text-sm" %><%= color_field_tag :studio_color, "#14b8a6" %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="space-y-6">
+      <%= card title: "Mountain lake" do %>
+        <%= detail_list do |list| %><% list.item "Dimensions", "800 × 500" %><% list.item "Format", "SVG illustration" %><% list.item "Collection", "Brand artwork" %><% end %>
+        <div class="mt-4"><%= copy_button "mountain-lake.svg", class: button_classes do %>Copy filename<% end %></div>
+      <% end %>
+      <%= section "Related files" do %>
+        <%= card flush: true do %>
+          <%= item title: "Brand guide", description: "Color and composition notes", href: "#asset_notes" do |item| %><% item.media { avatar "Brand guide", size: :small } %><% end %>
+        <% end %>
+      <% end %>
+      <%= empty_state "No other versions yet.", title: "Version history" %>
+    </div>
+  </div>
+  <%= card title: "Artwork notes", id: "asset_notes" do %><p class="text-sm text-neutral-500">Leave space around the mountain peak. The crop tool produces a new image without changing this original.</p><% end %>
+</main>

@@ -1,0 +1,36 @@
+<div class="min-h-screen bg-neutral-50 dark:bg-neutral-950">
+  <%= navbar label: "Page navigation" do |nav| %>
+    <% nav.brand("#sales_overview") { "Acme" } %>
+    <% nav.link "Overview", "#sales_overview", current: true %>
+    <% nav.link "Orders", "#orders" %>
+    <% nav.link "Products", "#products" %>
+    <% nav.actions { avatar "Ada Lovelace", size: :small } %>
+  <% end %>
+  <main id="sales_overview" class="mx-auto max-w-6xl space-y-8 p-5 sm:p-10">
+    <%= page_header title: "Sales at a glance", description: "Follow revenue, recent orders and the products customers love." %>
+    <%# Sample sales data. Amounts are illustrative. %>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <% [ [ "Revenue", "$42,680" ], [ "Orders", "328" ], [ "Average order", "$130.12" ], [ "Returning customers", "38%" ] ].each do |label, value| %>
+        <%= card title: label do %><p class="text-3xl font-semibold tracking-tight"><%= value %></p><p class="mt-2 text-xs text-neutral-500">September 2026</p><% end %>
+      <% end %>
+    </div>
+    <%= card title: "Weekly revenue" do %>
+      <% weeks = [ Date.new(2026, 9, 1), Date.new(2026, 9, 8), Date.new(2026, 9, 15), Date.new(2026, 9, 22) ] %>
+      <%= chart [ { label: "Revenue", values: [ 8400, 10680, 11200, 12400 ] } ], labels: weeks, format: :money, title: "Revenue" %>
+    <% end %>
+    <section id="orders">
+      <%= card title: "Recent orders", flush: true do %>
+        <%= table_tag [ "Order", "Customer", "Amount", "Status" ], [
+          [ "#1048", "Ada Lovelace", "$149.00", badge("Fulfilled", tone: :good) ],
+          [ "#1047", "Grace Hopper", "$89.00", badge("Processing", tone: :info) ],
+          [ "#1046", "Radia Perlman", "$249.00", badge("Fulfilled", tone: :good) ]
+        ] %>
+      <% end %>
+    </section>
+    <section id="products" class="grid gap-4 sm:grid-cols-3">
+      <% [ [ "Studio kit", "142 sold", "$21,158" ], [ "Desk essentials", "108 sold", "$9,612" ], [ "Travel set", "78 sold", "$11,910" ] ].each do |name, sold, revenue| %>
+        <%= card title: name do %><p class="text-sm text-neutral-500"><%= sold %></p><p class="mt-3 text-xl font-semibold"><%= revenue %></p><% end %>
+      <% end %>
+    </section>
+  </main>
+</div>

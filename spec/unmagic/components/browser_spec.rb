@@ -60,6 +60,65 @@ RSpec.describe Unmagic::Components::Browser do
     end
   end
 
+  describe "blocks" do
+    it "gives every catalog component a home in a block" do
+      expect(described_class::BlockCatalog.uncovered_components.map(&:slug)).to eq([])
+      declared = described_class::BlockCatalog.all.flat_map(&:components).uniq
+      expect(declared).to match_array(described_class::Catalog.all.map(&:slug))
+    end
+
+    it "links components back to the blocks that use them" do
+      html = page("/components/image_crop")
+      expect(html.at_css('nav[aria-label="Used in blocks"] a')["href"]).to eq("#{prefix}/blocks/asset_studio")
+    end
+
+    it "renders local contact pages that work without a server" do
+      html = page("/blocks/customer_workspace/preview")
+      expect(html.at_css("#contacts_page_1").text).to include("Ada Lovelace")
+      expect(html.at_css("#contacts_page_1")["hidden"]).to be_nil
+      expect(html.at_css("#contacts_page_2").text).to include("Radia Perlman")
+      expect(html.at_css("#contacts_page_2")["hidden"]).not_to be_nil
+      expect(html.css("#customer_contacts nav a").map { |node| node["href"] }).to all(start_with("#contacts_page_"))
+    end
+
+    it "keeps global navigation separate from section navigation" do
+      html = page("/blocks")
+      expect(html.at_css('nav[aria-label="Global"] [aria-current="page"]').text).to eq("Blocks")
+      expect(html.css('nav[data-browser-nav] a').map(&:text)).to include("All blocks", "Workspace overview", "Team directory")
+      expect(html.css('nav[data-browser-nav] a').map(&:text)).not_to include("Installation")
+      expect(page("/components/card").at_css('nav[aria-label="Global"] [aria-current="page"]').text).to eq("Components")
+    end
+
+    it "renders each block, its source and an isolated preview under the mount" do
+      described_class::BlockCatalog.all.each do |block|
+        response = get("/blocks/#{block.slug}")
+        expect(response.status).to eq(200)
+        html = Nokogiri::HTML5(response.body)
+        expect(html.at_css("iframe")["src"]).to eq("#{prefix}/blocks/#{block.slug}/preview?preview_theme=light")
+        expect(html.at_css("#block_#{block.slug}_source").text).to include("<%=")
+        preview = page("/blocks/#{block.slug}/preview")
+        expect(get("/blocks/#{block.slug}/preview").status).to eq(200)
+        expect(preview.at_css('nav[aria-label="Global"]')).to be_nil
+        expect(preview.at_css("main")).not_to be_nil
+        ids = preview.css("[id]").reject { |node| node.ancestors("template").any? }.map { |node| node["id"] }
+        expect(ids.uniq).to eq(ids)
+      end
+    end
+
+    it "offers independent viewport and theme controls" do
+      html = page("/blocks/login")
+      expect(html.css("[data-preview-width]").map { |node| node["aria-label"] }).to eq(%w[Desktop Tablet Phone])
+      expect(html.css("[data-preview-theme]").map { |node| node["data-preview-theme"] }).to eq(%w[light dark])
+      expect(html.at_css("[data-preview-reload]")).not_to be_nil
+      expect(page("/blocks/login/preview").at_css("form")["method"]).to eq("dialog")
+    end
+
+    it "rejects unknown blocks and preview names" do
+      expect(get("/blocks/nope").status).to eq(404)
+      expect(get("/blocks/nope/preview").status).to eq(404)
+    end
+  end
+
   describe "under a mount prefix" do
     it "keeps the prefix on links and forms" do
       html = page("/components/dialog")

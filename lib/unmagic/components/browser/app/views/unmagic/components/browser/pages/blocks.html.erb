@@ -1,0 +1,33 @@
+<% content_for :title, "Blocks" %>
+<% content_for :breadcrumbs do %>
+  <%= render "crumb", label: "Blocks" %>
+<% end %>
+
+<header class="mb-10">
+  <p class="mb-3 text-xs font-semibold uppercase tracking-widest text-neutral-500">The bigger picture</p>
+  <h1 class="text-4xl font-semibold tracking-tight">Start with a whole page.</h1>
+  <p class="mt-4 max-w-xl text-base leading-7 text-neutral-600 dark:text-neutral-400">Components, brought together. Explore ready-to-use layouts, take the ERB, and make them your own.</p>
+  <% covered = @components.size - Unmagic::Components::Browser::BlockCatalog.uncovered_components.size %>
+  <p class="mt-5 text-sm text-neutral-500"><%= Unmagic::Components::Browser::BlockCatalog.all.size %> blocks · <%= covered %> of <%= @components.size %> components in use</p>
+</header>
+
+<% Unmagic::Components::Browser::BlockCatalog.grouped.each do |category, blocks| %>
+<section id="category_<%= category.parameterize %>" class="mb-14 scroll-mt-20">
+  <div class="mb-5 flex items-baseline gap-3"><h2 class="text-xl font-semibold"><%= category %></h2><span class="text-sm text-neutral-500"><%= pluralize(blocks.size, "block") %></span></div>
+  <div class="grid gap-8 xl:grid-cols-2">
+  <% blocks.each do |block| %>
+    <article class="overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-800">
+      <%= link_to block_path(block.slug), class: "group relative block h-72 overflow-hidden border-b border-neutral-200 bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-900", "aria-label": "Explore #{block.name}" do %>
+        <iframe src="<%= block_preview_path(block.slug) %>" title="<%= block.name %> thumbnail" loading="lazy" tabindex="-1" aria-hidden="true" class="pointer-events-none h-[720px] w-[250%] origin-top-left scale-[0.4] border-0"></iframe>
+        <span class="absolute bottom-4 right-4 rounded-md bg-neutral-900 px-3 py-2 text-xs font-medium text-white shadow-sm group-hover:bg-neutral-700">Explore block →</span>
+      <% end %>
+      <div class="p-5">
+        <p class="text-xs text-neutral-500"><%= block.category %></p>
+        <h3 class="mt-2 text-lg font-semibold"><%= link_to block.name, block_path(block.slug), class: "hover:underline" %></h3>
+        <p class="mt-2 text-sm leading-6 text-neutral-600 dark:text-neutral-400"><%= block.description %></p>
+      </div>
+    </article>
+  <% end %>
+</div>
+</section>
+<% end %>

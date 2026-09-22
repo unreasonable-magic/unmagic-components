@@ -2,6 +2,9 @@
 
 Unmagic::Components::Browser::Engine.routes.draw do
   root to: "pages#overview"
+  get "blocks", to: "pages#blocks"
+  get "blocks/:slug/preview", to: "pages#block_preview", as: :block_preview
+  get "blocks/:slug", to: "pages#block", as: :block
   get "installation", to: "pages#installation"
   get "theming", to: "pages#theming"
   get "components/:slug", to: "pages#component", as: :component

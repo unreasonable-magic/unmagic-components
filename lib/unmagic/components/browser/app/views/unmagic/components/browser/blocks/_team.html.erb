@@ -1,0 +1,50 @@
+<%# Sample data: replace with your team members. %>
+<% members = [
+  { name: "Ada Lovelace", role: "Engineering", email: "ada@example.com", location: "London", access: "Admin" },
+  { name: "Grace Hopper", role: "Engineering", email: "grace@example.com", location: "New York", access: "Member" },
+  { name: "Katherine Johnson", role: "Analytics", email: "katherine@example.com", location: "Hampton", access: "Member" },
+  { name: "Radia Perlman", role: "Architecture", email: "radia@example.com", location: "Boston", access: "Member" }
+] %>
+<div class="min-h-screen bg-neutral-50 dark:bg-neutral-950">
+  <%= navbar label: "Team" do |nav| %>
+    <% nav.brand("#people") { "Acme / People" } %>
+    <% nav.link "People", "#people", current: true %>
+    <% nav.link "Directory", "#directory" %>
+    <% nav.actions { avatar "Ada Lovelace", size: :small } %>
+  <% end %>
+
+  <main id="people" class="mx-auto max-w-6xl space-y-8 p-5 sm:p-8">
+    <%= page_header title: "Good work starts with people.", description: "Meet the people building Acme. Different perspectives, one shared workspace." do |header| %>
+      <% header.badge "#{members.size} members", tone: :info %>
+    <% end %>
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <% members.each do |member| %>
+        <%= card do %>
+          <div class="flex flex-col items-start gap-4">
+            <%= avatar member[:name] %>
+            <div>
+              <h2 class="text-base font-semibold"><%= member[:name] %></h2>
+              <p class="mt-1 text-sm text-neutral-500"><%= member[:role] %></p>
+            </div>
+            <%= badge member[:location], tone: :neutral %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <section id="directory">
+      <%= card title: "Team directory", flush: true do |card| %>
+        <% card.footer { "Everyone in this workspace can view the directory." } %>
+        <%= table_for members do |table| %>
+          <% table.column "Name" do |member| %>
+            <span class="flex items-center gap-3"><%= avatar member[:name], size: :small %><span class="font-medium"><%= member[:name] %></span></span>
+          <% end %>
+          <% table.column("Email") { |member| mail_to member[:email], member[:email], class: "hover:underline" } %>
+          <% table.column("Team") { |member| member[:role] } %>
+          <% table.column("Access") { |member| badge member[:access], tone: member[:access] == "Admin" ? :accent : :neutral } %>
+        <% end %>
+      <% end %>
+    </section>
+  </main>
+</div>
