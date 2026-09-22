@@ -2280,6 +2280,10 @@
     inset: auto;
   }
 
+  .UnmagicMenu__panel:not(:popover-open) {
+    display: none;
+  }
+
   .UnmagicMenu__panel:not([data-side]):not([data-sheet]) {
     inset: 50% auto auto 50%;
     transform: translate(-50%, -50%);
