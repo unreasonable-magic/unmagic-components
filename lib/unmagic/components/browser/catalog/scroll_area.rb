@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :scroll_area,
   name: "Scroll area",
   group: "Layout",
-  new: true,
   helper: "scroll_area",
   import: nil,
   description: "A box that scrolls, with shadows where there is more to see and a thin themed scrollbar. No " \

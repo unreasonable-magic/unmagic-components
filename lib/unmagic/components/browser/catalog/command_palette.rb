@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :command_palette,
   name: "Command palette",
   group: "Navigation",
-  new: true,
   helper: "command_palette",
   import: "unmagic/components/command_palette",
   description: "A dialog with a search box over every command in the app, opened with ⌘K. Each command holds " \

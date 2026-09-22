@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :button,
   name: "Button",
   group: "Forms",
-  new: true,
   helper: "button",
   import: nil,
   description: "A button, a link that looks like one, or a button_to form, from one call; and button_classes, " \

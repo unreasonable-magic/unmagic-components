@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :combobox,
   name: "Combobox",
   group: "Forms",
-  new: true,
   helper: "combobox",
   import: "unmagic/components/combobox",
   description: "A text input that filters a list of options, choosing one or several, with the list served " \

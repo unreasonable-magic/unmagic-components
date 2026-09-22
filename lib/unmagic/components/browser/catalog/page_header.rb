@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :page_header,
   name: "Page header",
   group: "Layout",
-  new: true,
   helper: "page_header",
   import: nil,
   description: "The top of a page: a back link, the title with its badges, a description, and the page's " \

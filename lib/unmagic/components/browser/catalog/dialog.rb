@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :dialog,
   name: "Dialog",
   group: "Overlays",
-  new: true,
   helper: "dialog",
   import: "unmagic/components/modal",
   description: "Native <dialog>s sharing one panel: a titled header with a close button, the body, and an " \

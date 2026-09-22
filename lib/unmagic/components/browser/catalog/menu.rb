@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :menu,
   name: "Menu",
   group: "Navigation",
-  new: true,
   helper: "menu",
   import: "unmagic/components/menu",
   description: "A dropdown of actions on the Popover API: the panel is in the top layer, so nothing clips it, and " \

@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :popover,
   name: "Popover",
   group: "Overlays",
-  new: true,
   helper: "popover",
   import: "unmagic/components/popover",
   description: "A small panel of content behind a trigger: a form to rename something, a card about a person. " \

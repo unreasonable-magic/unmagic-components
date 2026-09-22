@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :disclosure,
   name: "Disclosure",
   group: "Overlays",
-  new: true,
   helper: "disclosure",
   import: nil,
   description: "A summary that folds a panel open, on <details>, and accordion, a run of them with one open at " \

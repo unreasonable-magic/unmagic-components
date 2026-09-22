@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :breadcrumbs,
   name: "Breadcrumbs",
   group: "Navigation",
-  new: true,
   helper: "breadcrumbs",
   import: nil,
   description: "The trail of pages above this one: a labelled list of links with the current page last. On a " \

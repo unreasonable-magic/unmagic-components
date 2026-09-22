@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :progress,
   name: "Progress",
   group: "Data display",
-  new: true,
   helper: "progress",
   import: nil,
   description: "A bar filled to a fraction of the way, in a tone and a size, or sweeping while the size of the " \

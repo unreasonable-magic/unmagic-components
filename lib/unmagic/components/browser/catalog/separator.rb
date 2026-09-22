@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :separator,
   name: "Separator",
   group: "Layout",
-  new: true,
   helper: "separator",
   import: nil,
   description: "A rule between two things: a plain <hr>, one with a word on it, or an upright one between items " \

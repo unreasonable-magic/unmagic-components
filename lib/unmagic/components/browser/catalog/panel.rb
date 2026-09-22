@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :panel,
   name: "Panel",
   group: "Layout",
-  new: true,
   helper: "panel",
   import: "unmagic/components/tabs",
   description: "A card with switcher buttons across its top bar and the open one's content below: a README beside " \

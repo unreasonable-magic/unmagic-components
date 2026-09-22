@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :spinner,
   name: "Spinner",
   group: "Data display",
-  new: true,
   helper: "spinner",
   import: nil,
   description: "A ring that turns while something loads, with visible text beside it or a label read aloud " \

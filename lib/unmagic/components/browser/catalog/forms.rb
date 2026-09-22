@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :forms,
   name: "Form builder",
   group: "Forms",
-  new: true,
   helper: "FormBuilder",
   import: nil,
   description: "The chrome around a form control — the wrapper, the label and its required marker, the hint " \

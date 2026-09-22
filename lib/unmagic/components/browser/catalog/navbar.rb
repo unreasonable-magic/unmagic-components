@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :navbar,
   name: "Navbar",
   group: "Navigation",
-  new: true,
   helper: "navbar",
   import: "unmagic/components/navbar",
   description: "The bar across the top of an app: a brand, a run of links and the actions at the end. On a " \

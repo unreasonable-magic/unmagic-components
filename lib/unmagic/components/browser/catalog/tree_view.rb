@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :tree_view,
   name: "Tree view",
   group: "Navigation",
-  new: true,
   helper: "tree_view",
   import: nil,
   description: "A nested, collapsible list of things inside other things: files, teams, a documentation " \

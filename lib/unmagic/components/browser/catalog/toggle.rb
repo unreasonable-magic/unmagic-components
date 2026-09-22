@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :toggle,
   name: "Toggle",
   group: "Forms",
-  new: true,
   helper: "toggle",
   import: "unmagic/components/toggle",
   description: "A button that is on or off, and toggle_group, a run of them joined into a segmented control a " \

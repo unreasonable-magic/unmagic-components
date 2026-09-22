@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :sidebar,
   name: "Sidebar",
   group: "Navigation",
-  new: true,
   helper: "sidebar",
   import: "unmagic/components/sidebar",
   description: "The navigation down the side of an app: sections of links with icons and counts, a header and " \

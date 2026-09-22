@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :empty_state,
   name: "Empty state",
   group: "Layout",
-  new: true,
   helper: "empty_state",
   import: nil,
   description: "The dashed blank slate a list or table shows when there is nothing in it. It renders through " \

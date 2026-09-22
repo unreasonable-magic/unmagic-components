@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :kbd,
   name: "Kbd",
   group: "Data display",
-  new: true,
   helper: "kbd",
   import: nil,
   description: "A key or a combination of keys drawn as key caps, with the glyphs a screen reader can't say " \

@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :pagination,
   name: "Pagination",
   group: "Navigation",
-  new: true,
   helper: "pagination",
   import: nil,
   description: "Links to the pages around this one, for anything that pages like Pagy: arrows either side, the " \

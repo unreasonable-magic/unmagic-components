@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :section,
   name: "Section",
   group: "Layout",
-  new: true,
   helper: "section",
   import: nil,
   description: "A titled run of a page: a small heading with what qualifies it beside it, the button that acts on " \

@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :code_view,
   name: "Code view",
   group: "Data display",
-  new: true,
   helper: "code_view",
   import: "unmagic/components/clipboard",
   description: "A block of source to read or copy: coloured with Rouge, wrapping long lines, with a copy button " \

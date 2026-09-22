@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :item,
   name: "Item",
   group: "Layout",
-  new: true,
   helper: "item",
   import: nil,
   description: "A row about one thing, wherever a list shows it: its picture on the left, its name over a line " \

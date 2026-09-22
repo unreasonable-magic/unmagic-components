@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :context_menu,
   name: "Context menu",
   group: "Navigation",
-  new: true,
   helper: "context_menu",
   import: "unmagic/components/menu",
   description: "The same panel as menu, opened at the pointer on a right-click or a long press on the element " \

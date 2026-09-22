@@ -3,7 +3,6 @@
 Unmagic::Components::Browser::Catalog.component :chart,
   name: "Chart",
   group: "Data display",
-  new: true,
   helper: "chart",
   import: nil,
   description: "A chart drawn as inline SVG, no script: columns over a set of labels, stacked where there is more " \
