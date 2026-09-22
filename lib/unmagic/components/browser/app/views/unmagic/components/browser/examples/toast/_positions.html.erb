@@ -1,0 +1,7 @@
+<%# turbo_stream.toast("Placed independently.", position: :bottom_start) %>
+<div class="grid grid-cols-3 gap-2">
+  <% %w[top_start top top_end bottom_start bottom bottom_end].each do |position| %>
+    <%= button_to position.humanize, stream_toast_path,
+      params: { position: position, message: "Hello from #{position.humanize.downcase}." }, class: button_classes %>
+  <% end %>
+</div>

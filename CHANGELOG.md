@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `turbo_stream.toast(close_button: false)` hides the built-in × while preserving
+  timers and custom dismiss actions. Close buttons remain enabled by default.
+
+- Toast examples for titles, icons, actions, tones, six positions, sticky and
+  timed dismissal, widths, custom content, and panel boundaries. Streamed toasts
+  now accept per-toast options and captured leading, body and action slots;
+  named scoped mounts keep notifications inside a panel.
+
 - `tree_view`, a nested, collapsible list of things inside other things, on
   nested lists and `<details>` with no script. Branches containing the current
   leaf start open; `meta:` keeps a size or a count whole at the end of a row.
@@ -34,6 +42,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   least 4.5:1 in light and dark.
 
 ### Fixed
+
+- Toast action groups align with their message and move below it when space is
+  tight; the horizontal two-action example uses a wider toast.
+
+- Default toast action buttons inherit the notification tone in light and dark
+  mode, including their hover and keyboard focus states.
 
 - A long path in `ai_chat_workspace` no longer truncates the file's name away:
   a file's row is its name alone, and a row of joined folders shortens from the

@@ -4,7 +4,10 @@
 // element: rendered with the page, morphed in by a refresh, or appended by
 // turbo_stream.toast. The element clones each one into its stack, animates it in,
 // and dismisses it after the element's `duration` (milliseconds), or keeps it up
-// until it is dismissed when that is 0. Hovering or focusing a toast holds it open.
+// until it is dismissed when that is 0. A toast's data-duration overrides the mount.
+// data-position selects one of six permanent regions; scoped mounts stay within
+// a positioned ancestor. Hovering or focusing a toast holds it open. Actions
+// marked data-unmagic-toast-dismiss dismiss their containing toast.
 //
 // The stack is data-turbo-permanent, so a toast on screen survives a Drive visit
 // or a morph. Its timer lives here, in the module, keyed by the toast rather than
@@ -22,36 +25,46 @@ const LEAVE = 200
 const MINIMUM_AFTER_HOLD = 1000
 
 const timers = new WeakMap()
+const triggers = new WeakMap()
+const POSITIONS = ["top_start", "top", "top_end", "bottom_start", "bottom", "bottom_end"]
 
 class UnmagicToasts extends HTMLElement {
   #observer = new MutationObserver(() => this.#consume())
 
-  connectedCallback() {
-    this.#observer.observe(this, { childList: true })
+  constructor() {
+    super()
     this.addEventListener("click", this.#dismiss)
     this.addEventListener("pointerover", this.#hold)
     this.addEventListener("focusin", this.#hold)
     this.addEventListener("pointerout", this.#release)
     this.addEventListener("focusout", this.#release)
-    document.addEventListener("turbo:render", this.#lift)
+  }
 
-    this.stack?.querySelectorAll("[data-unmagic-toast]").forEach((toast) => schedule(toast, this.duration))
+  connectedCallback() {
+    this.#observer.observe(this, { childList: true })
+    document.addEventListener("turbo:render", this.#lift)
+    this.querySelectorAll("[data-unmagic-toast]").forEach((toast) => {
+      if (toast.hasAttribute("data-leaving")) toast.remove()
+      else schedule(toast, this.duration)
+    })
     this.#consume()
     this.#lift()
   }
 
   disconnectedCallback() {
     this.#observer.disconnect()
-    this.removeEventListener("click", this.#dismiss)
-    this.removeEventListener("pointerover", this.#hold)
-    this.removeEventListener("focusin", this.#hold)
-    this.removeEventListener("pointerout", this.#release)
-    this.removeEventListener("focusout", this.#release)
     document.removeEventListener("turbo:render", this.#lift)
   }
 
-  get stack() {
-    return this.querySelector(":scope > .UnmagicToasts__stack")
+  get stacks() {
+    return this.querySelectorAll(":scope > .UnmagicToasts__stack")
+  }
+
+  #stackFor(toast) {
+    const position = toast.dataset.position || this.getAttribute("position") || "top_end"
+    const valid = POSITIONS.includes(position) ? position : "top_end"
+    return this.querySelector(`:scope > .UnmagicToasts__stack[data-position="${valid}"]`)
+      || this.stacks[0]
   }
 
   // `duration="0"` keeps a toast up until it is dismissed. Absent, empty, negative or unparseable
@@ -67,9 +80,8 @@ class UnmagicToasts extends HTMLElement {
   }
 
   #consume() {
-    const stack = this.stack
     const templates = this.querySelectorAll(":scope > template[data-unmagic-toast-template]")
-    if (!stack || templates.length === 0) return
+    if (!this.stacks.length || templates.length === 0) return
 
     for (const template of templates) {
       // Consume the source first, so a later morph or mutation can't pop it twice.
@@ -78,6 +90,8 @@ class UnmagicToasts extends HTMLElement {
       const toast = template.content.firstElementChild?.cloneNode(true)
       if (!toast) continue
 
+      const stack = this.#stackFor(toast)
+      triggers.set(toast, document.activeElement)
       stack.append(toast)
       toast.getBoundingClientRect() // commit the starting style so the entrance transitions
       toast.setAttribute("data-open", "")
@@ -88,17 +102,16 @@ class UnmagicToasts extends HTMLElement {
   }
 
   #lift = () => {
-    const stack = this.stack
-    if (!stack?.showPopover) return
-
-    const open = stack.matches(":popover-open")
-    if (!stack.querySelector("[data-unmagic-toast]")) {
+    for (const stack of this.stacks) {
+      if (!stack.hasAttribute("popover") || !stack.showPopover) continue
+      const open = stack.matches(":popover-open")
+      if (!stack.querySelector("[data-unmagic-toast]")) {
+        if (open) stack.hidePopover()
+        continue
+      }
       if (open) stack.hidePopover()
-      return
+      stack.showPopover()
     }
-
-    if (open) stack.hidePopover()
-    stack.showPopover()
   }
 
   #dismiss = (event) => {
@@ -125,6 +138,11 @@ class UnmagicToasts extends HTMLElement {
 
 function schedule(toast, duration) {
   if (timers.has(toast)) return
+  const raw = toast.dataset.duration?.trim()
+  const override = raw ? Number(raw) : NaN
+  if (Number.isFinite(override) && override >= 0) duration = override
+  // Resolve once: permanent stacks and Turbo snapshots keep the same policy.
+  toast.dataset.duration = String(duration)
   // A duration of 0 is a toast that waits to be dismissed: no timer, and so nothing for hold and
   // release to pause — both look the toast up in `timers` and leave when it isn't there.
   if (duration === 0) return
@@ -164,6 +182,11 @@ function remove(toast) {
   if (entry?.timer) clearTimeout(entry.timer)
   timers.delete(toast)
 
+  if (toast.contains(document.activeElement)) {
+    const trigger = triggers.get(toast)
+    if (trigger?.isConnected && typeof trigger.focus === "function") trigger.focus({ preventScroll: true })
+  }
+  triggers.delete(toast)
   toast.setAttribute("data-leaving", "")
   toast.removeAttribute("data-open")
 

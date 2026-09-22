@@ -61,7 +61,14 @@ module Unmagic
 
         def stream_toast
           tone = Toast::TONES.map(&:to_s).include?(params[:tone]) ? params[:tone].to_sym : :good
-          render turbo_stream: turbo_stream.toast(params[:message], tone: tone)
+          @toast_options = { tone: tone }
+          @toast_options[:position] = params[:position].to_sym if Toast::POSITIONS.map(&:to_s).include?(params[:position])
+          @toast_options[:duration] = params[:duration].to_i if params[:duration].to_s.match?(/\A\d+\z/)
+          @toast_options[:width] = params[:width].to_sym if Toast::WIDTHS.keys.map(&:to_s).include?(params[:width])
+          @toast_options[:width] = 440 if params[:width] == "440"
+          @toast_options[:layout] = :vertical if params[:layout] == "vertical"
+          @toast_options[:target] = "toast_panel" if params[:example] == "boundaries"
+          render :stream_toast, formats: [ :turbo_stream ]
         end
 
         # The board example's server, answering as unmagic-sortable's endpoint does:

@@ -44,7 +44,11 @@ module Unmagic
 
         # What the Code tab shows: the example's partial, exactly as it's rendered.
         def example_source(component, example)
-          Browser.root.join("app/views", EXAMPLES, component.slug, "_#{example.key}.html.erb").read.rstrip
+          directory = Browser.root.join("app/views", EXAMPLES, component.slug)
+          source = directory.join("_#{example.key}.html.erb").read.rstrip
+          response = directory.join("_#{example.key}.turbo_stream.erb")
+          source += "\n\n<%# Turbo Stream response (options contains the selected demo options): %>\n#{response.read.rstrip}" if response.file?
+          source
         end
       end
     end

@@ -1,0 +1,8 @@
+<%# In the response, toast.actions captures normal links and buttons.
+    layout: :vertical places the actions below the message. %>
+<div class="flex flex-wrap gap-2">
+  <% %w[horizontal vertical].each do |layout| %>
+    <%= button_to layout.capitalize, stream_toast_path,
+      params: { example: "actions", layout: layout, tone: "neutral" }, class: button_classes %>
+  <% end %>
+</div>

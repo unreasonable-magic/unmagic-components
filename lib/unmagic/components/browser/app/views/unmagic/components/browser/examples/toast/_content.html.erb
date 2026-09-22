@@ -1,0 +1,3 @@
+<%# The stream response calls turbo_stream.toast(message, title: "All set", icon: :circle_check)
+    and captures toast.actions with a data-unmagic-toast-dismiss button. %>
+<%= button_to "Show title and action", stream_toast_path, params: { example: "content" }, class: button_classes %>

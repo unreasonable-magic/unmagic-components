@@ -1,0 +1,7 @@
+<%# turbo_stream.toast(message, width: :long) also accepts a positive pixel integer. %>
+<div class="flex flex-wrap gap-2">
+  <% { "Short · 384px" => "short", "Long · 560px" => "long", "Custom · 440px" => "440" }.each do |label, width| %>
+    <%= button_to label, stream_toast_path,
+      params: { width: width, message: "Your project has been saved. Everyone in the workspace can now see the latest changes." }, class: button_classes %>
+  <% end %>
+</div>

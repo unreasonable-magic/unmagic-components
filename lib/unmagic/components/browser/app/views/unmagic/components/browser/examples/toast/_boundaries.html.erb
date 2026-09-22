@@ -1,0 +1,7 @@
+<div class="relative min-h-80 rounded-lg border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-950">
+  <%= button_to "Notify inside this panel", stream_toast_path,
+    params: { example: "boundaries", message: "This notification stays inside its panel.", position: "bottom_end", duration: 0 },
+    class: button_classes %>
+  <%= flash_toasts({}, id: "toast_panel", scoped: true) %>
+  <%# Stream with: turbo_stream.toast(message, target: "toast_panel", position: :bottom_end, duration: 0) %>
+</div>

@@ -1153,8 +1153,11 @@ module Unmagic
       #
       # Pop one from a stream with turbo_stream.toast. Needs import
       # "unmagic/components/toasts".
-      def flash_toasts(flashes = flash, duration: 5000)
-        Components::Toasts.new(self, flashes, duration: duration).render
+      # id: selects a stream target; position: defaults to :top_end (see Toast::POSITIONS).
+      # scoped: true contains toasts in the nearest positioned ancestor.
+      # Other options go on <unmagic-toasts>.
+      def flash_toasts(flashes = flash, duration: 5000, **options)
+        Components::Toasts.new(self, flashes, duration: duration, **options).render
       end
 
       # Server-rendered words for the confirm dialog that replaces window.confirm for

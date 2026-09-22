@@ -1546,13 +1546,38 @@
      painted) are undone here. It never takes pointer events itself; the toasts
      inside it do. */
   .UnmagicToasts__stack {
-    @apply pointer-events-none fixed z-60 m-0 flex w-[min(100vw-2rem,24rem)] flex-col gap-2 overflow-visible border-0 bg-transparent p-0;
-    inset: 1rem 1rem auto auto;
+    @apply pointer-events-none fixed z-60 m-0 flex flex-col items-end gap-2 overflow-visible border-0 bg-transparent p-0;
+    width: calc(100% - 2rem);
+    max-width: max-content;
+    inset: auto;
+    inset-block-start: 1rem;
+    inset-inline-end: 1rem;
     color: inherit;
   }
 
+  .UnmagicToasts__stack[data-position$="start"] {
+    @apply items-start;
+    inset-inline: 1rem auto;
+  }
+
+  .UnmagicToasts__stack[data-position="top"],
+  .UnmagicToasts__stack[data-position="bottom"] {
+    @apply items-center mx-auto;
+    inset-inline: 1rem;
+  }
+
+  .UnmagicToasts__stack[data-position^="bottom"] {
+    inset-block: auto 1rem;
+  }
+
+  unmagic-toasts[scoped] > .UnmagicToasts__stack {
+    @apply absolute;
+  }
+
   .UnmagicToast {
-    @apply pointer-events-auto flex items-start gap-2 rounded-lg border border-neutral-200 bg-white px-3 py-2.5 text-sm text-neutral-900 opacity-0 shadow-lg;
+    width: var(--unmagic-toast-width, 384px);
+    max-width: 100%;
+    @apply pointer-events-auto flex items-start gap-3 rounded-lg border border-neutral-200 bg-white px-3 py-2.5 text-sm text-neutral-900 opacity-0 shadow-lg;
     @apply dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-100;
     transform: translateY(-0.5rem);
     transition: opacity 200ms ease, transform 200ms ease;
@@ -1571,11 +1596,77 @@
   }
 
   .UnmagicToast__icon {
-    @apply mt-0.5;
+    @apply mt-0.5 shrink-0;
+  }
+
+  /* Keep actions with the text column. A whole action group moves below the
+     copy when their combined widths no longer fit, including in scoped panels. */
+  .UnmagicToast__main {
+    @apply flex min-w-0 flex-1 flex-wrap items-center gap-x-4 gap-y-3;
+  }
+
+  .UnmagicToast__content {
+    @apply min-w-0 basis-48 grow wrap-anywhere;
+  }
+
+  .UnmagicToast__title {
+    @apply font-semibold;
   }
 
   .UnmagicToast__message {
-    @apply min-w-0 flex-auto wrap-anywhere;
+    @apply min-w-0 wrap-anywhere;
+  }
+
+  .UnmagicToast__leading {
+    @apply shrink-0;
+  }
+
+  .UnmagicToast__actions {
+    @apply flex max-w-full flex-wrap items-center gap-2;
+  }
+
+  /* Default actions take their colour from the toast, including inverted and
+     dark surfaces. Explicit button variants remain an application choice. */
+  .UnmagicToast__actions .UnmagicButton:where(:not(.UnmagicButton--primary, .UnmagicButton--danger, .UnmagicButton--ghost, .UnmagicButton--icon)) {
+    @apply border-current/25 bg-current/5 text-inherit shadow-none;
+
+    &:hover {
+      @apply border-current/40 bg-current/10;
+    }
+
+    &:focus-visible {
+      @apply outline-current;
+    }
+  }
+
+  .UnmagicToast[data-layout="vertical"] .UnmagicToast__main {
+    @apply flex-col items-stretch;
+  }
+
+  .UnmagicToast[data-layout="vertical"] .UnmagicToast__content {
+    @apply flex-none;
+  }
+
+  .UnmagicToast__dismiss:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  @media (pointer: coarse) {
+    .UnmagicToast__dismiss {
+      @apply min-h-11 min-w-11 items-center justify-center;
+    }
+  }
+
+  .UnmagicToast--neutral {
+    @apply border-neutral-300 bg-neutral-100 text-neutral-800 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100;
+  }
+
+  .UnmagicToast--accent {
+    @apply border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-900 dark:bg-blue-950 dark:text-blue-300;
+  }
+
+  .UnmagicToast--inverted {
+    @apply border-neutral-800 bg-neutral-900 text-white dark:border-neutral-200 dark:bg-neutral-100 dark:text-neutral-900;
   }
 
   .UnmagicToast__dismiss {

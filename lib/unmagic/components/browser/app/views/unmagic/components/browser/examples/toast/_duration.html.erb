@@ -1,0 +1,9 @@
+<%# turbo_stream.toast("Here until you dismiss it.", duration: 0) %>
+<div class="flex flex-wrap gap-2">
+  <%= button_to "Short · 2 seconds", stream_toast_path,
+    params: { duration: 2000, message: "A quick update. This closes after two seconds." }, class: button_classes %>
+  <%= button_to "Long · 10 seconds", stream_toast_path,
+    params: { duration: 10000, message: "Take your time. This stays for ten seconds." }, class: button_classes %>
+  <%= button_to "Sticky · dismiss manually", stream_toast_path,
+    params: { duration: 0, message: "Here until you dismiss it.", tone: "info" }, class: button_classes %>
+</div>

@@ -10,9 +10,20 @@ module Unmagic
       #   render turbo_stream: turbo_stream.toast("Invitation sent.")
       #   render turbo_stream: turbo_stream.toast("Couldn't reach Slack.", tone: :bad)
       #
-      # tone: :good (default), :warn, :bad or :info. Needs flash_toasts on the page.
-      def toast(message, tone: :good)
-        append Toast::TARGET, Toast.new(@view_context, message, tone: tone).template
+      # tone: :good (default), :warn, :bad, :info, :neutral, :accent or :inverted. Needs flash_toasts on the page.
+      # duration: overrides the mount in milliseconds; 0 waits for manual dismissal.
+      # position: :top_start, :top, :top_end, :bottom_start, :bottom, :bottom_end.
+      # width: :short (384px), :long (560px), or a positive pixel integer.
+      # title: adds a heading; icon: chooses a bundled icon, false hides it.
+      # close_button: true by default; false hides only the built-in close button.
+      # For duration: 0, provide a dismiss action when hiding the close button.
+      # layout: :horizontal (default) or :vertical places actions below the message.
+      # target: selects a flash_toasts mount. Other options go on the toast root.
+      # A block yields a builder with leading, actions and body capture slots.
+      def toast(message = nil, tone: :good, target: Toast::TARGET, **options, &block)
+        builder = Toast.new(@view_context, message, tone: tone, **options)
+        @view_context.capture(builder, &block) if block
+        append target, builder.template
       end
 
       # Hands the whole of a reply rendered so far to the <unmagic-streaming-markdown>

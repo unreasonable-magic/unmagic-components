@@ -1301,7 +1301,7 @@ Then set a flash as usual:
 redirect_to labels_path, notice: "Label saved."
 ```
 
-The toast shows in the top-right corner and dismisses itself after five seconds
+The toast shows in the top-end corner (top-right in LTR) and dismisses itself after five seconds
 (`duration:`, in milliseconds). It also has a dismiss button.
 
 - **Holding it open:** hovering or focusing a toast pauses its countdown. Letting
@@ -1322,6 +1322,76 @@ flash:
 render turbo_stream: turbo_stream.toast("Invitation sent.")
 render turbo_stream: turbo_stream.toast("Couldn't reach Slack.", tone: :bad)
 ```
+
+Each streamed toast can override its duration, including staying up until dismissed:
+
+```ruby
+render turbo_stream: turbo_stream.toast("Review your changes.", duration: 0)
+render turbo_stream: turbo_stream.toast("Saved.", duration: 2000, position: :bottom_end)
+```
+
+Set `flash_toasts duration: 0` to make manual dismissal the default for the entire
+mount. Individual streamed durations still override it.
+
+| Option | Default | Values |
+| --- | --- | --- |
+| `tone:` | `:good` | `:good`, `:warn`, `:bad`, `:info`, `:neutral`, `:accent`, `:inverted` |
+| `title:` | none | Text above the message |
+| `close_button:` | `true` | `false` hides the ×; timers and custom dismiss actions still work |
+| `icon:` | tone icon | Bundled icon name; `false` hides it |
+| `duration:` | mount duration (5000ms) | Nonnegative milliseconds; `0` is sticky |
+| `position:` | mount position (`:top_end`) | `:top_start`, `:top`, `:top_end`, `:bottom_start`, `:bottom`, `:bottom_end` |
+| `width:` | `:short` (384px) | `:short`, `:long` (560px), or a positive pixel integer |
+| `layout:` | `:horizontal` | `:horizontal`, `:vertical` (actions below content) |
+| `target:` | `"unmagic_toasts"` | The id of a `flash_toasts` mount |
+
+Horizontal actions move below the text when space is tight. Use `width: :long`
+for a message with two actions beside it. Vertical actions align below the text.
+
+Start and end follow the reading direction. Widths clamp to the screen or scoped
+panel. The per-instance `--unmagic-toast-width` CSS property carries the width.
+Other HTML options (`id:`, `class:`, `data:`, etc.) go on the toast root.
+
+In a `.turbo_stream.erb` response, capture actions or custom content:
+
+```erb
+<%= turbo_stream.toast("Your workspace is ready.", title: "All set", duration: 0,
+      layout: :vertical) do |toast| %>
+  <% toast.leading do %>
+    <%= avatar "Alex Morgan", size: :small %>
+  <% end %>
+  <% toast.actions do %>
+    <%= button_tag "Got it", type: "button", class: button_classes,
+          data: { unmagic_toast_dismiss: "" } %>
+  <% end %>
+<% end %>
+```
+
+`leading` replaces the default icon; an explicit `icon:` takes precedence.
+`body` replaces the standard title and message with captured markup. `actions`
+accepts ordinary Rails links, buttons, and forms. Default `button_classes` actions
+inherit the toast tone; explicit button variants keep their own styling. Add `data-unmagic-toast-dismiss`
+to an action to close its toast. Dismissing a toast does not undo a server action;
+wire application actions to their own routes. Toasts include a labelled close
+button by default, including custom bodies. Set `close_button: false` to hide it.
+For sticky toasts (`duration: 0`), provide a custom dismiss action when hiding the ×.
+
+To contain notifications within a panel, give it a positioned ancestor and a
+named mount, then stream to that target:
+
+```erb
+<div class="relative min-h-80">
+  <%= flash_toasts({}, id: "project_toasts", scoped: true, position: :bottom_end) %>
+</div>
+```
+
+```ruby
+render turbo_stream: turbo_stream.toast("Project saved.", target: "project_toasts")
+```
+
+`flash_toasts` accepts `id:`, `position:`, `duration:`, `scoped:` and extra HTML
+options on the mount. A scoped mount stays inside its panel and does not use the
+top layer. Render empty flashes (`{}`) for secondary mounts to avoid duplication.
 
 The stack sits in the browser's top layer, so a toast shows above an open dialog.
 It can't be hovered or dismissed until that dialog closes, because a modal dialog

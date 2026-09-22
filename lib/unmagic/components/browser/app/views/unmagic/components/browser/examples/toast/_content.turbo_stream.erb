@@ -1,0 +1,5 @@
+<%= turbo_stream.toast("Your workspace is ready for the team.", title: "All set", icon: :circle_check, **options) do |toast| %>
+  <% toast.actions do %>
+    <%= button_tag "Got it", type: "button", class: button_classes(size: :small), data: { unmagic_toast_dismiss: "" } %>
+  <% end %>
+<% end %>

@@ -1,0 +1,4 @@
+<%# The response captures toast.body, keeping the standard container and close button.
+    It uses duration: 0, position: :bottom_start, width: :long and icon: false. %>
+<%= button_to "Show announcement", stream_toast_path,
+  params: { example: "custom" }, class: button_classes %>

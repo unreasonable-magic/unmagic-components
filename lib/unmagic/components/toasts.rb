@@ -2,40 +2,40 @@
 
 module Unmagic
   module Components
-    # The mount point for toasts: the <unmagic-toasts> element, its stack, and a
-    # template for each of the request's flashes. See ActionViewHelpers#flash_toasts.
+    # Permanent regions for flash and streamed toast templates.
     class Toasts
-      def initialize(view, flashes, duration:)
-        @view = view
-        @flashes = flashes
-        @duration = duration
+      def initialize(view, flashes, duration:, id: Toast::TARGET, position: :top_end, scoped: false, **options)
+        Toast.validate(:position, position, Toast::POSITIONS)
+        Toast.validate_duration(duration)
+        @view, @flashes, @duration, @id, @position, @scoped, @options = view, flashes, duration, id, position, scoped, options
       end
 
-      # The stack is data-turbo-permanent, so a toast on screen — and its dismiss
-      # timer — survives a Drive visit or a morph refresh. It is a manual popover
-      # so the element can lift it into the top layer, above an open dialog.
       def render
-        view.content_tag("unmagic-toasts", id: Toast::TARGET, duration: @duration) do
-          safe_join [
-            tag.div(class: "UnmagicToasts__stack", id: "#{Toast::TARGET}_stack", popover: "manual",
-              "aria-live": "polite", data: { turbo_permanent: "" }),
-            *templates
-          ]
+        view.content_tag("unmagic-toasts", **@options, id: @id, duration: @duration,
+          position: @position, scoped: (@scoped ? "" : nil)) do
+          safe_join [ *stacks, *templates ]
         end
       end
 
       private
 
       attr_reader :view
-
       delegate :tag, :safe_join, to: :view, private: true
+
+      def stacks
+        # Keep the original top-end stack id for compatibility with cached pages.
+        ([ :top_end ] + (Toast::POSITIONS - [ :top_end ])).map do |position|
+          suffix = position == :top_end ? "stack" : "stack_#{position}"
+          tag.div(class: "UnmagicToasts__stack", id: "#{@id}_#{suffix}",
+            popover: (@scoped ? nil : "manual"), "aria-live": "polite",
+            data: { turbo_permanent: "", position: position })
+        end
+      end
 
       def templates
         tones = Components.configuration.flash_tones
-
         @flashes.each_with_object([]) do |(type, messages), templates|
           tone = tones.fetch(type.to_s, :info)
-
           Array(messages).each do |message|
             templates << Toast.new(view, message, tone: tone).template if message.present?
           end

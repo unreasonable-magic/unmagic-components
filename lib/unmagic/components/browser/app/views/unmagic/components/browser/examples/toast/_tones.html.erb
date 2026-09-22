@@ -1,0 +1,6 @@
+<div class="flex flex-wrap gap-2">
+  <% %w[good warn bad info neutral accent inverted].each do |tone| %>
+    <%= button_to tone.capitalize, stream_toast_path,
+      params: { tone: tone, message: "#{tone.capitalize}: your notification is here." }, class: button_classes %>
+  <% end %>
+</div>

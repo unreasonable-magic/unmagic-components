@@ -1,0 +1,7 @@
+<%= turbo_stream.toast("The export is ready to review.", title: "Export complete", duration: 0, close_button: false,
+      width: (options[:layout] == :vertical ? :short : :long), **options) do |toast| %>
+  <% toast.actions do %>
+    <%= link_to "View examples", component_path("toast", anchor: "toast_flash"), class: button_classes(size: :small), data: { unmagic_toast_dismiss: "" } %>
+    <%= button_tag "Dismiss", type: "button", class: button_classes(size: :small), data: { unmagic_toast_dismiss: "" } %>
+  <% end %>
+<% end %>

@@ -1,0 +1,5 @@
+<%= turbo_stream.toast("Alex joined the workspace.", title: "A new teammate", **options) do |toast| %>
+  <% toast.leading do %>
+    <%= avatar "Alex Morgan", size: :small %>
+  <% end %>
+<% end %>

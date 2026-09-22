@@ -49,6 +49,11 @@ RSpec.describe Unmagic::Components::Browser do
       expect(get("/components/nope").status).to eq(404)
     end
 
+    it "shows the toast's captured slots in its source tab" do
+      source = page("/components/toast").at_css("#toast_content_source").text
+      expect(source).to include("toast.actions", "turbo_stream.toast", "unmagic_toast_dismiss")
+    end
+
     it "shows an example's source beside it" do
       source = page("/components/dialog").at_css("#dialog_modal_source").text
       expect(source).to include("modal_link_to \"Edit profile\", profile_dialog_path")
@@ -67,6 +72,16 @@ RSpec.describe Unmagic::Components::Browser do
 
     it "keeps the prefix when an old URL redirects" do
       expect(get("/dialogs").headers["location"]).to end_with("#{prefix}/components/dialog")
+    end
+
+    it "renders all toast stream examples" do
+      %w[content actions leading custom boundaries].each do |example|
+        response = app.post("http://localhost#{prefix}/toasts/stream",
+          params: { example: example, message: "Example", tone: "neutral" })
+        expect(response.status).to eq(200), "#{example}: #{response.body[0, 500]}"
+        expect(response.body).to include("data-unmagic-toast-template")
+        expect(response.body).to include('target="toast_panel"') if example == "boundaries"
+      end
     end
 
     it "keeps the prefix when a demo redirects" do
