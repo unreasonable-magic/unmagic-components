@@ -13,12 +13,6 @@
     <header class="mb-12">
       <h1 class="text-3xl font-semibold tracking-tight"><%= @component.name %></h1>
       <p class="mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400"><%= @component.description %></p>
-      <div class="mt-5 flex flex-wrap items-center gap-2">
-        <%= badge "New in 0.6.0", tone: :info if @component.new %>
-        <%= badge tag.code(@component.helper) if @component.helper %>
-        <%= badge tag.code(%(import "#{@component.import}")) if @component.import %>
-        <%= badge pluralize(@component.examples.size, "example") %>
-      </div>
     </header>
 
     <div class="space-y-14">
