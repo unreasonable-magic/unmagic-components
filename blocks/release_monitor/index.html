@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" class="dark:[color-scheme:dark]">
+  <head>
+    <title>Release monitor · unmagic-components</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:,">
+    <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="2KuCxdQrnsK_czPp7IxEMNM1CCM5SQ30A_KzGIa_zbiEKse6iDruw5aK1_Oj_3fTa-9HVCSzInW98KaTzx-C9Q" />
+    <meta name="turbo-refresh-method" content="morph">
+    <meta name="turbo-refresh-scroll" content="preserve">
+    <script nonce="">
+      (function () {
+        var key = "unmagic-components-browser-theme"
+        var asked = new URLSearchParams(location.search).get("theme")
+        try {
+          if (asked === "dark" || asked === "light") localStorage.setItem(key, asked)
+          var theme = asked || localStorage.getItem(key)
+          if (theme) document.documentElement.dataset.theme = theme
+        } catch (_) {}
+        var previewTheme = new URLSearchParams(location.search).get("preview_theme")
+        if (previewTheme === "light" || previewTheme === "dark") document.documentElement.dataset.theme = previewTheme
+        document.addEventListener("DOMContentLoaded", function () {
+          var link = document.querySelector("[data-theme-toggle]")
+          if (link) link.href = "?theme=" + (document.documentElement.dataset.theme === "dark" ? "light" : "dark")
+        })
+      })()
+    </script>
+    <link rel="stylesheet" href="/unmagic-components/assets/stylesheets/browser.css?v=0.6.0-1790071448">
+    <script type="importmap">{"imports":{"@hotwired/turbo-rails":"/unmagic-components/assets/turbo/turbo.min.js?v=2.0.23-1789500601","unmagic/components":"/unmagic-components/assets/javascripts/unmagic/components.js?v=0.6.0-1790071448","unmagic/components/ai_chat":"/unmagic-components/assets/javascripts/unmagic/components/ai_chat.js?v=0.6.0-1790071448","unmagic/components/autogrow":"/unmagic-components/assets/javascripts/unmagic/components/autogrow.js?v=0.6.0-1790071448","unmagic/components/autoscroll":"/unmagic-components/assets/javascripts/unmagic/components/autoscroll.js?v=0.6.0-1790071448","unmagic/components/board":"/unmagic-components/assets/javascripts/unmagic/components/board.js?v=0.6.0-1790071448","unmagic/components/clipboard":"/unmagic-components/assets/javascripts/unmagic/components/clipboard.js?v=0.6.0-1790071448","unmagic/components/combobox":"/unmagic-components/assets/javascripts/unmagic/components/combobox.js?v=0.6.0-1790071448","unmagic/components/command_palette":"/unmagic-components/assets/javascripts/unmagic/components/command_palette.js?v=0.6.0-1790071448","unmagic/components/confirm":"/unmagic-components/assets/javascripts/unmagic/components/confirm.js?v=0.6.0-1790071448","unmagic/components/dialog":"/unmagic-components/assets/javascripts/unmagic/components/dialog.js?v=0.6.0-1790071448","unmagic/components/dropzone":"/unmagic-components/assets/javascripts/unmagic/components/dropzone.js?v=0.6.0-1790071448","unmagic/components/elapsed":"/unmagic-components/assets/javascripts/unmagic/components/elapsed.js?v=0.6.0-1790071448","unmagic/components/image_color_picker":"/unmagic-components/assets/javascripts/unmagic/components/image_color_picker.js?v=0.6.0-1790071448","unmagic/components/image_crop":"/unmagic-components/assets/javascripts/unmagic/components/image_crop.js?v=0.6.0-1790071448","unmagic/components/image_zoom":"/unmagic-components/assets/javascripts/unmagic/components/image_zoom.js?v=0.6.0-1790071448","unmagic/components/menu":"/unmagic-components/assets/javascripts/unmagic/components/menu.js?v=0.6.0-1790071448","unmagic/components/modal":"/unmagic-components/assets/javascripts/unmagic/components/modal.js?v=0.6.0-1790071448","unmagic/components/navbar":"/unmagic-components/assets/javascripts/unmagic/components/navbar.js?v=0.6.0-1790071448","unmagic/components/one_time_code":"/unmagic-components/assets/javascripts/unmagic/components/one_time_code.js?v=0.6.0-1790071448","unmagic/components/optimistic":"/unmagic-components/assets/javascripts/unmagic/components/optimistic.js?v=0.6.0-1790071448","unmagic/components/password":"/unmagic-components/assets/javascripts/unmagic/components/password.js?v=0.6.0-1790071448","unmagic/components/placement":"/unmagic-components/assets/javascripts/unmagic/components/placement.js?v=0.6.0-1790071448","unmagic/components/popover":"/unmagic-components/assets/javascripts/unmagic/components/popover.js?v=0.6.0-1790071448","unmagic/components/position":"/unmagic-components/assets/javascripts/unmagic/components/position.js?v=0.6.0-1790071448","unmagic/components/sidebar":"/unmagic-components/assets/javascripts/unmagic/components/sidebar.js?v=0.6.0-1790071448","unmagic/components/slash_menu":"/unmagic-components/assets/javascripts/unmagic/components/slash_menu.js?v=0.6.0-1790071448","unmagic/components/sortable":"/unmagic-components/assets/javascripts/unmagic/components/sortable.js?v=0.6.0-1790071448","unmagic/components/sortable_item":"/unmagic-components/assets/javascripts/unmagic/components/sortable_item.js?v=0.6.0-1790071448","unmagic/components/sortable_list":"/unmagic-components/assets/javascripts/unmagic/components/sortable_list.js?v=0.6.0-1790071448","unmagic/components/sortable_param":"/unmagic-components/assets/javascripts/unmagic/components/sortable_param.js?v=0.6.0-1790071448","unmagic/components/sortable_session":"/unmagic-components/assets/javascripts/unmagic/components/sortable_session.js?v=0.6.0-1790071448","unmagic/components/streaming_markdown":"/unmagic-components/assets/javascripts/unmagic/components/streaming_markdown.js?v=0.6.0-1790071448","unmagic/components/tabs":"/unmagic-components/assets/javascripts/unmagic/components/tabs.js?v=0.6.0-1790071448","unmagic/components/time":"/unmagic-components/assets/javascripts/unmagic/components/time.js?v=0.6.0-1790071448","unmagic/components/toasts":"/unmagic-components/assets/javascripts/unmagic/components/toasts.js?v=0.6.0-1790071448","unmagic/components/toggle":"/unmagic-components/assets/javascripts/unmagic/components/toggle.js?v=0.6.0-1790071448","unmagic/components/toolbar":"/unmagic-components/assets/javascripts/unmagic/components/toolbar.js?v=0.6.0-1790071448","unmagic/components/tooltip":"/unmagic-components/assets/javascripts/unmagic/components/tooltip.js?v=0.6.0-1790071448","unmagic/components/upsert":"/unmagic-components/assets/javascripts/unmagic/components/upsert.js?v=0.6.0-1790071448","unmagic/components/uuid_input":"/unmagic-components/assets/javascripts/unmagic/components/uuid_input.js?v=0.6.0-1790071448"}}</script>
+<script type="module">import "unmagic/components"</script>
+    <script src="/unmagic-components/assets/browser/browser.js?v=0.6.0-1790071448" type="module"></script>
+    <script nonce="">
+      (function () {
+        var scrollPositions = []
+        document.addEventListener("turbo:before-render", function () {
+          scrollPositions = Array.from(document.querySelectorAll("[data-browser-nav]"), function (nav) {
+            return nav.scrollTop
+          })
+        })
+        document.addEventListener("turbo:render", function () {
+          document.querySelectorAll("[data-browser-nav]").forEach(function (nav, index) {
+            nav.scrollTop = scrollPositions[index] || 0
+          })
+        })
+      })()
+    </script>
+  </head>
+  <body class="min-h-screen bg-white text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-100">
+      <header class="sticky top-0 z-40 flex h-14 items-center gap-3 border-b border-neutral-200 bg-white/85 px-4 backdrop-blur sm:px-8 dark:border-neutral-800 dark:bg-neutral-950/85">
+        <details class="relative lg:hidden">
+          <summary class="UnmagicButton UnmagicButton--icon list-none [&::-webkit-details-marker]:hidden" aria-label="Menu">
+            <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </summary>
+          <nav class="absolute left-0 top-11 max-h-[75vh] w-64 overflow-y-auto rounded-xl border border-neutral-200 bg-white p-2 shadow-lg dark:border-neutral-800 dark:bg-neutral-900" aria-label="Blocks" data-browser-nav>
+            
+  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-5">Blocks</p>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks">All blocks</a>
+    <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Dashboards</p>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/workspace">Workspace overview</a>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/analytics">Audience analytics</a>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/sales">Sales dashboard</a>
+    <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">People</p>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/team">Team directory</a>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/customer_workspace">Customer workspace</a>
+    <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Authentication</p>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/login">Welcome back</a>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/signup">Create an account</a>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/password_recovery">Password recovery</a>
+    <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Application shell</p>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/sidebar">Sidebar workspace</a>
+    <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Settings</p>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/profile_settings">Profile settings</a>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/billing_settings">Plan and billing</a>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/notifications_settings">Notification preferences</a>
+    <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Shared pages</p>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/not_found">Page not found</a>
+    <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Project work</p>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/project_planner">Project planner</a>
+    <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Creative tools</p>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/asset_studio">Asset studio</a>
+    <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Developer tools</p>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm font-medium bg-neutral-200/70 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100" aria-current="page" href="/unmagic-components/blocks/release_monitor">Release monitor</a>
+    <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">AI workspaces</p>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/assistant_workspace">Research assistant</a>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/assistant_review">Agent review</a>
+
+          </nav>
+        </details>
+
+        <a class="flex shrink-0 items-center gap-2 text-sm font-semibold" aria-label="Unmagic home" href="/unmagic-components/">
+          <span class="grid size-7 place-items-center rounded-md bg-neutral-900 text-xs font-bold text-white dark:bg-white dark:text-neutral-900">um</span>
+          <span class="hidden sm:inline">unmagic</span>
+</a>        <nav class="flex min-w-0 items-center gap-1 overflow-x-auto sm:ml-6" aria-label="Global">
+            <a class="rounded-md px-3 py-2 text-sm whitespace-nowrap text-neutral-500 hover:text-neutral-900 dark:hover:text-white" href="/unmagic-components/">Components</a>
+            <a class="rounded-md px-3 py-2 text-sm whitespace-nowrap bg-neutral-100 font-semibold text-neutral-900 dark:bg-neutral-800 dark:text-white" aria-current="page" href="/unmagic-components/blocks">Blocks</a>
+        </nav>
+
+        <div class="ml-auto flex items-center gap-1">
+          <a class="UnmagicButton UnmagicButton--icon" aria-label="Switch theme" title="Switch theme" data-theme-toggle="" data-turbo="false" href="?theme=dark">
+            <svg class="hidden size-4 dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-2.93 1.41-1.41m11.32-11.32 1.41-1.41M2 12h2m16 0h2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41"/></svg>
+            <svg class="size-4 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+</a>          <a class="UnmagicButton UnmagicButton--icon" aria-label="GitHub" title="GitHub" href="https://github.com/unreasonable-magic/unmagic-components">
+            <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-5-2"/></svg>
+</a>        </div>
+      </header>
+    <aside class="fixed bottom-0 top-14 left-0 z-30 hidden w-64 flex-col border-r border-neutral-200 bg-neutral-50/70 lg:flex dark:border-neutral-800 dark:bg-neutral-900/40">
+      <nav class="flex-1 overflow-y-auto px-3 pb-10" aria-label="Blocks" data-browser-nav>
+        
+  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-5">Blocks</p>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks">All blocks</a>
+    <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Dashboards</p>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/workspace">Workspace overview</a>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/analytics">Audience analytics</a>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/sales">Sales dashboard</a>
+    <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">People</p>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/team">Team directory</a>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/customer_workspace">Customer workspace</a>
+    <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Authentication</p>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/login">Welcome back</a>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/signup">Create an account</a>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/password_recovery">Password recovery</a>
+    <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Application shell</p>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/sidebar">Sidebar workspace</a>
+    <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Settings</p>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/profile_settings">Profile settings</a>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/billing_settings">Plan and billing</a>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/notifications_settings">Notification preferences</a>
+    <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Shared pages</p>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/not_found">Page not found</a>
+    <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Project work</p>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/project_planner">Project planner</a>
+    <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Creative tools</p>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/asset_studio">Asset studio</a>
+    <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Developer tools</p>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm font-medium bg-neutral-200/70 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100" aria-current="page" href="/unmagic-components/blocks/release_monitor">Release monitor</a>
+    <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">AI workspaces</p>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/assistant_workspace">Research assistant</a>
+      <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/blocks/assistant_review">Agent review</a>
+
+      </nav>
+    </aside>
+
+
+    <div class="lg:pl-64">
+      <div class="border-b border-neutral-200 px-4 py-3 sm:px-8 dark:border-neutral-800">
+        <nav class="flex min-w-0 items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400" aria-label="Breadcrumb">
+              <a class="shrink-0 hover:text-neutral-900 dark:hover:text-neutral-100" href="/unmagic-components/blocks">Blocks</a>
+  <svg class="size-3.5 shrink-0 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+
+    <span class="truncate font-medium text-neutral-900 dark:text-neutral-100" aria-current="page">Release monitor</span>
+
+
+        </nav>
+      </div>
+
+      <main class="mx-auto max-w-6xl px-4 py-10 sm:px-8 lg:py-14">
+        
+<header class="mb-8">
+  <p class="mb-3 text-xs font-medium text-neutral-500">Developer tools</p>
+  <h1 class="text-3xl font-semibold tracking-tight">Release monitor</h1>
+  <p class="mt-3 text-base text-neutral-600 dark:text-neutral-400">Build logs, release notes, rollout activity and pending health metrics.</p>
+</header>
+
+<browser-block-preview class="block">
+  <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+    <div class="flex flex-wrap items-center gap-2">
+      <div class="flex gap-1 rounded-lg border border-neutral-200 p-1 dark:border-neutral-800" role="group" aria-label="Preview size">
+          <button type="button" class="BrowserPreviewControl" data-preview-width="100%" aria-label="Desktop" title="Desktop" aria-pressed="true">
+            <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h18v13H3z M8 21h8 M12 17v4"/></svg>
+          </button>
+          <button type="button" class="BrowserPreviewControl" data-preview-width="768px" aria-label="Tablet" title="Tablet" aria-pressed="false">
+            <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 2h14v20H5z M11 18h2"/></svg>
+          </button>
+          <button type="button" class="BrowserPreviewControl" data-preview-width="390px" aria-label="Phone" title="Phone" aria-pressed="false">
+            <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 2h10v20H7z M11 18h2"/></svg>
+          </button>
+      </div>
+      <div class="flex gap-1 rounded-lg border border-neutral-200 p-1 dark:border-neutral-800" role="group" aria-label="Preview theme">
+        <button type="button" class="BrowserPreviewControl" data-preview-theme="light" aria-pressed="true">Light</button>
+        <button type="button" class="BrowserPreviewControl" data-preview-theme="dark" aria-pressed="false">Dark</button>
+      </div>
+      <button type="button" class="BrowserPreviewControl" data-preview-reload aria-label="Reload preview" title="Reload preview">
+        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7V2m0 5h-5 M20 7a9 9 0 1 0 1 8"/></svg>
+      </button>
+    </div>
+    <a target="_blank" rel="noopener" data-preview-open="true" class="UnmagicButton UnmagicButton--small" href="/unmagic-components/blocks/release_monitor/preview?preview_theme=light">Open preview ↗</a>
+  </div>
+  <unmagic-tabs id="block_release_monitor" class="UnmagicTabs"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="block_release_monitor_tab_0" class="UnmagicTabs__tab" aria-controls="block_release_monitor_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="block_release_monitor_tab_1" class="UnmagicTabs__tab" aria-controls="block_release_monitor_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="block_release_monitor_panel_0" class="UnmagicTabs__panel" aria-labelledby="block_release_monitor_tab_0" tabindex="0">      <div class="overflow-x-auto rounded-xl border border-neutral-200 bg-neutral-100 p-2 sm:p-4 dark:border-neutral-800 dark:bg-neutral-900">
+        <iframe src="/unmagic-components/blocks/release_monitor/preview?preview_theme=light" title="Release monitor preview" data-preview-frame class="mx-auto block h-[760px] w-full border-0 bg-white shadow-sm"></iframe>
+      </div>
+      <p class="mt-2 text-xs text-neutral-500" data-preview-status aria-live="polite">Desktop · Light</p>
+</div><div role="tabpanel" id="block_release_monitor_panel_1" class="UnmagicTabs__panel" aria-labelledby="block_release_monitor_tab_1" tabindex="0" hidden="hidden">      <p class="mb-4 text-sm text-neutral-500">Copy this into a Rails view with unmagic-components and Tailwind installed. Sample data is included; replace it with your own records.</p>
+      <div class="UnmagicCodeView UnmagicCodeView--copy rounded-xl" id="block_release_monitor_source"><pre class="UnmagicCodeView__pre"><code id="block_release_monitor_source_code" class="UnmagicCodeView__code language-erb"><span class="nt">&lt;main</span> <span class="na">class=</span><span class="s">&quot;mx-auto min-h-screen max-w-7xl space-y-8 p-5 sm:p-10&quot;</span><span class="nt">&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">page_header</span> <span class="ss">title: </span><span class="s2">&quot;Release 0.8.0&quot;</span><span class="p">,</span> <span class="ss">description: </span><span class="s2">&quot;A deployment workspace with logs, build artifacts and rollout status.&quot;</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="n">now</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">current</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">callout</span> <span class="s2">&quot;Preview deployment in progress&quot;</span><span class="p">,</span> <span class="ss">tone: :info</span> <span class="k">do</span> <span class="cp">%&gt;</span>Build finished. Waiting for the health check before sending traffic.<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;flex flex-wrap items-center gap-3 text-sm text-neutral-500&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">spinner</span> <span class="s2">&quot;Checking health&quot;</span><span class="p">,</span> <span class="ss">size: :small</span> <span class="cp">%&gt;&lt;%=</span> <span class="n">separator</span> <span class="ss">orientation: :vertical</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;span&gt;</span>Running for <span class="cp">&lt;%=</span> <span class="n">elapsed_tag</span> <span class="n">now</span> <span class="o">-</span> <span class="mi">42</span> <span class="cp">%&gt;</span><span class="nt">&lt;/span&gt;</span><span class="cp">&lt;%=</span> <span class="n">separator</span> <span class="ss">orientation: :vertical</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;span&gt;</span>Started <span class="cp">&lt;%=</span> <span class="n">local_time_tag</span> <span class="n">now</span> <span class="o">-</span> <span class="mi">42</span><span class="p">,</span> <span class="ss">format: :relative</span> <span class="cp">%&gt;</span><span class="nt">&lt;/span&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;min-w-0&quot;</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">panel</span> <span class="ss">id: </span><span class="s2">&quot;release_panels&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">panel</span><span class="o">|</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%</span> <span class="n">panel</span><span class="p">.</span><span class="nf">tab</span> <span class="s2">&quot;Build output&quot;</span><span class="p">,</span> <span class="ss">icon: :code</span> <span class="cp">%&gt;&lt;%</span> <span class="n">panel</span><span class="p">.</span><span class="nf">tab</span> <span class="s2">&quot;Release notes&quot;</span><span class="p">,</span> <span class="ss">icon: :file_text</span> <span class="cp">%&gt;&lt;%</span> <span class="n">panel</span><span class="p">.</span><span class="nf">tab</span> <span class="s2">&quot;Metrics&quot;</span><span class="p">,</span> <span class="ss">icon: :timer</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%</span> <span class="n">panel</span><span class="p">.</span><span class="nf">panel</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+          <span class="cp">&lt;%=</span> <span class="n">scroll_area</span> <span class="ss">max_height: </span><span class="s2">&quot;24rem&quot;</span><span class="p">,</span> <span class="ss">label: </span><span class="s2">&quot;Build output&quot;</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+            <span class="cp">&lt;%=</span> <span class="n">code_view</span> <span class="s2">&quot;Fetching dependencies…</span>
+<span class="s2">Compiling assets…</span>
+<span class="s2">Running 142 checks…</span>
+<span class="s2">142 passed, 0 failed</span>
+<span class="s2">Uploading build…</span>
+<span class="s2">Waiting for healthy instances…&quot;</span><span class="p">,</span> <span class="ss">language: :plaintext</span><span class="p">,</span> <span class="ss">id: </span><span class="s2">&quot;release_log&quot;</span> <span class="cp">%&gt;</span>
+          <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%</span> <span class="n">panel</span><span class="p">.</span><span class="nf">panel</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+          <span class="cp">&lt;%=</span> <span class="n">streaming_markdown_tag</span> <span class="ss">id: </span><span class="s2">&quot;release_notes&quot;</span><span class="p">,</span> <span class="ss">final: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">class: </span><span class="s2">&quot;UnmagicProse&quot;</span> <span class="k">do</span> <span class="cp">%&gt;</span><span class="nt">&lt;h2&gt;</span>What changed<span class="nt">&lt;/h2&gt;&lt;p&gt;</span>This release improves keyboard navigation and adds a calmer onboarding flow.<span class="nt">&lt;/p&gt;&lt;ul&gt;&lt;li&gt;</span>Accessible menus<span class="nt">&lt;/li&gt;&lt;li&gt;</span>Faster asset delivery<span class="nt">&lt;/li&gt;&lt;/ul&gt;</span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%</span> <span class="n">panel</span><span class="p">.</span><span class="nf">panel</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+          <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">&quot;mb-4 text-sm text-neutral-500&quot;</span><span class="nt">&gt;</span>Live metrics become available after the first healthy instance.<span class="nt">&lt;/p&gt;</span>
+          <span class="cp">&lt;%=</span> <span class="n">skeleton</span> <span class="ss">label: </span><span class="s2">&quot;Waiting for deployment metrics&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">skeleton</span><span class="o">|</span> <span class="cp">%&gt;&lt;%=</span> <span class="n">skeleton</span><span class="p">.</span><span class="nf">text</span> <span class="ss">lines: </span><span class="mi">2</span> <span class="cp">%&gt;&lt;%=</span> <span class="n">skeleton</span><span class="p">.</span><span class="nf">block</span> <span class="ss">height: </span><span class="s2">&quot;10rem&quot;</span> <span class="cp">%&gt;&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;space-y-6&quot;</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">card</span> <span class="ss">title: </span><span class="s2">&quot;Build artifacts&quot;</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">tree_view</span> <span class="ss">label: </span><span class="s2">&quot;Build artifacts&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">tree</span><span class="o">|</span> <span class="cp">%&gt;</span>
+          <span class="cp">&lt;%</span> <span class="n">tree</span><span class="p">.</span><span class="nf">branch</span> <span class="s2">&quot;release&quot;</span><span class="p">,</span> <span class="ss">icon: :folder</span> <span class="k">do</span> <span class="o">|</span><span class="n">folder</span><span class="o">|</span> <span class="cp">%&gt;&lt;%</span> <span class="n">folder</span><span class="p">.</span><span class="nf">leaf</span> <span class="s2">&quot;app.js&quot;</span><span class="p">,</span> <span class="ss">icon: :file_code</span> <span class="cp">%&gt;&lt;%</span> <span class="n">folder</span><span class="p">.</span><span class="nf">leaf</span> <span class="s2">&quot;app.css&quot;</span><span class="p">,</span> <span class="ss">icon: :file_code</span> <span class="cp">%&gt;&lt;%</span> <span class="n">folder</span><span class="p">.</span><span class="nf">leaf</span> <span class="s2">&quot;manifest.json&quot;</span><span class="p">,</span> <span class="ss">icon: :file_json</span> <span class="cp">%&gt;&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">card</span> <span class="ss">title: </span><span class="s2">&quot;Deployment activity&quot;</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">timeline</span> <span class="ss">label: </span><span class="s2">&quot;Deployment activity&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">timeline</span><span class="o">|</span> <span class="cp">%&gt;</span>
+          <span class="cp">&lt;%</span> <span class="n">timeline</span><span class="p">.</span><span class="nf">event</span> <span class="s2">&quot;Build queued&quot;</span><span class="p">,</span> <span class="ss">time: </span><span class="n">now</span> <span class="o">-</span> <span class="mi">120</span><span class="p">,</span> <span class="ss">icon: :clock</span> <span class="cp">%&gt;&lt;%</span> <span class="n">timeline</span><span class="p">.</span><span class="nf">event</span> <span class="s2">&quot;Checks passed&quot;</span><span class="p">,</span> <span class="ss">time: </span><span class="n">now</span> <span class="o">-</span> <span class="mi">65</span><span class="p">,</span> <span class="ss">icon: :check</span> <span class="cp">%&gt;&lt;%</span> <span class="n">timeline</span><span class="p">.</span><span class="nf">event</span> <span class="s2">&quot;Health check started&quot;</span><span class="p">,</span> <span class="ss">time: </span><span class="n">now</span> <span class="o">-</span> <span class="mi">42</span><span class="p">,</span> <span class="ss">icon: :play</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">accordion</span> <span class="ss">id: </span><span class="s2">&quot;release_help&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">accordion</span><span class="o">|</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%</span> <span class="n">accordion</span><span class="p">.</span><span class="nf">item</span> <span class="s2">&quot;What happens if a health check fails?&quot;</span> <span class="k">do</span> <span class="cp">%&gt;</span>Traffic stays with the previous release. Inspect the logs, fix the issue, and start a new deployment.<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/main&gt;</span></code></pre><div class="UnmagicCodeView__copy"><unmagic-clipboard for="block_release_monitor_source_code" class="UnmagicClipboard" data-copied-label="Copied"><button type="button" aria-label="Copy" title="Copy" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard></div></div>
+
+</div></unmagic-tabs></browser-block-preview>
+
+<div class="mt-8">
+  <h2 class="text-sm font-semibold">Built with</h2>
+  <div class="mt-3 flex flex-wrap gap-2">
+      <a class="rounded-md border border-neutral-200 px-3 py-1.5 text-xs hover:bg-neutral-100 dark:border-neutral-800 dark:hover:bg-neutral-800" href="/unmagic-components/components/callout">Callout</a>
+      <a class="rounded-md border border-neutral-200 px-3 py-1.5 text-xs hover:bg-neutral-100 dark:border-neutral-800 dark:hover:bg-neutral-800" href="/unmagic-components/components/spinner">Spinner</a>
+      <a class="rounded-md border border-neutral-200 px-3 py-1.5 text-xs hover:bg-neutral-100 dark:border-neutral-800 dark:hover:bg-neutral-800" href="/unmagic-components/components/separator">Separator</a>
+      <a class="rounded-md border border-neutral-200 px-3 py-1.5 text-xs hover:bg-neutral-100 dark:border-neutral-800 dark:hover:bg-neutral-800" href="/unmagic-components/components/elapsed">Elapsed</a>
+      <a class="rounded-md border border-neutral-200 px-3 py-1.5 text-xs hover:bg-neutral-100 dark:border-neutral-800 dark:hover:bg-neutral-800" href="/unmagic-components/components/local_time">Local time</a>
+      <a class="rounded-md border border-neutral-200 px-3 py-1.5 text-xs hover:bg-neutral-100 dark:border-neutral-800 dark:hover:bg-neutral-800" href="/unmagic-components/components/panel">Panel</a>
+      <a class="rounded-md border border-neutral-200 px-3 py-1.5 text-xs hover:bg-neutral-100 dark:border-neutral-800 dark:hover:bg-neutral-800" href="/unmagic-components/components/code_view">Code view</a>
+      <a class="rounded-md border border-neutral-200 px-3 py-1.5 text-xs hover:bg-neutral-100 dark:border-neutral-800 dark:hover:bg-neutral-800" href="/unmagic-components/components/scroll_area">Scroll area</a>
+      <a class="rounded-md border border-neutral-200 px-3 py-1.5 text-xs hover:bg-neutral-100 dark:border-neutral-800 dark:hover:bg-neutral-800" href="/unmagic-components/components/streaming_markdown">Streaming Markdown</a>
+      <a class="rounded-md border border-neutral-200 px-3 py-1.5 text-xs hover:bg-neutral-100 dark:border-neutral-800 dark:hover:bg-neutral-800" href="/unmagic-components/components/skeleton">Skeleton</a>
+      <a class="rounded-md border border-neutral-200 px-3 py-1.5 text-xs hover:bg-neutral-100 dark:border-neutral-800 dark:hover:bg-neutral-800" href="/unmagic-components/components/tree_view">Tree view</a>
+      <a class="rounded-md border border-neutral-200 px-3 py-1.5 text-xs hover:bg-neutral-100 dark:border-neutral-800 dark:hover:bg-neutral-800" href="/unmagic-components/components/timeline">Timeline</a>
+      <a class="rounded-md border border-neutral-200 px-3 py-1.5 text-xs hover:bg-neutral-100 dark:border-neutral-800 dark:hover:bg-neutral-800" href="/unmagic-components/components/disclosure">Disclosure</a>
+      <a class="rounded-md border border-neutral-200 px-3 py-1.5 text-xs hover:bg-neutral-100 dark:border-neutral-800 dark:hover:bg-neutral-800" href="/unmagic-components/components/card">Card</a>
+      <a class="rounded-md border border-neutral-200 px-3 py-1.5 text-xs hover:bg-neutral-100 dark:border-neutral-800 dark:hover:bg-neutral-800" href="/unmagic-components/components/page_header">Page header</a>
+  </div>
+</div>
+
+      </main>
+    </div>
+
+
+    <unmagic-modal><dialog class="UnmagicDialogBox" data-unmagic-dialog=""><turbo-frame id="modal"></turbo-frame><template data-unmagic-modal-skeleton=""><div class="UnmagicDialog" role="status"><span class="UnmagicVisuallyHidden">Loading…</span><header class="UnmagicDialog__header"><div class="UnmagicSkeleton UnmagicDialog__skeleton-title"></div></header><div class="UnmagicDialog__body"><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div></div><div class="UnmagicDialog__footer"><div class="UnmagicSkeleton UnmagicDialog__skeleton-button"></div></div></div></template><template data-unmagic-modal-error=""><div role="alert" class="UnmagicDialog"><header class="UnmagicDialog__header"><h2 id="unmagic_dialog_9643f821_title" class="UnmagicDialog__title">Couldn’t load</h2><button type="button" class="UnmagicButton UnmagicButton--icon UnmagicDialog__close" aria-label="Close" data-unmagic-dialog-close=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/x" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></header><div class="UnmagicDialog__body"><div class="UnmagicDialog__error"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/circle-x" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg><p>Something went wrong loading this. Check your connection and try again.</p></div></div><div class="UnmagicDialog__footer"><button type="button" class="UnmagicButton UnmagicButton--primary" data-unmagic-modal-retry=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/rotate-cw" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>Try again</button></div></div></template></dialog></unmagic-modal>
+    <template data-unmagic-confirm=""><dialog class="UnmagicDialogBox" role="alertdialog" data-unmagic-dialog=""><form method="dialog" class="UnmagicDialog"><header class="UnmagicDialog__header"><h2 class="UnmagicDialog__title" data-unmagic-confirm-title="">Are you sure?</h2></header><div class="UnmagicDialog__body"><p data-unmagic-confirm-message=""></p></div><div class="UnmagicDialog__footer"><button value="cancel" class="UnmagicButton" data-unmagic-confirm-cancel="">Cancel</button><button value="confirm" class="UnmagicButton UnmagicButton--primary" data-unmagic-confirm-accept="">Confirm</button></div></form></dialog></template>
+    <unmagic-toasts id="unmagic_toasts" duration="5000" position="top_end"><div class="UnmagicToasts__stack" id="unmagic_toasts_stack" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="top_end"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_top_start" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="top_start"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_top" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="top"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_bottom_start" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="bottom_start"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_bottom" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="bottom"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_bottom_end" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="bottom_end"></div><template data-unmagic-toast-blueprint=""><div class="UnmagicToast UnmagicToast--good" data-unmagic-toast="" data-toast-icon="default" style="--unmagic-toast-width: 384px; "><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/circle-check" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg><div class="UnmagicToast__main"><div class="UnmagicToast__content"><div class="UnmagicToast__title"></div><div class="UnmagicToast__message"></div></div><div class="UnmagicToast__actions"><button type="button" class="UnmagicButton UnmagicButton--small"></button></div></div><button type="button" class="UnmagicToast__dismiss" aria-label="Dismiss" data-unmagic-toast-dismiss=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/x" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div></template><template data-unmagic-toast-icon="good"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/circle-check" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></template><template data-unmagic-toast-icon="warn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/triangle-alert" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></template><template data-unmagic-toast-icon="bad"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/circle-x" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg></template><template data-unmagic-toast-icon="info"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template><template data-unmagic-toast-icon="neutral"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template><template data-unmagic-toast-icon="accent"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template><template data-unmagic-toast-icon="inverted"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template></unmagic-toasts>
+  </body>
+</html>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="data:,">
     <meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="fF88lrvEg3FAsYOvrOTNBt2_VKhGF58Tw_Bz6KAGGZujGGiDh9z9YfbCiH9APLs4p9LEnPqz35yqeonHedfYvw" />
+<meta name="csrf-token" content="4ErQFBAMROD5rZIryRBjrYid2Xry3Lr5tOSICTY0uUkqJqyYTuYLD7Hb_TTfc8J4tmCgm6g65OU2ajPSSp9mBg" />
     <meta name="turbo-refresh-method" content="morph">
     <meta name="turbo-refresh-scroll" content="preserve">
     <script nonce="">
@@ -17,15 +17,18 @@
           var theme = asked || localStorage.getItem(key)
           if (theme) document.documentElement.dataset.theme = theme
         } catch (_) {}
+        var previewTheme = new URLSearchParams(location.search).get("preview_theme")
+        if (previewTheme === "light" || previewTheme === "dark") document.documentElement.dataset.theme = previewTheme
         document.addEventListener("DOMContentLoaded", function () {
           var link = document.querySelector("[data-theme-toggle]")
           if (link) link.href = "?theme=" + (document.documentElement.dataset.theme === "dark" ? "light" : "dark")
         })
       })()
     </script>
-    <link rel="stylesheet" href="/unmagic-components/assets/stylesheets/browser.css?v=0.6.0-1790067867">
-    <script type="importmap">{"imports":{"@hotwired/turbo-rails":"/unmagic-components/assets/turbo/turbo.min.js?v=2.0.23-1789500601","unmagic/components":"/unmagic-components/assets/javascripts/unmagic/components.js?v=0.6.0-1790067867","unmagic/components/ai_chat":"/unmagic-components/assets/javascripts/unmagic/components/ai_chat.js?v=0.6.0-1790067867","unmagic/components/autogrow":"/unmagic-components/assets/javascripts/unmagic/components/autogrow.js?v=0.6.0-1790067867","unmagic/components/autoscroll":"/unmagic-components/assets/javascripts/unmagic/components/autoscroll.js?v=0.6.0-1790067867","unmagic/components/board":"/unmagic-components/assets/javascripts/unmagic/components/board.js?v=0.6.0-1790067867","unmagic/components/clipboard":"/unmagic-components/assets/javascripts/unmagic/components/clipboard.js?v=0.6.0-1790067867","unmagic/components/combobox":"/unmagic-components/assets/javascripts/unmagic/components/combobox.js?v=0.6.0-1790067867","unmagic/components/command_palette":"/unmagic-components/assets/javascripts/unmagic/components/command_palette.js?v=0.6.0-1790067867","unmagic/components/confirm":"/unmagic-components/assets/javascripts/unmagic/components/confirm.js?v=0.6.0-1790067867","unmagic/components/dialog":"/unmagic-components/assets/javascripts/unmagic/components/dialog.js?v=0.6.0-1790067867","unmagic/components/dropzone":"/unmagic-components/assets/javascripts/unmagic/components/dropzone.js?v=0.6.0-1790067867","unmagic/components/elapsed":"/unmagic-components/assets/javascripts/unmagic/components/elapsed.js?v=0.6.0-1790067867","unmagic/components/image_color_picker":"/unmagic-components/assets/javascripts/unmagic/components/image_color_picker.js?v=0.6.0-1790067867","unmagic/components/image_crop":"/unmagic-components/assets/javascripts/unmagic/components/image_crop.js?v=0.6.0-1790067867","unmagic/components/image_zoom":"/unmagic-components/assets/javascripts/unmagic/components/image_zoom.js?v=0.6.0-1790067867","unmagic/components/menu":"/unmagic-components/assets/javascripts/unmagic/components/menu.js?v=0.6.0-1790067867","unmagic/components/modal":"/unmagic-components/assets/javascripts/unmagic/components/modal.js?v=0.6.0-1790067867","unmagic/components/navbar":"/unmagic-components/assets/javascripts/unmagic/components/navbar.js?v=0.6.0-1790067867","unmagic/components/one_time_code":"/unmagic-components/assets/javascripts/unmagic/components/one_time_code.js?v=0.6.0-1790067867","unmagic/components/optimistic":"/unmagic-components/assets/javascripts/unmagic/components/optimistic.js?v=0.6.0-1790067867","unmagic/components/password":"/unmagic-components/assets/javascripts/unmagic/components/password.js?v=0.6.0-1790067867","unmagic/components/placement":"/unmagic-components/assets/javascripts/unmagic/components/placement.js?v=0.6.0-1790067867","unmagic/components/popover":"/unmagic-components/assets/javascripts/unmagic/components/popover.js?v=0.6.0-1790067867","unmagic/components/position":"/unmagic-components/assets/javascripts/unmagic/components/position.js?v=0.6.0-1790067867","unmagic/components/sidebar":"/unmagic-components/assets/javascripts/unmagic/components/sidebar.js?v=0.6.0-1790067867","unmagic/components/slash_menu":"/unmagic-components/assets/javascripts/unmagic/components/slash_menu.js?v=0.6.0-1790067867","unmagic/components/sortable":"/unmagic-components/assets/javascripts/unmagic/components/sortable.js?v=0.6.0-1790067867","unmagic/components/sortable_item":"/unmagic-components/assets/javascripts/unmagic/components/sortable_item.js?v=0.6.0-1790067867","unmagic/components/sortable_list":"/unmagic-components/assets/javascripts/unmagic/components/sortable_list.js?v=0.6.0-1790067867","unmagic/components/sortable_param":"/unmagic-components/assets/javascripts/unmagic/components/sortable_param.js?v=0.6.0-1790067867","unmagic/components/sortable_session":"/unmagic-components/assets/javascripts/unmagic/components/sortable_session.js?v=0.6.0-1790067867","unmagic/components/streaming_markdown":"/unmagic-components/assets/javascripts/unmagic/components/streaming_markdown.js?v=0.6.0-1790067867","unmagic/components/tabs":"/unmagic-components/assets/javascripts/unmagic/components/tabs.js?v=0.6.0-1790067867","unmagic/components/time":"/unmagic-components/assets/javascripts/unmagic/components/time.js?v=0.6.0-1790067867","unmagic/components/toasts":"/unmagic-components/assets/javascripts/unmagic/components/toasts.js?v=0.6.0-1790067867","unmagic/components/toggle":"/unmagic-components/assets/javascripts/unmagic/components/toggle.js?v=0.6.0-1790067867","unmagic/components/toolbar":"/unmagic-components/assets/javascripts/unmagic/components/toolbar.js?v=0.6.0-1790067867","unmagic/components/tooltip":"/unmagic-components/assets/javascripts/unmagic/components/tooltip.js?v=0.6.0-1790067867","unmagic/components/upsert":"/unmagic-components/assets/javascripts/unmagic/components/upsert.js?v=0.6.0-1790067867","unmagic/components/uuid_input":"/unmagic-components/assets/javascripts/unmagic/components/uuid_input.js?v=0.6.0-1790067867"}}</script>
+    <link rel="stylesheet" href="/unmagic-components/assets/stylesheets/browser.css?v=0.6.0-1790071448">
+    <script type="importmap">{"imports":{"@hotwired/turbo-rails":"/unmagic-components/assets/turbo/turbo.min.js?v=2.0.23-1789500601","unmagic/components":"/unmagic-components/assets/javascripts/unmagic/components.js?v=0.6.0-1790071448","unmagic/components/ai_chat":"/unmagic-components/assets/javascripts/unmagic/components/ai_chat.js?v=0.6.0-1790071448","unmagic/components/autogrow":"/unmagic-components/assets/javascripts/unmagic/components/autogrow.js?v=0.6.0-1790071448","unmagic/components/autoscroll":"/unmagic-components/assets/javascripts/unmagic/components/autoscroll.js?v=0.6.0-1790071448","unmagic/components/board":"/unmagic-components/assets/javascripts/unmagic/components/board.js?v=0.6.0-1790071448","unmagic/components/clipboard":"/unmagic-components/assets/javascripts/unmagic/components/clipboard.js?v=0.6.0-1790071448","unmagic/components/combobox":"/unmagic-components/assets/javascripts/unmagic/components/combobox.js?v=0.6.0-1790071448","unmagic/components/command_palette":"/unmagic-components/assets/javascripts/unmagic/components/command_palette.js?v=0.6.0-1790071448","unmagic/components/confirm":"/unmagic-components/assets/javascripts/unmagic/components/confirm.js?v=0.6.0-1790071448","unmagic/components/dialog":"/unmagic-components/assets/javascripts/unmagic/components/dialog.js?v=0.6.0-1790071448","unmagic/components/dropzone":"/unmagic-components/assets/javascripts/unmagic/components/dropzone.js?v=0.6.0-1790071448","unmagic/components/elapsed":"/unmagic-components/assets/javascripts/unmagic/components/elapsed.js?v=0.6.0-1790071448","unmagic/components/image_color_picker":"/unmagic-components/assets/javascripts/unmagic/components/image_color_picker.js?v=0.6.0-1790071448","unmagic/components/image_crop":"/unmagic-components/assets/javascripts/unmagic/components/image_crop.js?v=0.6.0-1790071448","unmagic/components/image_zoom":"/unmagic-components/assets/javascripts/unmagic/components/image_zoom.js?v=0.6.0-1790071448","unmagic/components/menu":"/unmagic-components/assets/javascripts/unmagic/components/menu.js?v=0.6.0-1790071448","unmagic/components/modal":"/unmagic-components/assets/javascripts/unmagic/components/modal.js?v=0.6.0-1790071448","unmagic/components/navbar":"/unmagic-components/assets/javascripts/unmagic/components/navbar.js?v=0.6.0-1790071448","unmagic/components/one_time_code":"/unmagic-components/assets/javascripts/unmagic/components/one_time_code.js?v=0.6.0-1790071448","unmagic/components/optimistic":"/unmagic-components/assets/javascripts/unmagic/components/optimistic.js?v=0.6.0-1790071448","unmagic/components/password":"/unmagic-components/assets/javascripts/unmagic/components/password.js?v=0.6.0-1790071448","unmagic/components/placement":"/unmagic-components/assets/javascripts/unmagic/components/placement.js?v=0.6.0-1790071448","unmagic/components/popover":"/unmagic-components/assets/javascripts/unmagic/components/popover.js?v=0.6.0-1790071448","unmagic/components/position":"/unmagic-components/assets/javascripts/unmagic/components/position.js?v=0.6.0-1790071448","unmagic/components/sidebar":"/unmagic-components/assets/javascripts/unmagic/components/sidebar.js?v=0.6.0-1790071448","unmagic/components/slash_menu":"/unmagic-components/assets/javascripts/unmagic/components/slash_menu.js?v=0.6.0-1790071448","unmagic/components/sortable":"/unmagic-components/assets/javascripts/unmagic/components/sortable.js?v=0.6.0-1790071448","unmagic/components/sortable_item":"/unmagic-components/assets/javascripts/unmagic/components/sortable_item.js?v=0.6.0-1790071448","unmagic/components/sortable_list":"/unmagic-components/assets/javascripts/unmagic/components/sortable_list.js?v=0.6.0-1790071448","unmagic/components/sortable_param":"/unmagic-components/assets/javascripts/unmagic/components/sortable_param.js?v=0.6.0-1790071448","unmagic/components/sortable_session":"/unmagic-components/assets/javascripts/unmagic/components/sortable_session.js?v=0.6.0-1790071448","unmagic/components/streaming_markdown":"/unmagic-components/assets/javascripts/unmagic/components/streaming_markdown.js?v=0.6.0-1790071448","unmagic/components/tabs":"/unmagic-components/assets/javascripts/unmagic/components/tabs.js?v=0.6.0-1790071448","unmagic/components/time":"/unmagic-components/assets/javascripts/unmagic/components/time.js?v=0.6.0-1790071448","unmagic/components/toasts":"/unmagic-components/assets/javascripts/unmagic/components/toasts.js?v=0.6.0-1790071448","unmagic/components/toggle":"/unmagic-components/assets/javascripts/unmagic/components/toggle.js?v=0.6.0-1790071448","unmagic/components/toolbar":"/unmagic-components/assets/javascripts/unmagic/components/toolbar.js?v=0.6.0-1790071448","unmagic/components/tooltip":"/unmagic-components/assets/javascripts/unmagic/components/tooltip.js?v=0.6.0-1790071448","unmagic/components/upsert":"/unmagic-components/assets/javascripts/unmagic/components/upsert.js?v=0.6.0-1790071448","unmagic/components/uuid_input":"/unmagic-components/assets/javascripts/unmagic/components/uuid_input.js?v=0.6.0-1790071448"}}</script>
 <script type="module">import "unmagic/components"</script>
+    <script src="/unmagic-components/assets/browser/browser.js?v=0.6.0-1790071448" type="module"></script>
     <script nonce="">
       (function () {
         var scrollPositions = []
@@ -43,229 +46,7 @@
     </script>
   </head>
   <body class="min-h-screen bg-white text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-100">
-    <aside class="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-neutral-200 bg-neutral-50/70 lg:flex dark:border-neutral-800 dark:bg-neutral-900/40">
-      <div class="flex h-14 shrink-0 items-center px-5">
-        <a class="flex items-center gap-2.5 text-sm font-semibold" href="/unmagic-components/">
-          <span class="grid size-6 place-items-center rounded-md bg-neutral-900 text-[0.625rem] font-bold text-white dark:bg-white dark:text-neutral-900">um</span>
-          unmagic-components
-</a>      </div>
-      <nav class="flex-1 overflow-y-auto px-3 pb-10" aria-label="Components" data-browser-nav>
-        
-<p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-4">Getting started</p>
-  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/">Overview</a>
-  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/installation">Installation</a>
-  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/theming">Theming</a>
-
-  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Layout</p>
-    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/card">
-      Card
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/empty_state">
-      Empty state
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/item">
-      Item
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/page_header">
-      Page header
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/panel">
-      Panel
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/scroll_area">
-      Scroll area
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/section">
-      Section
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/separator">
-      Separator
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/skeleton">
-      Skeleton
-      
-</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Forms</p>
-    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/button">
-      Button
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/combobox">
-      Combobox
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/forms">
-      Form builder
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/toggle">
-      Toggle
-      
-</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Navigation</p>
-    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/breadcrumbs">
-      Breadcrumbs
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/command_palette">
-      Command palette
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/context_menu">
-      Context menu
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/menu">
-      Menu
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/navbar">
-      Navbar
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/pagination">
-      Pagination
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/sidebar">
-      Sidebar
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tabs">
-      Tabs
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tree_view">
-      Tree view
-      
-</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Overlays</p>
-    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/confirm">
-      Confirm
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/dialog">
-      Dialog
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/disclosure">
-      Disclosure
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/popover">
-      Popover
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/toast">
-      Toast
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tooltip">
-      Tooltip
-      
-</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Data display</p>
-    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/avatar">
-      Avatar
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/badge">
-      Badge
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/board">
-      Board
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/callout">
-      Callout
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm font-medium bg-neutral-200/70 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100 flex items-center justify-between gap-2" aria-current="page" href="/unmagic-components/components/chart">
-      Chart
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/code_view">
-      Code view
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/copy_button">
-      Copy button
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/detail_list">
-      Detail list
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/elapsed">
-      Elapsed
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_color_picker">
-      Image Color Picker
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_crop">
-      Image Crop
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_zoom">
-      Image Zoom
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/kbd">
-      Kbd
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/local_time">
-      Local time
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/progress">
-      Progress
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/sortable_list">
-      Sortable list
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/spinner">
-      Spinner
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/table">
-      Table
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/timeline">
-      Timeline
-      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
-</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">AI chat</p>
-    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_action_bar">
-      Action bar
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_attachments">
-      Attachments
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_branch_picker">
-      Branch picker
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_citation">
-      Citation
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_composer">
-      Composer
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat">
-      Conversation
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_failure">
-      Failure
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_message">
-      Message
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_payload">
-      Payload
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_permission">
-      Permission
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_plan">
-      Plan
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_proposal">
-      Proposal
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_reasoning">
-      Reasoning
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_request">
-      Request
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_slash_menu">
-      Slash menu
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/streaming_markdown">
-      Streaming Markdown
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_tool_call">
-      Tool call
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_welcome">
-      Welcome
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_workspace">
-      Workspace
-      
-</a>
-      </nav>
-    </aside>
-
-    <div class="lg:pl-64">
-      <header class="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-neutral-200 bg-white/85 px-4 backdrop-blur sm:px-8 dark:border-neutral-800 dark:bg-neutral-950/85">
+      <header class="sticky top-0 z-40 flex h-14 items-center gap-3 border-b border-neutral-200 bg-white/85 px-4 backdrop-blur sm:px-8 dark:border-neutral-800 dark:bg-neutral-950/85">
         <details class="relative lg:hidden">
           <summary class="UnmagicButton UnmagicButton--icon list-none [&::-webkit-details-marker]:hidden" aria-label="Menu">
             <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -482,16 +263,16 @@
       Workspace
       
 </a>
+
           </nav>
         </details>
 
-        <nav class="flex min-w-0 items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400" aria-label="Breadcrumb">
-              <a class="shrink-0 hover:text-neutral-900 dark:hover:text-neutral-100" href="/unmagic-components/">Data display</a>
-  <svg class="size-3.5 shrink-0 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-
-    <span class="truncate font-medium text-neutral-900 dark:text-neutral-100" aria-current="page">Chart</span>
-
-
+        <a class="flex shrink-0 items-center gap-2 text-sm font-semibold" aria-label="Unmagic home" href="/unmagic-components/">
+          <span class="grid size-7 place-items-center rounded-md bg-neutral-900 text-xs font-bold text-white dark:bg-white dark:text-neutral-900">um</span>
+          <span class="hidden sm:inline">unmagic</span>
+</a>        <nav class="flex min-w-0 items-center gap-1 overflow-x-auto sm:ml-6" aria-label="Global">
+            <a class="rounded-md px-3 py-2 text-sm whitespace-nowrap bg-neutral-100 font-semibold text-neutral-900 dark:bg-neutral-800 dark:text-white" aria-current="page" href="/unmagic-components/">Components</a>
+            <a class="rounded-md px-3 py-2 text-sm whitespace-nowrap text-neutral-500 hover:text-neutral-900 dark:hover:text-white" href="/unmagic-components/blocks">Blocks</a>
         </nav>
 
         <div class="ml-auto flex items-center gap-1">
@@ -502,6 +283,235 @@
             <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-5-2"/></svg>
 </a>        </div>
       </header>
+    <aside class="fixed bottom-0 top-14 left-0 z-30 hidden w-64 flex-col border-r border-neutral-200 bg-neutral-50/70 lg:flex dark:border-neutral-800 dark:bg-neutral-900/40">
+      <nav class="flex-1 overflow-y-auto px-3 pb-10" aria-label="Components" data-browser-nav>
+        
+<p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-4">Getting started</p>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/">Overview</a>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/installation">Installation</a>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/theming">Theming</a>
+
+  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Layout</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/card">
+      Card
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/empty_state">
+      Empty state
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/item">
+      Item
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/page_header">
+      Page header
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/panel">
+      Panel
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/scroll_area">
+      Scroll area
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/section">
+      Section
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/separator">
+      Separator
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/skeleton">
+      Skeleton
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Forms</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/button">
+      Button
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/combobox">
+      Combobox
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/forms">
+      Form builder
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/toggle">
+      Toggle
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Navigation</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/breadcrumbs">
+      Breadcrumbs
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/command_palette">
+      Command palette
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/context_menu">
+      Context menu
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/menu">
+      Menu
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/navbar">
+      Navbar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/pagination">
+      Pagination
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/sidebar">
+      Sidebar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tabs">
+      Tabs
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tree_view">
+      Tree view
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Overlays</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/confirm">
+      Confirm
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/dialog">
+      Dialog
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/disclosure">
+      Disclosure
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/popover">
+      Popover
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/toast">
+      Toast
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tooltip">
+      Tooltip
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Data display</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/avatar">
+      Avatar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/badge">
+      Badge
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/board">
+      Board
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/callout">
+      Callout
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm font-medium bg-neutral-200/70 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100 flex items-center justify-between gap-2" aria-current="page" href="/unmagic-components/components/chart">
+      Chart
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/code_view">
+      Code view
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/copy_button">
+      Copy button
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/detail_list">
+      Detail list
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/elapsed">
+      Elapsed
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_color_picker">
+      Image Color Picker
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_crop">
+      Image Crop
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_zoom">
+      Image Zoom
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/kbd">
+      Kbd
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/local_time">
+      Local time
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/progress">
+      Progress
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/sortable_list">
+      Sortable list
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/spinner">
+      Spinner
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/table">
+      Table
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/timeline">
+      Timeline
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">AI chat</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_action_bar">
+      Action bar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_attachments">
+      Attachments
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_branch_picker">
+      Branch picker
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_citation">
+      Citation
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_composer">
+      Composer
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat">
+      Conversation
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_failure">
+      Failure
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_message">
+      Message
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_payload">
+      Payload
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_permission">
+      Permission
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_plan">
+      Plan
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_proposal">
+      Proposal
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_reasoning">
+      Reasoning
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_request">
+      Request
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_slash_menu">
+      Slash menu
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/streaming_markdown">
+      Streaming Markdown
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_tool_call">
+      Tool call
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_welcome">
+      Welcome
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_workspace">
+      Workspace
+      
+</a>
+
+      </nav>
+    </aside>
+
+
+    <div class="lg:pl-64">
+      <div class="border-b border-neutral-200 px-4 py-3 sm:px-8 dark:border-neutral-800">
+        <nav class="flex min-w-0 items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400" aria-label="Breadcrumb">
+              <a class="shrink-0 hover:text-neutral-900 dark:hover:text-neutral-100" href="/unmagic-components/">Data display</a>
+  <svg class="size-3.5 shrink-0 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+
+    <span class="truncate font-medium text-neutral-900 dark:text-neutral-100" aria-current="page">Chart</span>
+
+
+        </nav>
+      </div>
 
       <main class="mx-auto max-w-6xl px-4 py-10 sm:px-8 lg:py-14">
         
@@ -512,6 +522,15 @@
       <h1 class="text-3xl font-semibold tracking-tight">Chart</h1>
       <p class="mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400">A chart drawn as inline SVG, no script: columns over a set of labels, stacked where there is more than one series, or a line over time. Every column answers to hover, and the same numbers sit under it as a table for anybody who can&#39;t or won&#39;t.</p>
     </header>
+
+      <nav aria-label="Used in blocks" class="mb-10 rounded-xl border border-neutral-200 p-4 dark:border-neutral-800">
+        <h2 class="mb-3 text-sm font-semibold">Used in blocks</h2>
+        <div class="flex flex-wrap gap-2">
+            <a class="rounded-md bg-neutral-100 px-3 py-1.5 text-sm hover:underline dark:bg-neutral-800" href="/unmagic-components/blocks/workspace">Workspace overview</a>
+            <a class="rounded-md bg-neutral-100 px-3 py-1.5 text-sm hover:underline dark:bg-neutral-800" href="/unmagic-components/blocks/analytics">Audience analytics</a>
+            <a class="rounded-md bg-neutral-100 px-3 py-1.5 text-sm hover:underline dark:bg-neutral-800" href="/unmagic-components/blocks/sales">Sales dashboard</a>
+        </div>
+      </nav>
 
     <div class="space-y-14">
         
@@ -642,67 +661,67 @@ $5.10 Suno</title><rect x="690.1333333333333" y="12" width="21.866666666666667" 
 
   <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="chart_line_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="chart_line_view_tab_0" class="UnmagicTabs__tab" aria-controls="chart_line_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="chart_line_view_tab_1" class="UnmagicTabs__tab" aria-controls="chart_line_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="chart_line_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="chart_line_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
         <div class="w-full">
-          <figure class="UnmagicChart UnmagicChart--line"><figcaption class="UnmagicChart__head"><span class="UnmagicChart__title">CPU, last hour</span></figcaption><svg viewBox="0 0 720 200" class="UnmagicChart__svg" role="img" aria-label="CPU, last hour"><line x1="56" x2="712" y1="176.0" y2="176.0" class="UnmagicChart__axis" /><text x="48" y="180.0" text-anchor="end">0%</text><line x1="56" x2="712" y1="94.0" y2="94.0" class="UnmagicChart__grid" /><text x="48" y="98.0" text-anchor="end">50%</text><line x1="56" x2="712" y1="12.0" y2="12.0" class="UnmagicChart__grid" /><text x="48" y="16.0" text-anchor="end">100%</text><path d="M56.0,118.6 L67.1,110.4 L78.2,102.2 L89.4,95.6 L100.5,90.7 L111.6,87.4 L122.7,85.8 L133.8,85.8 L144.9,89.1 L156.1,92.4 L167.2,98.9 L178.3,105.5 L189.4,113.7 L200.5,121.9 L211.7,130.1 L222.8,136.6 L233.9,143.2 L245.0,148.1 L256.1,151.4 L267.3,151.4 M334.0,120.2 L345.1,112.0 L356.2,103.8 L367.3,97.3 L378.4,92.4 L389.6,87.4 L400.7,85.8 L411.8,85.8 L422.9,89.1 L434.0,92.4 L445.2,98.9 L456.3,105.5 L467.4,113.7 L478.5,121.9 L489.6,128.4 L500.7,136.6 L511.9,143.2 L523.0,148.1 L534.1,149.8 L545.2,151.4 L556.3,149.8 L567.5,148.1 L578.6,143.2 L589.7,136.6 L600.8,128.4 L611.9,120.2 L623.1,112.0 L634.2,105.5 L645.3,97.3 L656.4,92.4 L667.5,87.4 L678.6,85.8 L689.8,85.8 L700.9,87.4 L712.0,92.4" class="UnmagicChart__line UnmagicChart__line--1" /><circle cx="712.0" cy="92.4" r="4" class="UnmagicChart__dot UnmagicChart__dot--1" /><g class="UnmagicChart__column"><title>08:06
-35% CPU</title><rect x="50.4" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:07
-40% CPU</title><rect x="61.6" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:08
-45% CPU</title><rect x="72.7" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:09
-49% CPU</title><rect x="83.8" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:10
-52% CPU</title><rect x="94.9" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:11
-54% CPU</title><rect x="106.0" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:12
-55% CPU</title><rect x="117.2" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:13
-55% CPU</title><rect x="128.3" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:14
-53% CPU</title><rect x="139.4" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:15
-51% CPU</title><rect x="150.5" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:16
-47% CPU</title><rect x="161.6" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:17
-43% CPU</title><rect x="172.7" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:18
-38% CPU</title><rect x="183.9" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:19
-33% CPU</title><rect x="195.0" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:20
-28% CPU</title><rect x="206.1" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:21
-24% CPU</title><rect x="217.2" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:22
-20% CPU</title><rect x="228.3" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:23
-17% CPU</title><rect x="239.5" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:24
-15% CPU</title><rect x="250.6" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:25
-15% CPU</title><rect x="261.7" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:26
-no reading CPU</title><rect x="272.8" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:27
-no reading CPU</title><rect x="283.9" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:28
-no reading CPU</title><rect x="295.1" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:29
-no reading CPU</title><rect x="306.2" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:30
-no reading CPU</title><rect x="317.3" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:31
-34% CPU</title><rect x="328.4" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:32
-39% CPU</title><rect x="339.5" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:33
-44% CPU</title><rect x="350.6" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:34
-48% CPU</title><rect x="361.8" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:35
-51% CPU</title><rect x="372.9" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:36
-54% CPU</title><rect x="384.0" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:37
-55% CPU</title><rect x="395.1" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:38
-55% CPU</title><rect x="406.2" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:39
-53% CPU</title><rect x="417.4" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:40
-51% CPU</title><rect x="428.5" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:41
-47% CPU</title><rect x="439.6" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:42
-43% CPU</title><rect x="450.7" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:43
-38% CPU</title><rect x="461.8" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:44
-33% CPU</title><rect x="472.9" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:45
-29% CPU</title><rect x="484.1" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:46
-24% CPU</title><rect x="495.2" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:47
-20% CPU</title><rect x="506.3" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:48
-17% CPU</title><rect x="517.4" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:49
-16% CPU</title><rect x="528.5" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:50
-15% CPU</title><rect x="539.7" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:51
-16% CPU</title><rect x="550.8" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:52
-17% CPU</title><rect x="561.9" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:53
-20% CPU</title><rect x="573.0" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:54
-24% CPU</title><rect x="584.1" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:55
-29% CPU</title><rect x="595.3" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:56
-34% CPU</title><rect x="606.4" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:57
-39% CPU</title><rect x="617.5" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:58
-43% CPU</title><rect x="628.6" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>08:59
-48% CPU</title><rect x="639.7" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:00
-51% CPU</title><rect x="650.8" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:01
-54% CPU</title><rect x="662.0" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:02
-55% CPU</title><rect x="673.1" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:03
-55% CPU</title><rect x="684.2" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:04
-54% CPU</title><rect x="695.3" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:05
-51% CPU</title><rect x="706.4" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><text x="56.0" y="194" text-anchor="start">08:06</text><text x="189.4" y="194" text-anchor="middle">08:18</text><text x="322.8" y="194" text-anchor="middle">08:30</text><text x="445.2" y="194" text-anchor="middle">08:41</text><text x="578.6" y="194" text-anchor="middle">08:53</text><text x="712.0" y="194" text-anchor="end">09:05</text></svg><details class="UnmagicChart__table"><summary>As a table</summary><table class="UnmagicTable UnmagicTable--full UnmagicChart__numbers"><thead><tr><th>Label</th><th class="is-right">CPU</th></tr></thead><tbody><tr><td data-label="Label">08:06</td><td class="is-right" data-label="CPU">35%</td></tr><tr><td data-label="Label">08:07</td><td class="is-right" data-label="CPU">40%</td></tr><tr><td data-label="Label">08:08</td><td class="is-right" data-label="CPU">45%</td></tr><tr><td data-label="Label">08:09</td><td class="is-right" data-label="CPU">49%</td></tr><tr><td data-label="Label">08:10</td><td class="is-right" data-label="CPU">52%</td></tr><tr><td data-label="Label">08:11</td><td class="is-right" data-label="CPU">54%</td></tr><tr><td data-label="Label">08:12</td><td class="is-right" data-label="CPU">55%</td></tr><tr><td data-label="Label">08:13</td><td class="is-right" data-label="CPU">55%</td></tr><tr><td data-label="Label">08:14</td><td class="is-right" data-label="CPU">53%</td></tr><tr><td data-label="Label">08:15</td><td class="is-right" data-label="CPU">51%</td></tr><tr><td data-label="Label">08:16</td><td class="is-right" data-label="CPU">47%</td></tr><tr><td data-label="Label">08:17</td><td class="is-right" data-label="CPU">43%</td></tr><tr><td data-label="Label">08:18</td><td class="is-right" data-label="CPU">38%</td></tr><tr><td data-label="Label">08:19</td><td class="is-right" data-label="CPU">33%</td></tr><tr><td data-label="Label">08:20</td><td class="is-right" data-label="CPU">28%</td></tr><tr><td data-label="Label">08:21</td><td class="is-right" data-label="CPU">24%</td></tr><tr><td data-label="Label">08:22</td><td class="is-right" data-label="CPU">20%</td></tr><tr><td data-label="Label">08:23</td><td class="is-right" data-label="CPU">17%</td></tr><tr><td data-label="Label">08:24</td><td class="is-right" data-label="CPU">15%</td></tr><tr><td data-label="Label">08:25</td><td class="is-right" data-label="CPU">15%</td></tr><tr><td data-label="Label">08:31</td><td class="is-right" data-label="CPU">34%</td></tr><tr><td data-label="Label">08:32</td><td class="is-right" data-label="CPU">39%</td></tr><tr><td data-label="Label">08:33</td><td class="is-right" data-label="CPU">44%</td></tr><tr><td data-label="Label">08:34</td><td class="is-right" data-label="CPU">48%</td></tr><tr><td data-label="Label">08:35</td><td class="is-right" data-label="CPU">51%</td></tr><tr><td data-label="Label">08:36</td><td class="is-right" data-label="CPU">54%</td></tr><tr><td data-label="Label">08:37</td><td class="is-right" data-label="CPU">55%</td></tr><tr><td data-label="Label">08:38</td><td class="is-right" data-label="CPU">55%</td></tr><tr><td data-label="Label">08:39</td><td class="is-right" data-label="CPU">53%</td></tr><tr><td data-label="Label">08:40</td><td class="is-right" data-label="CPU">51%</td></tr><tr><td data-label="Label">08:41</td><td class="is-right" data-label="CPU">47%</td></tr><tr><td data-label="Label">08:42</td><td class="is-right" data-label="CPU">43%</td></tr><tr><td data-label="Label">08:43</td><td class="is-right" data-label="CPU">38%</td></tr><tr><td data-label="Label">08:44</td><td class="is-right" data-label="CPU">33%</td></tr><tr><td data-label="Label">08:45</td><td class="is-right" data-label="CPU">29%</td></tr><tr><td data-label="Label">08:46</td><td class="is-right" data-label="CPU">24%</td></tr><tr><td data-label="Label">08:47</td><td class="is-right" data-label="CPU">20%</td></tr><tr><td data-label="Label">08:48</td><td class="is-right" data-label="CPU">17%</td></tr><tr><td data-label="Label">08:49</td><td class="is-right" data-label="CPU">16%</td></tr><tr><td data-label="Label">08:50</td><td class="is-right" data-label="CPU">15%</td></tr><tr><td data-label="Label">08:51</td><td class="is-right" data-label="CPU">16%</td></tr><tr><td data-label="Label">08:52</td><td class="is-right" data-label="CPU">17%</td></tr><tr><td data-label="Label">08:53</td><td class="is-right" data-label="CPU">20%</td></tr><tr><td data-label="Label">08:54</td><td class="is-right" data-label="CPU">24%</td></tr><tr><td data-label="Label">08:55</td><td class="is-right" data-label="CPU">29%</td></tr><tr><td data-label="Label">08:56</td><td class="is-right" data-label="CPU">34%</td></tr><tr><td data-label="Label">08:57</td><td class="is-right" data-label="CPU">39%</td></tr><tr><td data-label="Label">08:58</td><td class="is-right" data-label="CPU">43%</td></tr><tr><td data-label="Label">08:59</td><td class="is-right" data-label="CPU">48%</td></tr><tr><td data-label="Label">09:00</td><td class="is-right" data-label="CPU">51%</td></tr><tr><td data-label="Label">09:01</td><td class="is-right" data-label="CPU">54%</td></tr><tr><td data-label="Label">09:02</td><td class="is-right" data-label="CPU">55%</td></tr><tr><td data-label="Label">09:03</td><td class="is-right" data-label="CPU">55%</td></tr><tr><td data-label="Label">09:04</td><td class="is-right" data-label="CPU">54%</td></tr><tr><td data-label="Label">09:05</td><td class="is-right" data-label="CPU">51%</td></tr></tbody></table></details></figure>
+          <figure class="UnmagicChart UnmagicChart--line"><figcaption class="UnmagicChart__head"><span class="UnmagicChart__title">CPU, last hour</span></figcaption><svg viewBox="0 0 720 200" class="UnmagicChart__svg" role="img" aria-label="CPU, last hour"><line x1="56" x2="712" y1="176.0" y2="176.0" class="UnmagicChart__axis" /><text x="48" y="180.0" text-anchor="end">0%</text><line x1="56" x2="712" y1="94.0" y2="94.0" class="UnmagicChart__grid" /><text x="48" y="98.0" text-anchor="end">50%</text><line x1="56" x2="712" y1="12.0" y2="12.0" class="UnmagicChart__grid" /><text x="48" y="16.0" text-anchor="end">100%</text><path d="M56.0,118.6 L67.1,110.4 L78.2,102.2 L89.4,95.6 L100.5,90.7 L111.6,87.4 L122.7,85.8 L133.8,85.8 L144.9,89.1 L156.1,92.4 L167.2,98.9 L178.3,105.5 L189.4,113.7 L200.5,121.9 L211.7,130.1 L222.8,136.6 L233.9,143.2 L245.0,148.1 L256.1,151.4 L267.3,151.4 M334.0,120.2 L345.1,112.0 L356.2,103.8 L367.3,97.3 L378.4,92.4 L389.6,87.4 L400.7,85.8 L411.8,85.8 L422.9,89.1 L434.0,92.4 L445.2,98.9 L456.3,105.5 L467.4,113.7 L478.5,121.9 L489.6,128.4 L500.7,136.6 L511.9,143.2 L523.0,148.1 L534.1,149.8 L545.2,151.4 L556.3,149.8 L567.5,148.1 L578.6,143.2 L589.7,136.6 L600.8,128.4 L611.9,120.2 L623.1,112.0 L634.2,105.5 L645.3,97.3 L656.4,92.4 L667.5,87.4 L678.6,85.8 L689.8,85.8 L700.9,87.4 L712.0,92.4" class="UnmagicChart__line UnmagicChart__line--1" /><circle cx="712.0" cy="92.4" r="4" class="UnmagicChart__dot UnmagicChart__dot--1" /><g class="UnmagicChart__column"><title>09:05
+35% CPU</title><rect x="50.4" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:06
+40% CPU</title><rect x="61.6" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:07
+45% CPU</title><rect x="72.7" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:08
+49% CPU</title><rect x="83.8" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:09
+52% CPU</title><rect x="94.9" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:10
+54% CPU</title><rect x="106.0" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:11
+55% CPU</title><rect x="117.2" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:12
+55% CPU</title><rect x="128.3" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:13
+53% CPU</title><rect x="139.4" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:14
+51% CPU</title><rect x="150.5" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:15
+47% CPU</title><rect x="161.6" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:16
+43% CPU</title><rect x="172.7" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:17
+38% CPU</title><rect x="183.9" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:18
+33% CPU</title><rect x="195.0" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:19
+28% CPU</title><rect x="206.1" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:20
+24% CPU</title><rect x="217.2" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:21
+20% CPU</title><rect x="228.3" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:22
+17% CPU</title><rect x="239.5" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:23
+15% CPU</title><rect x="250.6" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:24
+15% CPU</title><rect x="261.7" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:25
+no reading CPU</title><rect x="272.8" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:26
+no reading CPU</title><rect x="283.9" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:27
+no reading CPU</title><rect x="295.1" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:28
+no reading CPU</title><rect x="306.2" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:29
+no reading CPU</title><rect x="317.3" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:30
+34% CPU</title><rect x="328.4" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:31
+39% CPU</title><rect x="339.5" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:32
+44% CPU</title><rect x="350.6" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:33
+48% CPU</title><rect x="361.8" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:34
+51% CPU</title><rect x="372.9" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:35
+54% CPU</title><rect x="384.0" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:36
+55% CPU</title><rect x="395.1" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:37
+55% CPU</title><rect x="406.2" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:38
+53% CPU</title><rect x="417.4" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:39
+51% CPU</title><rect x="428.5" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:40
+47% CPU</title><rect x="439.6" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:41
+43% CPU</title><rect x="450.7" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:42
+38% CPU</title><rect x="461.8" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:43
+33% CPU</title><rect x="472.9" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:44
+29% CPU</title><rect x="484.1" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:45
+24% CPU</title><rect x="495.2" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:46
+20% CPU</title><rect x="506.3" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:47
+17% CPU</title><rect x="517.4" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:48
+16% CPU</title><rect x="528.5" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:49
+15% CPU</title><rect x="539.7" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:50
+16% CPU</title><rect x="550.8" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:51
+17% CPU</title><rect x="561.9" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:52
+20% CPU</title><rect x="573.0" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:53
+24% CPU</title><rect x="584.1" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:54
+29% CPU</title><rect x="595.3" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:55
+34% CPU</title><rect x="606.4" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:56
+39% CPU</title><rect x="617.5" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:57
+43% CPU</title><rect x="628.6" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:58
+48% CPU</title><rect x="639.7" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>09:59
+51% CPU</title><rect x="650.8" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>10:00
+54% CPU</title><rect x="662.0" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>10:01
+55% CPU</title><rect x="673.1" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>10:02
+55% CPU</title><rect x="684.2" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>10:03
+54% CPU</title><rect x="695.3" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><g class="UnmagicChart__column"><title>10:04
+51% CPU</title><rect x="706.4" y="12" width="11.12" height="164" class="UnmagicChart__hit" /></g><text x="56.0" y="194" text-anchor="start">09:05</text><text x="189.4" y="194" text-anchor="middle">09:17</text><text x="322.8" y="194" text-anchor="middle">09:29</text><text x="445.2" y="194" text-anchor="middle">09:40</text><text x="578.6" y="194" text-anchor="middle">09:52</text><text x="712.0" y="194" text-anchor="end">10:04</text></svg><details class="UnmagicChart__table"><summary>As a table</summary><table class="UnmagicTable UnmagicTable--full UnmagicChart__numbers"><thead><tr><th>Label</th><th class="is-right">CPU</th></tr></thead><tbody><tr><td data-label="Label">09:05</td><td class="is-right" data-label="CPU">35%</td></tr><tr><td data-label="Label">09:06</td><td class="is-right" data-label="CPU">40%</td></tr><tr><td data-label="Label">09:07</td><td class="is-right" data-label="CPU">45%</td></tr><tr><td data-label="Label">09:08</td><td class="is-right" data-label="CPU">49%</td></tr><tr><td data-label="Label">09:09</td><td class="is-right" data-label="CPU">52%</td></tr><tr><td data-label="Label">09:10</td><td class="is-right" data-label="CPU">54%</td></tr><tr><td data-label="Label">09:11</td><td class="is-right" data-label="CPU">55%</td></tr><tr><td data-label="Label">09:12</td><td class="is-right" data-label="CPU">55%</td></tr><tr><td data-label="Label">09:13</td><td class="is-right" data-label="CPU">53%</td></tr><tr><td data-label="Label">09:14</td><td class="is-right" data-label="CPU">51%</td></tr><tr><td data-label="Label">09:15</td><td class="is-right" data-label="CPU">47%</td></tr><tr><td data-label="Label">09:16</td><td class="is-right" data-label="CPU">43%</td></tr><tr><td data-label="Label">09:17</td><td class="is-right" data-label="CPU">38%</td></tr><tr><td data-label="Label">09:18</td><td class="is-right" data-label="CPU">33%</td></tr><tr><td data-label="Label">09:19</td><td class="is-right" data-label="CPU">28%</td></tr><tr><td data-label="Label">09:20</td><td class="is-right" data-label="CPU">24%</td></tr><tr><td data-label="Label">09:21</td><td class="is-right" data-label="CPU">20%</td></tr><tr><td data-label="Label">09:22</td><td class="is-right" data-label="CPU">17%</td></tr><tr><td data-label="Label">09:23</td><td class="is-right" data-label="CPU">15%</td></tr><tr><td data-label="Label">09:24</td><td class="is-right" data-label="CPU">15%</td></tr><tr><td data-label="Label">09:30</td><td class="is-right" data-label="CPU">34%</td></tr><tr><td data-label="Label">09:31</td><td class="is-right" data-label="CPU">39%</td></tr><tr><td data-label="Label">09:32</td><td class="is-right" data-label="CPU">44%</td></tr><tr><td data-label="Label">09:33</td><td class="is-right" data-label="CPU">48%</td></tr><tr><td data-label="Label">09:34</td><td class="is-right" data-label="CPU">51%</td></tr><tr><td data-label="Label">09:35</td><td class="is-right" data-label="CPU">54%</td></tr><tr><td data-label="Label">09:36</td><td class="is-right" data-label="CPU">55%</td></tr><tr><td data-label="Label">09:37</td><td class="is-right" data-label="CPU">55%</td></tr><tr><td data-label="Label">09:38</td><td class="is-right" data-label="CPU">53%</td></tr><tr><td data-label="Label">09:39</td><td class="is-right" data-label="CPU">51%</td></tr><tr><td data-label="Label">09:40</td><td class="is-right" data-label="CPU">47%</td></tr><tr><td data-label="Label">09:41</td><td class="is-right" data-label="CPU">43%</td></tr><tr><td data-label="Label">09:42</td><td class="is-right" data-label="CPU">38%</td></tr><tr><td data-label="Label">09:43</td><td class="is-right" data-label="CPU">33%</td></tr><tr><td data-label="Label">09:44</td><td class="is-right" data-label="CPU">29%</td></tr><tr><td data-label="Label">09:45</td><td class="is-right" data-label="CPU">24%</td></tr><tr><td data-label="Label">09:46</td><td class="is-right" data-label="CPU">20%</td></tr><tr><td data-label="Label">09:47</td><td class="is-right" data-label="CPU">17%</td></tr><tr><td data-label="Label">09:48</td><td class="is-right" data-label="CPU">16%</td></tr><tr><td data-label="Label">09:49</td><td class="is-right" data-label="CPU">15%</td></tr><tr><td data-label="Label">09:50</td><td class="is-right" data-label="CPU">16%</td></tr><tr><td data-label="Label">09:51</td><td class="is-right" data-label="CPU">17%</td></tr><tr><td data-label="Label">09:52</td><td class="is-right" data-label="CPU">20%</td></tr><tr><td data-label="Label">09:53</td><td class="is-right" data-label="CPU">24%</td></tr><tr><td data-label="Label">09:54</td><td class="is-right" data-label="CPU">29%</td></tr><tr><td data-label="Label">09:55</td><td class="is-right" data-label="CPU">34%</td></tr><tr><td data-label="Label">09:56</td><td class="is-right" data-label="CPU">39%</td></tr><tr><td data-label="Label">09:57</td><td class="is-right" data-label="CPU">43%</td></tr><tr><td data-label="Label">09:58</td><td class="is-right" data-label="CPU">48%</td></tr><tr><td data-label="Label">09:59</td><td class="is-right" data-label="CPU">51%</td></tr><tr><td data-label="Label">10:00</td><td class="is-right" data-label="CPU">54%</td></tr><tr><td data-label="Label">10:01</td><td class="is-right" data-label="CPU">55%</td></tr><tr><td data-label="Label">10:02</td><td class="is-right" data-label="CPU">55%</td></tr><tr><td data-label="Label">10:03</td><td class="is-right" data-label="CPU">54%</td></tr><tr><td data-label="Label">10:04</td><td class="is-right" data-label="CPU">51%</td></tr></tbody></table></details></figure>
 
         </div>
       </div>
@@ -801,7 +820,8 @@ no reading CPU</title><rect x="317.3" y="12" width="11.12" height="164" class="U
       </main>
     </div>
 
-    <unmagic-modal><dialog class="UnmagicDialogBox" data-unmagic-dialog=""><turbo-frame id="modal"></turbo-frame><template data-unmagic-modal-skeleton=""><div class="UnmagicDialog" role="status"><span class="UnmagicVisuallyHidden">Loading…</span><header class="UnmagicDialog__header"><div class="UnmagicSkeleton UnmagicDialog__skeleton-title"></div></header><div class="UnmagicDialog__body"><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div></div><div class="UnmagicDialog__footer"><div class="UnmagicSkeleton UnmagicDialog__skeleton-button"></div></div></div></template><template data-unmagic-modal-error=""><div role="alert" class="UnmagicDialog"><header class="UnmagicDialog__header"><h2 id="unmagic_dialog_96b4e6f4_title" class="UnmagicDialog__title">Couldn’t load</h2><button type="button" class="UnmagicButton UnmagicButton--icon UnmagicDialog__close" aria-label="Close" data-unmagic-dialog-close=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/x" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></header><div class="UnmagicDialog__body"><div class="UnmagicDialog__error"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/circle-x" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg><p>Something went wrong loading this. Check your connection and try again.</p></div></div><div class="UnmagicDialog__footer"><button type="button" class="UnmagicButton UnmagicButton--primary" data-unmagic-modal-retry=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/rotate-cw" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>Try again</button></div></div></template></dialog></unmagic-modal>
+
+    <unmagic-modal><dialog class="UnmagicDialogBox" data-unmagic-dialog=""><turbo-frame id="modal"></turbo-frame><template data-unmagic-modal-skeleton=""><div class="UnmagicDialog" role="status"><span class="UnmagicVisuallyHidden">Loading…</span><header class="UnmagicDialog__header"><div class="UnmagicSkeleton UnmagicDialog__skeleton-title"></div></header><div class="UnmagicDialog__body"><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div></div><div class="UnmagicDialog__footer"><div class="UnmagicSkeleton UnmagicDialog__skeleton-button"></div></div></div></template><template data-unmagic-modal-error=""><div role="alert" class="UnmagicDialog"><header class="UnmagicDialog__header"><h2 id="unmagic_dialog_b507d21c_title" class="UnmagicDialog__title">Couldn’t load</h2><button type="button" class="UnmagicButton UnmagicButton--icon UnmagicDialog__close" aria-label="Close" data-unmagic-dialog-close=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/x" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></header><div class="UnmagicDialog__body"><div class="UnmagicDialog__error"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/circle-x" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg><p>Something went wrong loading this. Check your connection and try again.</p></div></div><div class="UnmagicDialog__footer"><button type="button" class="UnmagicButton UnmagicButton--primary" data-unmagic-modal-retry=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/rotate-cw" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>Try again</button></div></div></template></dialog></unmagic-modal>
     <template data-unmagic-confirm=""><dialog class="UnmagicDialogBox" role="alertdialog" data-unmagic-dialog=""><form method="dialog" class="UnmagicDialog"><header class="UnmagicDialog__header"><h2 class="UnmagicDialog__title" data-unmagic-confirm-title="">Are you sure?</h2></header><div class="UnmagicDialog__body"><p data-unmagic-confirm-message=""></p></div><div class="UnmagicDialog__footer"><button value="cancel" class="UnmagicButton" data-unmagic-confirm-cancel="">Cancel</button><button value="confirm" class="UnmagicButton UnmagicButton--primary" data-unmagic-confirm-accept="">Confirm</button></div></form></dialog></template>
     <unmagic-toasts id="unmagic_toasts" duration="5000" position="top_end"><div class="UnmagicToasts__stack" id="unmagic_toasts_stack" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="top_end"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_top_start" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="top_start"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_top" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="top"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_bottom_start" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="bottom_start"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_bottom" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="bottom"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_bottom_end" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="bottom_end"></div><template data-unmagic-toast-blueprint=""><div class="UnmagicToast UnmagicToast--good" data-unmagic-toast="" data-toast-icon="default" style="--unmagic-toast-width: 384px; "><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/circle-check" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg><div class="UnmagicToast__main"><div class="UnmagicToast__content"><div class="UnmagicToast__title"></div><div class="UnmagicToast__message"></div></div><div class="UnmagicToast__actions"><button type="button" class="UnmagicButton UnmagicButton--small"></button></div></div><button type="button" class="UnmagicToast__dismiss" aria-label="Dismiss" data-unmagic-toast-dismiss=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/x" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div></template><template data-unmagic-toast-icon="good"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/circle-check" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></template><template data-unmagic-toast-icon="warn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/triangle-alert" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></template><template data-unmagic-toast-icon="bad"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/circle-x" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg></template><template data-unmagic-toast-icon="info"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template><template data-unmagic-toast-icon="neutral"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template><template data-unmagic-toast-icon="accent"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template><template data-unmagic-toast-icon="inverted"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template></unmagic-toasts>
   </body>

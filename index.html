@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="data:,">
     <meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="H5TMLQMrV9MEDTW6pTH0qzj98usiZq_hsOYdsU-U9QEWQNuIMNbeTR6yH8oaTwt_b1srCCttSFnFkw_6Gm0anA" />
+<meta name="csrf-token" content="f7Sy-brM04cpfvGAkvPwprzWtWyVjihgxsegM8XBxfMapM48yLTVQADmgW6Nh9p6hIHFtVrgH8p-4Qt2CgohhQ" />
     <meta name="turbo-refresh-method" content="morph">
     <meta name="turbo-refresh-scroll" content="preserve">
     <script nonce="">
@@ -17,15 +17,18 @@
           var theme = asked || localStorage.getItem(key)
           if (theme) document.documentElement.dataset.theme = theme
         } catch (_) {}
+        var previewTheme = new URLSearchParams(location.search).get("preview_theme")
+        if (previewTheme === "light" || previewTheme === "dark") document.documentElement.dataset.theme = previewTheme
         document.addEventListener("DOMContentLoaded", function () {
           var link = document.querySelector("[data-theme-toggle]")
           if (link) link.href = "?theme=" + (document.documentElement.dataset.theme === "dark" ? "light" : "dark")
         })
       })()
     </script>
-    <link rel="stylesheet" href="/unmagic-components/assets/stylesheets/browser.css?v=0.6.0-1790067867">
-    <script type="importmap">{"imports":{"@hotwired/turbo-rails":"/unmagic-components/assets/turbo/turbo.min.js?v=2.0.23-1789500601","unmagic/components":"/unmagic-components/assets/javascripts/unmagic/components.js?v=0.6.0-1790067867","unmagic/components/ai_chat":"/unmagic-components/assets/javascripts/unmagic/components/ai_chat.js?v=0.6.0-1790067867","unmagic/components/autogrow":"/unmagic-components/assets/javascripts/unmagic/components/autogrow.js?v=0.6.0-1790067867","unmagic/components/autoscroll":"/unmagic-components/assets/javascripts/unmagic/components/autoscroll.js?v=0.6.0-1790067867","unmagic/components/board":"/unmagic-components/assets/javascripts/unmagic/components/board.js?v=0.6.0-1790067867","unmagic/components/clipboard":"/unmagic-components/assets/javascripts/unmagic/components/clipboard.js?v=0.6.0-1790067867","unmagic/components/combobox":"/unmagic-components/assets/javascripts/unmagic/components/combobox.js?v=0.6.0-1790067867","unmagic/components/command_palette":"/unmagic-components/assets/javascripts/unmagic/components/command_palette.js?v=0.6.0-1790067867","unmagic/components/confirm":"/unmagic-components/assets/javascripts/unmagic/components/confirm.js?v=0.6.0-1790067867","unmagic/components/dialog":"/unmagic-components/assets/javascripts/unmagic/components/dialog.js?v=0.6.0-1790067867","unmagic/components/dropzone":"/unmagic-components/assets/javascripts/unmagic/components/dropzone.js?v=0.6.0-1790067867","unmagic/components/elapsed":"/unmagic-components/assets/javascripts/unmagic/components/elapsed.js?v=0.6.0-1790067867","unmagic/components/image_color_picker":"/unmagic-components/assets/javascripts/unmagic/components/image_color_picker.js?v=0.6.0-1790067867","unmagic/components/image_crop":"/unmagic-components/assets/javascripts/unmagic/components/image_crop.js?v=0.6.0-1790067867","unmagic/components/image_zoom":"/unmagic-components/assets/javascripts/unmagic/components/image_zoom.js?v=0.6.0-1790067867","unmagic/components/menu":"/unmagic-components/assets/javascripts/unmagic/components/menu.js?v=0.6.0-1790067867","unmagic/components/modal":"/unmagic-components/assets/javascripts/unmagic/components/modal.js?v=0.6.0-1790067867","unmagic/components/navbar":"/unmagic-components/assets/javascripts/unmagic/components/navbar.js?v=0.6.0-1790067867","unmagic/components/one_time_code":"/unmagic-components/assets/javascripts/unmagic/components/one_time_code.js?v=0.6.0-1790067867","unmagic/components/optimistic":"/unmagic-components/assets/javascripts/unmagic/components/optimistic.js?v=0.6.0-1790067867","unmagic/components/password":"/unmagic-components/assets/javascripts/unmagic/components/password.js?v=0.6.0-1790067867","unmagic/components/placement":"/unmagic-components/assets/javascripts/unmagic/components/placement.js?v=0.6.0-1790067867","unmagic/components/popover":"/unmagic-components/assets/javascripts/unmagic/components/popover.js?v=0.6.0-1790067867","unmagic/components/position":"/unmagic-components/assets/javascripts/unmagic/components/position.js?v=0.6.0-1790067867","unmagic/components/sidebar":"/unmagic-components/assets/javascripts/unmagic/components/sidebar.js?v=0.6.0-1790067867","unmagic/components/slash_menu":"/unmagic-components/assets/javascripts/unmagic/components/slash_menu.js?v=0.6.0-1790067867","unmagic/components/sortable":"/unmagic-components/assets/javascripts/unmagic/components/sortable.js?v=0.6.0-1790067867","unmagic/components/sortable_item":"/unmagic-components/assets/javascripts/unmagic/components/sortable_item.js?v=0.6.0-1790067867","unmagic/components/sortable_list":"/unmagic-components/assets/javascripts/unmagic/components/sortable_list.js?v=0.6.0-1790067867","unmagic/components/sortable_param":"/unmagic-components/assets/javascripts/unmagic/components/sortable_param.js?v=0.6.0-1790067867","unmagic/components/sortable_session":"/unmagic-components/assets/javascripts/unmagic/components/sortable_session.js?v=0.6.0-1790067867","unmagic/components/streaming_markdown":"/unmagic-components/assets/javascripts/unmagic/components/streaming_markdown.js?v=0.6.0-1790067867","unmagic/components/tabs":"/unmagic-components/assets/javascripts/unmagic/components/tabs.js?v=0.6.0-1790067867","unmagic/components/time":"/unmagic-components/assets/javascripts/unmagic/components/time.js?v=0.6.0-1790067867","unmagic/components/toasts":"/unmagic-components/assets/javascripts/unmagic/components/toasts.js?v=0.6.0-1790067867","unmagic/components/toggle":"/unmagic-components/assets/javascripts/unmagic/components/toggle.js?v=0.6.0-1790067867","unmagic/components/toolbar":"/unmagic-components/assets/javascripts/unmagic/components/toolbar.js?v=0.6.0-1790067867","unmagic/components/tooltip":"/unmagic-components/assets/javascripts/unmagic/components/tooltip.js?v=0.6.0-1790067867","unmagic/components/upsert":"/unmagic-components/assets/javascripts/unmagic/components/upsert.js?v=0.6.0-1790067867","unmagic/components/uuid_input":"/unmagic-components/assets/javascripts/unmagic/components/uuid_input.js?v=0.6.0-1790067867"}}</script>
+    <link rel="stylesheet" href="/unmagic-components/assets/stylesheets/browser.css?v=0.6.0-1790071448">
+    <script type="importmap">{"imports":{"@hotwired/turbo-rails":"/unmagic-components/assets/turbo/turbo.min.js?v=2.0.23-1789500601","unmagic/components":"/unmagic-components/assets/javascripts/unmagic/components.js?v=0.6.0-1790071448","unmagic/components/ai_chat":"/unmagic-components/assets/javascripts/unmagic/components/ai_chat.js?v=0.6.0-1790071448","unmagic/components/autogrow":"/unmagic-components/assets/javascripts/unmagic/components/autogrow.js?v=0.6.0-1790071448","unmagic/components/autoscroll":"/unmagic-components/assets/javascripts/unmagic/components/autoscroll.js?v=0.6.0-1790071448","unmagic/components/board":"/unmagic-components/assets/javascripts/unmagic/components/board.js?v=0.6.0-1790071448","unmagic/components/clipboard":"/unmagic-components/assets/javascripts/unmagic/components/clipboard.js?v=0.6.0-1790071448","unmagic/components/combobox":"/unmagic-components/assets/javascripts/unmagic/components/combobox.js?v=0.6.0-1790071448","unmagic/components/command_palette":"/unmagic-components/assets/javascripts/unmagic/components/command_palette.js?v=0.6.0-1790071448","unmagic/components/confirm":"/unmagic-components/assets/javascripts/unmagic/components/confirm.js?v=0.6.0-1790071448","unmagic/components/dialog":"/unmagic-components/assets/javascripts/unmagic/components/dialog.js?v=0.6.0-1790071448","unmagic/components/dropzone":"/unmagic-components/assets/javascripts/unmagic/components/dropzone.js?v=0.6.0-1790071448","unmagic/components/elapsed":"/unmagic-components/assets/javascripts/unmagic/components/elapsed.js?v=0.6.0-1790071448","unmagic/components/image_color_picker":"/unmagic-components/assets/javascripts/unmagic/components/image_color_picker.js?v=0.6.0-1790071448","unmagic/components/image_crop":"/unmagic-components/assets/javascripts/unmagic/components/image_crop.js?v=0.6.0-1790071448","unmagic/components/image_zoom":"/unmagic-components/assets/javascripts/unmagic/components/image_zoom.js?v=0.6.0-1790071448","unmagic/components/menu":"/unmagic-components/assets/javascripts/unmagic/components/menu.js?v=0.6.0-1790071448","unmagic/components/modal":"/unmagic-components/assets/javascripts/unmagic/components/modal.js?v=0.6.0-1790071448","unmagic/components/navbar":"/unmagic-components/assets/javascripts/unmagic/components/navbar.js?v=0.6.0-1790071448","unmagic/components/one_time_code":"/unmagic-components/assets/javascripts/unmagic/components/one_time_code.js?v=0.6.0-1790071448","unmagic/components/optimistic":"/unmagic-components/assets/javascripts/unmagic/components/optimistic.js?v=0.6.0-1790071448","unmagic/components/password":"/unmagic-components/assets/javascripts/unmagic/components/password.js?v=0.6.0-1790071448","unmagic/components/placement":"/unmagic-components/assets/javascripts/unmagic/components/placement.js?v=0.6.0-1790071448","unmagic/components/popover":"/unmagic-components/assets/javascripts/unmagic/components/popover.js?v=0.6.0-1790071448","unmagic/components/position":"/unmagic-components/assets/javascripts/unmagic/components/position.js?v=0.6.0-1790071448","unmagic/components/sidebar":"/unmagic-components/assets/javascripts/unmagic/components/sidebar.js?v=0.6.0-1790071448","unmagic/components/slash_menu":"/unmagic-components/assets/javascripts/unmagic/components/slash_menu.js?v=0.6.0-1790071448","unmagic/components/sortable":"/unmagic-components/assets/javascripts/unmagic/components/sortable.js?v=0.6.0-1790071448","unmagic/components/sortable_item":"/unmagic-components/assets/javascripts/unmagic/components/sortable_item.js?v=0.6.0-1790071448","unmagic/components/sortable_list":"/unmagic-components/assets/javascripts/unmagic/components/sortable_list.js?v=0.6.0-1790071448","unmagic/components/sortable_param":"/unmagic-components/assets/javascripts/unmagic/components/sortable_param.js?v=0.6.0-1790071448","unmagic/components/sortable_session":"/unmagic-components/assets/javascripts/unmagic/components/sortable_session.js?v=0.6.0-1790071448","unmagic/components/streaming_markdown":"/unmagic-components/assets/javascripts/unmagic/components/streaming_markdown.js?v=0.6.0-1790071448","unmagic/components/tabs":"/unmagic-components/assets/javascripts/unmagic/components/tabs.js?v=0.6.0-1790071448","unmagic/components/time":"/unmagic-components/assets/javascripts/unmagic/components/time.js?v=0.6.0-1790071448","unmagic/components/toasts":"/unmagic-components/assets/javascripts/unmagic/components/toasts.js?v=0.6.0-1790071448","unmagic/components/toggle":"/unmagic-components/assets/javascripts/unmagic/components/toggle.js?v=0.6.0-1790071448","unmagic/components/toolbar":"/unmagic-components/assets/javascripts/unmagic/components/toolbar.js?v=0.6.0-1790071448","unmagic/components/tooltip":"/unmagic-components/assets/javascripts/unmagic/components/tooltip.js?v=0.6.0-1790071448","unmagic/components/upsert":"/unmagic-components/assets/javascripts/unmagic/components/upsert.js?v=0.6.0-1790071448","unmagic/components/uuid_input":"/unmagic-components/assets/javascripts/unmagic/components/uuid_input.js?v=0.6.0-1790071448"}}</script>
 <script type="module">import "unmagic/components"</script>
+    <script src="/unmagic-components/assets/browser/browser.js?v=0.6.0-1790071448" type="module"></script>
     <script nonce="">
       (function () {
         var scrollPositions = []
@@ -43,229 +46,7 @@
     </script>
   </head>
   <body class="min-h-screen bg-white text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-100">
-    <aside class="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-neutral-200 bg-neutral-50/70 lg:flex dark:border-neutral-800 dark:bg-neutral-900/40">
-      <div class="flex h-14 shrink-0 items-center px-5">
-        <a class="flex items-center gap-2.5 text-sm font-semibold" href="/unmagic-components/">
-          <span class="grid size-6 place-items-center rounded-md bg-neutral-900 text-[0.625rem] font-bold text-white dark:bg-white dark:text-neutral-900">um</span>
-          unmagic-components
-</a>      </div>
-      <nav class="flex-1 overflow-y-auto px-3 pb-10" aria-label="Components" data-browser-nav>
-        
-<p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-4">Getting started</p>
-  <a class="block rounded-md px-2.5 py-1.5 text-sm font-medium bg-neutral-200/70 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100" aria-current="page" href="/unmagic-components/">Overview</a>
-  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/installation">Installation</a>
-  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/theming">Theming</a>
-
-  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Layout</p>
-    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/card">
-      Card
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/empty_state">
-      Empty state
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/item">
-      Item
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/page_header">
-      Page header
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/panel">
-      Panel
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/scroll_area">
-      Scroll area
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/section">
-      Section
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/separator">
-      Separator
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/skeleton">
-      Skeleton
-      
-</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Forms</p>
-    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/button">
-      Button
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/combobox">
-      Combobox
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/forms">
-      Form builder
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/toggle">
-      Toggle
-      
-</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Navigation</p>
-    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/breadcrumbs">
-      Breadcrumbs
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/command_palette">
-      Command palette
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/context_menu">
-      Context menu
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/menu">
-      Menu
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/navbar">
-      Navbar
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/pagination">
-      Pagination
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/sidebar">
-      Sidebar
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tabs">
-      Tabs
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tree_view">
-      Tree view
-      
-</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Overlays</p>
-    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/confirm">
-      Confirm
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/dialog">
-      Dialog
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/disclosure">
-      Disclosure
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/popover">
-      Popover
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/toast">
-      Toast
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tooltip">
-      Tooltip
-      
-</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Data display</p>
-    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/avatar">
-      Avatar
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/badge">
-      Badge
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/board">
-      Board
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/callout">
-      Callout
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/chart">
-      Chart
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/code_view">
-      Code view
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/copy_button">
-      Copy button
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/detail_list">
-      Detail list
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/elapsed">
-      Elapsed
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_color_picker">
-      Image Color Picker
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_crop">
-      Image Crop
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_zoom">
-      Image Zoom
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/kbd">
-      Kbd
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/local_time">
-      Local time
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/progress">
-      Progress
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/sortable_list">
-      Sortable list
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/spinner">
-      Spinner
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/table">
-      Table
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/timeline">
-      Timeline
-      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
-</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">AI chat</p>
-    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_action_bar">
-      Action bar
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_attachments">
-      Attachments
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_branch_picker">
-      Branch picker
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_citation">
-      Citation
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_composer">
-      Composer
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat">
-      Conversation
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_failure">
-      Failure
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_message">
-      Message
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_payload">
-      Payload
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_permission">
-      Permission
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_plan">
-      Plan
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_proposal">
-      Proposal
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_reasoning">
-      Reasoning
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_request">
-      Request
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_slash_menu">
-      Slash menu
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/streaming_markdown">
-      Streaming Markdown
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_tool_call">
-      Tool call
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_welcome">
-      Welcome
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_workspace">
-      Workspace
-      
-</a>
-      </nav>
-    </aside>
-
-    <div class="lg:pl-64">
-      <header class="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-neutral-200 bg-white/85 px-4 backdrop-blur sm:px-8 dark:border-neutral-800 dark:bg-neutral-950/85">
+      <header class="sticky top-0 z-40 flex h-14 items-center gap-3 border-b border-neutral-200 bg-white/85 px-4 backdrop-blur sm:px-8 dark:border-neutral-800 dark:bg-neutral-950/85">
         <details class="relative lg:hidden">
           <summary class="UnmagicButton UnmagicButton--icon list-none [&::-webkit-details-marker]:hidden" aria-label="Menu">
             <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -482,16 +263,16 @@
       Workspace
       
 </a>
+
           </nav>
         </details>
 
-        <nav class="flex min-w-0 items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400" aria-label="Breadcrumb">
-              <a class="shrink-0 hover:text-neutral-900 dark:hover:text-neutral-100" href="/unmagic-components/">Components</a>
-  <svg class="size-3.5 shrink-0 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-
-    <span class="truncate font-medium text-neutral-900 dark:text-neutral-100" aria-current="page">Overview</span>
-
-
+        <a class="flex shrink-0 items-center gap-2 text-sm font-semibold" aria-label="Unmagic home" href="/unmagic-components/">
+          <span class="grid size-7 place-items-center rounded-md bg-neutral-900 text-xs font-bold text-white dark:bg-white dark:text-neutral-900">um</span>
+          <span class="hidden sm:inline">unmagic</span>
+</a>        <nav class="flex min-w-0 items-center gap-1 overflow-x-auto sm:ml-6" aria-label="Global">
+            <a class="rounded-md px-3 py-2 text-sm whitespace-nowrap bg-neutral-100 font-semibold text-neutral-900 dark:bg-neutral-800 dark:text-white" aria-current="page" href="/unmagic-components/">Components</a>
+            <a class="rounded-md px-3 py-2 text-sm whitespace-nowrap text-neutral-500 hover:text-neutral-900 dark:hover:text-white" href="/unmagic-components/blocks">Blocks</a>
         </nav>
 
         <div class="ml-auto flex items-center gap-1">
@@ -502,6 +283,235 @@
             <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-5-2"/></svg>
 </a>        </div>
       </header>
+    <aside class="fixed bottom-0 top-14 left-0 z-30 hidden w-64 flex-col border-r border-neutral-200 bg-neutral-50/70 lg:flex dark:border-neutral-800 dark:bg-neutral-900/40">
+      <nav class="flex-1 overflow-y-auto px-3 pb-10" aria-label="Components" data-browser-nav>
+        
+<p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-4">Getting started</p>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm font-medium bg-neutral-200/70 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100" aria-current="page" href="/unmagic-components/">Overview</a>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/installation">Installation</a>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/theming">Theming</a>
+
+  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Layout</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/card">
+      Card
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/empty_state">
+      Empty state
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/item">
+      Item
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/page_header">
+      Page header
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/panel">
+      Panel
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/scroll_area">
+      Scroll area
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/section">
+      Section
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/separator">
+      Separator
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/skeleton">
+      Skeleton
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Forms</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/button">
+      Button
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/combobox">
+      Combobox
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/forms">
+      Form builder
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/toggle">
+      Toggle
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Navigation</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/breadcrumbs">
+      Breadcrumbs
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/command_palette">
+      Command palette
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/context_menu">
+      Context menu
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/menu">
+      Menu
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/navbar">
+      Navbar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/pagination">
+      Pagination
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/sidebar">
+      Sidebar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tabs">
+      Tabs
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tree_view">
+      Tree view
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Overlays</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/confirm">
+      Confirm
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/dialog">
+      Dialog
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/disclosure">
+      Disclosure
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/popover">
+      Popover
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/toast">
+      Toast
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tooltip">
+      Tooltip
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Data display</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/avatar">
+      Avatar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/badge">
+      Badge
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/board">
+      Board
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/callout">
+      Callout
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/chart">
+      Chart
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/code_view">
+      Code view
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/copy_button">
+      Copy button
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/detail_list">
+      Detail list
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/elapsed">
+      Elapsed
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_color_picker">
+      Image Color Picker
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_crop">
+      Image Crop
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_zoom">
+      Image Zoom
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/kbd">
+      Kbd
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/local_time">
+      Local time
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/progress">
+      Progress
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/sortable_list">
+      Sortable list
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/spinner">
+      Spinner
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/table">
+      Table
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/timeline">
+      Timeline
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">AI chat</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_action_bar">
+      Action bar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_attachments">
+      Attachments
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_branch_picker">
+      Branch picker
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_citation">
+      Citation
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_composer">
+      Composer
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat">
+      Conversation
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_failure">
+      Failure
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_message">
+      Message
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_payload">
+      Payload
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_permission">
+      Permission
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_plan">
+      Plan
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_proposal">
+      Proposal
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_reasoning">
+      Reasoning
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_request">
+      Request
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_slash_menu">
+      Slash menu
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/streaming_markdown">
+      Streaming Markdown
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_tool_call">
+      Tool call
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_welcome">
+      Welcome
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_workspace">
+      Workspace
+      
+</a>
+
+      </nav>
+    </aside>
+
+
+    <div class="lg:pl-64">
+      <div class="border-b border-neutral-200 px-4 py-3 sm:px-8 dark:border-neutral-800">
+        <nav class="flex min-w-0 items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400" aria-label="Breadcrumb">
+              <a class="shrink-0 hover:text-neutral-900 dark:hover:text-neutral-100" href="/unmagic-components/">Components</a>
+  <svg class="size-3.5 shrink-0 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+
+    <span class="truncate font-medium text-neutral-900 dark:text-neutral-100" aria-current="page">Overview</span>
+
+
+        </nav>
+      </div>
 
       <main class="mx-auto max-w-6xl px-4 py-10 sm:px-8 lg:py-14">
         
@@ -607,7 +617,7 @@
         <div class="group relative overflow-hidden rounded-xl border border-neutral-200 bg-white hover:border-neutral-300 hover:shadow-sm dark:border-neutral-800 dark:bg-neutral-950 dark:hover:border-neutral-700">
           <div class="flex h-40 items-center justify-center overflow-hidden border-b border-neutral-200 bg-neutral-50 bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-5 dark:border-neutral-800 dark:bg-neutral-900/40 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)]">
             <div inert class="pointer-events-none flex max-h-full max-w-full select-none items-center justify-center">
-              <unmagic-tabs id="unmagic_panel_7b6412e2" class="UnmagicCard UnmagicPanel UnmagicTabs UnmagicTabs--bar"><header class="UnmagicCard__bar UnmagicPanel__bar"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="unmagic_panel_7b6412e2_tab_0" class="UnmagicTabs__tab" aria-controls="unmagic_panel_7b6412e2_panel_0" aria-selected="true" tabindex="0"><svg
+              <unmagic-tabs id="unmagic_panel_a3c59ce8" class="UnmagicCard UnmagicPanel UnmagicTabs UnmagicTabs--bar"><header class="UnmagicCard__bar UnmagicPanel__bar"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="unmagic_panel_a3c59ce8_tab_0" class="UnmagicTabs__tab" aria-controls="unmagic_panel_a3c59ce8_panel_0" aria-selected="true" tabindex="0"><svg
   xmlns="http://www.w3.org/2000/svg"
   width="24"
   height="24"
@@ -621,7 +631,7 @@
   <path d="M12 7v14" />
   <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" />
 </svg>
-README</button><button type="button" role="tab" id="unmagic_panel_7b6412e2_tab_1" class="UnmagicTabs__tab" aria-controls="unmagic_panel_7b6412e2_panel_1" aria-selected="false" tabindex="-1"><svg
+README</button><button type="button" role="tab" id="unmagic_panel_a3c59ce8_tab_1" class="UnmagicTabs__tab" aria-controls="unmagic_panel_a3c59ce8_panel_1" aria-selected="false" tabindex="-1"><svg
   xmlns="http://www.w3.org/2000/svg"
   width="24"
   height="24"
@@ -639,7 +649,7 @@ README</button><button type="button" role="tab" id="unmagic_panel_7b6412e2_tab_1
   <path d="M15 13v2" />
   <path d="M9 13v2" />
 </svg>
-Agents</button></div></header><div class="UnmagicCard__body UnmagicCard__body--flush"><div role="tabpanel" id="unmagic_panel_7b6412e2_panel_0" class="UnmagicTabs__panel" aria-labelledby="unmagic_panel_7b6412e2_tab_0" tabindex="0">What this is.</div><div role="tabpanel" id="unmagic_panel_7b6412e2_panel_1" class="UnmagicTabs__panel" aria-labelledby="unmagic_panel_7b6412e2_tab_1" tabindex="0" hidden="hidden">How to work here.</div></div></unmagic-tabs>
+Agents</button></div></header><div class="UnmagicCard__body UnmagicCard__body--flush"><div role="tabpanel" id="unmagic_panel_a3c59ce8_panel_0" class="UnmagicTabs__panel" aria-labelledby="unmagic_panel_a3c59ce8_tab_0" tabindex="0">What this is.</div><div role="tabpanel" id="unmagic_panel_a3c59ce8_panel_1" class="UnmagicTabs__panel" aria-labelledby="unmagic_panel_a3c59ce8_tab_1" tabindex="0" hidden="hidden">How to work here.</div></div></unmagic-tabs>
             </div>
           </div>
           <div class="px-4 py-3">
@@ -955,7 +965,7 @@ Agents</button></div></header><div class="UnmagicCard__body UnmagicCard__body--f
         <div class="group relative overflow-hidden rounded-xl border border-neutral-200 bg-white hover:border-neutral-300 hover:shadow-sm dark:border-neutral-800 dark:bg-neutral-950 dark:hover:border-neutral-700">
           <div class="flex h-40 items-center justify-center overflow-hidden border-b border-neutral-200 bg-neutral-50 bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-5 dark:border-neutral-800 dark:bg-neutral-900/40 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)]">
             <div inert class="pointer-events-none flex max-h-full max-w-full select-none items-center justify-center">
-              <div class="UnmagicDialog w-60 origin-center scale-[0.8] text-xs shadow-md"><header class="UnmagicDialog__header"><h2 id="unmagic_dialog_c7677340_title" class="UnmagicDialog__title">Reset the profile?</h2></header><div class="UnmagicDialog__body">
+              <div class="UnmagicDialog w-60 origin-center scale-[0.8] text-xs shadow-md"><header class="UnmagicDialog__header"><h2 id="unmagic_dialog_e74dfcf7_title" class="UnmagicDialog__title">Reset the profile?</h2></header><div class="UnmagicDialog__body">
   This can't be undone.
 </div><div class="UnmagicDialog__footer">    <span class="UnmagicButton UnmagicButton--small">Cancel</span>
     <span class="UnmagicButton UnmagicButton--danger UnmagicButton--small">Reset</span>
@@ -971,7 +981,7 @@ Agents</button></div></header><div class="UnmagicCard__body UnmagicCard__body--f
         <div class="group relative overflow-hidden rounded-xl border border-neutral-200 bg-white hover:border-neutral-300 hover:shadow-sm dark:border-neutral-800 dark:bg-neutral-950 dark:hover:border-neutral-700">
           <div class="flex h-40 items-center justify-center overflow-hidden border-b border-neutral-200 bg-neutral-50 bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-5 dark:border-neutral-800 dark:bg-neutral-900/40 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)]">
             <div inert class="pointer-events-none flex max-h-full max-w-full select-none items-center justify-center">
-              <div class="UnmagicDialog w-60 origin-center scale-[0.8] text-xs shadow-md"><header class="UnmagicDialog__header"><h2 id="unmagic_dialog_412b67e9_title" class="UnmagicDialog__title">Edit profile</h2><button type="button" class="UnmagicButton UnmagicButton--icon UnmagicDialog__close" aria-label="Close" data-unmagic-dialog-close=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/x" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></header><div class="UnmagicDialog__body">
+              <div class="UnmagicDialog w-60 origin-center scale-[0.8] text-xs shadow-md"><header class="UnmagicDialog__header"><h2 id="unmagic_dialog_d25129b2_title" class="UnmagicDialog__title">Edit profile</h2><button type="button" class="UnmagicButton UnmagicButton--icon UnmagicDialog__close" aria-label="Close" data-unmagic-dialog-close=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/x" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></header><div class="UnmagicDialog__body">
   Ada Lovelace · Engineer
 </div><div class="UnmagicDialog__footer"><span class="UnmagicButton UnmagicButton--primary UnmagicButton--small">Save</span></div></div>
             </div>
@@ -1153,7 +1163,7 @@ Agents</button></div></header><div class="UnmagicCard__body UnmagicCard__body--f
         <div class="group relative overflow-hidden rounded-xl border border-neutral-200 bg-white hover:border-neutral-300 hover:shadow-sm dark:border-neutral-800 dark:bg-neutral-950 dark:hover:border-neutral-700">
           <div class="flex h-40 items-center justify-center overflow-hidden border-b border-neutral-200 bg-neutral-50 bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-5 dark:border-neutral-800 dark:bg-neutral-900/40 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)]">
             <div inert class="pointer-events-none flex max-h-full max-w-full select-none items-center justify-center">
-              <div id="unmagic_code_view_0c9ecc85" class="UnmagicCodeView"><pre class="UnmagicCodeView__pre"><code id="unmagic_code_view_0c9ecc85_code" class="UnmagicCodeView__code language-ruby"><span class="k">def</span> <span class="nf">hello</span> <span class="o">=</span> <span class="s2">&quot;world&quot;</span></code></pre></div>
+              <div id="unmagic_code_view_f20b00f9" class="UnmagicCodeView"><pre class="UnmagicCodeView__pre"><code id="unmagic_code_view_f20b00f9_code" class="UnmagicCodeView__code language-ruby"><span class="k">def</span> <span class="nf">hello</span> <span class="o">=</span> <span class="s2">&quot;world&quot;</span></code></pre></div>
 
             </div>
           </div>
@@ -1196,7 +1206,7 @@ Agents</button></div></header><div class="UnmagicCard__body UnmagicCard__body--f
             <div inert class="pointer-events-none flex max-h-full max-w-full select-none items-center justify-center">
               <span class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-neutral-600 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-300">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/timer" aria-hidden="true"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></svg>
-  <unmagic-elapsed class="UnmagicElapsed text-sm" since="2026-09-22T09:01:57.106Z" title="September 22, 2026 09:01">3m 5s</unmagic-elapsed>
+  <unmagic-elapsed class="UnmagicElapsed text-sm" since="2026-09-22T10:01:28.246Z" title="September 22, 2026 10:01">3m 5s</unmagic-elapsed>
 </span>
 
             </div>
@@ -1265,15 +1275,15 @@ Agents</button></div></header><div class="UnmagicCard__body UnmagicCard__body--f
               <div class="grid w-56 gap-1.5 text-xs">
   <div class="flex justify-between gap-4">
     <span class="text-neutral-500">Commented</span>
-    <unmagic-time datetime="2026-09-22T09:00:02Z" format="relative"><time datetime="2026-09-22T09:00:02Z" title="September 22, 2026 09:00">5 minutes ago</time></unmagic-time>
+    <unmagic-time datetime="2026-09-22T09:59:33Z" format="relative"><time datetime="2026-09-22T09:59:33Z" title="September 22, 2026 09:59">5 minutes ago</time></unmagic-time>
   </div>
   <div class="flex justify-between gap-4">
     <span class="text-neutral-500">Deployed</span>
-    <unmagic-time datetime="2026-09-22T06:05:02Z" format="relative" compact="compact"><time datetime="2026-09-22T06:05:02Z" title="September 22, 2026 06:05">about 3 hours ago</time></unmagic-time>
+    <unmagic-time datetime="2026-09-22T07:04:33Z" format="relative" compact="compact"><time datetime="2026-09-22T07:04:33Z" title="September 22, 2026 07:04">about 3 hours ago</time></unmagic-time>
   </div>
   <div class="flex justify-between gap-4">
     <span class="text-neutral-500">Due</span>
-    <unmagic-time datetime="2026-09-24T09:05:02Z" format="date"><time datetime="2026-09-24T09:05:02Z">September 24, 2026</time></unmagic-time>
+    <unmagic-time datetime="2026-09-24T10:04:33Z" format="date"><time datetime="2026-09-24T10:04:33Z">September 24, 2026</time></unmagic-time>
   </div>
 </div>
 
@@ -1372,7 +1382,7 @@ Agents</button></div></header><div class="UnmagicCard__body UnmagicCard__body--f
         <div class="group relative overflow-hidden rounded-xl border border-neutral-200 bg-white hover:border-neutral-300 hover:shadow-sm dark:border-neutral-800 dark:bg-neutral-950 dark:hover:border-neutral-700">
           <div class="flex h-40 items-center justify-center overflow-hidden border-b border-neutral-200 bg-neutral-50 bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-5 dark:border-neutral-800 dark:bg-neutral-900/40 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)]">
             <div inert class="pointer-events-none flex max-h-full max-w-full select-none items-center justify-center">
-              <unmagic-toolbar class="UnmagicAIChatActionBar rounded-lg border border-neutral-200 bg-white p-1 dark:border-neutral-800 dark:bg-neutral-900" role="toolbar" aria-label="Message actions" aria-controls="thumb" data-reveal="always"><unmagic-clipboard value="x" class="UnmagicClipboard" data-copied-label="Copied"><button type="button" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button UnmagicAIChatActionBar__action" aria-label="Copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard><form class="UnmagicAIChatActionBar__form" method="post" action="#"><button aria-label="Try again" title="Try again" class="UnmagicButton UnmagicButton--icon UnmagicAIChatActionBar__action" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/rotate-cw" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg></button><input type="hidden" name="authenticity_token" value="RCojCKMTAKMQSpLqnB-GgDSA7RrZ-VOTg9Iidxn4PX2NeWk_nRIPA2hPBVpRBxvBRK13jjmCn-RchTJCbxUaAw" autocomplete="off" /></form><a aria-label="Edit" title="Edit" class="UnmagicButton UnmagicButton--icon UnmagicAIChatActionBar__action" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/pencil" aria-hidden="true"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg></a></unmagic-toolbar>
+              <unmagic-toolbar class="UnmagicAIChatActionBar rounded-lg border border-neutral-200 bg-white p-1 dark:border-neutral-800 dark:bg-neutral-900" role="toolbar" aria-label="Message actions" aria-controls="thumb" data-reveal="always"><unmagic-clipboard value="x" class="UnmagicClipboard" data-copied-label="Copied"><button type="button" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button UnmagicAIChatActionBar__action" aria-label="Copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard><form class="UnmagicAIChatActionBar__form" method="post" action="#"><button aria-label="Try again" title="Try again" class="UnmagicButton UnmagicButton--icon UnmagicAIChatActionBar__action" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/rotate-cw" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg></button><input type="hidden" name="authenticity_token" value="NDVWeOZ6c76923UbHqQfViJm6p1XwHlHAWH3VhxF4sqMLY3utwjBrHcQjkMcQ1CDiKj3N0M0Ujm8yyYrJJqepQ" autocomplete="off" /></form><a aria-label="Edit" title="Edit" class="UnmagicButton UnmagicButton--icon UnmagicAIChatActionBar__action" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/pencil" aria-hidden="true"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg></a></unmagic-toolbar>
             </div>
           </div>
           <div class="px-4 py-3">
@@ -1428,7 +1438,7 @@ Agents</button></div></header><div class="UnmagicCard__body UnmagicCard__body--f
           <div class="flex h-40 items-center justify-center overflow-hidden border-b border-neutral-200 bg-neutral-50 bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-5 dark:border-neutral-800 dark:bg-neutral-900/40 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)]">
             <div inert class="pointer-events-none flex max-h-full max-w-full select-none items-center justify-center">
               <div class="w-64 text-xs">
-  <form id="composer_thumb" action="#" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="SSJosEhewTpBWiF1AaeSjP_nBtmKUt2SSI_Zs4vJ6IqAcSKHdl_OmjlftsXMvw_Nj8qcTWopEeWX2MmG_STP9A" autocomplete="off" />
+  <form id="composer_thumb" action="#" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="cUv2Mb4bXENUo6VUv7XjfLzU1SwNc3vr2yJ0HZ1-gwjJUy2n72nuUZ5oXgy9UqypFhrIhhmHUJVmiKVgpaH_Zw" autocomplete="off" />
     <div class="UnmagicAIChatComposer"><div class="UnmagicAIChatComposer__chips" data-ai-chat-chips=""></div><div class="UnmagicAIChatComposer__box"><unmagic-autogrow class="UnmagicAutogrow"><textarea name="content" id="content" rows="1" required="required" placeholder="Message the assistant…" aria-label="Message the assistant…" class="UnmagicAIChatComposer__field" data-ai-chat-composer-field="">
 </textarea></unmagic-autogrow><div id="composer_thumb_action" class="UnmagicAIChatComposer__action" aria-live="polite"><button type="submit" form="composer_thumb" class="UnmagicButton UnmagicButton--primary"><span>Send</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/arrow-up" aria-hidden="true"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg></button></div></div></div>
 </form></div>
@@ -1491,7 +1501,7 @@ Agents</button></div></header><div class="UnmagicCard__body UnmagicCard__body--f
           <div class="flex h-40 items-center justify-center overflow-hidden border-b border-neutral-200 bg-neutral-50 bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-5 dark:border-neutral-800 dark:bg-neutral-900/40 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)]">
             <div inert class="pointer-events-none flex max-h-full max-w-full select-none items-center justify-center">
               <div class="w-60 text-xs">
-  <div class="UnmagicAIChatPayload"><div class="UnmagicAIChatPayload__head"><span class="UnmagicAIChatPayload__label">Asked</span><span class="UnmagicAIChatPayload__timing"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/timer" aria-hidden="true"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></svg><span class="UnmagicVisuallyHidden">Took</span>64ms</span></div><div class="UnmagicAIChatPayload__code" tabindex="0" role="region" aria-label="Asked"><div id="unmagic_code_view_4654285d" class="UnmagicCodeView"><pre class="UnmagicCodeView__pre"><code id="unmagic_code_view_4654285d_code" class="UnmagicCodeView__code language-json"><span class="p">{</span>
+  <div class="UnmagicAIChatPayload"><div class="UnmagicAIChatPayload__head"><span class="UnmagicAIChatPayload__label">Asked</span><span class="UnmagicAIChatPayload__timing"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/timer" aria-hidden="true"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></svg><span class="UnmagicVisuallyHidden">Took</span>64ms</span></div><div class="UnmagicAIChatPayload__code" tabindex="0" role="region" aria-label="Asked"><div id="unmagic_code_view_5868282f" class="UnmagicCodeView"><pre class="UnmagicCodeView__pre"><code id="unmagic_code_view_5868282f_code" class="UnmagicCodeView__code language-json"><span class="p">{</span>
 <span class="w">  </span><span class="nl">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;red lantern&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nl">&quot;limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span>
 <span class="p">}</span></code></pre></div></div></div>
@@ -1509,7 +1519,7 @@ Agents</button></div></header><div class="UnmagicCard__body UnmagicCard__body--f
           <div class="flex h-40 items-center justify-center overflow-hidden border-b border-neutral-200 bg-neutral-50 bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-5 dark:border-neutral-800 dark:bg-neutral-900/40 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)]">
             <div inert class="pointer-events-none flex max-h-full max-w-full select-none items-center justify-center">
               <div class="w-64 text-xs">
-  <div class="UnmagicAIChatPermission UnmagicAIChatPermission--waiting p-3 text-xs" tabindex="-1"><div class="UnmagicAIChatPermission__head"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/shield-alert" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>Wants permission</div><p class="UnmagicAIChatPermission__ask"><code class="UnmagicAIChatPermission__tool">delete_files</code> <span class="UnmagicAIChatPermission__argument">paths: drafts/*</span></p><div class="UnmagicAIChatPermission__actions"><form class="button_to" method="post" action="#"><button class="UnmagicButton UnmagicAIChatPermission__allow" type="submit">Allow</button><input type="hidden" name="authenticity_token" value="38-qcTZqr9cfL-Ts9r974bkc5igdt3WdiyQntnP3At8WnOBGCGugd2cqc1w7p-agyTF8vP3MuepUczeDBRoloQ" autocomplete="off" /></form><form class="button_to" method="post" action="#"><input type="hidden" name="_method" value="delete" autocomplete="off" /><button class="UnmagicButton" type="submit">Refuse</button><input type="hidden" name="authenticity_token" value="RCxmNu_n6REWSzrKZdZSsIPAz4CGInqA_F-RcJaaLd0UUzhidWVp0Slj23E8MFpKul-NFYo61RQCsxAUEKf0Tg" autocomplete="off" /></form></div></div></div>
+  <div class="UnmagicAIChatPermission UnmagicAIChatPermission--waiting p-3 text-xs" tabindex="-1"><div class="UnmagicAIChatPermission__head"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/shield-alert" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>Wants permission</div><p class="UnmagicAIChatPermission__ask"><code class="UnmagicAIChatPermission__tool">delete_files</code> <span class="UnmagicAIChatPermission__argument">paths: drafts/*</span></p><div class="UnmagicAIChatPermission__actions"><form class="button_to" method="post" action="#"><button class="UnmagicButton UnmagicAIChatPermission__allow" type="submit">Allow</button><input type="hidden" name="authenticity_token" value="kWm_IFuomDEc-gHUCRdiYP6WMLh-d0-1qNgzb0ut2oQpcWS2CtoqI9Yx-owL8C21VFgtEmqDZMsVcuISc3Km6w" autocomplete="off" /></form><form class="button_to" method="post" action="#"><input type="hidden" name="_method" value="delete" autocomplete="off" /><button class="UnmagicButton" type="submit">Refuse</button><input type="hidden" name="authenticity_token" value="Ht7nfOj0qTx_iBlIbzzKlGmJX3l9WAXrpVVKiRVdwZZ5VDSprr4bYmB1GYXRVxTzb4mTxtx7P5pHUoe3GGo8Jg" autocomplete="off" /></form></div></div></div>
 
             </div>
           </div>
@@ -1537,7 +1547,7 @@ Agents</button></div></header><div class="UnmagicCard__body UnmagicCard__body--f
           <div class="flex h-40 items-center justify-center overflow-hidden border-b border-neutral-200 bg-neutral-50 bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-5 dark:border-neutral-800 dark:bg-neutral-900/40 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)]">
             <div inert class="pointer-events-none flex max-h-full max-w-full select-none items-center justify-center">
               <div class="w-64 text-xs">
-  <aside class="UnmagicAIChatProposal UnmagicAIChatProposal--pending not-prose text-xs" aria-labelledby="unmagic_ai_chat_proposal_40391984_claim"><div class="UnmagicAIChatProposal__body"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicAIChatProposal__glyph" data-unmagic-icon="unmagic_components:lucide/lightbulb" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg><div><p id="unmagic_ai_chat_proposal_40391984_claim" class="UnmagicAIChatProposal__claim">Ana is travelling until the 18th</p></div></div><div class="UnmagicAIChatProposal__actions"><span class="UnmagicButton UnmagicButton--primary UnmagicButton--small">Remember</span></div></aside></div>
+  <aside class="UnmagicAIChatProposal UnmagicAIChatProposal--pending not-prose text-xs" aria-labelledby="unmagic_ai_chat_proposal_7299e5c5_claim"><div class="UnmagicAIChatProposal__body"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicAIChatProposal__glyph" data-unmagic-icon="unmagic_components:lucide/lightbulb" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg><div><p id="unmagic_ai_chat_proposal_7299e5c5_claim" class="UnmagicAIChatProposal__claim">Ana is travelling until the 18th</p></div></div><div class="UnmagicAIChatProposal__actions"><span class="UnmagicButton UnmagicButton--primary UnmagicButton--small">Remember</span></div></aside></div>
 
             </div>
           </div>
@@ -1566,7 +1576,7 @@ Agents</button></div></header><div class="UnmagicCard__body UnmagicCard__body--f
           <div class="flex h-40 items-center justify-center overflow-hidden border-b border-neutral-200 bg-neutral-50 bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-5 dark:border-neutral-800 dark:bg-neutral-900/40 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)]">
             <div inert class="pointer-events-none flex max-h-full max-w-full select-none items-center justify-center">
               <div class="w-64 text-xs">
-  <div class="UnmagicAIChatRequest UnmagicAIChatRequest--waiting p-3 text-xs"><div class="UnmagicAIChatRequest__head"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/circle-question-mark" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg><span>Wants to know</span></div><form class="UnmagicAIChatRequest__form" action="#" accept-charset="UTF-8" method="post"><input type="hidden" name="_method" value="patch" autocomplete="off" /><input type="hidden" name="authenticity_token" value="EO_RN-HtgO6zqPUYLU_iUxW23Gs5JRIRZB7VIQt0vmN___8OCAJ9m2wIK3jC1U3TtgdP4CPDDQElP-9viSgo_g" autocomplete="off" /><fieldset class="UnmagicAIChatRequest__question"><legend class="UnmagicAIChatRequest__legend"><span class="UnmagicAIChatRequest__label">How should it sound?</span></legend><div class="UnmagicAIChatRequest__options"><label class="UnmagicAIChatRequest__option"><input type="radio" name="answers[0][]" value="Friendly" required="required" class="UnmagicRadio"><span class="UnmagicAIChatRequest__choice"><span class="UnmagicAIChatRequest__choiceLabel">Friendly</span></span></label><label class="UnmagicAIChatRequest__option"><input type="radio" name="answers[0][]" value="Direct" required="required" class="UnmagicRadio"><span class="UnmagicAIChatRequest__choice"><span class="UnmagicAIChatRequest__choiceLabel">Direct</span></span></label></div></fieldset><div class="UnmagicAIChatRequest__actions"><button type="submit" class="UnmagicButton UnmagicButton--primary">Answer</button></div></form></div></div>
+  <div class="UnmagicAIChatRequest UnmagicAIChatRequest--waiting p-3 text-xs"><div class="UnmagicAIChatRequest__head"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/circle-question-mark" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg><span>Wants to know</span></div><form class="UnmagicAIChatRequest__form" action="#" accept-charset="UTF-8" method="post"><input type="hidden" name="_method" value="patch" autocomplete="off" /><input type="hidden" name="authenticity_token" value="r1Ra7vjTLUX4TDGLG6Qa4F8bSANqH5xnYIaQ_ZTMR22VfWeALm3NlJaobwuVVzOsXYzubwPmawzyA4Uub_mMbg" autocomplete="off" /><fieldset class="UnmagicAIChatRequest__question"><legend class="UnmagicAIChatRequest__legend"><span class="UnmagicAIChatRequest__label">How should it sound?</span></legend><div class="UnmagicAIChatRequest__options"><label class="UnmagicAIChatRequest__option"><input type="radio" name="answers[0][]" value="Friendly" required="required" class="UnmagicRadio"><span class="UnmagicAIChatRequest__choice"><span class="UnmagicAIChatRequest__choiceLabel">Friendly</span></span></label><label class="UnmagicAIChatRequest__option"><input type="radio" name="answers[0][]" value="Direct" required="required" class="UnmagicRadio"><span class="UnmagicAIChatRequest__choice"><span class="UnmagicAIChatRequest__choiceLabel">Direct</span></span></label></div></fieldset><div class="UnmagicAIChatRequest__actions"><button type="submit" class="UnmagicButton UnmagicButton--primary">Answer</button></div></form></div></div>
 
             </div>
           </div>
@@ -1620,7 +1630,7 @@ Agents</button></div></header><div class="UnmagicCard__body UnmagicCard__body--f
   <div id="thumb_tools" role="log" aria-live="polite" aria-relevant="additions" aria-label="Conversation" class="UnmagicAIChat">
     <div data-ai-chat-timeline="row" class="UnmagicAIChatToolCall UnmagicAIChatToolCall--done"><span class="UnmagicAIChatToolCall__join" aria-hidden="true"></span><div class="UnmagicAIChatToolCall__row"><span class="UnmagicAIChatToolCall__glyph"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/folder" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg><span class="UnmagicVisuallyHidden">Done</span></span><code class="UnmagicAIChatToolCall__name">list_shelves</code><span class="UnmagicAIChatToolCall__readings"><span class="UnmagicAIChatToolCall__reading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/timer" aria-hidden="true"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></svg><span class="UnmagicVisuallyHidden">Took</span>90ms</span></span></div></div>
     <div data-ai-chat-timeline="row" class="UnmagicAIChatToolCall UnmagicAIChatToolCall--done"><span class="UnmagicAIChatToolCall__join" aria-hidden="true"></span><div class="UnmagicAIChatToolCall__row"><span class="UnmagicAIChatToolCall__glyph"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/file" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg><span class="UnmagicVisuallyHidden">Done</span></span><code class="UnmagicAIChatToolCall__name">search_files</code><span class="UnmagicAIChatToolCall__readings"><span class="UnmagicAIChatToolCall__reading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/timer" aria-hidden="true"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></svg><span class="UnmagicVisuallyHidden">Took</span>640ms</span></span></div></div>
-    <div aria-busy="true" data-ai-chat-timeline="row" class="UnmagicAIChatToolCall UnmagicAIChatToolCall--running"><span class="UnmagicAIChatToolCall__join" aria-hidden="true"></span><div class="UnmagicAIChatToolCall__row"><span class="UnmagicAIChatToolCall__glyph"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicAIChatSpinner" data-unmagic-icon="unmagic_components:lucide/loader-circle" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg><span class="UnmagicVisuallyHidden">Running</span></span><code class="UnmagicAIChatToolCall__name">render_scene</code><span class="UnmagicAIChatToolCall__readings"><span class="UnmagicAIChatToolCall__reading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/timer" aria-hidden="true"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></svg><span class="UnmagicVisuallyHidden">Running for</span><unmagic-elapsed since="2026-09-22T09:03:50.106Z" title="September 22, 2026 09:03" class="UnmagicElapsed">1m 12s</unmagic-elapsed></span></span></div></div>
+    <div aria-busy="true" data-ai-chat-timeline="row" class="UnmagicAIChatToolCall UnmagicAIChatToolCall--running"><span class="UnmagicAIChatToolCall__join" aria-hidden="true"></span><div class="UnmagicAIChatToolCall__row"><span class="UnmagicAIChatToolCall__glyph"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicAIChatSpinner" data-unmagic-icon="unmagic_components:lucide/loader-circle" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg><span class="UnmagicVisuallyHidden">Running</span></span><code class="UnmagicAIChatToolCall__name">render_scene</code><span class="UnmagicAIChatToolCall__readings"><span class="UnmagicAIChatToolCall__reading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/timer" aria-hidden="true"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></svg><span class="UnmagicVisuallyHidden">Running for</span><unmagic-elapsed since="2026-09-22T10:03:21.246Z" title="September 22, 2026 10:03" class="UnmagicElapsed">1m 12s</unmagic-elapsed></span></span></div></div>
 </div></div>
 
             </div>
@@ -1665,7 +1675,8 @@ Agents</button></div></header><div class="UnmagicCard__body UnmagicCard__body--f
       </main>
     </div>
 
-    <unmagic-modal><dialog class="UnmagicDialogBox" data-unmagic-dialog=""><turbo-frame id="modal"></turbo-frame><template data-unmagic-modal-skeleton=""><div class="UnmagicDialog" role="status"><span class="UnmagicVisuallyHidden">Loading…</span><header class="UnmagicDialog__header"><div class="UnmagicSkeleton UnmagicDialog__skeleton-title"></div></header><div class="UnmagicDialog__body"><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div></div><div class="UnmagicDialog__footer"><div class="UnmagicSkeleton UnmagicDialog__skeleton-button"></div></div></div></template><template data-unmagic-modal-error=""><div role="alert" class="UnmagicDialog"><header class="UnmagicDialog__header"><h2 id="unmagic_dialog_2ba20b4e_title" class="UnmagicDialog__title">Couldn’t load</h2><button type="button" class="UnmagicButton UnmagicButton--icon UnmagicDialog__close" aria-label="Close" data-unmagic-dialog-close=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/x" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></header><div class="UnmagicDialog__body"><div class="UnmagicDialog__error"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/circle-x" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg><p>Something went wrong loading this. Check your connection and try again.</p></div></div><div class="UnmagicDialog__footer"><button type="button" class="UnmagicButton UnmagicButton--primary" data-unmagic-modal-retry=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/rotate-cw" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>Try again</button></div></div></template></dialog></unmagic-modal>
+
+    <unmagic-modal><dialog class="UnmagicDialogBox" data-unmagic-dialog=""><turbo-frame id="modal"></turbo-frame><template data-unmagic-modal-skeleton=""><div class="UnmagicDialog" role="status"><span class="UnmagicVisuallyHidden">Loading…</span><header class="UnmagicDialog__header"><div class="UnmagicSkeleton UnmagicDialog__skeleton-title"></div></header><div class="UnmagicDialog__body"><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div></div><div class="UnmagicDialog__footer"><div class="UnmagicSkeleton UnmagicDialog__skeleton-button"></div></div></div></template><template data-unmagic-modal-error=""><div role="alert" class="UnmagicDialog"><header class="UnmagicDialog__header"><h2 id="unmagic_dialog_801b122f_title" class="UnmagicDialog__title">Couldn’t load</h2><button type="button" class="UnmagicButton UnmagicButton--icon UnmagicDialog__close" aria-label="Close" data-unmagic-dialog-close=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/x" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></header><div class="UnmagicDialog__body"><div class="UnmagicDialog__error"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/circle-x" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg><p>Something went wrong loading this. Check your connection and try again.</p></div></div><div class="UnmagicDialog__footer"><button type="button" class="UnmagicButton UnmagicButton--primary" data-unmagic-modal-retry=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/rotate-cw" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>Try again</button></div></div></template></dialog></unmagic-modal>
     <template data-unmagic-confirm=""><dialog class="UnmagicDialogBox" role="alertdialog" data-unmagic-dialog=""><form method="dialog" class="UnmagicDialog"><header class="UnmagicDialog__header"><h2 class="UnmagicDialog__title" data-unmagic-confirm-title="">Are you sure?</h2></header><div class="UnmagicDialog__body"><p data-unmagic-confirm-message=""></p></div><div class="UnmagicDialog__footer"><button value="cancel" class="UnmagicButton" data-unmagic-confirm-cancel="">Cancel</button><button value="confirm" class="UnmagicButton UnmagicButton--primary" data-unmagic-confirm-accept="">Confirm</button></div></form></dialog></template>
     <unmagic-toasts id="unmagic_toasts" duration="5000" position="top_end"><div class="UnmagicToasts__stack" id="unmagic_toasts_stack" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="top_end"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_top_start" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="top_start"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_top" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="top"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_bottom_start" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="bottom_start"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_bottom" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="bottom"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_bottom_end" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="bottom_end"></div><template data-unmagic-toast-blueprint=""><div class="UnmagicToast UnmagicToast--good" data-unmagic-toast="" data-toast-icon="default" style="--unmagic-toast-width: 384px; "><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/circle-check" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg><div class="UnmagicToast__main"><div class="UnmagicToast__content"><div class="UnmagicToast__title"></div><div class="UnmagicToast__message"></div></div><div class="UnmagicToast__actions"><button type="button" class="UnmagicButton UnmagicButton--small"></button></div></div><button type="button" class="UnmagicToast__dismiss" aria-label="Dismiss" data-unmagic-toast-dismiss=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/x" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div></template><template data-unmagic-toast-icon="good"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/circle-check" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></template><template data-unmagic-toast-icon="warn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/triangle-alert" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></template><template data-unmagic-toast-icon="bad"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/circle-x" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg></template><template data-unmagic-toast-icon="info"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template><template data-unmagic-toast-icon="neutral"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template><template data-unmagic-toast-icon="accent"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template><template data-unmagic-toast-icon="inverted"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template></unmagic-toasts>
   </body>

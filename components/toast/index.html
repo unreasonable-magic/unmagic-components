@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="data:,">
     <meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="7Msx-ggX6KYEPH8wmt0mcyNOU2lviHcry9QIJCG8WJlRGAxX0iWlOm3Q_MLH7QxG6FFNdm9PC4LvkojP-nsIQw" />
+<meta name="csrf-token" content="Dekary7l3K33PrDAqyOuarp_VSji4YIxePz12Jrcfk8t6f4LBcmCMxAnAsRaiGgKr2CeD06TopFDZIyRVLq7fA" />
     <meta name="turbo-refresh-method" content="morph">
     <meta name="turbo-refresh-scroll" content="preserve">
     <script nonce="">
@@ -17,15 +17,18 @@
           var theme = asked || localStorage.getItem(key)
           if (theme) document.documentElement.dataset.theme = theme
         } catch (_) {}
+        var previewTheme = new URLSearchParams(location.search).get("preview_theme")
+        if (previewTheme === "light" || previewTheme === "dark") document.documentElement.dataset.theme = previewTheme
         document.addEventListener("DOMContentLoaded", function () {
           var link = document.querySelector("[data-theme-toggle]")
           if (link) link.href = "?theme=" + (document.documentElement.dataset.theme === "dark" ? "light" : "dark")
         })
       })()
     </script>
-    <link rel="stylesheet" href="/unmagic-components/assets/stylesheets/browser.css?v=0.6.0-1790067867">
-    <script type="importmap">{"imports":{"@hotwired/turbo-rails":"/unmagic-components/assets/turbo/turbo.min.js?v=2.0.23-1789500601","unmagic/components":"/unmagic-components/assets/javascripts/unmagic/components.js?v=0.6.0-1790067867","unmagic/components/ai_chat":"/unmagic-components/assets/javascripts/unmagic/components/ai_chat.js?v=0.6.0-1790067867","unmagic/components/autogrow":"/unmagic-components/assets/javascripts/unmagic/components/autogrow.js?v=0.6.0-1790067867","unmagic/components/autoscroll":"/unmagic-components/assets/javascripts/unmagic/components/autoscroll.js?v=0.6.0-1790067867","unmagic/components/board":"/unmagic-components/assets/javascripts/unmagic/components/board.js?v=0.6.0-1790067867","unmagic/components/clipboard":"/unmagic-components/assets/javascripts/unmagic/components/clipboard.js?v=0.6.0-1790067867","unmagic/components/combobox":"/unmagic-components/assets/javascripts/unmagic/components/combobox.js?v=0.6.0-1790067867","unmagic/components/command_palette":"/unmagic-components/assets/javascripts/unmagic/components/command_palette.js?v=0.6.0-1790067867","unmagic/components/confirm":"/unmagic-components/assets/javascripts/unmagic/components/confirm.js?v=0.6.0-1790067867","unmagic/components/dialog":"/unmagic-components/assets/javascripts/unmagic/components/dialog.js?v=0.6.0-1790067867","unmagic/components/dropzone":"/unmagic-components/assets/javascripts/unmagic/components/dropzone.js?v=0.6.0-1790067867","unmagic/components/elapsed":"/unmagic-components/assets/javascripts/unmagic/components/elapsed.js?v=0.6.0-1790067867","unmagic/components/image_color_picker":"/unmagic-components/assets/javascripts/unmagic/components/image_color_picker.js?v=0.6.0-1790067867","unmagic/components/image_crop":"/unmagic-components/assets/javascripts/unmagic/components/image_crop.js?v=0.6.0-1790067867","unmagic/components/image_zoom":"/unmagic-components/assets/javascripts/unmagic/components/image_zoom.js?v=0.6.0-1790067867","unmagic/components/menu":"/unmagic-components/assets/javascripts/unmagic/components/menu.js?v=0.6.0-1790067867","unmagic/components/modal":"/unmagic-components/assets/javascripts/unmagic/components/modal.js?v=0.6.0-1790067867","unmagic/components/navbar":"/unmagic-components/assets/javascripts/unmagic/components/navbar.js?v=0.6.0-1790067867","unmagic/components/one_time_code":"/unmagic-components/assets/javascripts/unmagic/components/one_time_code.js?v=0.6.0-1790067867","unmagic/components/optimistic":"/unmagic-components/assets/javascripts/unmagic/components/optimistic.js?v=0.6.0-1790067867","unmagic/components/password":"/unmagic-components/assets/javascripts/unmagic/components/password.js?v=0.6.0-1790067867","unmagic/components/placement":"/unmagic-components/assets/javascripts/unmagic/components/placement.js?v=0.6.0-1790067867","unmagic/components/popover":"/unmagic-components/assets/javascripts/unmagic/components/popover.js?v=0.6.0-1790067867","unmagic/components/position":"/unmagic-components/assets/javascripts/unmagic/components/position.js?v=0.6.0-1790067867","unmagic/components/sidebar":"/unmagic-components/assets/javascripts/unmagic/components/sidebar.js?v=0.6.0-1790067867","unmagic/components/slash_menu":"/unmagic-components/assets/javascripts/unmagic/components/slash_menu.js?v=0.6.0-1790067867","unmagic/components/sortable":"/unmagic-components/assets/javascripts/unmagic/components/sortable.js?v=0.6.0-1790067867","unmagic/components/sortable_item":"/unmagic-components/assets/javascripts/unmagic/components/sortable_item.js?v=0.6.0-1790067867","unmagic/components/sortable_list":"/unmagic-components/assets/javascripts/unmagic/components/sortable_list.js?v=0.6.0-1790067867","unmagic/components/sortable_param":"/unmagic-components/assets/javascripts/unmagic/components/sortable_param.js?v=0.6.0-1790067867","unmagic/components/sortable_session":"/unmagic-components/assets/javascripts/unmagic/components/sortable_session.js?v=0.6.0-1790067867","unmagic/components/streaming_markdown":"/unmagic-components/assets/javascripts/unmagic/components/streaming_markdown.js?v=0.6.0-1790067867","unmagic/components/tabs":"/unmagic-components/assets/javascripts/unmagic/components/tabs.js?v=0.6.0-1790067867","unmagic/components/time":"/unmagic-components/assets/javascripts/unmagic/components/time.js?v=0.6.0-1790067867","unmagic/components/toasts":"/unmagic-components/assets/javascripts/unmagic/components/toasts.js?v=0.6.0-1790067867","unmagic/components/toggle":"/unmagic-components/assets/javascripts/unmagic/components/toggle.js?v=0.6.0-1790067867","unmagic/components/toolbar":"/unmagic-components/assets/javascripts/unmagic/components/toolbar.js?v=0.6.0-1790067867","unmagic/components/tooltip":"/unmagic-components/assets/javascripts/unmagic/components/tooltip.js?v=0.6.0-1790067867","unmagic/components/upsert":"/unmagic-components/assets/javascripts/unmagic/components/upsert.js?v=0.6.0-1790067867","unmagic/components/uuid_input":"/unmagic-components/assets/javascripts/unmagic/components/uuid_input.js?v=0.6.0-1790067867"}}</script>
+    <link rel="stylesheet" href="/unmagic-components/assets/stylesheets/browser.css?v=0.6.0-1790071448">
+    <script type="importmap">{"imports":{"@hotwired/turbo-rails":"/unmagic-components/assets/turbo/turbo.min.js?v=2.0.23-1789500601","unmagic/components":"/unmagic-components/assets/javascripts/unmagic/components.js?v=0.6.0-1790071448","unmagic/components/ai_chat":"/unmagic-components/assets/javascripts/unmagic/components/ai_chat.js?v=0.6.0-1790071448","unmagic/components/autogrow":"/unmagic-components/assets/javascripts/unmagic/components/autogrow.js?v=0.6.0-1790071448","unmagic/components/autoscroll":"/unmagic-components/assets/javascripts/unmagic/components/autoscroll.js?v=0.6.0-1790071448","unmagic/components/board":"/unmagic-components/assets/javascripts/unmagic/components/board.js?v=0.6.0-1790071448","unmagic/components/clipboard":"/unmagic-components/assets/javascripts/unmagic/components/clipboard.js?v=0.6.0-1790071448","unmagic/components/combobox":"/unmagic-components/assets/javascripts/unmagic/components/combobox.js?v=0.6.0-1790071448","unmagic/components/command_palette":"/unmagic-components/assets/javascripts/unmagic/components/command_palette.js?v=0.6.0-1790071448","unmagic/components/confirm":"/unmagic-components/assets/javascripts/unmagic/components/confirm.js?v=0.6.0-1790071448","unmagic/components/dialog":"/unmagic-components/assets/javascripts/unmagic/components/dialog.js?v=0.6.0-1790071448","unmagic/components/dropzone":"/unmagic-components/assets/javascripts/unmagic/components/dropzone.js?v=0.6.0-1790071448","unmagic/components/elapsed":"/unmagic-components/assets/javascripts/unmagic/components/elapsed.js?v=0.6.0-1790071448","unmagic/components/image_color_picker":"/unmagic-components/assets/javascripts/unmagic/components/image_color_picker.js?v=0.6.0-1790071448","unmagic/components/image_crop":"/unmagic-components/assets/javascripts/unmagic/components/image_crop.js?v=0.6.0-1790071448","unmagic/components/image_zoom":"/unmagic-components/assets/javascripts/unmagic/components/image_zoom.js?v=0.6.0-1790071448","unmagic/components/menu":"/unmagic-components/assets/javascripts/unmagic/components/menu.js?v=0.6.0-1790071448","unmagic/components/modal":"/unmagic-components/assets/javascripts/unmagic/components/modal.js?v=0.6.0-1790071448","unmagic/components/navbar":"/unmagic-components/assets/javascripts/unmagic/components/navbar.js?v=0.6.0-1790071448","unmagic/components/one_time_code":"/unmagic-components/assets/javascripts/unmagic/components/one_time_code.js?v=0.6.0-1790071448","unmagic/components/optimistic":"/unmagic-components/assets/javascripts/unmagic/components/optimistic.js?v=0.6.0-1790071448","unmagic/components/password":"/unmagic-components/assets/javascripts/unmagic/components/password.js?v=0.6.0-1790071448","unmagic/components/placement":"/unmagic-components/assets/javascripts/unmagic/components/placement.js?v=0.6.0-1790071448","unmagic/components/popover":"/unmagic-components/assets/javascripts/unmagic/components/popover.js?v=0.6.0-1790071448","unmagic/components/position":"/unmagic-components/assets/javascripts/unmagic/components/position.js?v=0.6.0-1790071448","unmagic/components/sidebar":"/unmagic-components/assets/javascripts/unmagic/components/sidebar.js?v=0.6.0-1790071448","unmagic/components/slash_menu":"/unmagic-components/assets/javascripts/unmagic/components/slash_menu.js?v=0.6.0-1790071448","unmagic/components/sortable":"/unmagic-components/assets/javascripts/unmagic/components/sortable.js?v=0.6.0-1790071448","unmagic/components/sortable_item":"/unmagic-components/assets/javascripts/unmagic/components/sortable_item.js?v=0.6.0-1790071448","unmagic/components/sortable_list":"/unmagic-components/assets/javascripts/unmagic/components/sortable_list.js?v=0.6.0-1790071448","unmagic/components/sortable_param":"/unmagic-components/assets/javascripts/unmagic/components/sortable_param.js?v=0.6.0-1790071448","unmagic/components/sortable_session":"/unmagic-components/assets/javascripts/unmagic/components/sortable_session.js?v=0.6.0-1790071448","unmagic/components/streaming_markdown":"/unmagic-components/assets/javascripts/unmagic/components/streaming_markdown.js?v=0.6.0-1790071448","unmagic/components/tabs":"/unmagic-components/assets/javascripts/unmagic/components/tabs.js?v=0.6.0-1790071448","unmagic/components/time":"/unmagic-components/assets/javascripts/unmagic/components/time.js?v=0.6.0-1790071448","unmagic/components/toasts":"/unmagic-components/assets/javascripts/unmagic/components/toasts.js?v=0.6.0-1790071448","unmagic/components/toggle":"/unmagic-components/assets/javascripts/unmagic/components/toggle.js?v=0.6.0-1790071448","unmagic/components/toolbar":"/unmagic-components/assets/javascripts/unmagic/components/toolbar.js?v=0.6.0-1790071448","unmagic/components/tooltip":"/unmagic-components/assets/javascripts/unmagic/components/tooltip.js?v=0.6.0-1790071448","unmagic/components/upsert":"/unmagic-components/assets/javascripts/unmagic/components/upsert.js?v=0.6.0-1790071448","unmagic/components/uuid_input":"/unmagic-components/assets/javascripts/unmagic/components/uuid_input.js?v=0.6.0-1790071448"}}</script>
 <script type="module">import "unmagic/components"</script>
+    <script src="/unmagic-components/assets/browser/browser.js?v=0.6.0-1790071448" type="module"></script>
     <script nonce="">
       (function () {
         var scrollPositions = []
@@ -43,229 +46,7 @@
     </script>
   </head>
   <body class="min-h-screen bg-white text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-100">
-    <aside class="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-neutral-200 bg-neutral-50/70 lg:flex dark:border-neutral-800 dark:bg-neutral-900/40">
-      <div class="flex h-14 shrink-0 items-center px-5">
-        <a class="flex items-center gap-2.5 text-sm font-semibold" href="/unmagic-components/">
-          <span class="grid size-6 place-items-center rounded-md bg-neutral-900 text-[0.625rem] font-bold text-white dark:bg-white dark:text-neutral-900">um</span>
-          unmagic-components
-</a>      </div>
-      <nav class="flex-1 overflow-y-auto px-3 pb-10" aria-label="Components" data-browser-nav>
-        
-<p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-4">Getting started</p>
-  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/">Overview</a>
-  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/installation">Installation</a>
-  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/theming">Theming</a>
-
-  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Layout</p>
-    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/card">
-      Card
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/empty_state">
-      Empty state
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/item">
-      Item
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/page_header">
-      Page header
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/panel">
-      Panel
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/scroll_area">
-      Scroll area
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/section">
-      Section
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/separator">
-      Separator
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/skeleton">
-      Skeleton
-      
-</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Forms</p>
-    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/button">
-      Button
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/combobox">
-      Combobox
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/forms">
-      Form builder
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/toggle">
-      Toggle
-      
-</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Navigation</p>
-    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/breadcrumbs">
-      Breadcrumbs
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/command_palette">
-      Command palette
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/context_menu">
-      Context menu
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/menu">
-      Menu
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/navbar">
-      Navbar
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/pagination">
-      Pagination
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/sidebar">
-      Sidebar
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tabs">
-      Tabs
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tree_view">
-      Tree view
-      
-</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Overlays</p>
-    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/confirm">
-      Confirm
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/dialog">
-      Dialog
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/disclosure">
-      Disclosure
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/popover">
-      Popover
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm font-medium bg-neutral-200/70 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100 flex items-center justify-between gap-2" aria-current="page" href="/unmagic-components/components/toast">
-      Toast
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tooltip">
-      Tooltip
-      
-</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Data display</p>
-    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/avatar">
-      Avatar
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/badge">
-      Badge
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/board">
-      Board
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/callout">
-      Callout
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/chart">
-      Chart
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/code_view">
-      Code view
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/copy_button">
-      Copy button
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/detail_list">
-      Detail list
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/elapsed">
-      Elapsed
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_color_picker">
-      Image Color Picker
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_crop">
-      Image Crop
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_zoom">
-      Image Zoom
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/kbd">
-      Kbd
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/local_time">
-      Local time
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/progress">
-      Progress
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/sortable_list">
-      Sortable list
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/spinner">
-      Spinner
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/table">
-      Table
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/timeline">
-      Timeline
-      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
-</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">AI chat</p>
-    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_action_bar">
-      Action bar
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_attachments">
-      Attachments
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_branch_picker">
-      Branch picker
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_citation">
-      Citation
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_composer">
-      Composer
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat">
-      Conversation
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_failure">
-      Failure
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_message">
-      Message
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_payload">
-      Payload
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_permission">
-      Permission
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_plan">
-      Plan
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_proposal">
-      Proposal
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_reasoning">
-      Reasoning
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_request">
-      Request
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_slash_menu">
-      Slash menu
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/streaming_markdown">
-      Streaming Markdown
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_tool_call">
-      Tool call
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_welcome">
-      Welcome
-      
-</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_workspace">
-      Workspace
-      
-</a>
-      </nav>
-    </aside>
-
-    <div class="lg:pl-64">
-      <header class="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-neutral-200 bg-white/85 px-4 backdrop-blur sm:px-8 dark:border-neutral-800 dark:bg-neutral-950/85">
+      <header class="sticky top-0 z-40 flex h-14 items-center gap-3 border-b border-neutral-200 bg-white/85 px-4 backdrop-blur sm:px-8 dark:border-neutral-800 dark:bg-neutral-950/85">
         <details class="relative lg:hidden">
           <summary class="UnmagicButton UnmagicButton--icon list-none [&::-webkit-details-marker]:hidden" aria-label="Menu">
             <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -482,16 +263,16 @@
       Workspace
       
 </a>
+
           </nav>
         </details>
 
-        <nav class="flex min-w-0 items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400" aria-label="Breadcrumb">
-              <a class="shrink-0 hover:text-neutral-900 dark:hover:text-neutral-100" href="/unmagic-components/">Overlays</a>
-  <svg class="size-3.5 shrink-0 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-
-    <span class="truncate font-medium text-neutral-900 dark:text-neutral-100" aria-current="page">Toast</span>
-
-
+        <a class="flex shrink-0 items-center gap-2 text-sm font-semibold" aria-label="Unmagic home" href="/unmagic-components/">
+          <span class="grid size-7 place-items-center rounded-md bg-neutral-900 text-xs font-bold text-white dark:bg-white dark:text-neutral-900">um</span>
+          <span class="hidden sm:inline">unmagic</span>
+</a>        <nav class="flex min-w-0 items-center gap-1 overflow-x-auto sm:ml-6" aria-label="Global">
+            <a class="rounded-md px-3 py-2 text-sm whitespace-nowrap bg-neutral-100 font-semibold text-neutral-900 dark:bg-neutral-800 dark:text-white" aria-current="page" href="/unmagic-components/">Components</a>
+            <a class="rounded-md px-3 py-2 text-sm whitespace-nowrap text-neutral-500 hover:text-neutral-900 dark:hover:text-white" href="/unmagic-components/blocks">Blocks</a>
         </nav>
 
         <div class="ml-auto flex items-center gap-1">
@@ -502,6 +283,235 @@
             <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-5-2"/></svg>
 </a>        </div>
       </header>
+    <aside class="fixed bottom-0 top-14 left-0 z-30 hidden w-64 flex-col border-r border-neutral-200 bg-neutral-50/70 lg:flex dark:border-neutral-800 dark:bg-neutral-900/40">
+      <nav class="flex-1 overflow-y-auto px-3 pb-10" aria-label="Components" data-browser-nav>
+        
+<p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-4">Getting started</p>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/">Overview</a>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/installation">Installation</a>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/theming">Theming</a>
+
+  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Layout</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/card">
+      Card
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/empty_state">
+      Empty state
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/item">
+      Item
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/page_header">
+      Page header
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/panel">
+      Panel
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/scroll_area">
+      Scroll area
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/section">
+      Section
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/separator">
+      Separator
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/skeleton">
+      Skeleton
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Forms</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/button">
+      Button
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/combobox">
+      Combobox
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/forms">
+      Form builder
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/toggle">
+      Toggle
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Navigation</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/breadcrumbs">
+      Breadcrumbs
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/command_palette">
+      Command palette
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/context_menu">
+      Context menu
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/menu">
+      Menu
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/navbar">
+      Navbar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/pagination">
+      Pagination
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/sidebar">
+      Sidebar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tabs">
+      Tabs
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tree_view">
+      Tree view
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Overlays</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/confirm">
+      Confirm
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/dialog">
+      Dialog
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/disclosure">
+      Disclosure
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/popover">
+      Popover
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm font-medium bg-neutral-200/70 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100 flex items-center justify-between gap-2" aria-current="page" href="/unmagic-components/components/toast">
+      Toast
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tooltip">
+      Tooltip
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Data display</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/avatar">
+      Avatar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/badge">
+      Badge
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/board">
+      Board
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/callout">
+      Callout
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/chart">
+      Chart
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/code_view">
+      Code view
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/copy_button">
+      Copy button
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/detail_list">
+      Detail list
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/elapsed">
+      Elapsed
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_color_picker">
+      Image Color Picker
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_crop">
+      Image Crop
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_zoom">
+      Image Zoom
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/kbd">
+      Kbd
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/local_time">
+      Local time
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/progress">
+      Progress
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/sortable_list">
+      Sortable list
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/spinner">
+      Spinner
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/table">
+      Table
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/timeline">
+      Timeline
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">AI chat</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_action_bar">
+      Action bar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_attachments">
+      Attachments
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_branch_picker">
+      Branch picker
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_citation">
+      Citation
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_composer">
+      Composer
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat">
+      Conversation
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_failure">
+      Failure
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_message">
+      Message
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_payload">
+      Payload
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_permission">
+      Permission
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_plan">
+      Plan
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_proposal">
+      Proposal
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_reasoning">
+      Reasoning
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_request">
+      Request
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_slash_menu">
+      Slash menu
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/streaming_markdown">
+      Streaming Markdown
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_tool_call">
+      Tool call
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_welcome">
+      Welcome
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_workspace">
+      Workspace
+      
+</a>
+
+      </nav>
+    </aside>
+
+
+    <div class="lg:pl-64">
+      <div class="border-b border-neutral-200 px-4 py-3 sm:px-8 dark:border-neutral-800">
+        <nav class="flex min-w-0 items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400" aria-label="Breadcrumb">
+              <a class="shrink-0 hover:text-neutral-900 dark:hover:text-neutral-100" href="/unmagic-components/">Overlays</a>
+  <svg class="size-3.5 shrink-0 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+
+    <span class="truncate font-medium text-neutral-900 dark:text-neutral-100" aria-current="page">Toast</span>
+
+
+        </nav>
+      </div>
 
       <main class="mx-auto max-w-6xl px-4 py-10 sm:px-8 lg:py-14">
         
@@ -512,6 +522,13 @@
       <h1 class="text-3xl font-semibold tracking-tight">Toast</h1>
       <p class="mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400">Flashes and stream responses as toasts that dismiss themselves, pause while hovered or focused, and survive Drive visits and morph refreshes.</p>
     </header>
+
+      <nav aria-label="Used in blocks" class="mb-10 rounded-xl border border-neutral-200 p-4 dark:border-neutral-800">
+        <h2 class="mb-3 text-sm font-semibold">Used in blocks</h2>
+        <div class="flex flex-wrap gap-2">
+            <a class="rounded-md bg-neutral-100 px-3 py-1.5 text-sm hover:underline dark:bg-neutral-800" href="/unmagic-components/blocks/customer_workspace">Customer workspace</a>
+        </div>
+      </nav>
 
     <div class="space-y-14">
         
@@ -696,7 +713,7 @@
   <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="toast_javascript_rails_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="toast_javascript_rails_view_tab_0" class="UnmagicTabs__tab" aria-controls="toast_javascript_rails_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="toast_javascript_rails_view_tab_1" class="UnmagicTabs__tab" aria-controls="toast_javascript_rails_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="toast_javascript_rails_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="toast_javascript_rails_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] flex min-h-52 items-center justify-center">
         <div class="max-w-full">
           <unmagic-rails-toast-demo class="flex flex-wrap gap-2">
-  <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Stream from Rails</button><input type="hidden" name="authenticity_token" value="Xb-GtGTYLLxABZoDCJey7mAD-fGxybr_4a5oOxCX2VawtGjpykw-ZOARqzx4vBbMPNFdvEFVW3RklsX_UiNxBg" autocomplete="off" /><input type="hidden" name="example" value="javascript_rails" autocomplete="off" /><input type="hidden" name="message" value="Created by Rails. Dismiss me from JavaScript." autocomplete="off" /></form>
+  <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Stream from Rails</button><input type="hidden" name="authenticity_token" value="M5rmr-ermgSNDQ1yrWJcHSF3hcZLHxtbzPbu8sd8RB8Ug-QevzlfHJAJg3TiN3TrKeuMU7bCMXjJENeq7FFYng" autocomplete="off" /><input type="hidden" name="example" value="javascript_rails" autocomplete="off" /><input type="hidden" name="message" value="Created by Rails. Dismiss me from JavaScript." autocomplete="off" /></form>
   <button name="button" type="button" class="UnmagicButton" data-dismiss-rails="">Dismiss from JavaScript</button>
 </unmagic-rails-toast-demo>
 <script type="module">
@@ -767,11 +784,11 @@
   <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="toast_flash_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="toast_flash_view_tab_0" class="UnmagicTabs__tab" aria-controls="toast_flash_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="toast_flash_view_tab_1" class="UnmagicTabs__tab" aria-controls="toast_flash_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="toast_flash_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="toast_flash_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
         <div class="w-full">
           <div class="flex flex-wrap gap-2">
-  <form class="button_to" method="post" action="/unmagic-components/toasts/flash"><button class="UnmagicButton UnmagicButton--primary" type="submit">Notice</button><input type="hidden" name="authenticity_token" value="PmNmxzJYqxCZs02KLiesXVrkjhJm8Bhb6JSm0Ewt5P3ptRbAubQZEtaT8A4cikClR3RxH_tGozL01NY5yVxcvQ" autocomplete="off" /><input type="hidden" name="message" value="Changes saved." autocomplete="off" /><input type="hidden" name="type" value="notice" autocomplete="off" /></form>
-  <form class="button_to" method="post" action="/unmagic-components/toasts/flash"><button class="UnmagicButton" type="submit">Alert</button><input type="hidden" name="authenticity_token" value="DESJBeHkhF-Rj79IFwGoE_7kc4TdvjorLekANSWObxfbkvkCagg2Xd6vAswlrETr43SMiUAIgUIxqXDcoP_XVw" autocomplete="off" /><input type="hidden" name="message" value="Couldn&#39;t save your changes." autocomplete="off" /><input type="hidden" name="type" value="alert" autocomplete="off" /></form>
-  <form class="button_to" method="post" action="/unmagic-components/toasts/flash"><button class="UnmagicButton" type="submit">Warning</button><input type="hidden" name="authenticity_token" value="JuGt6-jS4UbXVb1V3oa_AA-ZX3oVoJsrHHKGkHt5FPfxN93sYz5TRJh1ANHsK1P4Egmgd4gWIEIAMvZ5_gistw" autocomplete="off" /><input type="hidden" name="message" value="Your trial ends in 3 days." autocomplete="off" /><input type="hidden" name="type" value="warning" autocomplete="off" /></form>
-  <form class="button_to" method="post" action="/unmagic-components/toasts/flash"><button class="UnmagicButton" type="submit">Info</button><input type="hidden" name="authenticity_token" value="UDrAReI4hfK3p6-5-3ZiRrDuspRwySL_9RpgvnR5f8yH7LBCadQ38PiHEj3J246-rX5Nme1_mZbpWhBX8QjHjA" autocomplete="off" /><input type="hidden" name="message" value="A new version is available." autocomplete="off" /><input type="hidden" name="type" value="info" autocomplete="off" /></form>
-  <form class="button_to" method="post" action="/unmagic-components/toasts/flash"><button class="UnmagicButton" type="submit">Long</button><input type="hidden" name="authenticity_token" value="cuGPKUGOu2OCx5ThOxTXA3gCN39zgHc3hAnoXJvO6bClN_8uymIJYc3nKWUJuTv7ZZLIcu42zF6YSZi1Hr9R8A" autocomplete="off" /><input type="hidden" name="message" value="Imported 1,204 contacts from contacts-export-2026-09-16-final-final.csv into the Sales pipeline." autocomplete="off" /><input type="hidden" name="type" value="notice" autocomplete="off" /></form>
+  <form class="button_to" method="post" action="/unmagic-components/toasts/flash"><button class="UnmagicButton UnmagicButton--primary" type="submit">Notice</button><input type="hidden" name="authenticity_token" value="z3cLKIqYCKPc1XHHJZEpGAljnzMPGJIik83i7ibNKQmiArdA89D1U3Xyeo6gPMFSkAjXSrul9MTX8GLtEr9MVA" autocomplete="off" /><input type="hidden" name="message" value="Changes saved." autocomplete="off" /><input type="hidden" name="type" value="notice" autocomplete="off" /></form>
+  <form class="button_to" method="post" action="/unmagic-components/toasts/flash"><button class="UnmagicButton" type="submit">Alert</button><input type="hidden" name="authenticity_token" value="m5IzISMQ7jlZFjDPW_8A2LJu45pifw1L6LYJ3Wp1Nrz2549JWlgTyfAxO4beUuiSKwWr49bCa62si4neXgdT4Q" autocomplete="off" /><input type="hidden" name="message" value="Couldn&#39;t save your changes." autocomplete="off" /><input type="hidden" name="type" value="alert" autocomplete="off" /></form>
+  <form class="button_to" method="post" action="/unmagic-components/toasts/flash"><button class="UnmagicButton" type="submit">Warning</button><input type="hidden" name="authenticity_token" value="5fRk_bK_RTTJsPMnffbuUl2Czu09QV6Xwvy3Uhl8lZ6IgdiVy_e4xGCX-G74WwYYxOmGlIn8OHGGwTdRLQ7www" autocomplete="off" /><input type="hidden" name="message" value="Your trial ends in 3 days." autocomplete="off" /><input type="hidden" name="type" value="warning" autocomplete="off" /></form>
+  <form class="button_to" method="post" action="/unmagic-components/toasts/flash"><button class="UnmagicButton" type="submit">Info</button><input type="hidden" name="authenticity_token" value="pJCPM24WHErdSY6Q7db5GoI6ai_uGUsmwuo-1go10NzJ5TNbF17hunRuhdloexFQG1EiVlqkLcCG177VPke1gQ" autocomplete="off" /><input type="hidden" name="message" value="A new version is available." autocomplete="off" /><input type="hidden" name="type" value="info" autocomplete="off" /></form>
+  <form class="button_to" method="post" action="/unmagic-components/toasts/flash"><button class="UnmagicButton" type="submit">Long</button><input type="hidden" name="authenticity_token" value="N1219FT3agsC2OSqBD9XZ_OpneoEVBQZjjPmWGF_mS5aKAmcLb-X-6v_7-OBkr8tasLVk7Dpcv_KDmZbVQ38cw" autocomplete="off" /><input type="hidden" name="message" value="Imported 1,204 contacts from contacts-export-2026-09-16-final-final.csv into the Sales pipeline." autocomplete="off" /><input type="hidden" name="type" value="notice" autocomplete="off" /></form>
 </div>
 
         </div>
@@ -808,8 +825,8 @@
   <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="toast_stream_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="toast_stream_view_tab_0" class="UnmagicTabs__tab" aria-controls="toast_stream_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="toast_stream_view_tab_1" class="UnmagicTabs__tab" aria-controls="toast_stream_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="toast_stream_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="toast_stream_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] flex min-h-52 items-center justify-center">
         <div class="max-w-full">
           <div class="flex flex-wrap gap-2">
-  <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Stream a toast</button><input type="hidden" name="authenticity_token" value="qkLFFTysOgETYCPWZEpe_7hQS_d3r5rreFU6PEi-pjtHSStIkjgo2bN0EukUYfrd5ILvuocze2D9bZf4CgoOaw" autocomplete="off" /><input type="hidden" name="message" value="Copied to your clipboard." autocomplete="off" /><input type="hidden" name="tone" value="good" autocomplete="off" /></form>
-  <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton UnmagicButton--danger" type="submit">Stream a bad toast</button><input type="hidden" name="authenticity_token" value="3Y93OS9Q8cm4grkiWHx8m4ILazPDx1lfVcOYeoAoUm8whJlkgcTjERiWiB0oV9i53tnPfjNbuNTQ-zW-wpz6Pw" autocomplete="off" /><input type="hidden" name="message" value="Couldn&#39;t reach Slack." autocomplete="off" /><input type="hidden" name="tone" value="bad" autocomplete="off" /></form>
+  <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Stream a toast</button><input type="hidden" name="authenticity_token" value="aCEWCScymPRoK8o_srdq_PEVYy9fBsh0QSs8Hzjmj15POBS4f6Bd7HUvRDn94kIK-YlquqLb4ldEzQVHE8uT3w" autocomplete="off" /><input type="hidden" name="message" value="Copied to your clipboard." autocomplete="off" /><input type="hidden" name="tone" value="good" autocomplete="off" /></form>
+  <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton UnmagicButton--danger" type="submit">Stream a bad toast</button><input type="hidden" name="authenticity_token" value="aGysG3AKcB67Bf43K6F0IoCHBwokIgwzG7ueJWtgCIlPda6qKJi1BqYBcDFk9FzUiBsOn9n_JhAeXad9QE0UCA" autocomplete="off" /><input type="hidden" name="message" value="Couldn&#39;t reach Slack." autocomplete="off" /><input type="hidden" name="tone" value="bad" autocomplete="off" /></form>
 </div>
 
         </div>
@@ -838,7 +855,7 @@
 </div></div></div>
   <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="toast_content_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="toast_content_view_tab_0" class="UnmagicTabs__tab" aria-controls="toast_content_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="toast_content_view_tab_1" class="UnmagicTabs__tab" aria-controls="toast_content_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="toast_content_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="toast_content_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] flex min-h-52 items-center justify-center">
         <div class="max-w-full">
-          <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Show title and action</button><input type="hidden" name="authenticity_token" value="bkSoGdHRzIKpz3__ib3QIcEcImtcadsYJtqGjT1Aj-KDT0ZEf0XeWgnbTsD5lnQDnc6GJqz1OpOj4itJf_Qnsg" autocomplete="off" /><input type="hidden" name="example" value="content" autocomplete="off" /></form>
+          <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Show title and action</button><input type="hidden" name="authenticity_token" value="d01Kjbf8FepS4wd10sQZ8n167VU9dBeBlBuVuKl5NMRQVEg8727Q8k_niXOdkTEEdebkwMCpPaKR_azgglQoRQ" autocomplete="off" /><input type="hidden" name="example" value="content" autocomplete="off" /></form>
 
         </div>
       </div>
@@ -870,7 +887,7 @@
 </div></div></div>
   <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="toast_image_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="toast_image_view_tab_0" class="UnmagicTabs__tab" aria-controls="toast_image_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="toast_image_view_tab_1" class="UnmagicTabs__tab" aria-controls="toast_image_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="toast_image_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="toast_image_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] flex min-h-52 items-center justify-center">
         <div class="max-w-full">
-          <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton UnmagicButton--primary" type="submit">Show image toast</button><input type="hidden" name="authenticity_token" value="emDXeIxttwjlAWB2tyMsAjkC8DmpGKr7SfRyZqEnW2aXazklIvml0EUVUUnHCIggZdBUdFmES3DMzN-i45PzNg" autocomplete="off" /><input type="hidden" name="example" value="image" autocomplete="off" /><input type="hidden" name="tone" value="info" autocomplete="off" /></form>
+          <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton UnmagicButton--primary" type="submit">Show image toast</button><input type="hidden" name="authenticity_token" value="MdJEwxkYBMBgqLQs9veYIwBjvLCiECcP5YOKvkEzyGcWy0ZyQYrB2H2sOiq5orDVCP-1JV_NDSzgZbPmah7U5g" autocomplete="off" /><input type="hidden" name="example" value="image" autocomplete="off" /><input type="hidden" name="tone" value="info" autocomplete="off" /></form>
 
         </div>
       </div>
@@ -901,7 +918,7 @@
 </div></div></div>
   <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="toast_upload_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="toast_upload_view_tab_0" class="UnmagicTabs__tab" aria-controls="toast_upload_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="toast_upload_view_tab_1" class="UnmagicTabs__tab" aria-controls="toast_upload_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="toast_upload_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="toast_upload_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] flex min-h-52 items-center justify-center">
         <div class="max-w-full">
-          <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton UnmagicButton--primary" type="submit">Show upload toast</button><input type="hidden" name="authenticity_token" value="j1CuoK9kq_TnWMpNMag3SCxXhltrUkAGdOsN5V9ngAViW0D9AfC5LEdM-3JBg5NqcIUiFpvOoY3x06AhHdMoVQ" autocomplete="off" /><input type="hidden" name="example" value="upload" autocomplete="off" /><input type="hidden" name="tone" value="info" autocomplete="off" /></form>
+          <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton UnmagicButton--primary" type="submit">Show upload toast</button><input type="hidden" name="authenticity_token" value="QSRnnEXexjI8LNTB200MFenSzhd14aFetYVUrAPZtTxmPWUtHUwDKiEoWseUGCTj4U7Hgog8i32wY230KPSpvQ" autocomplete="off" /><input type="hidden" name="example" value="upload" autocomplete="off" /><input type="hidden" name="tone" value="info" autocomplete="off" /></form>
 
         </div>
       </div>
@@ -933,13 +950,13 @@
   <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="toast_tones_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="toast_tones_view_tab_0" class="UnmagicTabs__tab" aria-controls="toast_tones_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="toast_tones_view_tab_1" class="UnmagicTabs__tab" aria-controls="toast_tones_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="toast_tones_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="toast_tones_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
         <div class="w-full">
           <div class="flex flex-wrap gap-2">
-    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Good</button><input type="hidden" name="authenticity_token" value="9HGWtFjrvVuSMUfipFM_5W4KAKUIGXRQA321G1pvGD0Zenjp9n-vgzIldt3UeJvHMtik6PiFlduGRRjfGNuwbQ" autocomplete="off" /><input type="hidden" name="message" value="Good: your notification is here." autocomplete="off" /><input type="hidden" name="tone" value="good" autocomplete="off" /></form>
-    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Warn</button><input type="hidden" name="authenticity_token" value="xqV6XMaQKAqD4M5cbHqPu6vt_GBNgBz4kWiLtSy6cmwrrpQBaAQ60iP0_2McUSuZ9z9YLb0c_XMUUCZxbg7aPA" autocomplete="off" /><input type="hidden" name="message" value="Warn: your notification is here." autocomplete="off" /><input type="hidden" name="tone" value="warn" autocomplete="off" /></form>
-    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Bad</button><input type="hidden" name="authenticity_token" value="BcHyDGx1jocercLGvoBXFCWg99JLehejqzPUOb6CdqzoyhxRwuGcX7658_nOq_M2eXJTn7vm9iguC3n9_Dbe_A" autocomplete="off" /><input type="hidden" name="message" value="Bad: your notification is here." autocomplete="off" /><input type="hidden" name="tone" value="bad" autocomplete="off" /></form>
-    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Info</button><input type="hidden" name="authenticity_token" value="nbFMgu8Lwx5a-YIZByqlxtDzdwfNY7tqfU0wl-ihG1NwuqLfQZ_RxvrtsyZ3AQHkjCHTSj3_WuH4dZ1TqhWzAw" autocomplete="off" /><input type="hidden" name="message" value="Info: your notification is here." autocomplete="off" /><input type="hidden" name="tone" value="info" autocomplete="off" /></form>
-    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Neutral</button><input type="hidden" name="authenticity_token" value="5BNJBEEk56XZCxn2JdwPZWJgweW_Qo9--g_pjBnuldEJGKdZ77D1fXkfKMlV96tHPrJlqE_ebvV_N0RIW1o9gQ" autocomplete="off" /><input type="hidden" name="message" value="Neutral: your notification is here." autocomplete="off" /><input type="hidden" name="tone" value="neutral" autocomplete="off" /></form>
-    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Accent</button><input type="hidden" name="authenticity_token" value="ErGXZ-_qsWXz1YK7K7eLXFiDjCM1uEHXk3-ISptgPJ7_unk6QX6jvVPBs4RbnC9-BFEobsUkoFwWRyWO2dSUzg" autocomplete="off" /><input type="hidden" name="message" value="Accent: your notification is here." autocomplete="off" /><input type="hidden" name="tone" value="accent" autocomplete="off" /></form>
-    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Inverted</button><input type="hidden" name="authenticity_token" value="REp7ckpRXM21FTetUAF1Man3OhSEkeJ8C2lgRCTjgRupQZUv5MVOFRUBBpIgKtET9SWeWXQNA_eOUc2AZlcpSw" autocomplete="off" /><input type="hidden" name="message" value="Inverted: your notification is here." autocomplete="off" /><input type="hidden" name="tone" value="inverted" autocomplete="off" /></form>
+    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Good</button><input type="hidden" name="authenticity_token" value="wBJtCkjXJoP7AczyNJL0LwWYOP3NV4aD2MtekRRkF2DnC2-7EEXjm-YFQvR7x9zZDQQxaDCKrKDdLWfJP0kL4Q" autocomplete="off" /><input type="hidden" name="message" value="Good: your notification is here." autocomplete="off" /><input type="hidden" name="tone" value="good" autocomplete="off" /></form>
+    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Warn</button><input type="hidden" name="authenticity_token" value="T2bcyvPlmctGd7EGlzCBJKBstxW_pZMtVKLs5vGZ_Dtof957q3dc01tzPwDYZanSqPC-gEJ4uQ5RRNW-2rTgug" autocomplete="off" /><input type="hidden" name="message" value="Warn: your notification is here." autocomplete="off" /><input type="hidden" name="tone" value="warn" autocomplete="off" /></form>
+    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Bad</button><input type="hidden" name="authenticity_token" value="82MYhNEBS5gNYKXXKp-T1rOCQQnNjk7VEyXX0QfKXIHUeho1iZOOgBBkK9Flyrsgux5InDBTZPYWw-6JLOdAAA" autocomplete="off" /><input type="hidden" name="message" value="Bad: your notification is here." autocomplete="off" /><input type="hidden" name="tone" value="bad" autocomplete="off" /></form>
+    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Info</button><input type="hidden" name="authenticity_token" value="n_pHUsIc4w9gKJQLMJ_B8I69b6KnnJTRSSI0hg_PE1C440Xjmo4mF30sGg1_yukGhiFmN1pBvvJMxA3eJOIP0Q" autocomplete="off" /><input type="hidden" name="message" value="Info: your notification is here." autocomplete="off" /><input type="hidden" name="tone" value="info" autocomplete="off" /></form>
+    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Neutral</button><input type="hidden" name="authenticity_token" value="iWadEE1jO5H9ZrVRn6gevVQe4konghGb_ecxlYzUQOmuf5-hFfH-ieBiO1fQ_TZLXILr39pfO7j4AQjNp_lcaA" autocomplete="off" /><input type="hidden" name="message" value="Neutral: your notification is here." autocomplete="off" /><input type="hidden" name="tone" value="neutral" autocomplete="off" /></form>
+    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Accent</button><input type="hidden" name="authenticity_token" value="gvOTpvP_49TXQH7MwIfhEt3WZEMjHFX_kaGRaDadrq2l6pEXq20mzMpE8MqP0snk1Upt1t7Bf9yUR6gwHbCyLA" autocomplete="off" /><input type="hidden" name="message" value="Accent: your notification is here." autocomplete="off" /><input type="hidden" name="tone" value="accent" autocomplete="off" /></form>
+    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Inverted</button><input type="hidden" name="authenticity_token" value="Ke3J9P1NpoRYb6RUEwqS76CU4uNnCpZy4n0_hXNhN_QO9MtFpd9jnEVrKlJcX7oZqAjrdprXvFHnmwbdWEwrdQ" autocomplete="off" /><input type="hidden" name="message" value="Inverted: your notification is here." autocomplete="off" /><input type="hidden" name="tone" value="inverted" autocomplete="off" /></form>
 </div>
 
         </div>
@@ -969,12 +986,12 @@
   <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="toast_positions_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="toast_positions_view_tab_0" class="UnmagicTabs__tab" aria-controls="toast_positions_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="toast_positions_view_tab_1" class="UnmagicTabs__tab" aria-controls="toast_positions_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="toast_positions_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="toast_positions_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
         <div class="w-full">
           <div class="grid grid-cols-3 gap-2">
-    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Top start</button><input type="hidden" name="authenticity_token" value="ZolRJvpBxmgkDuw7BQVc4hEyX0cPLm5tvzyquo7rZp2Lgr97VNXUsIQa3QR1LvjATeD7Cv-yj-Y6BAd-zF_OzQ" autocomplete="off" /><input type="hidden" name="message" value="Hello from top start." autocomplete="off" /><input type="hidden" name="position" value="top_start" autocomplete="off" /></form>
-    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Top</button><input type="hidden" name="authenticity_token" value="UYjXFeh0XdKr97yRQvS2D4vUKwKSaHusXuOPEndJmn-8gzlIRuBPCgvjja4y3xIt1waPT2L0mifb2yLWNf0yLw" autocomplete="off" /><input type="hidden" name="message" value="Hello from top." autocomplete="off" /><input type="hidden" name="position" value="top" autocomplete="off" /></form>
-    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Top end</button><input type="hidden" name="authenticity_token" value="DLR0QftTj0VtalbG7tFHz1GD0gCevcAixegyjEgzRzbhv5ocVcednc1-Z_me-uPtDVF2TW4hIalA0J9ICofvZg" autocomplete="off" /><input type="hidden" name="message" value="Hello from top end." autocomplete="off" /><input type="hidden" name="position" value="top_end" autocomplete="off" /></form>
-    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Bottom start</button><input type="hidden" name="authenticity_token" value="iTNxJOAob4b3hp3vo4DhKWNJJQszwCvJoHQvkn1ya71kOJ95Trx9XleSrNDTq0ULP5uBRsNcykIlTIJWP8bD7Q" autocomplete="off" /><input type="hidden" name="message" value="Hello from bottom start." autocomplete="off" /><input type="hidden" name="position" value="bottom_start" autocomplete="off" /></form>
-    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Bottom</button><input type="hidden" name="authenticity_token" value="xwPtNHXpuG3pfnn4DlejZEUQHdalugezhjzhVh6BdckqCANp232qtUlqSMd-fAdGGcK5m1Um5jgDBEySXDXdmQ" autocomplete="off" /><input type="hidden" name="message" value="Hello from bottom." autocomplete="off" /><input type="hidden" name="position" value="bottom" autocomplete="off" /></form>
-    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Bottom end</button><input type="hidden" name="authenticity_token" value="n2NjjFQxH6hJU4dZrN7nxbJN-5QNYnwMSVI3sFZW8dJyaI3R-qUNcOlHtmbc9UPn7p9f2f3-nYfMapp0FOJZgg" autocomplete="off" /><input type="hidden" name="message" value="Hello from bottom end." autocomplete="off" /><input type="hidden" name="position" value="bottom_end" autocomplete="off" /></form>
+    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Top start</button><input type="hidden" name="authenticity_token" value="huheC7VTAEGOF1AtS8BXi3Iyy4Jo-taXuzj_ssN3HH-h8Vy67cHFWZMT3isElX99eq7CF5Un_LS-3sbq6FoA_g" autocomplete="off" /><input type="hidden" name="message" value="Hello from top start." autocomplete="off" /><input type="hidden" name="position" value="top_start" autocomplete="off" /></form>
+    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Top</button><input type="hidden" name="authenticity_token" value="W5nA5da5UKl8PERglOYZYSqODeZzFp02finv8Pp93Ux8gMJUjiuVsWE4ymbbszGXIhIEc47LtxV7z9ao0VDBzQ" autocomplete="off" /><input type="hidden" name="message" value="Hello from top." autocomplete="off" /><input type="hidden" name="position" value="top" autocomplete="off" /></form>
+    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Top end</button><input type="hidden" name="authenticity_token" value="n5fKorWU9d-IA2pkAgfQEXOvCPabWGSk1z-emPN-tJG4jsgT7QYwx5UH5GJNUvjnezMBY2aFTofS2afA2FOoEA" autocomplete="off" /><input type="hidden" name="message" value="Hello from top end." autocomplete="off" /><input type="hidden" name="position" value="top_end" autocomplete="off" /></form>
+    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Bottom start</button><input type="hidden" name="authenticity_token" value="dHoOosQ8iKWeEuRTLF0zRYcA1VO2IedsEvhtTk9MGo1TYwwTnK5NvYMWalVjCBuzj5zcxkv8zU8XHlQWZGEGDA" autocomplete="off" /><input type="hidden" name="message" value="Hello from bottom start." autocomplete="off" /><input type="hidden" name="position" value="bottom_start" autocomplete="off" /></form>
+    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Bottom</button><input type="hidden" name="authenticity_token" value="_eJMoa8dwn5cHIACEt9v66XcOUAltPK0u9CkJuDdNqTa-04Q948HZkEYDgRdikcdrUAw1dhp2Je-Np1-y_AqJQ" autocomplete="off" /><input type="hidden" name="message" value="Hello from bottom." autocomplete="off" /><input type="hidden" name="position" value="bottom" autocomplete="off" /></form>
+    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Bottom end</button><input type="hidden" name="authenticity_token" value="oaksy2i-8fHJc4Uot6-6WVmioslFNUqfVAasT6VTJ9uGsC56MCw06dR3Cy74-pKvUT6rXLjoYLxR4JUXjn47Wg" autocomplete="off" /><input type="hidden" name="message" value="Hello from bottom end." autocomplete="off" /><input type="hidden" name="position" value="bottom_end" autocomplete="off" /></form>
 </div>
 
         </div>
@@ -1005,9 +1022,9 @@
   <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="toast_duration_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="toast_duration_view_tab_0" class="UnmagicTabs__tab" aria-controls="toast_duration_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="toast_duration_view_tab_1" class="UnmagicTabs__tab" aria-controls="toast_duration_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="toast_duration_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="toast_duration_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
         <div class="w-full">
           <div class="flex flex-wrap gap-2">
-  <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Short · 2 seconds</button><input type="hidden" name="authenticity_token" value="G_SPXoUvjSLjMScw1gfvK8SwRsKXkPd7biTd_yTlW9X2_2EDK7uf-kMlFg-mLEsJmGLij2cMFvDrHHA7ZlHzhQ" autocomplete="off" /><input type="hidden" name="duration" value="2000" autocomplete="off" /><input type="hidden" name="message" value="A quick update. This closes after two seconds." autocomplete="off" /></form>
-  <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Long · 10 seconds</button><input type="hidden" name="authenticity_token" value="AlTOt04yUpSiMcTQjj_zSapIKd9xptWYFQRWgND2Cq_vXyDq4KZATAIl9e_-FFdr9pqNkoE6NBOQPPtEkkKi_w" autocomplete="off" /><input type="hidden" name="duration" value="10000" autocomplete="off" /><input type="hidden" name="message" value="Take your time. This stays for ten seconds." autocomplete="off" /></form>
-  <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Sticky · dismiss manually</button><input type="hidden" name="authenticity_token" value="gadHa4RYcy5apiUuzBMQ5pSM6Z91O14IwFpS424mjpdsrKk2Ksxh9vqyFBG8OLTEyF5N0oWnv4NFYv8nLJImxw" autocomplete="off" /><input type="hidden" name="duration" value="0" autocomplete="off" /><input type="hidden" name="message" value="Here until you dismiss it." autocomplete="off" /><input type="hidden" name="tone" value="info" autocomplete="off" /></form>
+  <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Short · 2 seconds</button><input type="hidden" name="authenticity_token" value="IIIvW7TLi0nL0uOm2bx1y1WwW6-iejeWXFRzTNhDF8sHmy3q7FlOUdbWbaCW6V09XSxSOl-nHbVZskoU824LSg" autocomplete="off" /><input type="hidden" name="duration" value="2000" autocomplete="off" /><input type="hidden" name="message" value="A quick update. This closes after two seconds." autocomplete="off" /></form>
+  <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Long · 10 seconds</button><input type="hidden" name="authenticity_token" value="x61s0rxjCfTR4_XL0UN1TRdUP8H-SxaReRe1T2dLna7gtG5j5PHM7Mzne82eFl27H8g2VAOWPLJ88YwXTGaBLw" autocomplete="off" /><input type="hidden" name="duration" value="10000" autocomplete="off" /><input type="hidden" name="message" value="Take your time. This stays for ten seconds." autocomplete="off" /></form>
+  <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Sticky · dismiss manually</button><input type="hidden" name="authenticity_token" value="0o2CVZu7FGMOe1vtO4lAYuXQIumMN6tUJAA1EmeEVcz1lIDkwynRexN_1et03GiU7UwrfHHqgXch5gxKTKlJTQ" autocomplete="off" /><input type="hidden" name="duration" value="0" autocomplete="off" /><input type="hidden" name="message" value="Here until you dismiss it." autocomplete="off" /><input type="hidden" name="tone" value="info" autocomplete="off" /></form>
 </div>
 
         </div>
@@ -1040,9 +1057,9 @@
   <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="toast_width_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="toast_width_view_tab_0" class="UnmagicTabs__tab" aria-controls="toast_width_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="toast_width_view_tab_1" class="UnmagicTabs__tab" aria-controls="toast_width_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="toast_width_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="toast_width_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] flex min-h-52 items-center justify-center">
         <div class="max-w-full">
           <div class="flex flex-wrap gap-2">
-    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Short · 384px</button><input type="hidden" name="authenticity_token" value="Y7oWIgfiyBN0poZ9br4FhXxIZJ-GvvcCBS-XvJNUPYyOsfh_qXbay9Syt0IelaGnIJrA0nYiFomAFzp40eCV3A" autocomplete="off" /><input type="hidden" name="message" value="Your project has been saved. Everyone in the workspace can now see the latest changes." autocomplete="off" /><input type="hidden" name="width" value="short" autocomplete="off" /></form>
-    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Long · 560px</button><input type="hidden" name="authenticity_token" value="xxvAlR1lFWd9kCfjley12tRPalVCI6RNfNWtRdaj-mAqEC7Is_EHv92EFtzlxxH4iJ3OGLK_Rcb57QCBlBdSMA" autocomplete="off" /><input type="hidden" name="message" value="Your project has been saved. Everyone in the workspace can now see the latest changes." autocomplete="off" /><input type="hidden" name="width" value="long" autocomplete="off" /></form>
-    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Custom · 440px</button><input type="hidden" name="authenticity_token" value="cPFSxCOttFcpDALCLLLS_r32dTUX5etNAQmZdxNoqQSd-ryZjTmmj4kYM_1cmXbc4STReOd5CsaEMTSzUdwBVA" autocomplete="off" /><input type="hidden" name="message" value="Your project has been saved. Everyone in the workspace can now see the latest changes." autocomplete="off" /><input type="hidden" name="width" value="440" autocomplete="off" /></form>
+    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Short · 384px</button><input type="hidden" name="authenticity_token" value="YsYBxkPQAAGDrjwlESMmHxrjyf7NN2xvpR0ZPCGAjc1F3wN3G0LFGZ6qsiNedg7pEn_AazDqRkyg-yBkCq2RTA" autocomplete="off" /><input type="hidden" name="message" value="Your project has been saved. Everyone in the workspace can now see the latest changes." autocomplete="off" /><input type="hidden" name="width" value="short" autocomplete="off" /></form>
+    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Long · 560px</button><input type="hidden" name="authenticity_token" value="768XnrdanURBcEOfc31vhkRkhqq6eOi-mGDP0XMbNWXIthUv78hYXFx0zZk8KEdwTPiPP0elwp2dhvaJWDYp5A" autocomplete="off" /><input type="hidden" name="message" value="Your project has been saved. Everyone in the workspace can now see the latest changes." autocomplete="off" /><input type="hidden" name="width" value="long" autocomplete="off" /></form>
+    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Custom · 440px</button><input type="hidden" name="authenticity_token" value="gc2_hKTAgHIZi1hDya63sROtMo2MiKFjMXuKeascTSSm1L01_FJFagSP1kWG-59HGzE7GHFVi0A0nbMhgDFRpQ" autocomplete="off" /><input type="hidden" name="message" value="Your project has been saved. Everyone in the workspace can now see the latest changes." autocomplete="off" /><input type="hidden" name="width" value="440" autocomplete="off" /></form>
 </div>
 
         </div>
@@ -1073,8 +1090,8 @@
   <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="toast_actions_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="toast_actions_view_tab_0" class="UnmagicTabs__tab" aria-controls="toast_actions_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="toast_actions_view_tab_1" class="UnmagicTabs__tab" aria-controls="toast_actions_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="toast_actions_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="toast_actions_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] flex min-h-52 items-center justify-center">
         <div class="max-w-full">
           <div class="flex flex-wrap gap-2">
-    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Horizontal</button><input type="hidden" name="authenticity_token" value="D_gs1vCdyF80b_oRcSQ70p7kRdfkD3rJhHExTsL8vAPi88KLXgnah5R7yy4BD5_wwjbhmhSTm0IBSZyKgEgUUw" autocomplete="off" /><input type="hidden" name="example" value="actions" autocomplete="off" /><input type="hidden" name="layout" value="horizontal" autocomplete="off" /><input type="hidden" name="tone" value="neutral" autocomplete="off" /></form>
-    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Vertical</button><input type="hidden" name="authenticity_token" value="9LQcc-gJcSYLTrwHfVRm0qGRwoseOfVzpFw92EYYruQZv_IuRp1j_qtajTgNf8Lw_UNmxu6lFPghZJAcBKwGtA" autocomplete="off" /><input type="hidden" name="example" value="actions" autocomplete="off" /><input type="hidden" name="layout" value="vertical" autocomplete="off" /><input type="hidden" name="tone" value="neutral" autocomplete="off" /></form>
+    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Horizontal</button><input type="hidden" name="authenticity_token" value="U2ka-SBL11f9YRaxC-wzljpifPtJTXf-4Tv7RFw--ql0cBhIeNkST-BlmLdEuRtgMv51brSQXd3k3cIcdxPmKA" autocomplete="off" /><input type="hidden" name="example" value="actions" autocomplete="off" /><input type="hidden" name="layout" value="horizontal" autocomplete="off" /><input type="hidden" name="tone" value="neutral" autocomplete="off" /></form>
+    <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Vertical</button><input type="hidden" name="authenticity_token" value="GZd4yLAzT5AQXmdTwzPZMU-mGqxAzZi1_XlRQd9Qo6Q-jnp56KGKiA1a6VWMZvHHRzoTOb0Qspb4n2gZ9H2_JQ" autocomplete="off" /><input type="hidden" name="example" value="actions" autocomplete="off" /><input type="hidden" name="layout" value="vertical" autocomplete="off" /><input type="hidden" name="tone" value="neutral" autocomplete="off" /></form>
 </div>
 
         </div>
@@ -1114,7 +1131,7 @@
 </div></div></div>
   <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="toast_leading_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="toast_leading_view_tab_0" class="UnmagicTabs__tab" aria-controls="toast_leading_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="toast_leading_view_tab_1" class="UnmagicTabs__tab" aria-controls="toast_leading_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="toast_leading_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="toast_leading_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] flex min-h-52 items-center justify-center">
         <div class="max-w-full">
-          <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Show avatar notification</button><input type="hidden" name="authenticity_token" value="wzCfgrMM_ILCzWusRNTkMTrygXrwVWBPizGVd1l5hkguO3HfHZjuWmLZWpM0_0ATZiAlNwDJgcQOCTizG80uGA" autocomplete="off" /><input type="hidden" name="example" value="leading" autocomplete="off" /><input type="hidden" name="tone" value="neutral" autocomplete="off" /></form>
+          <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Show avatar notification</button><input type="hidden" name="authenticity_token" value="aWUjwlpNlqI6oZhTuz8JCd-QuCtnan0wXqiqkuJt6-xOfCFzAt9TuielFlX0aiH_1wyxvpq3VxNbTpPKyUD3bQ" autocomplete="off" /><input type="hidden" name="example" value="leading" autocomplete="off" /><input type="hidden" name="tone" value="neutral" autocomplete="off" /></form>
 
         </div>
       </div>
@@ -1146,7 +1163,7 @@
 </div></div></div>
   <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="toast_custom_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="toast_custom_view_tab_0" class="UnmagicTabs__tab" aria-controls="toast_custom_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="toast_custom_view_tab_1" class="UnmagicTabs__tab" aria-controls="toast_custom_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="toast_custom_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="toast_custom_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] flex min-h-52 items-center justify-center">
         <div class="max-w-full">
-          <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Show announcement</button><input type="hidden" name="authenticity_token" value="Y9WWKFLDWIVLiOBxa_zprLeHdOes3Q2Olo0JqPmPWLaO3nh1_FdKXeuc0U4b102O61XQqlxB7AUTtaRsuzvw5g" autocomplete="off" /><input type="hidden" name="example" value="custom" autocomplete="off" /></form>
+          <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Show announcement</button><input type="hidden" name="authenticity_token" value="GxV4hujkx8MccRbb89Vv0i1X3reiKLLUiEx5SkT2Its8DHo3sHYC2wF1mN28gEckJcvXIl_1mPeNqkASb9s-Wg" autocomplete="off" /><input type="hidden" name="example" value="custom" autocomplete="off" /></form>
 
         </div>
       </div>
@@ -1187,7 +1204,7 @@
   <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="toast_boundaries_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="toast_boundaries_view_tab_0" class="UnmagicTabs__tab" aria-controls="toast_boundaries_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="toast_boundaries_view_tab_1" class="UnmagicTabs__tab" aria-controls="toast_boundaries_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="toast_boundaries_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="toast_boundaries_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
         <div class="w-full">
           <div class="relative min-h-80 rounded-lg border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-950">
-  <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Notify inside this panel</button><input type="hidden" name="authenticity_token" value="dF3ftjIVF-2Eu6XNM59XNrAyR6Q3__WPoctmMIJXl-6ZVjHrnIEFNSSvlPJDtPMU7ODj6cdjFAQk88v0wOM_vg" autocomplete="off" /><input type="hidden" name="duration" value="0" autocomplete="off" /><input type="hidden" name="example" value="boundaries" autocomplete="off" /><input type="hidden" name="message" value="This notification stays inside its panel." autocomplete="off" /><input type="hidden" name="position" value="bottom_end" autocomplete="off" /></form>
+  <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton" type="submit">Notify inside this panel</button><input type="hidden" name="authenticity_token" value="FswmDhh-IxGR9IzATcaRlC-C0rlJM5qZSMRipS5vR1Ux1SS_QOzmCYzwAsYCk7liJx7bLLTusLpNIlv9BUJb1A" autocomplete="off" /><input type="hidden" name="duration" value="0" autocomplete="off" /><input type="hidden" name="example" value="boundaries" autocomplete="off" /><input type="hidden" name="message" value="This notification stays inside its panel." autocomplete="off" /><input type="hidden" name="position" value="bottom_end" autocomplete="off" /></form>
   <unmagic-toasts id="toast_panel" duration="5000" position="top_end" scoped="scoped"><div class="UnmagicToasts__stack" id="toast_panel_stack" aria-live="polite" data-turbo-permanent="" data-position="top_end"></div><div class="UnmagicToasts__stack" id="toast_panel_stack_top_start" aria-live="polite" data-turbo-permanent="" data-position="top_start"></div><div class="UnmagicToasts__stack" id="toast_panel_stack_top" aria-live="polite" data-turbo-permanent="" data-position="top"></div><div class="UnmagicToasts__stack" id="toast_panel_stack_bottom_start" aria-live="polite" data-turbo-permanent="" data-position="bottom_start"></div><div class="UnmagicToasts__stack" id="toast_panel_stack_bottom" aria-live="polite" data-turbo-permanent="" data-position="bottom"></div><div class="UnmagicToasts__stack" id="toast_panel_stack_bottom_end" aria-live="polite" data-turbo-permanent="" data-position="bottom_end"></div><template data-unmagic-toast-blueprint=""><div class="UnmagicToast UnmagicToast--good" data-unmagic-toast="" data-toast-icon="default" style="--unmagic-toast-width: 384px; "><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/circle-check" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg><div class="UnmagicToast__main"><div class="UnmagicToast__content"><div class="UnmagicToast__title"></div><div class="UnmagicToast__message"></div></div><div class="UnmagicToast__actions"><button type="button" class="UnmagicButton UnmagicButton--small"></button></div></div><button type="button" class="UnmagicToast__dismiss" aria-label="Dismiss" data-unmagic-toast-dismiss=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/x" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div></template><template data-unmagic-toast-icon="good"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/circle-check" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></template><template data-unmagic-toast-icon="warn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/triangle-alert" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></template><template data-unmagic-toast-icon="bad"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/circle-x" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg></template><template data-unmagic-toast-icon="info"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template><template data-unmagic-toast-icon="neutral"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template><template data-unmagic-toast-icon="accent"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template><template data-unmagic-toast-icon="inverted"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template></unmagic-toasts>
 </div>
 
@@ -1220,12 +1237,12 @@
         <div class="max-w-full">
           <button type="button" aria-haspopup="dialog" aria-controls="toast_over_dialog" class="UnmagicButton" data-unmagic-dialog-open="toast_over_dialog">Open a dialog</button>
 
-<dialog id="toast_over_dialog" class="UnmagicDialogBox" aria-labelledby="unmagic_dialog_c85eac49_title" data-unmagic-dialog=""><div class="UnmagicDialog"><header class="UnmagicDialog__header"><h2 id="unmagic_dialog_c85eac49_title" class="UnmagicDialog__title">A dialog</h2><button type="button" class="UnmagicButton UnmagicButton--icon UnmagicDialog__close" aria-label="Close" data-unmagic-dialog-close=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/x" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></header><div class="UnmagicDialog__body">
+<dialog id="toast_over_dialog" class="UnmagicDialogBox" aria-labelledby="unmagic_dialog_e503d449_title" data-unmagic-dialog=""><div class="UnmagicDialog"><header class="UnmagicDialog__header"><h2 id="unmagic_dialog_e503d449_title" class="UnmagicDialog__title">A dialog</h2><button type="button" class="UnmagicButton UnmagicButton--icon UnmagicDialog__close" aria-label="Close" data-unmagic-dialog-close=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/x" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></header><div class="UnmagicDialog__body">
   <p>
     A toast streamed from in here shows above the dialog, not under its backdrop. It can't be
     hovered or dismissed until the dialog closes, but it still times out on its own.
   </p>
-  <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton UnmagicButton--primary" type="submit">Stream a toast</button><input type="hidden" name="authenticity_token" value="xv9BhMTtfFXLhA2_9lFe8VzMlv09F7CV-HLu-9qKrlor9K_ZanlujWuQPICGevrTAB4ysM2LUR59SkM_mD4GCg" autocomplete="off" /><input type="hidden" name="message" value="Above the dialog." autocomplete="off" /><input type="hidden" name="tone" value="info" autocomplete="off" /></form>
+  <form class="button_to" method="post" action="/unmagic-components/toasts/stream"><button class="UnmagicButton UnmagicButton--primary" type="submit">Stream a toast</button><input type="hidden" name="authenticity_token" value="5TYoRPa6lhWlY08Al8ieaOVJP2602mC_Medi59418QnCLyr1rihTDbhnwQbYnbae7dU2-0kHSpw0AVu_9RjtiA" autocomplete="off" /><input type="hidden" name="message" value="Above the dialog." autocomplete="off" /><input type="hidden" name="tone" value="info" autocomplete="off" /></form>
 </div></div></dialog>
         </div>
       </div>
@@ -1314,7 +1331,8 @@
       </main>
     </div>
 
-    <unmagic-modal><dialog class="UnmagicDialogBox" data-unmagic-dialog=""><turbo-frame id="modal"></turbo-frame><template data-unmagic-modal-skeleton=""><div class="UnmagicDialog" role="status"><span class="UnmagicVisuallyHidden">Loading…</span><header class="UnmagicDialog__header"><div class="UnmagicSkeleton UnmagicDialog__skeleton-title"></div></header><div class="UnmagicDialog__body"><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div></div><div class="UnmagicDialog__footer"><div class="UnmagicSkeleton UnmagicDialog__skeleton-button"></div></div></div></template><template data-unmagic-modal-error=""><div role="alert" class="UnmagicDialog"><header class="UnmagicDialog__header"><h2 id="unmagic_dialog_08da85eb_title" class="UnmagicDialog__title">Couldn’t load</h2><button type="button" class="UnmagicButton UnmagicButton--icon UnmagicDialog__close" aria-label="Close" data-unmagic-dialog-close=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/x" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></header><div class="UnmagicDialog__body"><div class="UnmagicDialog__error"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/circle-x" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg><p>Something went wrong loading this. Check your connection and try again.</p></div></div><div class="UnmagicDialog__footer"><button type="button" class="UnmagicButton UnmagicButton--primary" data-unmagic-modal-retry=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/rotate-cw" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>Try again</button></div></div></template></dialog></unmagic-modal>
+
+    <unmagic-modal><dialog class="UnmagicDialogBox" data-unmagic-dialog=""><turbo-frame id="modal"></turbo-frame><template data-unmagic-modal-skeleton=""><div class="UnmagicDialog" role="status"><span class="UnmagicVisuallyHidden">Loading…</span><header class="UnmagicDialog__header"><div class="UnmagicSkeleton UnmagicDialog__skeleton-title"></div></header><div class="UnmagicDialog__body"><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div></div><div class="UnmagicDialog__footer"><div class="UnmagicSkeleton UnmagicDialog__skeleton-button"></div></div></div></template><template data-unmagic-modal-error=""><div role="alert" class="UnmagicDialog"><header class="UnmagicDialog__header"><h2 id="unmagic_dialog_641425ad_title" class="UnmagicDialog__title">Couldn’t load</h2><button type="button" class="UnmagicButton UnmagicButton--icon UnmagicDialog__close" aria-label="Close" data-unmagic-dialog-close=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/x" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></header><div class="UnmagicDialog__body"><div class="UnmagicDialog__error"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/circle-x" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg><p>Something went wrong loading this. Check your connection and try again.</p></div></div><div class="UnmagicDialog__footer"><button type="button" class="UnmagicButton UnmagicButton--primary" data-unmagic-modal-retry=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/rotate-cw" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>Try again</button></div></div></template></dialog></unmagic-modal>
     <template data-unmagic-confirm=""><dialog class="UnmagicDialogBox" role="alertdialog" data-unmagic-dialog=""><form method="dialog" class="UnmagicDialog"><header class="UnmagicDialog__header"><h2 class="UnmagicDialog__title" data-unmagic-confirm-title="">Are you sure?</h2></header><div class="UnmagicDialog__body"><p data-unmagic-confirm-message=""></p></div><div class="UnmagicDialog__footer"><button value="cancel" class="UnmagicButton" data-unmagic-confirm-cancel="">Cancel</button><button value="confirm" class="UnmagicButton UnmagicButton--primary" data-unmagic-confirm-accept="">Confirm</button></div></form></dialog></template>
     <unmagic-toasts id="unmagic_toasts" duration="5000" position="top_end"><div class="UnmagicToasts__stack" id="unmagic_toasts_stack" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="top_end"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_top_start" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="top_start"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_top" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="top"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_bottom_start" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="bottom_start"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_bottom" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="bottom"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_bottom_end" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="bottom_end"></div><template data-unmagic-toast-blueprint=""><div class="UnmagicToast UnmagicToast--good" data-unmagic-toast="" data-toast-icon="default" style="--unmagic-toast-width: 384px; "><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/circle-check" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg><div class="UnmagicToast__main"><div class="UnmagicToast__content"><div class="UnmagicToast__title"></div><div class="UnmagicToast__message"></div></div><div class="UnmagicToast__actions"><button type="button" class="UnmagicButton UnmagicButton--small"></button></div></div><button type="button" class="UnmagicToast__dismiss" aria-label="Dismiss" data-unmagic-toast-dismiss=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/x" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div></template><template data-unmagic-toast-icon="good"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/circle-check" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></template><template data-unmagic-toast-icon="warn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/triangle-alert" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></template><template data-unmagic-toast-icon="bad"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/circle-x" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg></template><template data-unmagic-toast-icon="info"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template><template data-unmagic-toast-icon="neutral"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template><template data-unmagic-toast-icon="accent"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template><template data-unmagic-toast-icon="inverted"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template></unmagic-toasts>
   </body>
