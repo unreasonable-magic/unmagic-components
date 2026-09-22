@@ -26,7 +26,7 @@ RSpec.describe "the Tailwind stylesheet" do
       css = File.read(output)
       expect(css).to include(".UnmagicInput", ".UnmagicCard", ".UnmagicMenu__panel", ".UnmagicTooltip__popup",
         ".UnmagicAvatar--tint-6", ".UnmagicProse", ".UnmagicAIChat", ".UnmagicAIChatToolCall__join", ".UnmagicAIChatPermission__allow",
-        ".UnmagicBoard__cards", "[data-sortable-dragging]")
+        ".UnmagicBoard__cards", ".UnmagicTimeline__marker--dot", "[data-sortable-dragging]")
       expect(css).to include("@layer components")
     end
   end

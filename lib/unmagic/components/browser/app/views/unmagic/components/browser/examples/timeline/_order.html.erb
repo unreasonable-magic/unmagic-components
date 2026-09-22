@@ -1,0 +1,11 @@
+<%= timeline label: "Order #1042", class: "w-full max-w-md" do |timeline| %>
+  <% timeline.event "Order placed", time: @now - 2.days, icon: :shopping_cart,
+                    description: "3 items, $148.00" %>
+  <% timeline.event "Payment confirmed", time: @now - 2.days + 4.minutes, icon: :credit_card, tone: :good,
+                    description: "Visa ending 4242" %>
+  <% timeline.event "Packed", time: @now - 1.day, icon: :package_check %>
+  <% timeline.event "Shipped", time: @now - 20.hours, icon: :truck, tone: :info, href: "#",
+                    description: "Tracking 1Z 999 AA1 0123 4567 84" %>
+  <% timeline.event "Out for delivery", time: "Tomorrow", icon: :truck, pending: true %>
+  <% timeline.event "Delivered", time: "By Friday", icon: :house, pending: true %>
+<% end %>

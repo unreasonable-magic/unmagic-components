@@ -1,0 +1,6 @@
+<%= timeline label: "Roadmap", orientation: :horizontal, class: "w-full" do |timeline| %>
+  <% timeline.event "Private beta", time: "Q1", icon: :flag, tone: :good, description: "40 teams onboarded" %>
+  <% timeline.event "Public launch", time: "Q2", icon: :rocket, tone: :good, description: "Pricing and self-serve sign-up" %>
+  <% timeline.event "Integrations", time: "Q3", icon: :git_branch, tone: :info, description: "GitHub and Slack, in progress" %>
+  <% timeline.event "Enterprise", time: "Q4", icon: :milestone, pending: true, description: "SSO, audit log, SLAs" %>
+<% end %>

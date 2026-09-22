@@ -1,0 +1,7 @@
+<%= timeline label: "Releases", orientation: :horizontal, class: "w-full" do |timeline| %>
+  <% timeline.event "v0.4", time: Date.new(2026, 3, 2), href: "#" %>
+  <% timeline.event "v0.5", time: Date.new(2026, 5, 18), href: "#" %>
+  <% timeline.event "v0.6", time: Date.new(2026, 8, 4), href: "#" %>
+  <% timeline.event "v0.7", time: Date.new(2026, 9, 22), href: "#", tone: :good %>
+  <% timeline.event "v1.0", time: "Soon", pending: true %>
+<% end %>

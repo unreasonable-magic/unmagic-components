@@ -1,0 +1,17 @@
+<%= timeline label: "Deploy #312", class: "w-full max-w-xl" do |timeline| %>
+  <% timeline.event "Build started", time: @now - 9.minutes, time_format: :time, icon: :git_commit_horizontal,
+                    description: "main at a1b2c3d" %>
+  <% timeline.event "Tests passed", time: @now - 7.minutes, time_format: :time, icon: :circle_check, tone: :good,
+                    description: "1,284 examples in 2m 12s" %>
+  <% timeline.event "Migrations failed", time: @now - 6.minutes, time_format: :time, icon: :circle_x, tone: :bad do %>
+    <%= code_view copy: false, max_height: "10rem" do %>
+      == 20260922101500 AddCurrencyToInvoices: migrating ======
+      -- add_column(:invoices, :currency, :string, {null: false})
+      rails aborted!
+      StandardError: PG::NotNullViolation: column "currency" contains null values
+    <% end %>
+  <% end %>
+  <% timeline.event "Rolled back", time: @now - 5.minutes, time_format: :time, icon: :rotate_cw, tone: :warn,
+                    description: "Production is still on 9f8e7d6" %>
+  <% timeline.event "Deploy to production", icon: :rocket, pending: true %>
+<% end %>

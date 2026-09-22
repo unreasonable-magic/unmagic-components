@@ -1,0 +1,6 @@
+<%= timeline label: "Invoice history", class: "w-full max-w-md" do |timeline| %>
+  <% timeline.event "Invoice created", time: @now - 3.days, time_format: :relative %>
+  <% timeline.event "Sent to billing@acme.test", time: @now - 2.days, time_format: :relative %>
+  <% timeline.event "Viewed by the customer", time: @now - 5.hours, time_format: :relative %>
+  <% timeline.event "Paid in full", time: @now - 12.minutes, time_format: :relative, tone: :good %>
+<% end %>

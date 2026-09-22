@@ -886,6 +886,51 @@ branch, with no script. `label:` names the root list and is required;
 
 I18n: `unmagic.components.tree.empty`.
 
+### `timeline(orientation: :vertical, label: nil, marker: :dot, skeleton: false, **options, &block)`
+
+```erb
+<%= timeline label: "Order history" do |timeline| %>
+  <% timeline.event "Order placed", time: @order.created_at, icon: :shopping_cart %>
+  <% timeline.event "Payment failed", time: @payment.failed_at, icon: :credit_card, tone: :bad,
+                    description: "Card declined" %>
+  <% timeline.event "Ada commented", time: @comment.created_at, time_format: :relative,
+                    avatar: @comment.author.name do %>
+    <%= simple_format @comment.body %>
+  <% end %>
+  <% timeline.event "Delivered", time: "Friday", pending: true %>
+<% end %>
+```
+
+Things that happened, in order, joined by a line: an audit log, an order's
+history, a deploy log, an activity feed, a roadmap. An `<ol>` with no script.
+Events render in the order given; the gem doesn't sort. `label:` names the
+list. `orientation: :horizontal` lays events side by side from 40rem and
+falls back to vertical on a phone. `marker:` is what an event with no icon or
+avatar shows, named as CSS's `list-style-type`: `:dot` by default, or the
+event's position as `:decimal`, `:lower_alpha`, `:upper_alpha`, `:lower_roman`
+or `:upper_roman`, for a process laid out in steps (an interview loop, an
+onboarding).
+
+- **`time:`** is a Time or Date, drawn through `local_time_tag` in the viewer's
+  zone (`time_format:` is its format, `:medium` by default and `:date` for a
+  Date), or a String such as `"Q4"`, printed as it is. Markup prints too, so
+  `time: badge("30 mins")` works.
+- **The marker** is a dot by default, `icon:` in a circle, or `avatar:` (a name,
+  or a Hash of `avatar` options such as `{ name:, src: }`) drawn small.
+  `tone:` (`:neutral`, `:good`, `:warn`, `:bad`, `:info`) colours it. Markers
+  are decoration, so the title has to say what happened.
+- **`pending: true`** is for what hasn't happened yet: a hollow marker, a
+  dashed line into it, and "(upcoming)" for a screen reader.
+- **`href:`** links the title and **`description:`** is a line under it. A
+  block is the event's body: text, a code view, buttons.
+- Titles are not headings, so a long feed doesn't fill the page outline.
+- Other options on an event go on its `<li>`, and other options on `timeline`
+  go on the `<ol>`. A timeline with no events renders nothing, so
+  `timeline(...).presence || empty_state(...)` works. `skeleton: true` renders
+  three placeholder events.
+
+I18n: `unmagic.components.timeline.pending`.
+
 ### `kbd(*keys, hotkey: nil, sequence: false, **options)`
 
 A key or a combination drawn as key caps: `kbd "Esc"`, `kbd :mod, "K"`,

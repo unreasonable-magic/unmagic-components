@@ -1,0 +1,5 @@
+<%= timeline class: "w-48" do |timeline| %>
+  <% timeline.event "Order placed", icon: :shopping_cart %>
+  <% timeline.event "Shipped", icon: :truck, tone: :info %>
+  <% timeline.event "Delivered", icon: :house, pending: true %>
+<% end %>

@@ -1,0 +1,18 @@
+<div class="grid w-full gap-8 sm:grid-cols-2">
+  <%= timeline label: "Dots in each tone" do |timeline| %>
+    <% timeline.event "Neutral", description: "Something happened" %>
+    <% timeline.event "Good", tone: :good, description: "It worked" %>
+    <% timeline.event "Info", tone: :info, description: "Worth knowing" %>
+    <% timeline.event "Warn", tone: :warn, description: "Look at this soon" %>
+    <% timeline.event "Bad", tone: :bad, description: "It failed" %>
+    <% timeline.event "Pending", pending: true, description: "Not yet" %>
+  <% end %>
+  <%= timeline label: "Icons in each tone" do |timeline| %>
+    <% timeline.event "Neutral", icon: :pencil, description: "Edited" %>
+    <% timeline.event "Good", icon: :circle_check, tone: :good, description: "Approved" %>
+    <% timeline.event "Info", icon: :info, tone: :info, description: "Mentioned" %>
+    <% timeline.event "Warn", icon: :triangle_alert, tone: :warn, description: "Retried" %>
+    <% timeline.event "Bad", icon: :circle_x, tone: :bad, description: "Rejected" %>
+    <% timeline.event "Pending", icon: :clock, pending: true, description: "Scheduled" %>
+  <% end %>
+</div>

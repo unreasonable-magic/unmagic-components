@@ -1,0 +1,18 @@
+<%= card title: "Activity", class: "w-full max-w-lg" do %>
+  <%= timeline label: "Activity" do |timeline| %>
+    <% timeline.event "Ada Lovelace opened the issue", time: @now - 2.days, time_format: :relative,
+                      avatar: "Ada Lovelace" %>
+    <% timeline.event "Grace Hopper commented", time: @now - 1.day, time_format: :relative,
+                      avatar: "Grace Hopper" do %>
+      <div class="rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 dark:border-neutral-800 dark:bg-neutral-800/50">
+        I can reproduce this on Safari 18. It only happens when the invoice has more than one currency.
+      </div>
+    <% end %>
+    <% timeline.event "Katherine Johnson added a label", time: @now - 6.hours, time_format: :relative,
+                      avatar: "Katherine Johnson" do %>
+      <%= badge "bug", tone: :bad %> <%= badge "billing" %>
+    <% end %>
+    <% timeline.event "Ada Lovelace linked a pull request", time: @now - 40.minutes, time_format: :relative,
+                      icon: :git_pull_request, tone: :info, href: "#", description: "Round each currency on its own #218" %>
+  <% end %>
+<% end %>

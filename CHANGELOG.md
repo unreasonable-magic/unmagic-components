@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `timeline`, things that happened in order, joined by a line: dots, icons or
+  avatars as markers, tones, `pending:` events with a hollow marker and a dashed
+  line, times through `local_time_tag`, a body per event, a horizontal layout
+  that falls back to vertical on a phone, `marker: :decimal` (or
+  alpha or roman) for steps, and a
+  skeleton. No script.
+- Lucide glyphs for timelines: `rocket`, `git_commit_horizontal`, `git_merge`,
+  `git_pull_request`, `git_branch`, `shopping_cart`, `credit_card`,
+  `package_check`, `truck`, `house`, `flag`, `milestone`, `user_plus`,
+  `key_round`, `play` and `external_link`.
+
 - JavaScript toast API: `toast.show`, `update`, `dismiss`, and `dismissAll`, plus
   scoped element methods, async actions, lifecycle events and Rails `toast_id:`
   interoperability. Client-side toasts clone Ruby-rendered prototypes.

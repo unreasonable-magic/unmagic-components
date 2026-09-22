@@ -1,0 +1,15 @@
+<%= timeline label: "Commits on main", class: "w-full max-w-lg" do |timeline| %>
+  <% [
+       [ "Round each currency on its own", "e41f0a2", "Ada Lovelace", 25.minutes ],
+       [ "Add currency to invoices", "a1b2c3d", "Grace Hopper", 3.hours ],
+       [ "Merge pull request #214 from billing/tax-lines", "7c9d1e0", "Katherine Johnson", 1.day ],
+       [ "Extract TaxLine from Invoice", "3b5a8f4", "Katherine Johnson", 2.days ]
+     ].each do |message, sha, author, ago| %>
+    <% timeline.event message, href: "#", time: @now - ago, time_format: :relative,
+                      icon: (message.start_with?("Merge") ? :git_merge : :git_commit_horizontal) do %>
+      <span class="inline-flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400">
+        <%= avatar author, size: :small %> <%= author %> · <code class="font-mono"><%= sha %></code>
+      </span>
+    <% end %>
+  <% end %>
+<% end %>

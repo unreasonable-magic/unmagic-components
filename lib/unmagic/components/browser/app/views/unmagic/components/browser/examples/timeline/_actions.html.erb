@@ -1,0 +1,12 @@
+<%= timeline label: "Expense #88", class: "w-full max-w-md" do |timeline| %>
+  <% timeline.event "Submitted by Katherine Johnson", time: @now - 1.day, time_format: :relative,
+                    avatar: "Katherine Johnson", description: "Conference travel, $1,240.00" %>
+  <% timeline.event "Approved by the team lead", time: @now - 20.hours, time_format: :relative,
+                    icon: :circle_check, tone: :good %>
+  <% timeline.event "Waiting for finance", icon: :clock, pending: true do %>
+    <div class="flex flex-wrap gap-2">
+      <%= button "Approve", :primary, size: :small %>
+      <%= button "Ask a question", size: :small %>
+    </div>
+  <% end %>
+<% end %>

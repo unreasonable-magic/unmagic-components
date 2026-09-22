@@ -1,0 +1,8 @@
+<%= timeline label: "Account history", class: "w-full max-w-md" do |timeline| %>
+  <% timeline.event "Account created", time: Date.new(2025, 11, 3), icon: :user_plus %>
+  <% timeline.event "Ada Lovelace joined", time: Date.new(2025, 11, 4), avatar: "Ada Lovelace" %>
+  <% timeline.event "Plan changed to Pro", time: Date.new(2026, 1, 12) %>
+  <% timeline.event "Grace Hopper joined", time: Date.new(2026, 2, 20), avatar: "Grace Hopper" %>
+  <% timeline.event "Password policy tightened", time: Date.new(2026, 6, 1), icon: :shield_alert, tone: :warn %>
+  <% timeline.event "Renews", time: Date.new(2026, 11, 3), pending: true %>
+<% end %>

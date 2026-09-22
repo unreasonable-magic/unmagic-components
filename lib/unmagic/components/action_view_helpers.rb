@@ -240,6 +240,50 @@ module Unmagic
         builder.render
       end
 
+      # Things that happened, in order, joined by a line: an audit log, an order's
+      # history, a deploy log, an activity feed, a roadmap.
+      #
+      #   <%= timeline label: "Order history" do |timeline| %>
+      #     <% timeline.event "Order placed", time: @order.created_at, icon: :shopping_cart %>
+      #     <% timeline.event "Payment failed", time: @payment.failed_at, icon: :credit_card, tone: :bad,
+      #                       description: "Card declined" %>
+      #     <% timeline.event "Ada commented", time: @comment.created_at, time_format: :relative,
+      #                       avatar: @comment.author.name do %>
+      #       <%= simple_format @comment.body %>
+      #     <% end %>
+      #     <% timeline.event "Delivered", time: "Friday", pending: true %>
+      #   <% end %>
+      #
+      # Events render in the order given; the gem doesn't sort. label: names the
+      # <ol>; other options go on it. orientation: :vertical (default) or
+      # :horizontal, which lays out as vertical below 40rem. marker: is what an
+      # event with no icon or avatar shows, named as CSS's list-style-type: :dot
+      # (default), or its position as :decimal, :lower_alpha, :upper_alpha,
+      # :lower_roman or :upper_roman, for a process laid out in steps. skeleton: true renders
+      # three placeholder events in place of the block. A timeline with no events
+      # renders nothing, so `timeline(...).presence || empty_state(...)` works.
+      #
+      # timeline.event(title, …) takes:
+      # - time: a Time or Date, drawn through local_time_tag in the viewer's zone
+      #   (time_format: is its format, :medium by default and :date for a Date), or
+      #   a String such as "Q4" printed as it is (markup too, such as a badge)
+      # - icon: an Icons name in a circle, or avatar: a name or a Hash of avatar
+      #   options ({ name:, src: }), drawn small; the default marker is a dot
+      # - tone: :neutral (default), :good, :warn, :bad or :info colours the marker.
+      #   Markers are decoration, so the title has to say what happened
+      # - pending: true for what hasn't happened yet: a hollow marker, a dashed
+      #   line into it, and "(upcoming)" for a screen reader
+      # - href: makes the title a link; description: is a line under it
+      # - a block, the event's body
+      # Other options go on the event's <li>. Titles are not headings; put one in
+      # the body if the page wants it.
+      def timeline(orientation: :vertical, label: nil, marker: :dot, skeleton: false, **options, &block)
+        builder = Components::Timeline.new(self, orientation: orientation, label: label, marker: marker,
+          skeleton: skeleton, **options)
+        capture(builder, &block) if block
+        builder.render
+      end
+
       # Links to the pages around this one, for anything that pages like Pagy.
       #
       #   <%= pagination @pagy %>

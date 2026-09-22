@@ -38,6 +38,7 @@ These are documented in the README and have no notes here:
 | [kbd](kbd.md) | KBD & Hotkey (the key hint) | built |
 | [spinner](spinner.md) | Loading Indicator | built |
 | [steps](steps.md) | Stepper | draft |
+| [timeline](timeline.md) | (none) ReUI Timeline: a history of events joined by a line | built |
 | [accordion](accordion.md) | Accordion, Collapsible | built |
 | [tree_view](tree_view.md) | Tree View | built |
 | [banner](banner.md) | Banner | draft |
