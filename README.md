@@ -1,5 +1,7 @@
 # Unmagic::Components
 
+[Browse the components and documentation](https://unreasonable-magic.github.io/unmagic-components/)
+
 Declarative table and detail-list builders for server-rendered Rails views, in
 the spirit of `form_for`: describe the columns, get the chrome.
 
