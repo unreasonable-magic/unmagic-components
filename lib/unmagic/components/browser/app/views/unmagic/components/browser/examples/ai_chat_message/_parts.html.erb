@@ -1,10 +1,6 @@
 <div class="mx-auto flex max-w-2xl flex-col gap-6">
   <%= ai_chat_message role: :user, id: "parts_q" do |turn| %>
-    <% turn.attachments do %>
-      <%= ai_chat_attachments align: :end do |files| %>
-        <% files.file "brief.pdf", size: 204_800 %>
-      <% end %>
-    <% end %>
+    <% turn.attachments(align: :end) { |files| files.file "brief.pdf", size: 204_800 } %>
     Summarise this brief for the hiring panel.
   <% end %>
   <%= ai_chat_message role: :assistant, id: "parts_a" do |turn| %>
@@ -13,7 +9,7 @@
     <% end %>
     <% turn.branches { ai_chat_branch_picker index: 2, count: 3, previous: "#", next: "#" } %>
     <% turn.actions do %>
-      <%= ai_chat_action_bar for: "parts_a" do |bar| %>
+      <%= message_actions for: "parts_a" do |bar| %>
         <% bar.copy "Must-haves: Go, Kubernetes, on-call experience." %>
         <% bar.action "Try again", "#", icon: :rotate_cw, method: :post %>
       <% end %>

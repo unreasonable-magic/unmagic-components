@@ -84,18 +84,18 @@ RSpec.describe "AI chat citations, welcomes, attachments, menus, action bars and
         files.file "shot.png", thumbnail: "/thumbs/2.png"
       end).at("ul")
 
-      expect(list["class"]).to eq("UnmagicAIChatAttachments UnmagicAIChatAttachments--end extra")
-      pdf, png = list.css("li.UnmagicAIChatAttachments__file")
+      expect(list["class"]).to eq("UnmagicMessageAttachments UnmagicMessageAttachments--end extra")
+      pdf, png = list.css("li.UnmagicMessageAttachments__file")
       expect(pdf.at("a")["href"]).to eq("/files/1")
-      expect(pdf.at(".UnmagicAIChatAttachments__glyph")).not_to be_nil
-      expect(pdf.at(".UnmagicAIChatAttachments__size").text).to eq("200 KB")
-      expect(png.at("img.UnmagicAIChatAttachments__thumb")["alt"]).to eq("")
+      expect(pdf.at(".UnmagicMessageAttachments__glyph")).not_to be_nil
+      expect(pdf.at(".UnmagicMessageAttachments__size").text).to eq("200 KB")
+      expect(png.at("img.UnmagicMessageAttachments__thumb")["alt"]).to eq("")
       expect(png.at("a")).to be_nil
     end
 
     it "renders nothing without files, and rejects an unknown alignment" do
       expect(view.ai_chat_attachments).to be_blank
-      expect { view.ai_chat_attachments(align: :middle) }.to raise_error(ArgumentError, /unknown ai_chat_attachments align :middle/)
+      expect { view.ai_chat_attachments(align: :middle) }.to raise_error(ArgumentError, /unknown message_attachments align :middle/)
     end
   end
 
@@ -147,30 +147,13 @@ RSpec.describe "AI chat citations, welcomes, attachments, menus, action bars and
   end
 
   describe "#ai_chat_action_bar" do
-    it "renders a labelled toolbar of icon controls for a turn" do
-      bar = html(view.ai_chat_action_bar(for: "message_2", class: "extra") do |b|
-        b.copy "The reply"
-        b.action "Edit", "/messages/2/edit", icon: :pencil
-        b.action "Try again", "/messages/2/retry", icon: :rotate_cw, method: :post, confirm: "Replace it?"
-      end).at("unmagic-toolbar")
+    it "is message_actions under its old name" do
+      bar = html(view.ai_chat_action_bar(for: "message_2", reveal: :always, class: "extra") { |b| b.copy "The reply" }).at("unmagic-toolbar")
 
-      expect(bar["class"]).to eq("UnmagicAIChatActionBar extra")
+      expect(bar["class"]).to eq("UnmagicMessageActions extra")
       expect([ bar["role"], bar["aria-label"], bar["aria-controls"], bar["data-reveal"] ])
-        .to eq([ "toolbar", "Message actions", "message_2", "hover" ])
+        .to eq([ "toolbar", "Message actions", "message_2", "always" ])
       expect(bar.at("unmagic-clipboard")["value"]).to eq("The reply")
-
-      edit = bar.at("a")
-      expect([ edit["href"], edit["aria-label"], edit["title"] ]).to eq([ "/messages/2/edit", "Edit", "Edit" ])
-      retry_form = bar.at("form.UnmagicAIChatActionBar__form")
-      expect(retry_form["data-turbo-confirm"]).to eq("Replace it?")
-      expect(retry_form.at("button")["aria-label"]).to eq("Try again")
-    end
-
-    it "renders nothing without controls, and validates its options" do
-      expect(view.ai_chat_action_bar(for: "m")).to be_blank
-      expect(html(view.ai_chat_action_bar(for: "m", reveal: :always) { |b| b.control "X" }).at("unmagic-toolbar")["data-reveal"]).to eq("always")
-      expect { view.ai_chat_action_bar(for: "") }.to raise_error(ArgumentError, /needs for:/)
-      expect { view.ai_chat_action_bar(for: "m", reveal: :never) }.to raise_error(ArgumentError, /unknown ai_chat_action_bar reveal :never/)
     end
   end
 

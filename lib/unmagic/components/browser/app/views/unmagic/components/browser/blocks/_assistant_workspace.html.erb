@@ -9,7 +9,7 @@
           <div id="assistant_scroll" class="max-h-[34rem] overflow-y-auto">
             <%= ai_chat id: "assistant_entries", scroller: "#assistant_scroll" do %>
               <%= ai_chat_message role: :user, id: "assistant_question" do |turn| %>
-                <% turn.attachments do %><%= ai_chat_attachments do |files| %><% files.file "launch-brief.md", size: 1840 %><% end %><% end %>
+                <% turn.attachments { |files| files.file "launch-brief.md", size: 1840 } %>
                 Summarize the launch brief and suggest the next steps.
               <% end %>
               <%= ai_chat_reasoning duration: 3.4 do %><p>Review the brief, identify unresolved decisions, and separate launch requirements from later improvements.</p><% end %>
@@ -20,7 +20,7 @@
                 <p>The launch needs three things: final artwork, a clear onboarding flow, and a support handoff.</p>
                 <%= ai_chat_citation do |cite| %><% cite.who "Launch brief" %><% cite.when now %><% cite.quote "A new member should reach their first project in under five minutes." %><% end %>
                 <% turn.actions do %>
-                  <%= ai_chat_action_bar for: "assistant_answer", reveal: :always do |bar| %><% bar.copy "Finalize artwork, review onboarding, and prepare the support handoff." %><% end %>
+                  <%= message_actions for: "assistant_answer", reveal: :always do |bar| %><% bar.copy "Finalize artwork, review onboarding, and prepare the support handoff." %><% end %>
                 <% end %>
               <% end %>
             <% end %>

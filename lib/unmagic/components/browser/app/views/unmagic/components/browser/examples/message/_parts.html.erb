@@ -1,0 +1,21 @@
+<div class="mx-auto max-w-2xl">
+  <%= message variant: :row, id: "message_parts_row", author: "Ana Silva", avatar: true, time: @now - 40.minutes, edited: true do |m| %>
+    <% m.meta badge("Admin", tone: :info) %>
+    <% m.quote "Can someone review the release notes before Friday?", author: "Ben Reyes", href: "#" %>
+    <% m.attachments { |files| files.file "review-notes.md", size: 3_120, url: "#" } %>
+    <% m.reactions { |r| r.reaction "👍", count: 3, reacted: true, names: [ "Ben", "Chloe", "You" ], url: "#"; r.reaction "🎉", count: 1, url: "#"; r.add popovertarget: "message_parts_row_picker" } %>
+    <% m.footer { link_to "2 replies", "#", class: "font-medium text-neutral-700 hover:underline dark:text-neutral-300" } %>
+    <% m.actions(reveal: :always) do |bar| %>
+      <% bar.action "Reply", "#", icon: :reply %>
+      <% bar.copy "On it. Comments are on the migration section." %>
+      <% bar.action "Edit", "#", icon: :pencil %>
+      <% bar.action "Delete", "#", icon: :trash_2, method: :delete, confirm: "Delete this message?" %>
+    <% end %>
+    <p>On it. Comments are on the migration section; the rollback steps look right to me.</p>
+  <% end %>
+  <div id="message_parts_row_picker" popover class="rounded-lg border border-neutral-200 bg-white p-1 shadow-lg dark:border-neutral-700 dark:bg-neutral-900">
+    <% %w[👍 🎉 ❤️ 😂 👀 ✅].each do |emoji| %>
+      <button type="button" class="rounded-md px-2 py-1 text-lg hover:bg-neutral-100 dark:hover:bg-neutral-800"><%= emoji %></button>
+    <% end %>
+  </div>
+</div>

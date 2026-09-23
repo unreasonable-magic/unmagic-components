@@ -1,0 +1,12 @@
+<%= message_actions for: "actions_hover", reveal: :always do |bar| %>
+  <% bar.action "Reply", "#", icon: :reply %>
+  <% bar.copy "Friday at 2pm works for everyone." %>
+  <% bar.action "Edit", "#", icon: :pencil %>
+  <% bar.action "Delete", "#", icon: :trash_2, method: :delete, confirm: "Delete this message?" %>
+  <% bar.control do %>
+    <%= menu id: "actions_always_menu" do |menu| %>
+      <% menu.link "Pin to channel", "#", icon: :flag %>
+      <% menu.link "Copy link", "#", icon: :external_link %>
+    <% end %>
+  <% end %>
+<% end %>

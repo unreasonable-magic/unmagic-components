@@ -1,6 +1,6 @@
 # `ai_chat_action_bar`
 
-> Status: built
+> Status: built, superseded by [messaging/actions](../messaging/actions.md); the helper stays as an alias
 > Tier: 2 (small element)
 > Relates to: [message](message.md), [branch_picker](branch_picker.md), `copy_button`, `tooltip`
 

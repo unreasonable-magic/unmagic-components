@@ -20,7 +20,7 @@ module Unmagic
 
         # The sidebar and the overview list ungrouped components first, under
         # "Components", then each group under its own heading in this order.
-        GROUPS = [ nil, "Layout", "Forms", "Navigation", "Overlays", "Data display", "AI chat" ].freeze
+        GROUPS = [ nil, "Layout", "Forms", "Navigation", "Overlays", "Data display", "Messaging", "AI chat" ].freeze
 
         class << self
           # new: true marks a component added in the release being prepared, for a

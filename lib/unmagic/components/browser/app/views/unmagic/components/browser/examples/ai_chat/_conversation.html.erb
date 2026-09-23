@@ -35,7 +35,7 @@
 
         <%= ai_chat_message role: :assistant, id: "showcase_a2" do |turn| %>
           <% turn.actions do %>
-            <%= ai_chat_action_bar for: "showcase_a2" do |bar| %>
+            <%= message_actions for: "showcase_a2" do |bar| %>
               <% bar.copy "Three candidates haven't replied." %>
               <% bar.action "Try again", "#", icon: :rotate_cw, method: :post %>
               <% bar.control { ai_chat_branch_picker index: 2, count: 2, previous: "#" } %>

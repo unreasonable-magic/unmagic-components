@@ -1663,6 +1663,128 @@ under a second is milliseconds (`640ms`). The words are the
 `hours`); the element writes the English forms as it ticks. A blank time renders
 an em dash. Needs `import "unmagic/components/elapsed"`.
 
+## Messaging
+
+Components for showing people talking to each other, or to a machine: a
+thread of messages with who said it, when, what came with it, how others
+reacted and what can be done to it. One family renders an iMessage-style chat,
+a Slack-style channel, an email back-and-forth and an AI chat
+(`ai_chat_message` is built on `message`).
+
+```erb
+<%= message_thread id: "messages", live: true, label: "Chat with Ana" do %>
+  <%= message_separator "Today" %>
+  <%= message "Are we still on for Friday?", author: "Ana Silva", avatar: true, time: message.sent_at %>
+  <%= message own: true, time: reply.sent_at do |m| %>
+    <% m.status :read, at: reply.read_at %>
+    Yes, 2pm.
+  <% end %>
+  <%= message_typing "Ana Silva", avatar: true %>
+<% end %>
+```
+
+### `message_thread(id: nil, live: false, label: nil, **options, &block)`
+
+The container: the block is the content, one message (or separator, or typing
+indicator) after another, and the thread spaces them, tightening the gap before
+a `continued:` message and widening it before a separator. `live: true` makes
+it a polite `role="log"` named by `label:`, for a conversation broadcasts land
+in; without it there is no role and no label. Always renders, empty or not.
+
+### `message(content = nil, variant: :bubble, own: false, author: nil, avatar: nil, time: nil, time_format: nil, continued: false, edited: false, collapsible: false, open: true, id: nil, **options, &block)`
+
+```erb
+<%= message variant: :row, id: dom_id(message), author: message.author.name, avatar: true,
+            time: message.sent_at, edited: message.edited? do |m| %>
+  <% m.quote parent.body, author: parent.author.name, href: message_path(parent) %>
+  <% m.attachments { |files| files.file "notes.md", size: 1_240, url: "…" } %>
+  <% m.reactions { |r| r.reaction "👍", count: 2, url: react_path(message) } %>
+  <% m.footer { link_to "3 replies", thread_path(message) } %>
+  <% m.actions { |bar| bar.action "Reply", reply_path(message), icon: :reply } %>
+  <%= Markdown.render(message.body) %>
+<% end %>
+
+<%= message variant: :email, author: "Ana Silva", avatar: true, time: mail.sent_at, collapsible: true, open: false do |m| %>
+  <% m.meta "to Ben Reyes, Chloe Park" %>
+  <%= mail.html_body %>
+<% end %>
+```
+
+- **Variants:** `:bubble` (a chat), `:row` (a channel or thread) and `:email`
+  (a letter in a card), from one markup. `own: true` puts a bubble on the right
+  on the dark surface; a row or an email only gains the class.
+- **Header:** `author:` names the sender; `avatar: true` draws their initials
+  (it needs `author:`), or takes a name or a Hash of `avatar` options; `time:`
+  goes through `local_time_tag` with `time_format:` (`:time`, or `:medium` for
+  an email), and a string prints as it is.
+- **Continued:** `continued: true` for a message from the same sender as the one
+  above, moments later: no name or avatar (the avatar's column stays), a tighter
+  gap, joined corners. Still pass `author:`; it stays in the DOM for screen
+  readers. A continued row shows its time in the gutter on hover.
+- **Body:** the content or the block. A bubble keeps the line breaks typed into
+  it; a row or an email is prose (`UnmagicProse`), your rendered HTML.
+- **Parts:** `m.meta` (a line under the author), `m.quote(text, author:, href:)`
+  (what this replies to), `m.attachments`, `m.reactions`, `m.status(state, at:)`
+  (`:sending`, `:sent`, `:delivered`, `:read` or `:failed`, a word and a glyph),
+  `m.footer` (your own footer content) and `m.actions(**options)`. `attachments`,
+  `reactions` and `actions` build the matching component when their block takes
+  an argument (`{ |bar| … }` gets a `message_actions` for this `id:`) and take
+  markup when it doesn't. The actions sit beside a bubble, float over a row on
+  hover, and sit under an email.
+- **Collapsible:** `collapsible: true` folds the message into a `<details>`
+  whose summary is the header and a line of the body, `open: false` to start
+  shut. Meant for `:email`.
+- **State** is on the root: `data-status`, and `data-optimistic` for a message
+  drawn before the server has it.
+
+I18n: `unmagic.components.message.you` ("You"), `.edited` ("Edited") and
+`.status.sending`, `.sent`, `.delivered`, `.read` and `.failed`.
+
+### `message_actions(for:, reveal: :hover, label: nil, **options, &block)`
+
+The controls on a message. `bar.copy(text)` is a `copy_button`;
+`bar.action(label, url, icon:, method:, confirm:)` is an icon-only link for a
+GET and a `button_to` otherwise; `bar.control { }` is anything else (a `menu`,
+an email's "Reply" text button). A toolbar with one Tab stop and arrow keys
+between the controls (`<unmagic-toolbar>`). `reveal: :hover` shows it when the
+message is hovered or the bar focused, and always on a touch screen and under
+an email; it is never hidden from the keyboard. `ai_chat_action_bar` is the
+same helper under its old name. Needs `import "unmagic/components/toolbar"`.
+I18n: `unmagic.components.message.actions.label` ("Message actions"), falling
+back to the old `unmagic.components.ai_chat.action_bar.label`.
+
+### `message_attachments(align: :start, **options, &block)`
+
+The files that came with a message, as tiles: `files.file(name, size:, url:,
+thumbnail:)`. `align: :end` gathers them on the right, under an own bubble; on a
+bubble they show above it. `ai_chat_attachments` is the same helper under its
+old name, and `ai_chat_dropzone` draws the same tile for a file on its way in.
+
+### `message_reactions(label: nil, **options, &block)`
+
+`r.reaction(emoji, count:, reacted:, names:, url:, method:)` is a pill: with
+`url:` a `button_to` that toggles it, pressed when `reacted:`, whose response
+re-renders the list; without, a pill that only shows. `names:` lists who in its
+title. `r.add(**options)` is an icon button labelled "Add reaction" that takes
+the options (`popovertarget:`, `data:`) to wire it to your picker, or
+`r.add { }` is a control of your own. I18n:
+`unmagic.components.message.reactions.label`, `.add` and `.reacted`.
+
+### `message_separator(label = nil, time: nil, unread: false, **options)`
+
+A line across the thread. A label prints as it is; `time:` is a date through
+`local_time_tag`; `unread: true` marks where the new messages start, in blue,
+with "New messages" unless there's a label. I18n:
+`unmagic.components.message.separator.unread`.
+
+### `message_typing(who = nil, avatar: nil, **options)`
+
+Three dots in a bubble. The name shows above them and reads as "Ana Silva is
+typing", or "Typing". It claims no live region: a live thread announces its
+arrival; outside one, pass `role: "status"`. Under reduced motion the dots pulse
+instead of rising. I18n: `unmagic.components.message.typing.named` and
+`.anonymous`.
+
 ## AI chat
 
 Components for rendering an agent's work, in the spirit of
@@ -1757,8 +1879,8 @@ Needs `import "unmagic/components/autoscroll"`. I18n:
 
 ### `ai_chat_message(content = nil, role:, id: nil, streaming: false, final: false, optimistic: nil, **options, &block)`
 
-One turn. A user's turn is a bubble of plain text with its line breaks kept; an
-assistant's is unbubbled prose.
+One turn, built on `message`: a user's turn is an own bubble of plain text with
+its line breaks kept; an assistant's is an unbubbled row of prose.
 
 - **The body** of an assistant turn with an id is an
   `<unmagic-streaming-markdown id="#{id}_content">`. `streaming: true` shows a
@@ -1767,10 +1889,12 @@ assistant's is unbubbled prose.
 - **Empty:** a settled assistant turn with nothing in it is `hidden`, keeping its
   id for broadcasts.
 - **Parts:** `turn.reasoning(**options) { }` (see `ai_chat_reasoning`),
-  `turn.actions { }`, `turn.branches { }` and `turn.attachments { }` (above a
-  user's bubble).
+  `turn.actions { }`, `turn.branches { }` and `turn.attachments { }` (shown
+  above a user's bubble; `{ |files| … }` builds `message_attachments`).
 - **Optimistic:** `optimistic: { id:, text: }` renders the template a composer
   fills from those fields, dimmed.
+- **Classes:** the root carries `UnmagicMessage` and `UnmagicAIChatMessage`; the
+  body is `UnmagicMessage__body`.
 
 I18n: `unmagic.components.ai_chat.message.user` ("You said"), `.assistant`
 ("Assistant said") and `.thinking` ("Thinking"), for screen readers.
@@ -1855,10 +1979,7 @@ pattern). Picking writes `"/name "` at the cursor. `for:` defaults to the
 composer's field. Needs `import "unmagic/components/slash_menu"`. I18n:
 `unmagic.components.ai_chat.slash_menu.label` ("Commands").
 
-### `ai_chat_attachments(align: :start, **options, &block)` and `ai_chat_dropzone(input:, url: nil, field: nil, chips: nil, label: nil, **options, &block)`
-
-`ai_chat_attachments` lists the files a sent turn carries
-(`files.file name, size:, url:, thumbnail:`; `align: :end` for a user's turn).
+### `ai_chat_dropzone(input:, url: nil, field: nil, chips: nil, label: nil, **options, &block)`
 
 `ai_chat_dropzone` wraps a region that takes dropped and pasted files, with an
 overlay while dragging. `input:` is the file input the files join, which is also
@@ -1979,20 +2100,14 @@ I18n under `unmagic.components.ai_chat`: `plan.title`, `plan.empty`,
 `plan.pending`, `plan.in_progress`, `plan.waiting`, `plan.completed`,
 `workspace.title` and `workspace.empty`.
 
-### `ai_chat_action_bar(for:, reveal: :hover, **options, &block)` and `ai_chat_branch_picker(index:, count:, previous: nil, next: nil, method: :get, **options)`
+### `ai_chat_branch_picker(index:, count:, previous: nil, next: nil, method: :get, **options)`
 
-The controls under a turn. `bar.copy(text)`, `bar.action(label, url, icon:,
-method:, confirm:)` and `bar.control { }` make a toolbar with one Tab stop and
-arrow keys between controls (`<unmagic-toolbar>`). `reveal: :hover` shows it on
-hover or focus, and always on touch screens; it is never hidden from the
-keyboard.
+Walks between versions of a turn: "Version 2 of 3", with a disabled end where
+there's nowhere to go. What a branch is stays your application's business, and
+one version renders nothing. It goes in `turn.branches`, beside the turn's
+`message_actions` (`ai_chat_action_bar` is that helper under its old name).
 
-`ai_chat_branch_picker` walks between versions of a turn: "Version 2 of 3",
-with a disabled end where there's nowhere to go. What a branch is stays your
-application's business, and one version renders nothing.
-
-Needs `import "unmagic/components/toolbar"` and `"unmagic/components/ai_chat"`.
-I18n: `unmagic.components.ai_chat.action_bar.label` and
+Needs `import "unmagic/components/ai_chat"`. I18n:
 `unmagic.components.ai_chat.branch_picker.label`, `.previous` and `.next`.
 
 ## Image tools

@@ -4,8 +4,11 @@ module Unmagic
   module Components
     module AIChat
       # One turn: a user's bubble of plain text, or an assistant's unbubbled
-      # prose. See ActionViewHelpers#ai_chat_message.
-      class Message
+      # prose. A Messaging::Message (a bubble of the reader's own, or a row with
+      # no avatar) that adds what an agent's turn needs: a body that streams, a
+      # thinking spinner, the optimistic template, the reasoning above the reply
+      # and the branch picker under it. See ActionViewHelpers#ai_chat_message.
+      class Message < Messaging::Message
         ROLES = %i[user assistant].freeze
 
         def initialize(view, role:, id: nil, streaming: false, final: false, optimistic: nil, **options)
@@ -17,17 +20,13 @@ module Unmagic
             raise ArgumentError, "optimistic: needs id: and text:, naming the form fields to fill them from"
           end
 
-          @view = view
           @role = role
-          @id = id
           @streaming = streaming
           @final = final
           @optimistic = optimistic
-          @options = options
           @reasoning = nil
-          @actions = nil
           @branches = nil
-          @attachments = nil
+          super(view, variant: (role == :user ? :bubble : :row), own: role == :user, id: id, **options)
         end
 
         # A collapsed "thought process" above the body. Takes ai_chat_reasoning's
@@ -38,75 +37,62 @@ module Unmagic
           nil
         end
 
-        def actions(content = nil, &block)
-          @actions = block ? view.capture(&block) : content
-          nil
-        end
-
         def branches(content = nil, &block)
           @branches = block ? view.capture(&block) : content
           nil
         end
 
-        # Above a user's bubble, which is the order it happened in.
-        def attachments(content = nil, &block)
-          @attachments = block ? view.capture(&block) : content
+        # The bar goes in this turn's own footer, beside the branch picker, rather
+        # than where a row would float it.
+        def actions(content = nil, &block)
+          @actions = block ? view.capture(&block) : content
           nil
         end
 
         def render(body)
-          @role == :user ? user(body) : assistant(body)
+          super(@optimistic ? "" : body)
         end
 
         private
 
-        attr_reader :view
-
-        delegate :tag, :safe_join, to: :view, private: true
-
-        def user(body)
+        # A settled assistant turn with nothing to say is hidden rather than
+        # dropped, so a broadcast can still key on its id. The optimistic template
+        # leaves the id for <unmagic-optimistic> to fill.
+        def root_attributes(body)
+          attributes = super
+          hidden = @role == :assistant && body.blank? && @reasoning.blank? && !@streaming
           data = @optimistic ? { optimistic_id: @optimistic[:id], optimistic: "" } : {}
 
-          root(data: data) do
-            safe_join [
-              role_label,
-              (tag.div(@attachments, class: "UnmagicAIChatMessage__attachments") if @attachments.present?),
-              tag.div(@optimistic ? "" : trimmed(body), class: "UnmagicAIChatMessage__bubble",
-                data: (@optimistic ? { optimistic_text: @optimistic[:text] } : {})),
-              footer
-            ].compact
-          end
+          attributes.merge(id: (@id unless @optimistic), hidden: hidden, data: attributes[:data].merge(data))
         end
 
-        # A settled turn with nothing to say is hidden rather than dropped, so a
-        # broadcast can still key on its id. A turn still streaming is never empty:
-        # it shows the thinking spinner until its first token replaces it.
-        def assistant(body)
-          blank = body.blank? && @reasoning.blank? && !@streaming
+        def extra_root_classes = [ "UnmagicAIChatMessage", "UnmagicAIChatMessage--#{@role}" ]
 
-          root(hidden: blank) do
-            safe_join [ role_label, @reasoning.presence, content(body), footer ].compact
-          end
+        # Every turn says whose it is: the only way a non-visual reader can tell a
+        # bubble from prose.
+        def speaker_label
+          default = @role == :user ? "You said" : "Assistant said"
+          tag.span(AIChat.t("message.#{@role}", default: default), class: "UnmagicVisuallyHidden")
         end
 
-        # The body is always the streaming element when the turn has an id, even once
-        # it has settled: the settled render upserts over the streaming one, and the
-        # element carries the reveal across that swap.
-        def content(body)
+        def before_body = @reasoning.presence
+
+        # An assistant's body is always the streaming element when the turn has an
+        # id, even once it has settled: the settled render upserts over the
+        # streaming one, and the element carries the reveal across that swap. A
+        # turn still streaming is never empty: it shows the thinking spinner until
+        # its first token replaces it.
+        def body_element(body)
+          if @role == :user
+            data = @optimistic ? { optimistic_text: @optimistic[:text] } : {}
+            return tag.div(body, class: "UnmagicMessage__body", data: data)
+          end
+
           body = thinking if body.blank? && @streaming && !@final
-          return tag.div(body, class: "UnmagicAIChatMessage__body UnmagicProse") unless @id
+          return tag.div(body, class: "UnmagicMessage__body UnmagicProse") unless @id
 
           StreamingMarkdown.new(view, id: "#{@id}_content", final: @final, streaming: @streaming,
-            class: "UnmagicAIChatMessage__body UnmagicProse").render(body)
-        end
-
-        # The bubble keeps the line breaks that were typed, so a block's own leading
-        # newline and indentation would show as a blank first line. Trimming the ends
-        # can't make markup, so already-escaped content stays safe.
-        def trimmed(body)
-          return body.to_s.strip unless body.respond_to?(:html_safe?) && body.html_safe?
-
-          body.to_str.strip.html_safe # rubocop:disable Rails/OutputSafety -- escaped content, only whitespace removed
+            class: "UnmagicMessage__body UnmagicProse").render(body)
         end
 
         def thinking
@@ -118,24 +104,13 @@ module Unmagic
           end
         end
 
-        def footer
+        def footer_element
           return if @actions.blank? && @branches.blank?
 
           tag.div(safe_join([ @branches.presence, @actions.presence ].compact), class: "UnmagicAIChatMessage__footer")
         end
 
-        def role_label
-          default = @role == :user ? "You said" : "Assistant said"
-          tag.span(AIChat.t("message.#{@role}", default: default), class: "UnmagicVisuallyHidden")
-        end
-
-        def root(hidden: false, data: {}, &block)
-          view.content_tag(:div, **@options,
-            id: (@id unless @optimistic),
-            hidden: hidden,
-            data: data.merge(@options[:data] || {}),
-            class: view.class_names("UnmagicAIChatMessage", "UnmagicAIChatMessage--#{@role}", @options[:class]), &block)
-        end
+        def actions_cell = nil
       end
     end
   end

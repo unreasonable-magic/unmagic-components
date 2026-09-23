@@ -1,0 +1,9 @@
+<div class="mx-auto max-w-md">
+  <%= message_thread do %>
+    <% { sending: "Just sent this one.", sent: "This one left the phone.", delivered: "This one reached theirs.", read: "This one they've read.", failed: "This one never got there." }.each do |state, text| %>
+      <%= message text, own: true, id: "message_status_#{state}" do |m| %>
+        <% m.status state, at: (@now - 1.minute if state == :read) %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

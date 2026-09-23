@@ -55,29 +55,32 @@ RSpec.describe "AI chat transcripts and messages" do
   end
 
   describe "#ai_chat_message" do
-    it "renders a user's turn as a bubble of plain text" do
+    it "renders a user's turn as an own bubble of plain text, built on message" do
       doc = html(view.ai_chat_message(role: :user, id: "m1", class: "extra") { "<b>Hi</b>\nthere" })
-      turn = doc.at("div#m1")
+      turn = doc.at("article#m1")
 
-      expect(turn["class"]).to eq("UnmagicAIChatMessage UnmagicAIChatMessage--user extra")
-      expect(turn.at(".UnmagicVisuallyHidden").text).to eq("You said")
-      bubble = turn.at(".UnmagicAIChatMessage__bubble")
+      expect(turn["class"]).to eq("UnmagicMessage UnmagicMessage--bubble UnmagicMessage--own UnmagicAIChatMessage UnmagicAIChatMessage--user extra")
+      expect(turn.at(".UnmagicMessage__header .UnmagicVisuallyHidden").text).to eq("You said")
+      bubble = turn.at(".UnmagicMessage__main > .UnmagicMessage__body")
       expect(bubble.text).to eq("<b>Hi</b>\nthere")
       expect(bubble.at("b")).to be_nil
+      expect(bubble["class"]).not_to include("UnmagicProse")
     end
 
     it "trims a block's surrounding whitespace from the bubble, keeping the escaping" do
       bubble = html(view.ai_chat_message(role: :user) { "\n    #{ERB::Util.html_escape("<b>Hi</b>")}\n  ".html_safe })
-        .at(".UnmagicAIChatMessage__bubble")
+        .at(".UnmagicMessage__body")
       expect(bubble.inner_html).to eq("&lt;b&gt;Hi&lt;/b&gt;")
     end
 
-    it "renders an assistant's turn as prose inside the streaming element, keyed to the turn" do
-      turn = html(view.ai_chat_message(role: :assistant, id: "m2") { "<p>Done.</p>".html_safe }).at("div#m2")
+    it "renders an assistant's turn as a row of prose inside the streaming element, keyed to the turn" do
+      turn = html(view.ai_chat_message(role: :assistant, id: "m2") { "<p>Done.</p>".html_safe }).at("article#m2")
 
+      expect(turn["class"]).to eq("UnmagicMessage UnmagicMessage--row UnmagicAIChatMessage UnmagicAIChatMessage--assistant")
       expect(turn.at(".UnmagicVisuallyHidden").text).to eq("Assistant said")
+      expect(turn.at(".UnmagicMessage__avatar")).to be_nil
       body = turn.at("unmagic-streaming-markdown#m2_content")
-      expect(body["class"]).to eq("UnmagicStreamingMarkdown UnmagicAIChatMessage__body UnmagicProse")
+      expect(body["class"]).to eq("UnmagicStreamingMarkdown UnmagicMessage__body UnmagicProse")
       expect(body.at("p").text).to eq("Done.")
       expect(body["aria-busy"]).to be_nil
       expect(turn.key?("hidden")).to be(false)
@@ -86,7 +89,7 @@ RSpec.describe "AI chat transcripts and messages" do
     it "uses a plain body when there's no id to stream into" do
       turn = html(view.ai_chat_message("<p>x</p>".html_safe, role: :assistant)).at(".UnmagicAIChatMessage")
       expect(turn.at("unmagic-streaming-markdown")).to be_nil
-      expect(turn.at("div.UnmagicAIChatMessage__body.UnmagicProse p")).not_to be_nil
+      expect(turn.at("div.UnmagicMessage__body.UnmagicProse p")).not_to be_nil
     end
 
     it "shows the thinking spinner while streaming with nothing yet, busy" do
@@ -117,10 +120,12 @@ RSpec.describe "AI chat transcripts and messages" do
         "Answer"
       end).at("#m7")
 
-      expect(turn.element_children.map { |child| child["class"] }).to eq([
-        "UnmagicVisuallyHidden", "UnmagicAIChatReasoning", "UnmagicStreamingMarkdown UnmagicAIChatMessage__body UnmagicProse",
+      main = turn.at("> .UnmagicMessage__main")
+      expect(main.element_children.map { |child| child["class"] }).to eq([
+        "UnmagicMessage__header", "UnmagicAIChatReasoning", "UnmagicStreamingMarkdown UnmagicMessage__body UnmagicProse",
         "UnmagicAIChatMessage__footer"
       ])
+      expect(turn.at(".UnmagicMessage__actions")).to be_nil
       expect(turn.at(".UnmagicAIChatMessage__footer").text).to eq("BRANCHESACTIONS")
       expect(turn.at(".UnmagicAIChatReasoning__title").text).to eq("Thought for 12s")
 
@@ -128,7 +133,7 @@ RSpec.describe "AI chat transcripts and messages" do
         message.attachments "FILES"
         "Hi"
       end).at("#m8")
-      expect(user.at(".UnmagicAIChatMessage__attachments + .UnmagicAIChatMessage__bubble")).not_to be_nil
+      expect(user.at(".UnmagicMessage__body + .UnmagicMessage__attachments").text).to eq("FILES")
     end
 
     it "renders the optimistic template for the composer to fill" do
@@ -138,7 +143,7 @@ RSpec.describe "AI chat transcripts and messages" do
       expect(turn["id"]).to be_nil
       expect(turn["data-optimistic-id"]).to eq("message[client_id]")
       expect(turn.key?("data-optimistic")).to be(true)
-      expect(turn.at(".UnmagicAIChatMessage__bubble")["data-optimistic-text"]).to eq("message[content]")
+      expect(turn.at(".UnmagicMessage__body")["data-optimistic-text"]).to eq("message[content]")
     end
 
     it "rejects an unknown role and a half-described optimistic turn" do

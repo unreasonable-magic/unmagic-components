@@ -1,0 +1,11 @@
+<div class="mx-auto max-w-2xl">
+  <%= message variant: :row, id: "actions_hover", author: "Ana Silva", avatar: true, time: @now - 5.minutes do |m| %>
+    <% m.actions do |bar| %>
+      <% bar.action "Reply", "#", icon: :reply %>
+      <% bar.action "Add reaction", "#", icon: :smile_plus %>
+      <% bar.copy "Friday at 2pm works for everyone." %>
+      <% bar.action "More", "#", icon: :ellipsis %>
+    <% end %>
+    <p>Friday at 2pm works for everyone.</p>
+  <% end %>
+</div>

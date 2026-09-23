@@ -1,0 +1,16 @@
+<div class="mx-auto max-w-md">
+  <%= message_thread id: "thread_chat", live: true, label: "Chat with Ana Silva" do %>
+    <%= message_separator "Yesterday" %>
+    <%= message "Are we still on for Friday?", author: "Ana Silva", avatar: true, time: @now - 1.day, id: "thread_chat_1" %>
+    <%= message "I can do 2pm, or later if that's easier.", author: "Ana Silva", avatar: true, time: @now - 1.day + 1.minute, continued: true, id: "thread_chat_2" %>
+    <%= message "2pm is perfect. Same place?", own: true, time: @now - 1.day + 4.minutes, id: "thread_chat_3" %>
+    <%= message_separator "Today" %>
+    <%= message "Yes! I'll book the corner table.\nBring the sketches if you have them.", author: "Ana Silva", avatar: true, time: @now - 20.minutes, id: "thread_chat_4" do |m| %>
+      <% m.reactions { |r| r.reaction "👍", count: 1, reacted: true } %>
+    <% end %>
+    <%= message "Will do 👋", own: true, time: @now - 2.minutes, id: "thread_chat_5" do |m| %>
+      <% m.status :read, at: @now - 1.minute %>
+    <% end %>
+    <%= message_typing "Ana Silva", avatar: true %>
+  <% end %>
+</div>

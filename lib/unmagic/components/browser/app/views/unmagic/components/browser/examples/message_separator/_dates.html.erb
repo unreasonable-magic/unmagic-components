@@ -1,0 +1,10 @@
+<div class="mx-auto max-w-md">
+  <%= message_thread do %>
+    <%= message_separator time: @now.to_date - 2 %>
+    <%= message "Did the parcel arrive?", author: "Ana Silva", avatar: true %>
+    <%= message_separator "Yesterday" %>
+    <%= message "Got it, thanks!", own: true %>
+    <%= message_separator unread: true %>
+    <%= message "Great. Same time next week?", author: "Ana Silva", avatar: true %>
+  <% end %>
+</div>

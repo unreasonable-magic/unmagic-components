@@ -1,0 +1,6 @@
+<%= message_actions for: "actions_thumb", reveal: :always, class: "rounded-lg border border-neutral-200 bg-white p-1 dark:border-neutral-800 dark:bg-neutral-900" do |bar| %>
+  <% bar.action "Reply", "#", icon: :reply %>
+  <% bar.action "Add reaction", "#", icon: :smile_plus %>
+  <% bar.copy "x" %>
+  <% bar.action "Delete", "#", icon: :trash_2, method: :delete %>
+<% end %>

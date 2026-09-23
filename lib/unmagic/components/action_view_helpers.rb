@@ -1383,6 +1383,163 @@ module Unmagic
         builder.render
       end
 
+      # ---------------------------------------------------------------------
+      # Messaging: people talking to each other, or to a machine. See
+      # docs/components/messaging.
+
+      # The container a conversation's messages sit in.
+      #
+      #   <%= message_thread id: "messages", live: true, label: "Chat with Ana" do %>
+      #     <%= render @messages %>
+      #   <% end %>
+      #
+      # It renders no messages of its own: the block is the content, one message
+      # (or separator, or typing indicator) after another, and the thread spaces
+      # them. live: true makes it a polite role="log" named by label:, for a
+      # conversation broadcasts land in; without it there is no role and no label.
+      # Always renders, empty or not. Other options go on the <div>.
+      def message_thread(id: nil, live: false, label: nil, **options, &block)
+        Components::Messaging::Thread.new(self, id: id, live: live, label: label, **options).render(block ? capture(&block) : nil)
+      end
+
+      # One message in a conversation.
+      #
+      #   <%= message "Are we still on for Friday?", author: "Ana Silva", avatar: true, time: message.sent_at %>
+      #
+      #   <%= message own: true, time: message.sent_at do |m| %>
+      #     <% m.status :read, at: message.read_at %>
+      #     Yes, 2pm.
+      #   <% end %>
+      #
+      #   <%= message variant: :row, id: dom_id(message), author: message.author.name, avatar: true,
+      #               time: message.sent_at, edited: message.edited? do |m| %>
+      #     <% m.quote parent.body, author: parent.author.name, href: message_path(parent) %>
+      #     <% m.attachments { |files| files.file "notes.md", size: 1_240, url: "…" } %>
+      #     <% m.reactions { |r| r.reaction "👍", count: 2, url: react_path(message) } %>
+      #     <% m.footer { link_to "3 replies", thread_path(message) } %>
+      #     <% m.actions { |bar| bar.action "Reply", reply_path(message), icon: :reply } %>
+      #     <%= Markdown.render(message.body) %>
+      #   <% end %>
+      #
+      # variant: :bubble (default, a chat), :row (a channel or thread) or :email (a
+      # letter in a card). own: true for the viewer's message: a bubble on the
+      # right, on the dark surface (a row or an email only gains the class).
+      # author: names the sender; avatar: true draws their initials (needs
+      # author:), or takes a name or a Hash of avatar options. time: goes through
+      # local_time_tag with time_format: (:time, or :medium for an email); a string
+      # prints as it is. continued: true for a message from the same sender as the
+      # one above, moments later: no name or avatar (the avatar's column stays),
+      # a tighter gap, joined corners; still pass author:, which stays in the DOM
+      # for screen readers. edited: true says so in the footer. collapsible: true
+      # folds the message into a <details> whose summary is the header and a
+      # snippet of the body, open: false to start shut; meant for :email.
+      #
+      # The body is the block, or the content when the block only records parts:
+      # a bubble keeps the line breaks typed into it; a row or an email is prose
+      # (UnmagicProse), your rendered HTML.
+      # Parts: meta (a line under the author), quote(text, author:, href:) (what
+      # this replies to), attachments, reactions, status(:sending | :sent |
+      # :delivered | :read | :failed, at:), footer (your own footer content) and
+      # actions(**options). attachments, reactions and actions build the matching
+      # component when their block takes an argument ({ |bar| … } gets a
+      # message_actions for this id:, so it needs one) and take markup when it
+      # doesn't. id: goes on the root. Other options go on the <article>.
+      def message(content = nil, variant: :bubble, own: false, author: nil, avatar: nil, time: nil, time_format: nil,
+                  continued: false, edited: false, collapsible: false, open: true, id: nil, **options, &block)
+        builder = Components::Messaging::Message.new(self, variant: variant, own: own, author: author, avatar: avatar,
+          time: time, time_format: time_format, continued: continued, edited: edited, collapsible: collapsible,
+          open: open, id: id, **options)
+        body = capture(builder, &block) if block
+        builder.render(body.presence || content)
+      end
+
+      # The controls on a message: reply, react, copy, edit, delete, a menu.
+      #
+      #   <%= message_actions for: dom_id(message) do |bar| %>
+      #     <% bar.action "Reply", reply_path(message), icon: :reply %>
+      #     <% bar.copy message.body %>
+      #     <% bar.action "Delete", message_path(message), icon: :trash_2, method: :delete, confirm: "Delete it?" %>
+      #     <% bar.control { menu { |menu| menu.link "Pin", pin_path(message) } } %>
+      #   <% end %>
+      #
+      # for: is the message's id. bar.copy(text) is a copy_button; bar.action(label,
+      # url, icon:, method:, confirm:) is an icon-only link for a GET and a
+      # button_to otherwise; bar.control { } is anything else. A toolbar with one
+      # Tab stop and arrow keys between the controls. reveal: :hover (default)
+      # shows it when the message is hovered or the bar focused, and always on a
+      # touch screen; :always shows it. label: names it. No controls renders
+      # nothing. Other options go on the element. Needs import
+      # "unmagic/components/toolbar".
+      def message_actions(for:, reveal: :hover, label: nil, **options, &block)
+        builder = Components::Messaging::Actions.new(self, for: binding.local_variable_get(:for), reveal: reveal,
+          label: label, **options)
+        capture(builder, &block) if block
+        builder.render
+      end
+
+      # The files that came with a message, as tiles.
+      #
+      #   <%= message_attachments do |files| %>
+      #     <% message.files.each { |blob| files.file blob.filename, size: blob.byte_size, url: url_for(blob) } %>
+      #   <% end %>
+      #
+      # align: :end gathers them on the right, under an own bubble. thumbnail: is
+      # an image URL; without one the tile shows a file glyph. None renders
+      # nothing. Other options go on the <ul>.
+      def message_attachments(align: :start, **options, &block)
+        builder = Components::Messaging::Attachments.new(self, align: align, **options)
+        capture(builder, &block) if block
+        builder.render
+      end
+
+      # The emoji people have put on a message, and a button to add one.
+      #
+      #   <%= message_reactions do |r| %>
+      #     <% r.reaction "👍", count: 3, reacted: true, names: [ "Ana", "Ben", "You" ], url: react_path(message, "+1") %>
+      #     <% r.reaction "🎉", count: 1, url: react_path(message, "tada") %>
+      #     <% r.add popovertarget: "picker_#{message.id}" %>
+      #   <% end %>
+      #
+      # r.reaction(emoji, count:, reacted:, names:, url:, method:) is a pill: with
+      # url: a button_to that toggles it (pressed when reacted:), whose response
+      # re-renders the list; without, a pill that only shows. names: lists who in
+      # its title. r.add(**options) is an icon button labelled "Add reaction" that
+      # takes the options (popovertarget:, data:) to wire it to your picker, or
+      # r.add { } is a control of your own. None renders nothing. label: names the
+      # list. Other options go on the <ul>.
+      def message_reactions(label: nil, **options, &block)
+        builder = Components::Messaging::Reactions.new(self, label: label, **options)
+        capture(builder, &block) if block
+        builder.render
+      end
+
+      # A line across a conversation saying when the messages after it were sent,
+      # or that they are new.
+      #
+      #   <%= message_separator "Today" %>
+      #   <%= message_separator time: Date.new(2026, 9, 12) %>
+      #   <%= message_separator unread: true %>
+      #
+      # A label prints as it is; time: goes through local_time_tag as a date (the
+      # label wins if both are given). unread: true marks the line in blue, with
+      # "New messages" unless there's a label. Nothing at all renders a bare line.
+      # Other options go on the <div>.
+      def message_separator(label = nil, time: nil, unread: false, **options)
+        Components::Messaging::Separator.new(self, label, time: time, unread: unread, **options).render
+      end
+
+      # Someone is writing: three dots in a bubble.
+      #
+      #   <%= message_typing "Ana Silva", avatar: true %>
+      #
+      # The name shows above the dots and reads as "Ana Silva is typing"; without
+      # one it reads "Typing". avatar: as message takes it. It claims no live
+      # region: a live thread announces its arrival; outside one, pass role:
+      # "status". Other options go on the <div>.
+      def message_typing(who = nil, avatar: nil, **options)
+        Components::Messaging::Typing.new(self, who, avatar: avatar, **options).render
+      end
+
       # The scrolling region an AI chat's turns are rendered into — the root of the
       # ai_chat_* components.
       #
@@ -1708,18 +1865,10 @@ module Unmagic
         builder.render
       end
 
-      # The files a sent turn carries.
-      #
-      #   <%= ai_chat_attachments align: :end do |files| %>
-      #     <% message.files.each { |blob| files.file blob.filename, size: blob.byte_size, url: url_for(blob) } %>
-      #   <% end %>
-      #
-      # align: :end for a user's turn. thumbnail: is an image URL; without one the
-      # tile shows a file glyph. None renders nothing. Other options go on the <ul>.
+      # message_attachments under its AI chat name: the files a sent turn carries.
+      # Same component, same options; align: :end for a user's turn.
       def ai_chat_attachments(align: :start, **options, &block)
-        builder = Components::AIChat::Attachments.new(self, align: align, **options)
-        capture(builder, &block) if block
-        builder.render
+        message_attachments(align: align, **options, &block)
       end
 
       # A region that takes dropped and pasted files for a composer.
@@ -1761,22 +1910,18 @@ module Unmagic
         builder.render
       end
 
-      # The controls under a turn.
+      # message_actions under its AI chat name: the controls under a turn.
       #
-      #   <%= ai_chat_action_bar for: dom_id(message) do |bar| %>
-      #     <% bar.copy message.content %>
-      #     <% bar.action "Try again", retry_message_path(message), icon: :rotate_cw, method: :post %>
+      #   <% turn.actions do %>
+      #     <%= ai_chat_action_bar for: dom_id(message) do |bar| %>
+      #       <% bar.copy message.content %>
+      #       <% bar.action "Try again", retry_path(message), icon: :rotate_cw, method: :post %>
+      #     <% end %>
       #   <% end %>
       #
-      # A toolbar: one Tab stop, arrow keys between controls. for: is the turn's id.
-      # reveal: :hover (default) shows it on hover or focus and always on touch;
-      # :always shows it. action takes icon: and method: (:get is a link), plus
-      # confirm:; control takes any markup. No controls renders nothing. Other
-      # options go on the element. Needs import "unmagic/components/toolbar".
+      # Same component, same options.
       def ai_chat_action_bar(for:, reveal: :hover, **options, &block)
-        builder = Components::AIChat::ActionBar.new(self, for: binding.local_variable_get(:for), reveal: reveal, **options)
-        capture(builder, &block) if block
-        builder.render
+        message_actions(for: binding.local_variable_get(:for), reveal: reveal, **options, &block)
       end
 
       # Walking between versions of a turn.

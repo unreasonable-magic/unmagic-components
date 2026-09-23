@@ -1,5 +1,5 @@
 // <unmagic-toolbar role="toolbar"> — a row of controls with one Tab stop,
-// rendered by `ai_chat_action_bar`.
+// rendered by `message_actions` (and `ai_chat_action_bar`, its old name).
 //
 // The WAI-ARIA toolbar pattern: Tab enters and leaves the row as one stop, and
 // Left, Right, Home and End move between its controls (a roving tabindex). The

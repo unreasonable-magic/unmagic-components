@@ -8,6 +8,18 @@
 
 Where the build differs from this note:
 
+- **It is a subclass of [`message`](../messaging/message.md)** (`AIChat::Message <
+  Messaging::Message`): a user turn is `variant: :bubble, own: true`, an
+  assistant turn `variant: :row` with no avatar. The root carries `UnmagicMessage`,
+  `UnmagicMessage--bubble`/`--row` and `UnmagicAIChatMessage`,
+  `UnmagicAIChatMessage--user`/`--assistant`; the header, body and footer sit in a
+  `UnmagicMessage__main`; the bubble and the prose body are both
+  `UnmagicMessage__body`. The markup and styling sections below describe the
+  original build. The subclass hooks are listed in the generic note.
+- `turn.attachments` follows the body in the markup, shown above the bubble by
+  CSS, and builds `message_attachments` when its block takes an argument.
+- `turn.actions` takes `message_actions` (`ai_chat_action_bar` is its old name).
+
 - An assistant turn with an `id:` always renders its body as `<unmagic-streaming-markdown>`, streaming or not: the settled render upserts over the streaming one, and the element carries the reveal across that swap. `streaming:` only adds `aria-busy` and the thinking spinner.
 - `message.reasoning` takes `ai_chat_reasoning`'s options (`message.reasoning(duration: 12) { … }`).
 - A user bubble trims a block's surrounding whitespace, since the bubble keeps line breaks.
