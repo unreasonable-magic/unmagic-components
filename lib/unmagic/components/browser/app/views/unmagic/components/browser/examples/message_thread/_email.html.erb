@@ -1,0 +1,26 @@
+<div class="mx-auto max-w-2xl">
+  <h3 class="mb-4 text-lg font-semibold">Re: Interview on Friday</h3>
+  <%= message_thread id: "thread_email" do %>
+    <%= message variant: :email, author: "Ana Silva", avatar: true, time: @now - 3.days, collapsible: true, open: false, id: "thread_email_1" do |m| %>
+      <% m.meta "to Keith Pitt" %>
+      <p>Hi Keith,</p>
+      <p>Thanks for the invitation. Friday works for me. Would 2pm suit, and should I prepare anything beforehand?</p>
+      <p>Ana</p>
+    <% end %>
+    <%= message variant: :email, author: "Keith Pitt", avatar: true, time: @now - 2.days, collapsible: true, open: false, id: "thread_email_2" do |m| %>
+      <% m.meta "to Ana Silva" %>
+      <p>2pm is great. Nothing to prepare: it's a conversation about the work you've enjoyed most, and we'll walk through the team's current project together.</p>
+      <p>Keith</p>
+    <% end %>
+    <%= message variant: :email, author: "Ana Silva", avatar: true, time: @now - 2.hours, collapsible: true, id: "thread_email_3" do |m| %>
+      <% m.meta "to Keith Pitt, cc Ben Reyes" %>
+      <% m.attachments { |files| files.file "portfolio-2026.pdf", size: 4_820_000, url: "#" } %>
+      <% m.actions(reveal: :always) do |bar| %>
+        <% bar.control { link_to "Reply", "#", class: button_classes(size: :small) } %>
+        <% bar.control { link_to "Forward", "#", class: button_classes(size: :small) } %>
+      <% end %>
+      <p>Perfect, see you Friday. I've attached the portfolio in case it's useful, and copied Ben who asked for it last week.</p>
+      <p>Ana</p>
+    <% end %>
+  <% end %>
+</div>

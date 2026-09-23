@@ -1,0 +1,17 @@
+<div class="mx-auto max-w-2xl">
+  <%= message_thread id: "thread_assistant", live: true, label: "Conversation" do %>
+    <%= message "Who hasn't replied to the Platform Engineer invitations yet?", own: true, id: "thread_assistant_q" %>
+    <%= message variant: :row, id: "thread_assistant_a" do |m| %>
+      <% m.actions { |bar| bar.copy "Three candidates haven't replied since Monday."; bar.action "Try again", "#", icon: :rotate_cw, method: :post } %>
+      <p>Three candidates haven't replied since Monday:</p>
+      <ul>
+        <li><strong>Ana Silva</strong> opened hers twice but hasn't answered.</li>
+        <li><strong>Grace Okafor</strong> hasn't opened hers.</li>
+        <li><strong>Tom Reyes</strong>'s bounced.</li>
+      </ul>
+      <p>I'd nudge Grace today and leave Ana until after she's back.</p>
+    <% end %>
+    <%= message "Draft the nudge for Grace.", own: true, id: "thread_assistant_q2" %>
+    <%= message_typing %>
+  <% end %>
+</div>

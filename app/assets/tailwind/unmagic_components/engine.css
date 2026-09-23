@@ -339,7 +339,7 @@
     @apply pointer-events-none opacity-50;
   }
 
-  /* -------------------------------------------------------- Description list */
+  /* ------------------------------------------------------- Description list */
 
   .UnmagicDescriptionList {
     @apply grid grid-cols-[max-content_1fr] gap-x-6 gap-y-2 text-sm;
@@ -386,7 +386,7 @@
     @apply col-auto mt-1 text-neutral-900 dark:text-neutral-100;
   }
 
-  /* ------------------------------------------------------------------- Forms */
+  /* ------------------------------------------------------------------ Forms */
 
   /* The field's structure, then the controls themselves. Controls are styled by
      class — UnmagicInput, UnmagicSelect, UnmagicCheck, UnmagicRadio — and never by
@@ -2357,7 +2357,7 @@
     @apply -mx-1 my-1 border-0 border-t border-neutral-200 dark:border-neutral-800;
   }
 
-  /* ---------------------------------------------------------------- Sheets */
+  /* ----------------------------------------------------------------- Sheets */
 
   /* On a narrow screen an anchored panel is a sheet along the bottom of the
      screen, where a thumb is: full width, rounded on top, the height of its
@@ -3421,7 +3421,7 @@
     @apply text-green-700 dark:text-green-400;
   }
 
-  /* ------------------------------------------------------------ Code view */
+  /* -------------------------------------------------------------- Code view */
 
   .UnmagicCodeView {
     @apply relative overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50 text-neutral-800;
@@ -3500,7 +3500,7 @@
     }
   }
 
-  /* ---------------------------------------------------------- Code tokens */
+  /* ------------------------------------------------------------ Code tokens */
 
   /* Rouge's short class names, grouped by what a token means rather than by
      which language emits it: a comment is a comment whether it came from a
@@ -3565,7 +3565,7 @@
     }
   }
 
-  /* ------------------------------------------------------- Autogrow textarea */
+  /* ------------------------------------------------------ Autogrow textarea */
 
   /* The element sets the height, so a manual resize handle would only fight it. Give
      the textarea a max-height to cap the growth. A descendant rather than a child
@@ -3808,6 +3808,612 @@
     @apply block;
   }
 
+  /* --------------------------------------------------------------- Messages */
+
+  /* The gap between messages is margin-top on each *following* visible child, as
+     the AI chat does, so a hidden entry earns no gap and a child can tighten the
+     gap above itself: a continued message sits close to the one it continues, a
+     separator stands off from what came before. */
+  .UnmagicMessageThread {
+    @apply block;
+  }
+
+  .UnmagicMessageThread > :not([hidden]) ~ :not([hidden]) {
+    margin-top: calc(var(--spacing) * 4);
+  }
+
+  .UnmagicMessageThread > :not([hidden]) ~ .UnmagicMessage--continued:not([hidden]) {
+    margin-top: calc(var(--spacing) * 0.5);
+  }
+
+  .UnmagicMessageThread > :not([hidden]) ~ .UnmagicMessage--row.UnmagicMessage--continued:not([hidden]) {
+    margin-top: calc(var(--spacing) * 1);
+  }
+
+  .UnmagicMessageThread > :not([hidden]) ~ .UnmagicMessageSeparator:not([hidden]) {
+    margin-top: calc(var(--spacing) * 6);
+  }
+
+  /* One markup for every look. The variant only lays it out: the same avatar,
+     header, body, attachments, reactions, footer and actions, in the same order. */
+  .UnmagicMessage {
+    @apply relative text-sm text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicMessage__main {
+    @apply flex min-w-0 flex-col gap-1.5;
+  }
+
+  .UnmagicMessage__header {
+    @apply flex flex-wrap items-baseline gap-x-2 gap-y-0.5;
+  }
+
+  .UnmagicMessage__author {
+    @apply font-semibold;
+  }
+
+  .UnmagicMessage__meta,
+  .UnmagicMessage__time {
+    @apply text-xs text-neutral-500 dark:text-neutral-400;
+  }
+
+  /* A continued message keeps its author for a screen reader and drops it from
+     view: the message above already said who. */
+  .UnmagicMessage--continued .UnmagicMessage__author,
+  .UnmagicMessage--continued .UnmagicMessage__meta {
+    @apply sr-only;
+  }
+
+  .UnmagicMessage__quote {
+    @apply m-0 border-l-2 border-neutral-300 pl-3 text-neutral-600 dark:border-neutral-600 dark:text-neutral-400;
+  }
+
+  .UnmagicMessage__quoteAuthor {
+    @apply mr-1.5 font-medium text-neutral-700 no-underline dark:text-neutral-300;
+  }
+
+  a.UnmagicMessage__quoteAuthor:hover {
+    @apply underline;
+  }
+
+  .UnmagicMessage__body {
+    @apply min-w-0;
+    overflow-wrap: anywhere;
+  }
+
+  .UnmagicMessage__footer {
+    @apply flex flex-wrap items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400;
+  }
+
+  .UnmagicMessage__status {
+    @apply inline-flex items-center gap-1;
+  }
+
+  .UnmagicMessage__status .UnmagicIcon {
+    @apply size-3.5;
+  }
+
+  /* Read is information and failed is a fault; the other states stay neutral.
+     Each is also a word, so the colour only underlines it. */
+  .UnmagicMessage[data-status="read"] .UnmagicMessage__status {
+    @apply text-blue-600 dark:text-blue-400;
+  }
+
+  .UnmagicMessage[data-status="failed"] .UnmagicMessage__status {
+    @apply text-red-600 dark:text-red-400;
+  }
+
+  /* A message on its way, or one drawn before the server has it, is dimmed. */
+  .UnmagicMessage[data-status="sending"] .UnmagicMessage__main > .UnmagicMessage__body,
+  .UnmagicMessage[data-optimistic] .UnmagicMessage__main > .UnmagicMessage__body {
+    @apply opacity-60;
+  }
+
+  /* Bubble: a chat. The row is reversed for an own message, in CSS only, which
+     puts the bubble on the right and the actions on its open side. */
+  .UnmagicMessage--bubble {
+    @apply flex flex-wrap items-end gap-2;
+  }
+
+  .UnmagicMessage--bubble.UnmagicMessage--own {
+    @apply flex-row-reverse;
+  }
+
+  .UnmagicMessage--bubble > .UnmagicMessage__avatar {
+    @apply w-6 shrink-0;
+  }
+
+  .UnmagicMessage--bubble > .UnmagicMessage__main {
+    @apply max-w-[85%] items-start;
+  }
+
+  .UnmagicMessage--bubble.UnmagicMessage--own > .UnmagicMessage__main {
+    @apply items-end;
+  }
+
+  .UnmagicMessage--bubble .UnmagicMessage__header {
+    @apply px-1;
+    order: -2;
+  }
+
+  /* Attachments are sent before the words that go with them, so they show above
+     the bubble, though they follow it in the markup like every other variant. */
+  .UnmagicMessage--bubble .UnmagicMessage__attachments {
+    order: -1;
+  }
+
+  /* A bubble was typed into a box, never written as Markdown, so the line breaks
+     typed into it are the only formatting it has. */
+  .UnmagicMessage--bubble .UnmagicMessage__body {
+    @apply w-fit max-w-full rounded-2xl rounded-bl-sm bg-neutral-100 px-4 py-2.5 leading-relaxed whitespace-pre-wrap text-neutral-900;
+    @apply dark:bg-neutral-800 dark:text-neutral-100;
+  }
+
+  .UnmagicMessage--bubble.UnmagicMessage--own .UnmagicMessage__body {
+    @apply rounded-2xl rounded-br-sm bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900;
+  }
+
+  /* A continued bubble squares the corner it shares with the one above, and its
+     header, which would only repeat the name, is left to screen readers. */
+  .UnmagicMessage--bubble.UnmagicMessage--continued .UnmagicMessage__body {
+    @apply rounded-tl-sm;
+  }
+
+  .UnmagicMessage--bubble.UnmagicMessage--own.UnmagicMessage--continued .UnmagicMessage__body {
+    @apply rounded-tl-2xl rounded-tr-sm;
+  }
+
+  .UnmagicMessage--bubble.UnmagicMessage--continued .UnmagicMessage__header {
+    @apply sr-only;
+  }
+
+  .UnmagicMessage--bubble .UnmagicMessage__footer {
+    @apply px-1;
+  }
+
+  /* Row: a channel or a thread. Placement is explicit, because auto-placement
+     would put a lone main in the avatar's column. */
+  .UnmagicMessage--row {
+    @apply grid grid-cols-[auto_minmax(0,1fr)] gap-x-3;
+  }
+
+  .UnmagicMessage--row > .UnmagicMessage__avatar {
+    @apply w-8;
+    grid-column: 1;
+  }
+
+  .UnmagicMessage--row > .UnmagicMessage__main {
+    grid-column: 2;
+  }
+
+  .UnmagicMessage--row:not(:has(> .UnmagicMessage__avatar)) > .UnmagicMessage__main {
+    grid-column: 1 / -1;
+  }
+
+  /* The actions float over the row's top right corner, on a surface of their
+     own, and show on hover or focus (see Message actions). */
+  .UnmagicMessage--row > .UnmagicMessage__actions {
+    @apply absolute -top-3 right-2 rounded-lg border border-neutral-200 bg-white p-0.5 shadow-xs;
+    @apply dark:border-neutral-700 dark:bg-neutral-900;
+  }
+
+  /* A continued row shows only its time, in the avatar's column, when hovered or
+     focused; with no avatar column to put it in, the time is left to screen
+     readers with the rest of the header. */
+  .UnmagicMessage--row.UnmagicMessage--continued .UnmagicMessage__header {
+    @apply sr-only;
+  }
+
+  .UnmagicMessage--row.UnmagicMessage--continued:has(> .UnmagicMessage__avatar) .UnmagicMessage__header {
+    @apply absolute top-0.5 left-0 flex w-8 justify-center;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+
+  .UnmagicMessage--row.UnmagicMessage--continued .UnmagicMessage__time {
+    @apply text-[0.625rem] opacity-0;
+    transition: opacity 150ms ease;
+  }
+
+  .UnmagicMessage--row.UnmagicMessage--continued:hover .UnmagicMessage__time,
+  .UnmagicMessage--row.UnmagicMessage--continued:focus-within .UnmagicMessage__time {
+    @apply opacity-100;
+  }
+
+  /* Email: a letter in a card. The avatar sits in the corner beside the header,
+     and the body runs the full width under both. */
+  .UnmagicMessage--email {
+    @apply rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900;
+  }
+
+  .UnmagicMessage--email > .UnmagicMessage__avatar {
+    @apply absolute top-4 left-4;
+  }
+
+  .UnmagicMessage--email:has(> .UnmagicMessage__avatar) > .UnmagicMessage__main > .UnmagicMessage__header {
+    @apply min-h-8 pl-11;
+  }
+
+  /* Author on the left and the time on the right, with the meta line under the
+     author; when there's no room the time drops under the author instead. */
+  .UnmagicMessage--email .UnmagicMessage__header {
+    @apply flex flex-wrap items-baseline gap-x-3 gap-y-0;
+  }
+
+  .UnmagicMessage--email .UnmagicMessage__author {
+    @apply grow;
+  }
+
+  .UnmagicMessage--email .UnmagicMessage__time {
+    @apply ml-auto whitespace-nowrap;
+  }
+
+  .UnmagicMessage--email .UnmagicMessage__meta {
+    @apply order-1 basis-full;
+  }
+
+  .UnmagicMessage--email .UnmagicMessage__body {
+    @apply mt-1.5;
+  }
+
+  .UnmagicMessage--email > .UnmagicMessage__actions,
+  .UnmagicMessage--email details > .UnmagicMessage__actions {
+    @apply mt-4;
+  }
+
+  /* There is nothing to hover for under a letter, so its bar always shows. */
+  .UnmagicMessage--email .UnmagicMessageActions[data-reveal="hover"],
+  .UnmagicMessage--email .UnmagicMessage__actions:has(> .UnmagicMessageActions[data-reveal="hover"]) {
+    @apply opacity-100;
+  }
+
+  /* Collapsible: the header is the disclosure's summary, with the avatar down
+     its side and a line of the body under it while shut. */
+  .UnmagicMessage__summary {
+    @apply grid cursor-pointer list-none grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-1 rounded-md select-none;
+  }
+
+  .UnmagicMessage__summary::-webkit-details-marker {
+    @apply hidden;
+  }
+
+  .UnmagicMessage__summary:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicMessage__summary > .UnmagicMessage__avatar {
+    @apply w-8;
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+
+  .UnmagicMessage__summary > .UnmagicMessage__header {
+    grid-column: 2;
+  }
+
+  .UnmagicMessage__snippet {
+    @apply block truncate text-neutral-500 dark:text-neutral-400;
+    grid-column: 2;
+  }
+
+  details[open] > .UnmagicMessage__summary > .UnmagicMessage__snippet {
+    @apply hidden;
+  }
+
+  .UnmagicMessage details > .UnmagicMessage__main {
+    @apply mt-3;
+  }
+
+  /* There is no hover on a touch screen, so the actions take a place of their
+     own: under a bubble on its side, under a row's body in its column. */
+  @media (hover: none) {
+    .UnmagicMessage--bubble > .UnmagicMessage__actions {
+      @apply flex basis-full;
+    }
+
+    .UnmagicMessage--bubble.UnmagicMessage--own > .UnmagicMessage__actions {
+      @apply justify-end;
+    }
+
+    .UnmagicMessage--row > .UnmagicMessage__actions {
+      @apply static mt-1 border-0 bg-transparent p-0 shadow-none dark:bg-transparent;
+      grid-column: 2;
+    }
+
+    .UnmagicMessage--row:not(:has(> .UnmagicMessage__avatar)) > .UnmagicMessage__actions {
+      grid-column: 1 / -1;
+    }
+
+    .UnmagicMessage--row.UnmagicMessage--continued .UnmagicMessage__time {
+      @apply opacity-100;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .UnmagicMessage--row.UnmagicMessage--continued .UnmagicMessage__time {
+      transition: none;
+    }
+  }
+
+  /* -------------------------------------------------------- Message actions */
+
+  .UnmagicMessageActions {
+    @apply inline-flex items-center gap-0.5;
+  }
+
+  .UnmagicMessageActions > form {
+    @apply m-0 inline-flex;
+  }
+
+  /* Hidden with opacity, never display: none, so the bar stays in the tab order and
+     shows the moment it takes focus. There is no hover on a touch screen, so it is
+     always shown there. */
+  .UnmagicMessageActions[data-reveal="hover"],
+  .UnmagicMessage__actions:has(> .UnmagicMessageActions[data-reveal="hover"]) {
+    @apply opacity-0;
+    transition: opacity 150ms ease;
+  }
+
+  /* The message's own wrapper (a row's floating pill) hides and shows with the
+     bar inside it, or its surface would stand empty. */
+  .UnmagicMessage:hover .UnmagicMessageActions[data-reveal="hover"],
+  .UnmagicMessage:hover .UnmagicMessage__actions:has(> .UnmagicMessageActions[data-reveal="hover"]),
+  .UnmagicMessageActions[data-reveal="hover"]:focus-within,
+  .UnmagicMessage__actions:has(> .UnmagicMessageActions[data-reveal="hover"]:focus-within) {
+    @apply opacity-100;
+  }
+
+  @media (hover: none) {
+    .UnmagicMessageActions[data-reveal="hover"],
+    .UnmagicMessage__actions:has(> .UnmagicMessageActions[data-reveal="hover"]) {
+      @apply opacity-100;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .UnmagicMessageActions[data-reveal="hover"],
+    .UnmagicMessage__actions:has(> .UnmagicMessageActions[data-reveal="hover"]) {
+      transition: none;
+    }
+  }
+
+  .UnmagicMessageActions .UnmagicButton--icon {
+    @apply p-1;
+  }
+
+  .UnmagicMessageActions .UnmagicIcon {
+    @apply size-3.5;
+  }
+
+  /* ---------------------------------------------------- Message attachments */
+
+  .UnmagicMessageAttachments {
+    @apply m-0 flex list-none flex-wrap gap-2 p-0;
+  }
+
+  .UnmagicMessageAttachments--end {
+    @apply justify-end;
+  }
+
+  .UnmagicMessageAttachments__file,
+  .UnmagicMessageAttachments__link {
+    @apply flex min-w-0 items-center gap-2;
+  }
+
+  .UnmagicMessageAttachments__file {
+    @apply max-w-64 rounded-lg border border-neutral-200 bg-white py-1 pr-2.5 pl-1 text-xs text-neutral-700;
+    @apply dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-300;
+  }
+
+  .UnmagicMessageAttachments__link {
+    @apply text-inherit no-underline;
+  }
+
+  .UnmagicMessageAttachments__thumb {
+    @apply size-8 shrink-0 rounded-md object-cover;
+  }
+
+  .UnmagicMessageAttachments__glyph {
+    @apply ml-1.5 text-neutral-400;
+  }
+
+  .UnmagicMessageAttachments__name {
+    @apply min-w-0 truncate font-medium;
+  }
+
+  .UnmagicMessageAttachments__size {
+    @apply shrink-0 text-neutral-400 tabular-nums;
+  }
+
+  .UnmagicMessageAttachments__remove {
+    font: inherit;
+    @apply -mr-1 inline-flex shrink-0 cursor-pointer rounded border-0 bg-transparent p-0.5 text-neutral-400;
+  }
+
+  .UnmagicMessageAttachments__remove:hover {
+    @apply text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicMessageAttachments__remove:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  .UnmagicMessageAttachments__remove .UnmagicIcon {
+    @apply size-3.5;
+  }
+
+  /* ------------------------------------------------------ Message reactions */
+
+  .UnmagicMessageReactions {
+    @apply m-0 flex list-none flex-wrap items-center gap-1 p-0;
+  }
+
+  .UnmagicMessageReactions__form {
+    @apply m-0 inline-flex;
+  }
+
+  .UnmagicMessageReactions__reaction {
+    font: inherit;
+    @apply relative inline-flex min-h-7 cursor-default items-center gap-1 rounded-full border border-neutral-200 bg-white px-2 text-xs text-neutral-700 tabular-nums;
+    @apply dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300;
+  }
+
+  button.UnmagicMessageReactions__reaction {
+    @apply cursor-pointer;
+  }
+
+  button.UnmagicMessageReactions__reaction:hover {
+    @apply bg-neutral-50 dark:bg-neutral-800;
+  }
+
+  button.UnmagicMessageReactions__reaction:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  /* The viewer's own reaction is outlined as well as pressed. */
+  .UnmagicMessageReactions__reaction[aria-pressed="true"],
+  .UnmagicMessageReactions__reaction[data-reacted] {
+    @apply border-blue-300 bg-blue-50 text-blue-700 dark:border-blue-500/40 dark:bg-blue-400/10 dark:text-blue-300;
+  }
+
+  .UnmagicMessageReactions__emoji {
+    @apply text-sm leading-none;
+  }
+
+  .UnmagicMessageReactions__add {
+    @apply p-1;
+  }
+
+  .UnmagicMessageReactions__add .UnmagicIcon {
+    @apply size-3.5;
+  }
+
+  /* A 44px pill would be a badge, so under a coarse pointer the pill keeps its
+     height and a pseudo-element extends what a thumb can hit to 44px. */
+  @media (pointer: coarse) {
+    .UnmagicMessageReactions__reaction::before {
+      @apply absolute inset-x-0 -top-2 -bottom-2;
+      content: "";
+    }
+  }
+
+  /* ----------------------------------------------------- Message separators */
+
+  /* The line is drawn either side of the label, so the date sits in a gap. */
+  .UnmagicMessageSeparator {
+    @apply flex items-center gap-3 text-xs text-neutral-500 dark:text-neutral-400;
+  }
+
+  .UnmagicMessageSeparator::before,
+  .UnmagicMessageSeparator::after {
+    @apply h-px flex-1 bg-neutral-200;
+    content: "";
+  }
+
+  .UnmagicMessageSeparator {
+    @variant dark {
+      &::before,
+      &::after {
+        @apply bg-neutral-800;
+      }
+    }
+  }
+
+  /* New is information, not a fault, so it is blue rather than red. */
+  .UnmagicMessageSeparator[data-unread] {
+    @apply text-blue-600 dark:text-blue-400;
+  }
+
+  .UnmagicMessageSeparator[data-unread] > .UnmagicMessageSeparator__label {
+    @apply font-medium;
+  }
+
+  .UnmagicMessageSeparator[data-unread]::before,
+  .UnmagicMessageSeparator[data-unread]::after {
+    @apply bg-blue-300;
+  }
+
+  .UnmagicMessageSeparator[data-unread] {
+    @variant dark {
+      &::before,
+      &::after {
+        @apply bg-blue-500/40;
+      }
+    }
+  }
+
+  /* --------------------------------------------------------- Message typing */
+
+  /* Laid out like another's bubble, at the foot of a thread. */
+  .UnmagicMessageTyping {
+    @apply flex items-end gap-2;
+  }
+
+  .UnmagicMessageTyping__avatar {
+    @apply w-6 shrink-0;
+  }
+
+  .UnmagicMessageTyping__main {
+    @apply flex flex-col items-start gap-1.5;
+  }
+
+  .UnmagicMessageTyping__author {
+    @apply px-1 text-xs text-neutral-500 dark:text-neutral-400;
+  }
+
+  .UnmagicMessageTyping__bubble {
+    @apply inline-flex items-center gap-1 rounded-2xl rounded-bl-sm bg-neutral-100 px-4 py-3 dark:bg-neutral-800;
+  }
+
+  .UnmagicMessageTyping__bubble > i {
+    @apply block size-1.5 rounded-full bg-neutral-400 dark:bg-neutral-500;
+    animation: unmagic-message-typing 1.2s ease-in-out infinite;
+  }
+
+  .UnmagicMessageTyping__bubble > i:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .UnmagicMessageTyping__bubble > i:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes unmagic-message-typing {
+    0%,
+    60%,
+    100% {
+      translate: 0 0;
+    }
+
+    30% {
+      translate: 0 -4px;
+    }
+  }
+
+  /* The dots pulse rather than rise under reduced motion, since frozen dots
+     read as nobody typing. */
+  @keyframes unmagic-message-typing-pulse {
+    0%,
+    60%,
+    100% {
+      opacity: 1;
+    }
+
+    30% {
+      opacity: 0.35;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .UnmagicMessageTyping__bubble > i {
+      animation-name: unmagic-message-typing-pulse;
+    }
+  }
+
   /* ---------------------------------------------------------------- AI chat */
 
   /* The gap between turns is margin-top on each *following* visible turn, not a
@@ -3913,38 +4519,15 @@
 
   /* ------------------------------------------------------- AI chat messages */
 
-  .UnmagicAIChatMessage {
-    @apply flex flex-col items-start gap-1.5;
-  }
-
-  .UnmagicAIChatMessage--user {
-    @apply items-end;
-  }
-
-  .UnmagicAIChatMessage--assistant > .UnmagicAIChatMessage__body {
-    @apply w-full;
-  }
-
-  /* A user's turn was typed into a box, never written as Markdown, so the line
-     breaks they typed are the only formatting it has. */
-  .UnmagicAIChatMessage__bubble {
-    @apply max-w-[85%] rounded-2xl rounded-br-sm bg-neutral-900 px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap text-white;
-    @apply dark:bg-neutral-100 dark:text-neutral-900;
-    overflow-wrap: anywhere;
-  }
-
-  .UnmagicAIChatMessage[data-optimistic] .UnmagicAIChatMessage__bubble {
-    @apply opacity-60;
-  }
-
-  .UnmagicAIChatMessage__attachments {
-    @apply max-w-[85%];
-  }
-
+  /* Built on the message component: a user's turn is an own bubble and an
+     assistant's a row with no avatar, so the look lives in the Messages section.
+     Only the agent's extras are styled here. */
   .UnmagicAIChatMessage__thinking {
     @apply inline-flex py-0.5 text-neutral-400 dark:text-neutral-500;
   }
 
+  /* The branch picker and the action bar sit under the prose, static, rather
+     than floating over the row as a channel's do. */
   .UnmagicAIChatMessage__footer {
     @apply flex min-h-7 items-center gap-1;
   }
@@ -4425,62 +5008,7 @@
     @apply min-w-0 truncate text-xs text-neutral-500;
   }
 
-  /* ---------------------------------------------------- AI chat attachments */
-
-  .UnmagicAIChatAttachments {
-    @apply m-0 flex list-none flex-wrap gap-2 p-0;
-  }
-
-  .UnmagicAIChatAttachments--end {
-    @apply justify-end;
-  }
-
-  .UnmagicAIChatAttachments__file,
-  .UnmagicAIChatAttachments__link {
-    @apply flex min-w-0 items-center gap-2;
-  }
-
-  .UnmagicAIChatAttachments__file {
-    @apply max-w-64 rounded-lg border border-neutral-200 bg-white py-1 pr-2.5 pl-1 text-xs text-neutral-700;
-    @apply dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-300;
-  }
-
-  .UnmagicAIChatAttachments__link {
-    @apply text-inherit no-underline;
-  }
-
-  .UnmagicAIChatAttachments__thumb {
-    @apply size-8 shrink-0 rounded-md object-cover;
-  }
-
-  .UnmagicAIChatAttachments__glyph {
-    @apply ml-1.5 text-neutral-400;
-  }
-
-  .UnmagicAIChatAttachments__name {
-    @apply min-w-0 truncate font-medium;
-  }
-
-  .UnmagicAIChatAttachments__size {
-    @apply shrink-0 text-neutral-400 tabular-nums;
-  }
-
-  .UnmagicAIChatAttachments__remove {
-    font: inherit;
-    @apply -mr-1 inline-flex shrink-0 cursor-pointer rounded border-0 bg-transparent p-0.5 text-neutral-400;
-  }
-
-  .UnmagicAIChatAttachments__remove:hover {
-    @apply text-neutral-900 dark:text-neutral-100;
-  }
-
-  .UnmagicAIChatAttachments__remove:focus-visible {
-    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
-  }
-
-  .UnmagicAIChatAttachments__remove .UnmagicIcon {
-    @apply size-3.5;
-  }
+  /* ------------------------------------------------------- AI chat dropzone */
 
   .UnmagicAIChatDropzone {
     @apply relative block;
@@ -4712,7 +5240,6 @@
 
   .UnmagicAIChatPermission__actions > form,
   .UnmagicAIChatProposal__actions > form,
-  .UnmagicAIChatActionBar > form,
   .UnmagicAIChatBranchPicker > form {
     @apply m-0 inline-flex;
   }
@@ -4831,45 +5358,6 @@
 
   .UnmagicAIChatCitation--compact .UnmagicAIChatCitation__quote {
     @apply min-w-0 truncate whitespace-nowrap;
-  }
-
-  /* ---------------------------------------------------- AI chat action bars */
-
-  .UnmagicAIChatActionBar {
-    @apply inline-flex items-center gap-0.5;
-  }
-
-  /* Hidden with opacity, never display: none, so the bar stays in the tab order and
-     shows the moment it takes focus. There is no hover on a touch screen, so it is
-     always shown there. */
-  .UnmagicAIChatActionBar[data-reveal="hover"] {
-    @apply opacity-0;
-    transition: opacity 150ms ease;
-  }
-
-  .UnmagicAIChatMessage:hover .UnmagicAIChatActionBar[data-reveal="hover"],
-  .UnmagicAIChatActionBar[data-reveal="hover"]:focus-within {
-    @apply opacity-100;
-  }
-
-  @media (hover: none) {
-    .UnmagicAIChatActionBar[data-reveal="hover"] {
-      @apply opacity-100;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .UnmagicAIChatActionBar[data-reveal="hover"] {
-      transition: none;
-    }
-  }
-
-  .UnmagicAIChatActionBar .UnmagicButton--icon {
-    @apply p-1;
-  }
-
-  .UnmagicAIChatActionBar .UnmagicIcon {
-    @apply size-3.5;
   }
 
   /* ------------------------------------------------- AI chat branch pickers */
@@ -5103,7 +5591,7 @@
 }
 
 @layer components {
-  /* ---------------------------------------------------------- Image tools */
+  /* ------------------------------------------------------------ Image tools */
   .UnmagicImageZoom, .UnmagicImageCrop, .UnmagicImageColorPicker {
     @apply block w-full text-sm text-neutral-900 dark:text-neutral-100;
     & img { @apply block h-auto w-full rounded-lg; }

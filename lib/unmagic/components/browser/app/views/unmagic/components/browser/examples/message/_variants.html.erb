@@ -1,0 +1,16 @@
+<div class="grid gap-8 lg:grid-cols-3">
+  <% [ :bubble, :row, :email ].each do |variant| %>
+    <div>
+      <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-neutral-500"><%= variant %></p>
+      <%= message variant: variant, author: "Ana Silva", avatar: true, time: @now - 12.minutes, id: "message_variant_#{variant}" do |m| %>
+        <% m.meta "to Keith Pitt" if variant == :email %>
+        <% m.actions { |bar| bar.action "Reply", "#", icon: :reply; bar.copy "Friday at 2pm works." } %>
+        <% if variant == :bubble %>
+          Friday at 2pm works.
+        <% else %>
+          <p>Friday at 2pm works. I'll bring the sketches.</p>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

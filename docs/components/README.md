@@ -14,6 +14,11 @@ measured against assistant-ui's primitive vocabulary. Those notes live in
 [`ai_chat/`](ai_chat/README.md); the generic elements they need are filed here with
 everything else.
 
+The third round is the [messaging components](messaging/README.md): the message
+and the action bar pulled out of the AI chat family and generalised, with a
+thread, reactions, a separator and a typing indicator, measured against
+Untitled UI's messaging set.
+
 Status is `draft` until reviewed, then `reviewed`, then `built`.
 
 ## Already shipped

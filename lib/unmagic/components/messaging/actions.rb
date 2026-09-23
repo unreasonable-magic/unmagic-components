@@ -2,27 +2,29 @@
 
 module Unmagic
   module Components
-    module AIChat
-      # The controls under a turn: copy it, run it again, edit it. See
-      # ActionViewHelpers#ai_chat_action_bar.
-      class ActionBar
+    module Messaging
+      # The controls on a message: reply, react, copy, edit, delete. A toolbar
+      # with one Tab stop, shown on hover or always. See
+      # ActionViewHelpers#message_actions; ai_chat_action_bar is the same thing.
+      class Actions
         REVEALS = %i[hover always].freeze
 
-        def initialize(view, for:, reveal: :hover, **options)
+        def initialize(view, for:, reveal: :hover, label: nil, **options)
           target = binding.local_variable_get(:for)
-          raise ArgumentError, "ai_chat_action_bar needs for: the id of the turn it acts on" if target.blank?
+          raise ArgumentError, "message_actions needs for: the id of the message it acts on" if target.blank?
 
-          AIChat.validate!("ai_chat_action_bar", :reveal, reveal, REVEALS)
+          Messaging.validate!("message_actions", :reveal, reveal, REVEALS)
 
           @view = view
           @for = target
           @reveal = reveal
+          @label = label
           @options = options
           @controls = []
         end
 
         def copy(text)
-          @controls << view.copy_button(text, class: "UnmagicAIChatActionBar__action")
+          @controls << view.copy_button(text, class: "UnmagicMessageActions__action")
           nil
         end
 
@@ -31,12 +33,12 @@ module Unmagic
         def action(label, url, icon:, method: :get, confirm: nil, **options)
           content = Icons.svg(view, icon)
           html = options.merge("aria-label": label, title: label,
-            class: view.class_names(Button.classes(:icon), "UnmagicAIChatActionBar__action", options[:class]))
+            class: view.class_names(Button.classes(:icon), "UnmagicMessageActions__action", options[:class]))
 
           @controls << if method == :get
             view.link_to(content, url, **html)
           else
-            view.button_to(url, method: method, form: { data: { turbo_confirm: confirm }.compact, class: "UnmagicAIChatActionBar__form" }, **html) { content }
+            view.button_to(url, method: method, form: { data: { turbo_confirm: confirm }.compact, class: "UnmagicMessageActions__form" }, **html) { content }
           end
           nil
         end
@@ -53,10 +55,10 @@ module Unmagic
 
           view.content_tag("unmagic-toolbar", safe_join(@controls), **@options,
             role: "toolbar",
-            "aria-label": AIChat.t("action_bar.label", default: "Message actions"),
+            "aria-label": @label || label,
             "aria-controls": @for,
             data: { reveal: @reveal }.merge(@options[:data] || {}),
-            class: view.class_names("UnmagicAIChatActionBar", @options[:class]))
+            class: view.class_names("UnmagicMessageActions", @options[:class]))
         end
 
         private
@@ -64,6 +66,12 @@ module Unmagic
         attr_reader :view
 
         delegate :safe_join, to: :view, private: true
+
+        # The old AI chat key is tried first, so a host that translated it keeps its
+        # translation.
+        def label
+          Messaging.t("actions.label", default: [ :"unmagic.components.ai_chat.action_bar.label", "Message actions" ])
+        end
       end
     end
   end

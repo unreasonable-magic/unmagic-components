@@ -125,7 +125,7 @@ module Unmagic
           streams = [ turbo_stream.replace("demo_composer_action", helpers.ai_chat_composer_action(form: "demo_composer", state: :idle)) ]
           if reply_id
             stopped = helpers.streaming_markdown_tag(id: "#{reply_id}_content", final: true,
-              class: "UnmagicAIChatMessage__body UnmagicProse") { helpers.tag.p("Response stopped.", class: "text-neutral-500") }
+              class: "UnmagicMessage__body UnmagicProse") { helpers.tag.p("Response stopped.", class: "text-neutral-500") }
             streams << turbo_stream.replace("#{reply_id}_content", stopped)
           end
 

@@ -1,6 +1,6 @@
 # `ai_chat_attachments`
 
-> Status: built
+> Status: built, superseded by [messaging/attachments](../messaging/attachments.md); the helper stays as an alias
 > Tier: 2 (small element)
 > Relates to: [composer](composer.md), [message](message.md), [workspace](workspace.md)
 

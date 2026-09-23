@@ -1,0 +1,13 @@
+<div class="mx-auto max-w-2xl">
+  <%= message_thread do %>
+    <%= message variant: :email, author: "Ana Silva", avatar: true, time: @now - 3.days, collapsible: true, open: false, id: "message_email_1" do |m| %>
+      <% m.meta "to Keith Pitt" %>
+      <p>Thanks for the invitation. Friday works for me. Would 2pm suit, and should I prepare anything beforehand?</p>
+    <% end %>
+    <%= message variant: :email, author: "Keith Pitt", avatar: true, time: @now - 2.hours, collapsible: true, id: "message_email_2" do |m| %>
+      <% m.meta "to Ana Silva" %>
+      <% m.actions(reveal: :always) { |bar| bar.control { link_to "Reply", "#", class: button_classes(size: :small) } } %>
+      <p>2pm is great. Nothing to prepare: it's a conversation about the work you've enjoyed most.</p>
+    <% end %>
+  <% end %>
+</div>

@@ -9,6 +9,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Messaging components, a new "Messaging" group in the browser: `message_thread`
+  (the container, a live log when asked), `message` (one message as a `:bubble`,
+  a `:row` or an `:email`, with author, avatar, time, `continued:` runs,
+  `edited:`, a `collapsible:` `<details>` for email, and parts for meta, a quoted
+  reply, attachments, reactions, status, a footer and actions), `message_actions`
+  (the toolbar), `message_attachments` (file tiles), `message_reactions` (emoji
+  pills as forms, with an add button), `message_separator` (dates and an unread
+  marker) and `message_typing` (three dots). One family renders an
+  iMessage-style chat, a Slack-style thread, an email conversation and an AI
+  chat. No new JavaScript.
+- Lucide glyphs for messages: `smile_plus`, `reply`, `forward`, `trash_2`,
+  `check_check` and `ellipsis`.
+- A "Team inbox" block.
+
+### Changed
+
+- `ai_chat_message` is now a subclass of `message`: a user's turn is an own
+  bubble, an assistant's a row. Its root carries `UnmagicMessage` classes beside
+  `UnmagicAIChatMessage`, and `UnmagicAIChatMessage__bubble` and
+  `UnmagicAIChatMessage__body` are both `UnmagicMessage__body`; the header, body
+  and footer now sit inside a `UnmagicMessage__main`. `turn.attachments` follows
+  the body in the markup (CSS shows it above the bubble) and builds
+  `message_attachments` when its block takes an argument.
+- `ai_chat_action_bar` is `message_actions` under its old name: the element's
+  class is `UnmagicMessageActions`, and its label reads
+  `unmagic.components.message.actions.label`, falling back to the old
+  `unmagic.components.ai_chat.action_bar.label`. `ai_chat_attachments` is
+  `message_attachments` under its old name, with `UnmagicMessageAttachments`
+  classes (the drop zone's chip included). The browser pages for both moved to
+  the Messaging group.
+
 - `timeline`, things that happened in order, joined by a line: dots, icons or
   avatars as markers, tones, `pending:` events with a hollow marker and a dashed
   line, times through `local_time_tag`, a body per event, a horizontal layout

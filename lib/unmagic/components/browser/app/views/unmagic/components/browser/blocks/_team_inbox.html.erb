@@ -1,0 +1,63 @@
+<%# Sample data: in your app, render the thread's messages from records. %>
+<% now = Time.current %>
+<div class="min-h-screen bg-neutral-50 dark:bg-neutral-950">
+  <%= navbar label: "Hiring" do |nav| %>
+    <% nav.brand("#inbox") { "Acme / Hiring" } %>
+    <% nav.link "Inbox", "#inbox", current: true %>
+    <% nav.link "Candidates", "#candidates" %>
+    <% nav.actions { avatar "Keith Pitt", size: :small } %>
+  <% end %>
+
+  <main id="inbox" class="mx-auto max-w-7xl space-y-8 p-5 sm:p-8">
+    <%= page_header title: "Ana Silva", description: "Platform Engineer · interview on Friday" do |header| %>
+      <% header.badge "Interviewing", tone: :good %>
+    <% end %>
+
+    <div class="grid gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+      <section aria-labelledby="inbox_email_heading" class="min-w-0">
+        <h2 id="inbox_email_heading" class="mb-3 text-base font-semibold">Re: Interview on Friday</h2>
+        <%= message_thread id: "inbox_email" do %>
+          <%= message variant: :email, author: "Ana Silva", avatar: true, time: now - 3.days, collapsible: true, open: false, id: "inbox_email_1" do |m| %>
+            <% m.meta "to Keith Pitt" %>
+            <p>Thanks for the invitation. Friday works for me. Would 2pm suit, and should I prepare anything beforehand?</p>
+          <% end %>
+          <%= message variant: :email, author: "Keith Pitt", avatar: true, time: now - 2.days, collapsible: true, open: false, id: "inbox_email_2" do |m| %>
+            <% m.meta "to Ana Silva" %>
+            <p>2pm is great. Nothing to prepare: it's a conversation about the work you've enjoyed most.</p>
+          <% end %>
+          <%= message variant: :email, author: "Ana Silva", avatar: true, time: now - 2.hours, collapsible: true, id: "inbox_email_3" do |m| %>
+            <% m.meta "to Keith Pitt, cc Ben Reyes" %>
+            <% m.attachments { |files| files.file "portfolio-2026.pdf", size: 4_820_000, url: "#" } %>
+            <% m.actions(reveal: :always) do |bar| %>
+              <% bar.control { link_to "Reply", "#", class: button_classes(size: :small) } %>
+              <% bar.control { link_to "Forward", "#", class: button_classes(size: :small) } %>
+            <% end %>
+            <p>Perfect, see you Friday. I've attached the portfolio in case it's useful, and copied Ben who asked for it last week.</p>
+          <% end %>
+        <% end %>
+      </section>
+
+      <%= card title: "#hiring-platform", class: "h-fit min-w-0" do %>
+        <%= message_thread id: "inbox_channel", live: true, label: "#hiring-platform" do %>
+          <%= message_separator "Today" %>
+          <%= message variant: :row, author: "Ben Reyes", avatar: true, time: now - 50.minutes, id: "inbox_channel_1" do |m| %>
+            <% m.actions { |bar| bar.action "Reply", "#", icon: :reply; bar.action "Add reaction", "#", icon: :smile_plus } %>
+            <% m.reactions { |r| r.reaction "👀", count: 2, names: [ "Chloe Park", "You" ], reacted: true, url: "#" } %>
+            <p>Ana's portfolio is in. The Kubernetes migration write-up is exactly the kind of thing we need.</p>
+          <% end %>
+          <%= message variant: :row, author: "Chloe Park", avatar: true, time: now - 20.minutes, id: "inbox_channel_2" do |m| %>
+            <% m.quote "The Kubernetes migration write-up is exactly the kind of thing we need.", author: "Ben Reyes", href: "#inbox_channel_1" %>
+            <% m.actions { |bar| bar.action "Reply", "#", icon: :reply; bar.copy "Agreed. I'll take the systems round on Friday." } %>
+            <% m.footer { link_to "2 replies", "#", class: "font-medium text-neutral-700 hover:underline dark:text-neutral-300" } %>
+            <p>Agreed. I'll take the systems round on Friday.</p>
+          <% end %>
+          <%= message variant: :row, author: "Chloe Park", avatar: true, time: now - 19.minutes, continued: true, id: "inbox_channel_3" do |m| %>
+            <% m.actions { |bar| bar.action "Reply", "#", icon: :reply } %>
+            <p>Ben, can you cover the on-call questions?</p>
+          <% end %>
+          <%= message_typing "Ben Reyes", avatar: true %>
+        <% end %>
+      <% end %>
+    </div>
+  </main>
+</div>

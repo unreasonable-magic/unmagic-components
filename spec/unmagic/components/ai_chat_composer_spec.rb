@@ -62,7 +62,7 @@ RSpec.describe "the AI chat composer" do
     turn = optimistic.at("> template").children.at(".UnmagicAIChatMessage--user") ||
       Nokogiri::HTML5.fragment(optimistic.at("> template").inner_html).at(".UnmagicAIChatMessage--user")
     expect(turn["data-optimistic-id"]).to eq("message[client_id]")
-    expect(turn.at(".UnmagicAIChatMessage__bubble")["data-optimistic-text"]).to eq("message[content]")
+    expect(turn.at(".UnmagicMessage__body")["data-optimistic-text"]).to eq("message[content]")
   end
 
   it "renders neither the uuid nor the template without optimistic" do

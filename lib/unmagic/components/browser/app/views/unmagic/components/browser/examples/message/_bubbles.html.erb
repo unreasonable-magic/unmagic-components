@@ -1,0 +1,9 @@
+<div class="mx-auto max-w-md">
+  <%= message_thread do %>
+    <%= message "Did the parcel arrive?", author: "Ana Silva", avatar: true, time: @now - 9.minutes %>
+    <%= message "The tracking says it was left with a neighbour.", author: "Ana Silva", avatar: true, time: @now - 8.minutes, continued: true %>
+    <%= message "Number 12, I think.", author: "Ana Silva", avatar: true, time: @now - 8.minutes, continued: true %>
+    <%= message "Got it, thanks!", own: true, time: @now - 2.minutes %>
+    <%= message "They'd put it behind the bins.", own: true, time: @now - 1.minute, continued: true %>
+  <% end %>
+</div>

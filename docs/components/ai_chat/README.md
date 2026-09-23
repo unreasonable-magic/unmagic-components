@@ -50,15 +50,15 @@ vocabulary is a useful checklist; none of its markup or code is used here.
 | `ThreadPrimitive.Messages` | the host's own entry partials | [transcript](transcript.md) |
 | `Thread.Welcome` + `Suggestions` | `ai_chat_welcome` | [welcome](welcome.md) |
 | `ThreadPrimitive.ScrollToBottom` | `ai_chat`'s scroll-to-latest | [transcript](transcript.md) |
-| `MessagePrimitive` | `ai_chat_message` | [message](message.md) |
+| `MessagePrimitive` | `ai_chat_message`, a subclass of [`message`](../messaging/message.md) | [message](message.md) |
 | `MarkdownText` | host-rendered HTML in `<unmagic-streaming-markdown>` | [streaming_markdown](streaming_markdown.md) |
 | `ComposerPrimitive` | `ai_chat_composer` | [composer](composer.md) |
-| `ActionBarPrimitive` | `ai_chat_action_bar` | [action_bar](action_bar.md) |
+| `ActionBarPrimitive` | `message_actions` (`ai_chat_action_bar` is its old name) | [actions](../messaging/actions.md) |
 | `BranchPickerPrimitive` | `ai_chat_branch_picker` | [branch_picker](branch_picker.md) |
 | Tool UI / `ToolFallback` | `ai_chat_tool_call` | [tool_call](tool_call.md) |
 | `ToolGroup` | `ai_chat_tool_call`'s timeline rail | [tool_call](tool_call.md) |
 | `ReasoningGroup` | `ai_chat_reasoning` | [reasoning](reasoning.md) |
-| `Attachment` | `ai_chat_attachments` | [attachments](attachments.md) |
+| `Attachment` | `message_attachments` (`ai_chat_attachments` is its old name) | [attachments](../messaging/attachments.md) |
 | `ThreadList` | — | `table_for` already renders an index of chats |
 | — | `ai_chat_permission` | [permission](permission.md) |
 | — | `ai_chat_request` | [request](request.md) |
@@ -103,7 +103,7 @@ stops and waits.
 | [reasoning](reasoning.md) | 1 | hooops, kp2 | built |
 | [citation](citation.md) | 1 | kp2 | built |
 | [welcome](welcome.md) | 1 | kp2, hooops | built |
-| [attachments](attachments.md) | 2 | kp2, toybox | built |
+| [attachments](attachments.md) | 2 | kp2, toybox | built, now [messaging/attachments](../messaging/attachments.md) |
 | [slash_menu](slash_menu.md) | 2 | kp2, toybox | built |
 | [workspace](workspace.md) | 1 | hooops, toybox | built |
 
@@ -113,7 +113,7 @@ None of the three applications has these. They are built in this round so that
 
 | Note | Tier | Converged in | Status |
 |---|---|---|---|
-| [action_bar](action_bar.md) | 2 | none | built |
+| [action_bar](action_bar.md) | 2 | none | built, now [messaging/actions](../messaging/actions.md) |
 | [branch_picker](branch_picker.md) | 2 | none | built |
 
 ### Infrastructure, filed outside this folder

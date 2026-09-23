@@ -1,0 +1,11 @@
+<%= message_reactions do |r| %>
+  <% r.reaction "👍", count: 3, reacted: true, names: [ "Ben Reyes", "Chloe Park", "You" ], url: "#" %>
+  <% r.reaction "🎉", count: 1, names: [ "Ana Silva" ], url: "#" %>
+  <% r.reaction "👀", count: 2, url: "#" %>
+  <% r.add popovertarget: "reactions_picker" %>
+<% end %>
+<div id="reactions_picker" popover class="rounded-lg border border-neutral-200 bg-white p-1 shadow-lg dark:border-neutral-700 dark:bg-neutral-900">
+  <% %w[👍 🎉 ❤️ 😂 👀 ✅].each do |emoji| %>
+    <button type="button" class="rounded-md px-2 py-1 text-lg hover:bg-neutral-100 dark:hover:bg-neutral-800"><%= emoji %></button>
+  <% end %>
+</div>

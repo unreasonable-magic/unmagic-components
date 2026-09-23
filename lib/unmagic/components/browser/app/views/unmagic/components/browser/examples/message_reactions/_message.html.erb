@@ -1,0 +1,5 @@
+<div class="mx-auto max-w-md">
+  <%= message "Yes! I'll book the corner table.", author: "Ana Silva", avatar: true, time: @now - 20.minutes do |m| %>
+    <% m.reactions { |r| r.reaction "👍", count: 1, reacted: true, url: "#"; r.reaction "🎉", count: 2, url: "#" } %>
+  <% end %>
+</div>

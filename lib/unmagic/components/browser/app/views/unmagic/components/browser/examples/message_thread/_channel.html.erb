@@ -1,0 +1,26 @@
+<div class="mx-auto max-w-2xl">
+  <%= message_thread id: "thread_channel", live: true, label: "#launch" do %>
+    <%= message_separator time: @now.to_date - 1 %>
+    <%= message variant: :row, author: "Ben Reyes", avatar: true, time: @now - 26.hours, id: "thread_channel_1" do |m| %>
+      <% m.actions { |bar| bar.action "Reply", "#", icon: :reply; bar.action "Add reaction", "#", icon: :smile_plus; bar.copy "Release notes are drafted." } %>
+      <p>Release notes are drafted in <a href="#">notes/launch.md</a>. Can someone review before Friday?</p>
+    <% end %>
+    <%= message variant: :row, author: "Ben Reyes", avatar: true, time: @now - 26.hours + 2.minutes, continued: true, id: "thread_channel_2" do |m| %>
+      <% m.actions { |bar| bar.action "Reply", "#", icon: :reply; bar.copy "Especially the migration section." } %>
+      <% m.reactions { |r| r.reaction "👀", count: 2, names: [ "Ana", "Chloe" ], url: "#"; r.reaction "✅", count: 1, reacted: true, url: "#" } %>
+      <p>Especially the migration section, it moved around a lot.</p>
+    <% end %>
+    <%= message_separator unread: true %>
+    <%= message variant: :row, author: "Ana Silva", avatar: true, time: @now - 40.minutes, edited: true, id: "thread_channel_3" do |m| %>
+      <% m.quote "Can someone review before Friday?", author: "Ben Reyes", href: "#thread_channel_1" %>
+      <% m.actions { |bar| bar.action "Reply", "#", icon: :reply; bar.action "Edit", "#", icon: :pencil; bar.action "Delete", "#", icon: :trash_2, method: :delete, confirm: "Delete this message?" } %>
+      <% m.footer { link_to "3 replies", "#", class: "font-medium text-neutral-700 hover:underline dark:text-neutral-300" } %>
+      <p>On it. I've left comments on the migration section and the rollback steps look right to me.</p>
+    <% end %>
+    <%= message variant: :row, author: "Chloe Park", avatar: true, time: @now - 3.minutes, id: "thread_channel_4" do |m| %>
+      <% m.attachments { |files| files.file "launch-checklist.pdf", size: 88_400, url: "#" } %>
+      <% m.actions { |bar| bar.action "Reply", "#", icon: :reply; bar.copy "Checklist attached." } %>
+      <p>Checklist attached. Two items still open: the status page and the support macro.</p>
+    <% end %>
+  <% end %>
+</div>

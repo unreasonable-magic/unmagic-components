@@ -1,6 +1,0 @@
-<%= ai_chat_action_bar for: "bar_reply", reveal: :always do |bar| %>
-  <% bar.copy "Friday at 2pm works for everyone." %>
-  <% bar.action "Try again", "#", icon: :rotate_cw, method: :post, confirm: "Replace this reply?" %>
-  <% bar.action "Edit", "#", icon: :pencil %>
-  <% bar.control { ai_chat_branch_picker index: 1, count: 2, next: "#" } %>
-<% end %>
