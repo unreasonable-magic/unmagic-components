@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" class="dark:[color-scheme:dark]">
+  <head>
+    <title>Thread · unmagic-components</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:,">
+    <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="ZNoXGRMRpiCgiPtY-UJiZvJS7N71WcRd3mYjD6eYuph_xReYXmHKBMWwz3TuguyvhAYbO46xQm7CJcJv5cN5mQ" />
+    <meta name="turbo-refresh-method" content="morph">
+    <meta name="turbo-refresh-scroll" content="preserve">
+    <script nonce="">
+      (function () {
+        var key = "unmagic-components-browser-theme"
+        var asked = new URLSearchParams(location.search).get("theme")
+        try {
+          if (asked === "dark" || asked === "light") localStorage.setItem(key, asked)
+          var theme = asked || localStorage.getItem(key)
+          if (theme) document.documentElement.dataset.theme = theme
+        } catch (_) {}
+        var previewTheme = new URLSearchParams(location.search).get("preview_theme")
+        if (previewTheme === "light" || previewTheme === "dark") document.documentElement.dataset.theme = previewTheme
+        document.addEventListener("DOMContentLoaded", function () {
+          var link = document.querySelector("[data-theme-toggle]")
+          if (link) link.href = "?theme=" + (document.documentElement.dataset.theme === "dark" ? "light" : "dark")
+        })
+      })()
+    </script>
+    <link rel="stylesheet" href="/unmagic-components/assets/stylesheets/browser.css?v=0.6.0-1790123391">
+    <script type="importmap">{"imports":{"@hotwired/turbo-rails":"/unmagic-components/assets/turbo/turbo.min.js?v=2.0.23-1789500601","unmagic/components":"/unmagic-components/assets/javascripts/unmagic/components.js?v=0.6.0-1790123391","unmagic/components/ai_chat":"/unmagic-components/assets/javascripts/unmagic/components/ai_chat.js?v=0.6.0-1790123391","unmagic/components/autogrow":"/unmagic-components/assets/javascripts/unmagic/components/autogrow.js?v=0.6.0-1790123391","unmagic/components/autoscroll":"/unmagic-components/assets/javascripts/unmagic/components/autoscroll.js?v=0.6.0-1790123391","unmagic/components/board":"/unmagic-components/assets/javascripts/unmagic/components/board.js?v=0.6.0-1790123391","unmagic/components/clipboard":"/unmagic-components/assets/javascripts/unmagic/components/clipboard.js?v=0.6.0-1790123391","unmagic/components/combobox":"/unmagic-components/assets/javascripts/unmagic/components/combobox.js?v=0.6.0-1790123391","unmagic/components/command_palette":"/unmagic-components/assets/javascripts/unmagic/components/command_palette.js?v=0.6.0-1790123391","unmagic/components/confirm":"/unmagic-components/assets/javascripts/unmagic/components/confirm.js?v=0.6.0-1790123391","unmagic/components/dialog":"/unmagic-components/assets/javascripts/unmagic/components/dialog.js?v=0.6.0-1790123391","unmagic/components/dropzone":"/unmagic-components/assets/javascripts/unmagic/components/dropzone.js?v=0.6.0-1790123391","unmagic/components/elapsed":"/unmagic-components/assets/javascripts/unmagic/components/elapsed.js?v=0.6.0-1790123391","unmagic/components/image_color_picker":"/unmagic-components/assets/javascripts/unmagic/components/image_color_picker.js?v=0.6.0-1790123391","unmagic/components/image_crop":"/unmagic-components/assets/javascripts/unmagic/components/image_crop.js?v=0.6.0-1790123391","unmagic/components/image_zoom":"/unmagic-components/assets/javascripts/unmagic/components/image_zoom.js?v=0.6.0-1790123391","unmagic/components/menu":"/unmagic-components/assets/javascripts/unmagic/components/menu.js?v=0.6.0-1790123391","unmagic/components/modal":"/unmagic-components/assets/javascripts/unmagic/components/modal.js?v=0.6.0-1790123391","unmagic/components/navbar":"/unmagic-components/assets/javascripts/unmagic/components/navbar.js?v=0.6.0-1790123391","unmagic/components/one_time_code":"/unmagic-components/assets/javascripts/unmagic/components/one_time_code.js?v=0.6.0-1790123391","unmagic/components/optimistic":"/unmagic-components/assets/javascripts/unmagic/components/optimistic.js?v=0.6.0-1790123391","unmagic/components/password":"/unmagic-components/assets/javascripts/unmagic/components/password.js?v=0.6.0-1790123391","unmagic/components/placement":"/unmagic-components/assets/javascripts/unmagic/components/placement.js?v=0.6.0-1790123391","unmagic/components/popover":"/unmagic-components/assets/javascripts/unmagic/components/popover.js?v=0.6.0-1790123391","unmagic/components/position":"/unmagic-components/assets/javascripts/unmagic/components/position.js?v=0.6.0-1790123391","unmagic/components/sidebar":"/unmagic-components/assets/javascripts/unmagic/components/sidebar.js?v=0.6.0-1790123391","unmagic/components/slash_menu":"/unmagic-components/assets/javascripts/unmagic/components/slash_menu.js?v=0.6.0-1790123391","unmagic/components/sortable":"/unmagic-components/assets/javascripts/unmagic/components/sortable.js?v=0.6.0-1790123391","unmagic/components/sortable_item":"/unmagic-components/assets/javascripts/unmagic/components/sortable_item.js?v=0.6.0-1790123391","unmagic/components/sortable_list":"/unmagic-components/assets/javascripts/unmagic/components/sortable_list.js?v=0.6.0-1790123391","unmagic/components/sortable_param":"/unmagic-components/assets/javascripts/unmagic/components/sortable_param.js?v=0.6.0-1790123391","unmagic/components/sortable_session":"/unmagic-components/assets/javascripts/unmagic/components/sortable_session.js?v=0.6.0-1790123391","unmagic/components/streaming_markdown":"/unmagic-components/assets/javascripts/unmagic/components/streaming_markdown.js?v=0.6.0-1790123391","unmagic/components/tabs":"/unmagic-components/assets/javascripts/unmagic/components/tabs.js?v=0.6.0-1790123391","unmagic/components/time":"/unmagic-components/assets/javascripts/unmagic/components/time.js?v=0.6.0-1790123391","unmagic/components/toasts":"/unmagic-components/assets/javascripts/unmagic/components/toasts.js?v=0.6.0-1790123391","unmagic/components/toggle":"/unmagic-components/assets/javascripts/unmagic/components/toggle.js?v=0.6.0-1790123391","unmagic/components/toolbar":"/unmagic-components/assets/javascripts/unmagic/components/toolbar.js?v=0.6.0-1790123391","unmagic/components/tooltip":"/unmagic-components/assets/javascripts/unmagic/components/tooltip.js?v=0.6.0-1790123391","unmagic/components/upsert":"/unmagic-components/assets/javascripts/unmagic/components/upsert.js?v=0.6.0-1790123391","unmagic/components/uuid_input":"/unmagic-components/assets/javascripts/unmagic/components/uuid_input.js?v=0.6.0-1790123391"}}</script>
+<script type="module">import "unmagic/components"</script>
+    <script src="/unmagic-components/assets/browser/browser.js?v=0.6.0-1790123391" type="module"></script>
+    <script nonce="">
+      (function () {
+        var scrollPositions = []
+        document.addEventListener("turbo:before-render", function () {
+          scrollPositions = Array.from(document.querySelectorAll("[data-browser-nav]"), function (nav) {
+            return nav.scrollTop
+          })
+        })
+        document.addEventListener("turbo:render", function () {
+          document.querySelectorAll("[data-browser-nav]").forEach(function (nav, index) {
+            nav.scrollTop = scrollPositions[index] || 0
+          })
+        })
+      })()
+    </script>
+  </head>
+  <body class="min-h-screen bg-white text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-100">
+      <header class="sticky top-0 z-40 flex h-14 items-center gap-3 border-b border-neutral-200 bg-white/85 px-4 backdrop-blur sm:px-8 dark:border-neutral-800 dark:bg-neutral-950/85">
+        <details class="relative lg:hidden">
+          <summary class="UnmagicButton UnmagicButton--icon list-none [&::-webkit-details-marker]:hidden" aria-label="Menu">
+            <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </summary>
+          <nav class="absolute left-0 top-11 max-h-[75vh] w-64 overflow-y-auto rounded-xl border border-neutral-200 bg-white p-2 shadow-lg dark:border-neutral-800 dark:bg-neutral-900" aria-label="Components" data-browser-nav>
+            
+<p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-4">Getting started</p>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/">Overview</a>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/installation">Installation</a>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/theming">Theming</a>
+
+  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Layout</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/card">
+      Card
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/empty_state">
+      Empty state
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/item">
+      Item
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/page_header">
+      Page header
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/panel">
+      Panel
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/scroll_area">
+      Scroll area
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/section">
+      Section
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/separator">
+      Separator
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/skeleton">
+      Skeleton
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Forms</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/button">
+      Button
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/combobox">
+      Combobox
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/forms">
+      Form builder
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/toggle">
+      Toggle
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Navigation</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/breadcrumbs">
+      Breadcrumbs
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/command_palette">
+      Command palette
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/context_menu">
+      Context menu
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/menu">
+      Menu
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/navbar">
+      Navbar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/pagination">
+      Pagination
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/sidebar">
+      Sidebar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tabs">
+      Tabs
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tree_view">
+      Tree view
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Overlays</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/confirm">
+      Confirm
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/dialog">
+      Dialog
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/disclosure">
+      Disclosure
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/popover">
+      Popover
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/toast">
+      Toast
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tooltip">
+      Tooltip
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Data display</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/avatar">
+      Avatar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/badge">
+      Badge
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/board">
+      Board
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/callout">
+      Callout
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/chart">
+      Chart
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/code_view">
+      Code view
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/copy_button">
+      Copy button
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/detail_list">
+      Detail list
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/elapsed">
+      Elapsed
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_color_picker">
+      Image Color Picker
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_crop">
+      Image Crop
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_zoom">
+      Image Zoom
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/kbd">
+      Kbd
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/local_time">
+      Local time
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/progress">
+      Progress
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/sortable_list">
+      Sortable list
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/spinner">
+      Spinner
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/table">
+      Table
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/timeline">
+      Timeline
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Messaging</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/message_actions">
+      Actions
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/message_attachments">
+      Attachments
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/message">
+      Message
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/message_reactions">
+      Reactions
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/message_separator">
+      Separator
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm font-medium bg-neutral-200/70 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100 flex items-center justify-between gap-2" aria-current="page" href="/unmagic-components/components/message_thread">
+      Thread
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/message_typing">
+      Typing
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">AI chat</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_branch_picker">
+      Branch picker
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_citation">
+      Citation
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_composer">
+      Composer
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat">
+      Conversation
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_failure">
+      Failure
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_message">
+      Message
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_payload">
+      Payload
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_permission">
+      Permission
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_plan">
+      Plan
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_proposal">
+      Proposal
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_reasoning">
+      Reasoning
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_request">
+      Request
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_slash_menu">
+      Slash menu
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/streaming_markdown">
+      Streaming Markdown
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_tool_call">
+      Tool call
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_welcome">
+      Welcome
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_workspace">
+      Workspace
+      
+</a>
+
+          </nav>
+        </details>
+
+        <a class="flex shrink-0 items-center gap-2 text-sm font-semibold" aria-label="Unmagic home" href="/unmagic-components/">
+          <span class="grid size-7 place-items-center rounded-md bg-neutral-900 text-xs font-bold text-white dark:bg-white dark:text-neutral-900">um</span>
+          <span class="hidden sm:inline">unmagic</span>
+</a>        <nav class="flex min-w-0 items-center gap-1 overflow-x-auto sm:ml-6" aria-label="Global">
+            <a class="rounded-md px-3 py-2 text-sm whitespace-nowrap bg-neutral-100 font-semibold text-neutral-900 dark:bg-neutral-800 dark:text-white" aria-current="page" href="/unmagic-components/">Components</a>
+            <a class="rounded-md px-3 py-2 text-sm whitespace-nowrap text-neutral-500 hover:text-neutral-900 dark:hover:text-white" href="/unmagic-components/blocks">Blocks</a>
+        </nav>
+
+        <div class="ml-auto flex items-center gap-1">
+          <a class="UnmagicButton UnmagicButton--icon" aria-label="Switch theme" title="Switch theme" data-theme-toggle="" data-turbo="false" href="?theme=dark">
+            <svg class="hidden size-4 dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-2.93 1.41-1.41m11.32-11.32 1.41-1.41M2 12h2m16 0h2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41"/></svg>
+            <svg class="size-4 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+</a>          <a class="UnmagicButton UnmagicButton--icon" aria-label="GitHub" title="GitHub" href="https://github.com/unreasonable-magic/unmagic-components">
+            <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-5-2"/></svg>
+</a>        </div>
+      </header>
+    <aside class="fixed bottom-0 top-14 left-0 z-30 hidden w-64 flex-col border-r border-neutral-200 bg-neutral-50/70 lg:flex dark:border-neutral-800 dark:bg-neutral-900/40">
+      <nav class="flex-1 overflow-y-auto px-3 pb-10" aria-label="Components" data-browser-nav>
+        
+<p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-4">Getting started</p>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/">Overview</a>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/installation">Installation</a>
+  <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100" href="/unmagic-components/theming">Theming</a>
+
+  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Layout</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/card">
+      Card
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/empty_state">
+      Empty state
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/item">
+      Item
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/page_header">
+      Page header
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/panel">
+      Panel
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/scroll_area">
+      Scroll area
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/section">
+      Section
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/separator">
+      Separator
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/skeleton">
+      Skeleton
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Forms</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/button">
+      Button
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/combobox">
+      Combobox
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/forms">
+      Form builder
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/toggle">
+      Toggle
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Navigation</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/breadcrumbs">
+      Breadcrumbs
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/command_palette">
+      Command palette
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/context_menu">
+      Context menu
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/menu">
+      Menu
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/navbar">
+      Navbar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/pagination">
+      Pagination
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/sidebar">
+      Sidebar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tabs">
+      Tabs
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tree_view">
+      Tree view
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Overlays</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/confirm">
+      Confirm
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/dialog">
+      Dialog
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/disclosure">
+      Disclosure
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/popover">
+      Popover
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/toast">
+      Toast
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/tooltip">
+      Tooltip
+      
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Data display</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/avatar">
+      Avatar
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/badge">
+      Badge
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/board">
+      Board
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/callout">
+      Callout
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/chart">
+      Chart
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/code_view">
+      Code view
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/copy_button">
+      Copy button
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/detail_list">
+      Detail list
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/elapsed">
+      Elapsed
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_color_picker">
+      Image Color Picker
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_crop">
+      Image Crop
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/image_zoom">
+      Image Zoom
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/kbd">
+      Kbd
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/local_time">
+      Local time
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/progress">
+      Progress
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/sortable_list">
+      Sortable list
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/spinner">
+      Spinner
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/table">
+      Table
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/timeline">
+      Timeline
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">Messaging</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/message_actions">
+      Actions
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/message_attachments">
+      Attachments
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/message">
+      Message
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/message_reactions">
+      Reactions
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/message_separator">
+      Separator
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm font-medium bg-neutral-200/70 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100 flex items-center justify-between gap-2" aria-current="page" href="/unmagic-components/components/message_thread">
+      Thread
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/message_typing">
+      Typing
+      <span class="rounded-full bg-blue-600 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-white dark:bg-blue-400 dark:text-neutral-950">New</span>
+</a>  <p class="px-2.5 pb-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 pt-6">AI chat</p>
+    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_branch_picker">
+      Branch picker
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_citation">
+      Citation
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_composer">
+      Composer
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat">
+      Conversation
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_failure">
+      Failure
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_message">
+      Message
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_payload">
+      Payload
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_permission">
+      Permission
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_plan">
+      Plan
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_proposal">
+      Proposal
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_reasoning">
+      Reasoning
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_request">
+      Request
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_slash_menu">
+      Slash menu
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/streaming_markdown">
+      Streaming Markdown
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_tool_call">
+      Tool call
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_welcome">
+      Welcome
+      
+</a>    <a class="block rounded-md px-2.5 py-1.5 text-sm text-neutral-600 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 flex items-center justify-between gap-2" href="/unmagic-components/components/ai_chat_workspace">
+      Workspace
+      
+</a>
+
+      </nav>
+    </aside>
+
+
+    <div class="lg:pl-64">
+      <div class="border-b border-neutral-200 px-4 py-3 sm:px-8 dark:border-neutral-800">
+        <nav class="flex min-w-0 items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400" aria-label="Breadcrumb">
+              <a class="shrink-0 hover:text-neutral-900 dark:hover:text-neutral-100" href="/unmagic-components/">Messaging</a>
+  <svg class="size-3.5 shrink-0 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+
+    <span class="truncate font-medium text-neutral-900 dark:text-neutral-100" aria-current="page">Thread</span>
+
+
+        </nav>
+      </div>
+
+      <main class="mx-auto max-w-6xl px-4 py-10 sm:px-8 lg:py-14">
+        
+
+<div class="xl:grid xl:grid-cols-[minmax(0,1fr)_12rem] xl:gap-12">
+  <article class="min-w-0">
+    <header class="mb-12">
+      <h1 class="text-3xl font-semibold tracking-tight">Thread</h1>
+      <p class="mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400">A conversation: the container its messages, separators and typing indicator sit in, spacing them and, when it&#39;s live, giving a screen reader a log to follow. One family of message components renders a chat between people, a channel, an email thread and an AI chat.</p>
+    </header>
+
+      <nav aria-label="Used in blocks" class="mb-10 rounded-xl border border-neutral-200 p-4 dark:border-neutral-800">
+        <h2 class="mb-3 text-sm font-semibold">Used in blocks</h2>
+        <div class="flex flex-wrap gap-2">
+            <a class="rounded-md bg-neutral-100 px-3 py-1.5 text-sm hover:underline dark:bg-neutral-800" href="/unmagic-components/blocks/team_inbox">Team inbox</a>
+        </div>
+      </nav>
+
+    <div class="space-y-14">
+        
+<section id="message_thread_chat" class="PreviewExample scroll-mt-20">
+  <div class="mb-3 min-h-9 pr-40">
+    <h2 class="text-base font-semibold">
+      <a href="#message_thread_chat" class="hover:underline">A chat between people</a>
+    </h2>
+      <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">Bubbles: theirs on the left with an avatar, yours on the right on the dark surface. continued: true joins a run from one sender; the last of yours carries its status; someone is typing.</p>
+  </div>
+
+
+  <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="message_thread_chat_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="message_thread_chat_view_tab_0" class="UnmagicTabs__tab" aria-controls="message_thread_chat_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="message_thread_chat_view_tab_1" class="UnmagicTabs__tab" aria-controls="message_thread_chat_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="message_thread_chat_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="message_thread_chat_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
+        <div class="w-full">
+          <div class="mx-auto max-w-md">
+  <div id="thread_chat" role="log" aria-live="polite" aria-relevant="additions" aria-label="Chat with Ana Silva" class="UnmagicMessageThread">
+    <div class="UnmagicMessageSeparator"><span class="UnmagicMessageSeparator__label">Yesterday</span></div>
+    <article id="thread_chat_1" class="UnmagicMessage UnmagicMessage--bubble"><div class="UnmagicMessage__avatar"><span aria-hidden="true" role="img" aria-label="Ana Silva" title="Ana Silva" class="UnmagicAvatar UnmagicAvatar--small UnmagicAvatar--tint-2"><span class="UnmagicAvatar__initials" aria-hidden="true">AS</span></span></div><div class="UnmagicMessage__main"><div class="UnmagicMessage__header"><span class="UnmagicMessage__author">Ana Silva</span><unmagic-time datetime="2026-09-22T00:30:22Z" format="time" class="UnmagicMessage__time"><time datetime="2026-09-22T00:30:22Z">00:30</time></unmagic-time></div><div class="UnmagicMessage__body">Are we still on for Friday?</div></div></article>
+    <article id="thread_chat_2" class="UnmagicMessage UnmagicMessage--bubble UnmagicMessage--continued"><div class="UnmagicMessage__avatar"></div><div class="UnmagicMessage__main"><div class="UnmagicMessage__header"><span class="UnmagicMessage__author">Ana Silva</span><unmagic-time datetime="2026-09-22T00:31:22Z" format="time" class="UnmagicMessage__time"><time datetime="2026-09-22T00:31:22Z">00:31</time></unmagic-time></div><div class="UnmagicMessage__body">I can do 2pm, or later if that&#39;s easier.</div></div></article>
+    <article id="thread_chat_3" class="UnmagicMessage UnmagicMessage--bubble UnmagicMessage--own"><div class="UnmagicMessage__main"><div class="UnmagicMessage__header"><span class="UnmagicVisuallyHidden">You</span><unmagic-time datetime="2026-09-22T00:34:22Z" format="time" class="UnmagicMessage__time"><time datetime="2026-09-22T00:34:22Z">00:34</time></unmagic-time></div><div class="UnmagicMessage__body">2pm is perfect. Same place?</div></div></article>
+    <div class="UnmagicMessageSeparator"><span class="UnmagicMessageSeparator__label">Today</span></div>
+    <article id="thread_chat_4" class="UnmagicMessage UnmagicMessage--bubble"><div class="UnmagicMessage__avatar"><span aria-hidden="true" role="img" aria-label="Ana Silva" title="Ana Silva" class="UnmagicAvatar UnmagicAvatar--small UnmagicAvatar--tint-2"><span class="UnmagicAvatar__initials" aria-hidden="true">AS</span></span></div><div class="UnmagicMessage__main"><div class="UnmagicMessage__header"><span class="UnmagicMessage__author">Ana Silva</span><unmagic-time datetime="2026-09-23T00:10:22Z" format="time" class="UnmagicMessage__time"><time datetime="2026-09-23T00:10:22Z">00:10</time></unmagic-time></div><div class="UnmagicMessage__body">Yes! I&#39;ll book the corner table.
+Bring the sketches if you have them.</div><div class="UnmagicMessage__reactions"><ul aria-label="Reactions" class="UnmagicMessageReactions"><li><span data-reacted="" class="UnmagicMessageReactions__reaction"><span class="UnmagicMessageReactions__emoji">👍</span><span class="UnmagicMessageReactions__count">1</span><span class="UnmagicVisuallyHidden">You reacted</span></span></li></ul></div></div></article>    <article id="thread_chat_5" data-status="read" class="UnmagicMessage UnmagicMessage--bubble UnmagicMessage--own"><div class="UnmagicMessage__main"><div class="UnmagicMessage__header"><span class="UnmagicVisuallyHidden">You</span><unmagic-time datetime="2026-09-23T00:28:22Z" format="time" class="UnmagicMessage__time"><time datetime="2026-09-23T00:28:22Z">00:28</time></unmagic-time></div><div class="UnmagicMessage__body">Will do 👋</div><div class="UnmagicMessage__footer"><span class="UnmagicMessage__status"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/check-check" aria-hidden="true"><path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/></svg> Read <unmagic-time datetime="2026-09-23T00:29:22Z" format="time"><time datetime="2026-09-23T00:29:22Z">00:29</time></unmagic-time></span></div></div></article>    <div class="UnmagicMessageTyping"><div class="UnmagicMessageTyping__avatar"><span aria-hidden="true" role="img" aria-label="Ana Silva" title="Ana Silva" class="UnmagicAvatar UnmagicAvatar--small UnmagicAvatar--tint-2"><span class="UnmagicAvatar__initials" aria-hidden="true">AS</span></span></div><div class="UnmagicMessageTyping__main"><span class="UnmagicMessageTyping__author" aria-hidden="true">Ana Silva</span><span class="UnmagicMessageTyping__bubble" aria-hidden="true"><i></i><i></i><i></i></span><span class="UnmagicVisuallyHidden">Ana Silva is typing</span></div></div>
+</div></div>
+
+        </div>
+      </div>
+</div><div role="tabpanel" id="message_thread_chat_view_panel_1" class="UnmagicTabs__panel" aria-labelledby="message_thread_chat_view_tab_1" tabindex="0" hidden="hidden">      <div class="UnmagicCodeView UnmagicCodeView--copy rounded-xl" id="message_thread_chat_source"><pre class="UnmagicCodeView__pre"><code id="message_thread_chat_source_code" class="UnmagicCodeView__code language-erb"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;mx-auto max-w-md&quot;</span><span class="nt">&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">message_thread</span> <span class="ss">id: </span><span class="s2">&quot;thread_chat&quot;</span><span class="p">,</span> <span class="ss">live: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">label: </span><span class="s2">&quot;Chat with Ana Silva&quot;</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">message_separator</span> <span class="s2">&quot;Yesterday&quot;</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">message</span> <span class="s2">&quot;Are we still on for Friday?&quot;</span><span class="p">,</span> <span class="ss">author: </span><span class="s2">&quot;Ana Silva&quot;</span><span class="p">,</span> <span class="ss">avatar: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">time: </span><span class="vi">@now</span> <span class="o">-</span> <span class="mi">1</span><span class="p">.</span><span class="nf">day</span><span class="p">,</span> <span class="ss">id: </span><span class="s2">&quot;thread_chat_1&quot;</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">message</span> <span class="s2">&quot;I can do 2pm, or later if that&#39;s easier.&quot;</span><span class="p">,</span> <span class="ss">author: </span><span class="s2">&quot;Ana Silva&quot;</span><span class="p">,</span> <span class="ss">avatar: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">time: </span><span class="vi">@now</span> <span class="o">-</span> <span class="mi">1</span><span class="p">.</span><span class="nf">day</span> <span class="o">+</span> <span class="mi">1</span><span class="p">.</span><span class="nf">minute</span><span class="p">,</span> <span class="ss">continued: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">id: </span><span class="s2">&quot;thread_chat_2&quot;</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">message</span> <span class="s2">&quot;2pm is perfect. Same place?&quot;</span><span class="p">,</span> <span class="ss">own: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">time: </span><span class="vi">@now</span> <span class="o">-</span> <span class="mi">1</span><span class="p">.</span><span class="nf">day</span> <span class="o">+</span> <span class="mi">4</span><span class="p">.</span><span class="nf">minutes</span><span class="p">,</span> <span class="ss">id: </span><span class="s2">&quot;thread_chat_3&quot;</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">message_separator</span> <span class="s2">&quot;Today&quot;</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">message</span> <span class="s2">&quot;Yes! I&#39;ll book the corner table.</span><span class="se">\n</span><span class="s2">Bring the sketches if you have them.&quot;</span><span class="p">,</span> <span class="ss">author: </span><span class="s2">&quot;Ana Silva&quot;</span><span class="p">,</span> <span class="ss">avatar: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">time: </span><span class="vi">@now</span> <span class="o">-</span> <span class="mi">20</span><span class="p">.</span><span class="nf">minutes</span><span class="p">,</span> <span class="ss">id: </span><span class="s2">&quot;thread_chat_4&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="n">m</span><span class="p">.</span><span class="nf">reactions</span> <span class="p">{</span> <span class="o">|</span><span class="n">r</span><span class="o">|</span> <span class="n">r</span><span class="p">.</span><span class="nf">reaction</span> <span class="s2">&quot;👍&quot;</span><span class="p">,</span> <span class="ss">count: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">reacted: </span><span class="kp">true</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">message</span> <span class="s2">&quot;Will do 👋&quot;</span><span class="p">,</span> <span class="ss">own: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">time: </span><span class="vi">@now</span> <span class="o">-</span> <span class="mi">2</span><span class="p">.</span><span class="nf">minutes</span><span class="p">,</span> <span class="ss">id: </span><span class="s2">&quot;thread_chat_5&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="n">m</span><span class="p">.</span><span class="nf">status</span> <span class="ss">:read</span><span class="p">,</span> <span class="ss">at: </span><span class="vi">@now</span> <span class="o">-</span> <span class="mi">1</span><span class="p">.</span><span class="nf">minute</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">message_typing</span> <span class="s2">&quot;Ana Silva&quot;</span><span class="p">,</span> <span class="ss">avatar: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre><div class="UnmagicCodeView__copy"><unmagic-clipboard for="message_thread_chat_source_code" class="UnmagicClipboard" data-copied-label="Copied"><button type="button" aria-label="Copy" title="Copy" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard></div></div>
+
+</div></unmagic-tabs></section>
+
+        
+<section id="message_thread_channel" class="PreviewExample scroll-mt-20">
+  <div class="mb-3 min-h-9 pr-40">
+    <h2 class="text-base font-semibold">
+      <a href="#message_thread_channel" class="hover:underline">A channel thread</a>
+    </h2>
+      <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">Rows with avatars, names and times. Hover a row for its actions; a continued row shows its time in the gutter. Reactions, a quoted reply, a reply count and an unread marker.</p>
+  </div>
+
+
+  <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="message_thread_channel_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="message_thread_channel_view_tab_0" class="UnmagicTabs__tab" aria-controls="message_thread_channel_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="message_thread_channel_view_tab_1" class="UnmagicTabs__tab" aria-controls="message_thread_channel_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="message_thread_channel_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="message_thread_channel_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
+        <div class="w-full">
+          <div class="mx-auto max-w-2xl">
+  <div id="thread_channel" role="log" aria-live="polite" aria-relevant="additions" aria-label="#launch" class="UnmagicMessageThread">
+    <div class="UnmagicMessageSeparator"><span class="UnmagicMessageSeparator__label"><unmagic-time datetime="2026-09-22T00:00:00Z" format="date"><time datetime="2026-09-22T00:00:00Z">September 22, 2026</time></unmagic-time></span></div>
+    <article id="thread_channel_1" class="UnmagicMessage UnmagicMessage--row"><div class="UnmagicMessage__avatar"><span aria-hidden="true" role="img" aria-label="Ben Reyes" title="Ben Reyes" class="UnmagicAvatar UnmagicAvatar--medium UnmagicAvatar--tint-6"><span class="UnmagicAvatar__initials" aria-hidden="true">BR</span></span></div><div class="UnmagicMessage__main"><div class="UnmagicMessage__header"><span class="UnmagicMessage__author">Ben Reyes</span><unmagic-time datetime="2026-09-21T22:30:22Z" format="time" class="UnmagicMessage__time"><time datetime="2026-09-21T22:30:22Z">22:30</time></unmagic-time></div><div class="UnmagicMessage__body UnmagicProse">
+      <p>Release notes are drafted in <a href="#">notes/launch.md</a>. Can someone review before Friday?</p>
+</div></div><div class="UnmagicMessage__actions"><unmagic-toolbar role="toolbar" aria-label="Message actions" aria-controls="thread_channel_1" data-reveal="hover" class="UnmagicMessageActions"><a aria-label="Reply" title="Reply" class="UnmagicButton UnmagicButton--icon UnmagicMessageActions__action" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/reply" aria-hidden="true"><path d="M20 18v-2a4 4 0 0 0-4-4H4"/><path d="m9 17-5-5 5-5"/></svg></a><a aria-label="Add reaction" title="Add reaction" class="UnmagicButton UnmagicButton--icon UnmagicMessageActions__action" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/smile-plus" aria-hidden="true"><path d="M22 11v1a10 10 0 1 1-9-10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" x2="9.01" y1="9" y2="9"/><line x1="15" x2="15.01" y1="9" y2="9"/><path d="M16 5h6"/><path d="M19 2v6"/></svg></a><unmagic-clipboard value="Release notes are drafted." class="UnmagicClipboard" data-copied-label="Copied"><button type="button" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button UnmagicMessageActions__action" aria-label="Copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard></unmagic-toolbar></div></article>    <article id="thread_channel_2" class="UnmagicMessage UnmagicMessage--row UnmagicMessage--continued"><div class="UnmagicMessage__avatar"></div><div class="UnmagicMessage__main"><div class="UnmagicMessage__header"><span class="UnmagicMessage__author">Ben Reyes</span><unmagic-time datetime="2026-09-21T22:32:22Z" format="time" class="UnmagicMessage__time"><time datetime="2026-09-21T22:32:22Z">22:32</time></unmagic-time></div><div class="UnmagicMessage__body UnmagicProse">
+      <p>Especially the migration section, it moved around a lot.</p>
+</div><div class="UnmagicMessage__reactions"><ul aria-label="Reactions" class="UnmagicMessageReactions"><li><form class="UnmagicMessageReactions__form" method="post" action="#"><button title="Ana and Chloe" aria-pressed="false" class="UnmagicMessageReactions__reaction" type="submit"><span class="UnmagicMessageReactions__emoji">👀</span><span class="UnmagicMessageReactions__count">2</span></button><input type="hidden" name="authenticity_token" value="fG5rmflEqw-N-hNO5DtYzS8M-UPAOMONejZV_Jhv0cKmIcAVOMl3OACxtjOZO3WS3amBlj1_13oBw3A9UQD2tQ" autocomplete="off" /></form></li><li><form class="UnmagicMessageReactions__form" method="post" action="#"><button aria-pressed="true" class="UnmagicMessageReactions__reaction" type="submit"><span class="UnmagicMessageReactions__emoji">✅</span><span class="UnmagicMessageReactions__count">1</span></button><input type="hidden" name="authenticity_token" value="E38V9HPeBnprbgKM3tbnFwEeCUU6tjLDfUBBvHj_T6LJML54slPaTeYlp_Gj1spI87txkMfxJjQGtWR9sZBo1Q" autocomplete="off" /></form></li></ul></div></div><div class="UnmagicMessage__actions"><unmagic-toolbar role="toolbar" aria-label="Message actions" aria-controls="thread_channel_2" data-reveal="hover" class="UnmagicMessageActions"><a aria-label="Reply" title="Reply" class="UnmagicButton UnmagicButton--icon UnmagicMessageActions__action" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/reply" aria-hidden="true"><path d="M20 18v-2a4 4 0 0 0-4-4H4"/><path d="m9 17-5-5 5-5"/></svg></a><unmagic-clipboard value="Especially the migration section." class="UnmagicClipboard" data-copied-label="Copied"><button type="button" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button UnmagicMessageActions__action" aria-label="Copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard></unmagic-toolbar></div></article>    <div data-unread="" class="UnmagicMessageSeparator"><span class="UnmagicMessageSeparator__label">New messages</span></div>
+    <article id="thread_channel_3" class="UnmagicMessage UnmagicMessage--row"><div class="UnmagicMessage__avatar"><span aria-hidden="true" role="img" aria-label="Ana Silva" title="Ana Silva" class="UnmagicAvatar UnmagicAvatar--medium UnmagicAvatar--tint-2"><span class="UnmagicAvatar__initials" aria-hidden="true">AS</span></span></div><div class="UnmagicMessage__main"><div class="UnmagicMessage__header"><span class="UnmagicMessage__author">Ana Silva</span><unmagic-time datetime="2026-09-22T23:50:22Z" format="time" class="UnmagicMessage__time"><time datetime="2026-09-22T23:50:22Z">23:50</time></unmagic-time></div><blockquote cite="#thread_channel_1" class="UnmagicMessage__quote"><a class="UnmagicMessage__quoteAuthor" href="#thread_channel_1">Ben Reyes</a><span class="UnmagicMessage__quoteText">Can someone review before Friday?</span></blockquote><div class="UnmagicMessage__body UnmagicProse">
+      <p>On it. I've left comments on the migration section and the rollback steps look right to me.</p>
+</div><div class="UnmagicMessage__footer"><span class="UnmagicMessage__edited">Edited</span><span class="UnmagicMessage__extra"><a class="font-medium text-neutral-700 hover:underline dark:text-neutral-300" href="#">3 replies</a></span></div></div><div class="UnmagicMessage__actions"><unmagic-toolbar role="toolbar" aria-label="Message actions" aria-controls="thread_channel_3" data-reveal="hover" class="UnmagicMessageActions"><a aria-label="Reply" title="Reply" class="UnmagicButton UnmagicButton--icon UnmagicMessageActions__action" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/reply" aria-hidden="true"><path d="M20 18v-2a4 4 0 0 0-4-4H4"/><path d="m9 17-5-5 5-5"/></svg></a><a aria-label="Edit" title="Edit" class="UnmagicButton UnmagicButton--icon UnmagicMessageActions__action" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/pencil" aria-hidden="true"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg></a><form data-turbo-confirm="Delete this message?" class="UnmagicMessageActions__form" method="post" action="#"><input type="hidden" name="_method" value="delete" autocomplete="off" /><button aria-label="Delete" title="Delete" class="UnmagicButton UnmagicButton--icon UnmagicMessageActions__action" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/trash-2" aria-hidden="true"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button><input type="hidden" name="authenticity_token" value="YWK-Nckb8VDFUvsh_vlmVRohatjtjRttvAJdVQrLkVyclmdzqGPhLgk6qA5F5d2enkvYKUVgReXmwFj7atPajw" autocomplete="off" /></form></unmagic-toolbar></div></article>    <article id="thread_channel_4" class="UnmagicMessage UnmagicMessage--row"><div class="UnmagicMessage__avatar"><span aria-hidden="true" role="img" aria-label="Chloe Park" title="Chloe Park" class="UnmagicAvatar UnmagicAvatar--medium UnmagicAvatar--tint-2"><span class="UnmagicAvatar__initials" aria-hidden="true">CP</span></span></div><div class="UnmagicMessage__main"><div class="UnmagicMessage__header"><span class="UnmagicMessage__author">Chloe Park</span><unmagic-time datetime="2026-09-23T00:27:22Z" format="time" class="UnmagicMessage__time"><time datetime="2026-09-23T00:27:22Z">00:27</time></unmagic-time></div><div class="UnmagicMessage__body UnmagicProse">
+      <p>Checklist attached. Two items still open: the status page and the support macro.</p>
+</div><div class="UnmagicMessage__attachments"><ul class="UnmagicMessageAttachments UnmagicMessageAttachments--start"><li class="UnmagicMessageAttachments__file"><a class="UnmagicMessageAttachments__link" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicMessageAttachments__glyph" data-unmagic-icon="unmagic_components:lucide/file" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg><span class="UnmagicMessageAttachments__name">launch-checklist.pdf</span><span class="UnmagicMessageAttachments__size">86.3 KB</span></a></li></ul></div></div><div class="UnmagicMessage__actions"><unmagic-toolbar role="toolbar" aria-label="Message actions" aria-controls="thread_channel_4" data-reveal="hover" class="UnmagicMessageActions"><a aria-label="Reply" title="Reply" class="UnmagicButton UnmagicButton--icon UnmagicMessageActions__action" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/reply" aria-hidden="true"><path d="M20 18v-2a4 4 0 0 0-4-4H4"/><path d="m9 17-5-5 5-5"/></svg></a><unmagic-clipboard value="Checklist attached." class="UnmagicClipboard" data-copied-label="Copied"><button type="button" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button UnmagicMessageActions__action" aria-label="Copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard></unmagic-toolbar></div></article></div></div>
+
+        </div>
+      </div>
+</div><div role="tabpanel" id="message_thread_channel_view_panel_1" class="UnmagicTabs__panel" aria-labelledby="message_thread_channel_view_tab_1" tabindex="0" hidden="hidden">      <div class="UnmagicCodeView UnmagicCodeView--copy rounded-xl" id="message_thread_channel_source"><pre class="UnmagicCodeView__pre"><code id="message_thread_channel_source_code" class="UnmagicCodeView__code language-erb"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;mx-auto max-w-2xl&quot;</span><span class="nt">&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">message_thread</span> <span class="ss">id: </span><span class="s2">&quot;thread_channel&quot;</span><span class="p">,</span> <span class="ss">live: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">label: </span><span class="s2">&quot;#launch&quot;</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">message_separator</span> <span class="ss">time: </span><span class="vi">@now</span><span class="p">.</span><span class="nf">to_date</span> <span class="o">-</span> <span class="mi">1</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">message</span> <span class="ss">variant: :row</span><span class="p">,</span> <span class="ss">author: </span><span class="s2">&quot;Ben Reyes&quot;</span><span class="p">,</span> <span class="ss">avatar: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">time: </span><span class="vi">@now</span> <span class="o">-</span> <span class="mi">26</span><span class="p">.</span><span class="nf">hours</span><span class="p">,</span> <span class="ss">id: </span><span class="s2">&quot;thread_channel_1&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="n">m</span><span class="p">.</span><span class="nf">actions</span> <span class="p">{</span> <span class="o">|</span><span class="n">bar</span><span class="o">|</span> <span class="n">bar</span><span class="p">.</span><span class="nf">action</span> <span class="s2">&quot;Reply&quot;</span><span class="p">,</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">icon: :reply</span><span class="p">;</span> <span class="n">bar</span><span class="p">.</span><span class="nf">action</span> <span class="s2">&quot;Add reaction&quot;</span><span class="p">,</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">icon: :smile_plus</span><span class="p">;</span> <span class="n">bar</span><span class="p">.</span><span class="nf">copy</span> <span class="s2">&quot;Release notes are drafted.&quot;</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;p&gt;</span>Release notes are drafted in <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span><span class="nt">&gt;</span>notes/launch.md<span class="nt">&lt;/a&gt;</span>. Can someone review before Friday?<span class="nt">&lt;/p&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">message</span> <span class="ss">variant: :row</span><span class="p">,</span> <span class="ss">author: </span><span class="s2">&quot;Ben Reyes&quot;</span><span class="p">,</span> <span class="ss">avatar: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">time: </span><span class="vi">@now</span> <span class="o">-</span> <span class="mi">26</span><span class="p">.</span><span class="nf">hours</span> <span class="o">+</span> <span class="mi">2</span><span class="p">.</span><span class="nf">minutes</span><span class="p">,</span> <span class="ss">continued: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">id: </span><span class="s2">&quot;thread_channel_2&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="n">m</span><span class="p">.</span><span class="nf">actions</span> <span class="p">{</span> <span class="o">|</span><span class="n">bar</span><span class="o">|</span> <span class="n">bar</span><span class="p">.</span><span class="nf">action</span> <span class="s2">&quot;Reply&quot;</span><span class="p">,</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">icon: :reply</span><span class="p">;</span> <span class="n">bar</span><span class="p">.</span><span class="nf">copy</span> <span class="s2">&quot;Especially the migration section.&quot;</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="n">m</span><span class="p">.</span><span class="nf">reactions</span> <span class="p">{</span> <span class="o">|</span><span class="n">r</span><span class="o">|</span> <span class="n">r</span><span class="p">.</span><span class="nf">reaction</span> <span class="s2">&quot;👀&quot;</span><span class="p">,</span> <span class="ss">count: </span><span class="mi">2</span><span class="p">,</span> <span class="ss">names: </span><span class="p">[</span> <span class="s2">&quot;Ana&quot;</span><span class="p">,</span> <span class="s2">&quot;Chloe&quot;</span> <span class="p">],</span> <span class="ss">url: </span><span class="s2">&quot;#&quot;</span><span class="p">;</span> <span class="n">r</span><span class="p">.</span><span class="nf">reaction</span> <span class="s2">&quot;✅&quot;</span><span class="p">,</span> <span class="ss">count: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">reacted: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">url: </span><span class="s2">&quot;#&quot;</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;p&gt;</span>Especially the migration section, it moved around a lot.<span class="nt">&lt;/p&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">message_separator</span> <span class="ss">unread: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">message</span> <span class="ss">variant: :row</span><span class="p">,</span> <span class="ss">author: </span><span class="s2">&quot;Ana Silva&quot;</span><span class="p">,</span> <span class="ss">avatar: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">time: </span><span class="vi">@now</span> <span class="o">-</span> <span class="mi">40</span><span class="p">.</span><span class="nf">minutes</span><span class="p">,</span> <span class="ss">edited: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">id: </span><span class="s2">&quot;thread_channel_3&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="n">m</span><span class="p">.</span><span class="nf">quote</span> <span class="s2">&quot;Can someone review before Friday?&quot;</span><span class="p">,</span> <span class="ss">author: </span><span class="s2">&quot;Ben Reyes&quot;</span><span class="p">,</span> <span class="ss">href: </span><span class="s2">&quot;#thread_channel_1&quot;</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="n">m</span><span class="p">.</span><span class="nf">actions</span> <span class="p">{</span> <span class="o">|</span><span class="n">bar</span><span class="o">|</span> <span class="n">bar</span><span class="p">.</span><span class="nf">action</span> <span class="s2">&quot;Reply&quot;</span><span class="p">,</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">icon: :reply</span><span class="p">;</span> <span class="n">bar</span><span class="p">.</span><span class="nf">action</span> <span class="s2">&quot;Edit&quot;</span><span class="p">,</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">icon: :pencil</span><span class="p">;</span> <span class="n">bar</span><span class="p">.</span><span class="nf">action</span> <span class="s2">&quot;Delete&quot;</span><span class="p">,</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">icon: :trash_2</span><span class="p">,</span> <span class="ss">method: :delete</span><span class="p">,</span> <span class="ss">confirm: </span><span class="s2">&quot;Delete this message?&quot;</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="n">m</span><span class="p">.</span><span class="nf">footer</span> <span class="p">{</span> <span class="n">link_to</span> <span class="s2">&quot;3 replies&quot;</span><span class="p">,</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">class: </span><span class="s2">&quot;font-medium text-neutral-700 hover:underline dark:text-neutral-300&quot;</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;p&gt;</span>On it. I&#39;ve left comments on the migration section and the rollback steps look right to me.<span class="nt">&lt;/p&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">message</span> <span class="ss">variant: :row</span><span class="p">,</span> <span class="ss">author: </span><span class="s2">&quot;Chloe Park&quot;</span><span class="p">,</span> <span class="ss">avatar: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">time: </span><span class="vi">@now</span> <span class="o">-</span> <span class="mi">3</span><span class="p">.</span><span class="nf">minutes</span><span class="p">,</span> <span class="ss">id: </span><span class="s2">&quot;thread_channel_4&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="n">m</span><span class="p">.</span><span class="nf">attachments</span> <span class="p">{</span> <span class="o">|</span><span class="n">files</span><span class="o">|</span> <span class="n">files</span><span class="p">.</span><span class="nf">file</span> <span class="s2">&quot;launch-checklist.pdf&quot;</span><span class="p">,</span> <span class="ss">size: </span><span class="mi">88_400</span><span class="p">,</span> <span class="ss">url: </span><span class="s2">&quot;#&quot;</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="n">m</span><span class="p">.</span><span class="nf">actions</span> <span class="p">{</span> <span class="o">|</span><span class="n">bar</span><span class="o">|</span> <span class="n">bar</span><span class="p">.</span><span class="nf">action</span> <span class="s2">&quot;Reply&quot;</span><span class="p">,</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">icon: :reply</span><span class="p">;</span> <span class="n">bar</span><span class="p">.</span><span class="nf">copy</span> <span class="s2">&quot;Checklist attached.&quot;</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;p&gt;</span>Checklist attached. Two items still open: the status page and the support macro.<span class="nt">&lt;/p&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre><div class="UnmagicCodeView__copy"><unmagic-clipboard for="message_thread_channel_source_code" class="UnmagicClipboard" data-copied-label="Copied"><button type="button" aria-label="Copy" title="Copy" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard></div></div>
+
+</div></unmagic-tabs></section>
+
+        
+<section id="message_thread_email" class="PreviewExample scroll-mt-20">
+  <div class="mb-3 min-h-9 pr-40">
+    <h2 class="text-base font-semibold">
+      <a href="#message_thread_email" class="hover:underline">An email conversation</a>
+    </h2>
+      <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">Letters in cards. Older messages are collapsed to their header and a line of the body, and open on a click or Enter. Reply and Forward are text buttons through bar.control.</p>
+  </div>
+
+
+  <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="message_thread_email_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="message_thread_email_view_tab_0" class="UnmagicTabs__tab" aria-controls="message_thread_email_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="message_thread_email_view_tab_1" class="UnmagicTabs__tab" aria-controls="message_thread_email_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="message_thread_email_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="message_thread_email_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
+        <div class="w-full">
+          <div class="mx-auto max-w-2xl">
+  <h3 class="mb-4 text-lg font-semibold">Re: Interview on Friday</h3>
+  <div id="thread_email" class="UnmagicMessageThread">
+    <article id="thread_email_1" class="UnmagicMessage UnmagicMessage--email"><details><summary class="UnmagicMessage__summary"><span class="UnmagicMessage__avatar"><span aria-hidden="true" role="img" aria-label="Ana Silva" title="Ana Silva" class="UnmagicAvatar UnmagicAvatar--medium UnmagicAvatar--tint-2"><span class="UnmagicAvatar__initials" aria-hidden="true">AS</span></span></span><span class="UnmagicMessage__header"><span class="UnmagicMessage__author">Ana Silva</span><span class="UnmagicMessage__meta">to Keith Pitt</span><unmagic-time datetime="2026-09-20T00:30:22Z" format="medium" class="UnmagicMessage__time"><time datetime="2026-09-20T00:30:22Z">Sun, 20 Sep 2026 00:30:22 +0000</time></unmagic-time></span><span class="UnmagicMessage__snippet" aria-hidden="true">Hi Keith, Thanks for the invitation. Friday works for me. Would 2pm suit, and should I prepare anything beforehand? Ana</span></summary><div class="UnmagicMessage__main"><div class="UnmagicMessage__body UnmagicProse">
+      <p>Hi Keith,</p>
+      <p>Thanks for the invitation. Friday works for me. Would 2pm suit, and should I prepare anything beforehand?</p>
+      <p>Ana</p>
+</div></div></details></article>    <article id="thread_email_2" class="UnmagicMessage UnmagicMessage--email"><details><summary class="UnmagicMessage__summary"><span class="UnmagicMessage__avatar"><span aria-hidden="true" role="img" aria-label="Keith Pitt" title="Keith Pitt" class="UnmagicAvatar UnmagicAvatar--medium UnmagicAvatar--tint-1"><span class="UnmagicAvatar__initials" aria-hidden="true">KP</span></span></span><span class="UnmagicMessage__header"><span class="UnmagicMessage__author">Keith Pitt</span><span class="UnmagicMessage__meta">to Ana Silva</span><unmagic-time datetime="2026-09-21T00:30:22Z" format="medium" class="UnmagicMessage__time"><time datetime="2026-09-21T00:30:22Z">Mon, 21 Sep 2026 00:30:22 +0000</time></unmagic-time></span><span class="UnmagicMessage__snippet" aria-hidden="true">2pm is great. Nothing to prepare: it&#39;s a conversation about the work you&#39;ve enjoyed most, and we&#39;ll walk through the ...</span></summary><div class="UnmagicMessage__main"><div class="UnmagicMessage__body UnmagicProse">
+      <p>2pm is great. Nothing to prepare: it's a conversation about the work you've enjoyed most, and we'll walk through the team's current project together.</p>
+      <p>Keith</p>
+</div></div></details></article>    <article id="thread_email_3" class="UnmagicMessage UnmagicMessage--email"><details open="open"><summary class="UnmagicMessage__summary"><span class="UnmagicMessage__avatar"><span aria-hidden="true" role="img" aria-label="Ana Silva" title="Ana Silva" class="UnmagicAvatar UnmagicAvatar--medium UnmagicAvatar--tint-2"><span class="UnmagicAvatar__initials" aria-hidden="true">AS</span></span></span><span class="UnmagicMessage__header"><span class="UnmagicMessage__author">Ana Silva</span><span class="UnmagicMessage__meta">to Keith Pitt, cc Ben Reyes</span><unmagic-time datetime="2026-09-22T22:30:22Z" format="medium" class="UnmagicMessage__time"><time datetime="2026-09-22T22:30:22Z">Tue, 22 Sep 2026 22:30:22 +0000</time></unmagic-time></span><span class="UnmagicMessage__snippet" aria-hidden="true">Perfect, see you Friday. I&#39;ve attached the portfolio in case it&#39;s useful, and copied Ben who asked for it last week. Ana</span></summary><div class="UnmagicMessage__main"><div class="UnmagicMessage__body UnmagicProse">
+      <p>Perfect, see you Friday. I've attached the portfolio in case it's useful, and copied Ben who asked for it last week.</p>
+      <p>Ana</p>
+</div><div class="UnmagicMessage__attachments"><ul class="UnmagicMessageAttachments UnmagicMessageAttachments--start"><li class="UnmagicMessageAttachments__file"><a class="UnmagicMessageAttachments__link" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicMessageAttachments__glyph" data-unmagic-icon="unmagic_components:lucide/file" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg><span class="UnmagicMessageAttachments__name">portfolio-2026.pdf</span><span class="UnmagicMessageAttachments__size">4.6 MB</span></a></li></ul></div></div><div class="UnmagicMessage__actions"><unmagic-toolbar role="toolbar" aria-label="Message actions" aria-controls="thread_email_3" data-reveal="always" class="UnmagicMessageActions"><a class="UnmagicButton UnmagicButton--small" href="#">Reply</a><a class="UnmagicButton UnmagicButton--small" href="#">Forward</a></unmagic-toolbar></div></details></article></div></div>
+
+        </div>
+      </div>
+</div><div role="tabpanel" id="message_thread_email_view_panel_1" class="UnmagicTabs__panel" aria-labelledby="message_thread_email_view_tab_1" tabindex="0" hidden="hidden">      <div class="UnmagicCodeView UnmagicCodeView--copy rounded-xl" id="message_thread_email_source"><pre class="UnmagicCodeView__pre"><code id="message_thread_email_source_code" class="UnmagicCodeView__code language-erb"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;mx-auto max-w-2xl&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;h3</span> <span class="na">class=</span><span class="s">&quot;mb-4 text-lg font-semibold&quot;</span><span class="nt">&gt;</span>Re: Interview on Friday<span class="nt">&lt;/h3&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">message_thread</span> <span class="ss">id: </span><span class="s2">&quot;thread_email&quot;</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">message</span> <span class="ss">variant: :email</span><span class="p">,</span> <span class="ss">author: </span><span class="s2">&quot;Ana Silva&quot;</span><span class="p">,</span> <span class="ss">avatar: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">time: </span><span class="vi">@now</span> <span class="o">-</span> <span class="mi">3</span><span class="p">.</span><span class="nf">days</span><span class="p">,</span> <span class="ss">collapsible: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">open: </span><span class="kp">false</span><span class="p">,</span> <span class="ss">id: </span><span class="s2">&quot;thread_email_1&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="n">m</span><span class="p">.</span><span class="nf">meta</span> <span class="s2">&quot;to Keith Pitt&quot;</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;p&gt;</span>Hi Keith,<span class="nt">&lt;/p&gt;</span>
+      <span class="nt">&lt;p&gt;</span>Thanks for the invitation. Friday works for me. Would 2pm suit, and should I prepare anything beforehand?<span class="nt">&lt;/p&gt;</span>
+      <span class="nt">&lt;p&gt;</span>Ana<span class="nt">&lt;/p&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">message</span> <span class="ss">variant: :email</span><span class="p">,</span> <span class="ss">author: </span><span class="s2">&quot;Keith Pitt&quot;</span><span class="p">,</span> <span class="ss">avatar: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">time: </span><span class="vi">@now</span> <span class="o">-</span> <span class="mi">2</span><span class="p">.</span><span class="nf">days</span><span class="p">,</span> <span class="ss">collapsible: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">open: </span><span class="kp">false</span><span class="p">,</span> <span class="ss">id: </span><span class="s2">&quot;thread_email_2&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="n">m</span><span class="p">.</span><span class="nf">meta</span> <span class="s2">&quot;to Ana Silva&quot;</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;p&gt;</span>2pm is great. Nothing to prepare: it&#39;s a conversation about the work you&#39;ve enjoyed most, and we&#39;ll walk through the team&#39;s current project together.<span class="nt">&lt;/p&gt;</span>
+      <span class="nt">&lt;p&gt;</span>Keith<span class="nt">&lt;/p&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">message</span> <span class="ss">variant: :email</span><span class="p">,</span> <span class="ss">author: </span><span class="s2">&quot;Ana Silva&quot;</span><span class="p">,</span> <span class="ss">avatar: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">time: </span><span class="vi">@now</span> <span class="o">-</span> <span class="mi">2</span><span class="p">.</span><span class="nf">hours</span><span class="p">,</span> <span class="ss">collapsible: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">id: </span><span class="s2">&quot;thread_email_3&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="n">m</span><span class="p">.</span><span class="nf">meta</span> <span class="s2">&quot;to Keith Pitt, cc Ben Reyes&quot;</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="n">m</span><span class="p">.</span><span class="nf">attachments</span> <span class="p">{</span> <span class="o">|</span><span class="n">files</span><span class="o">|</span> <span class="n">files</span><span class="p">.</span><span class="nf">file</span> <span class="s2">&quot;portfolio-2026.pdf&quot;</span><span class="p">,</span> <span class="ss">size: </span><span class="mi">4_820_000</span><span class="p">,</span> <span class="ss">url: </span><span class="s2">&quot;#&quot;</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="n">m</span><span class="p">.</span><span class="nf">actions</span><span class="p">(</span><span class="ss">reveal: :always</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">bar</span><span class="o">|</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%</span> <span class="n">bar</span><span class="p">.</span><span class="nf">control</span> <span class="p">{</span> <span class="n">link_to</span> <span class="s2">&quot;Reply&quot;</span><span class="p">,</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">class: </span><span class="n">button_classes</span><span class="p">(</span><span class="ss">size: :small</span><span class="p">)</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%</span> <span class="n">bar</span><span class="p">.</span><span class="nf">control</span> <span class="p">{</span> <span class="n">link_to</span> <span class="s2">&quot;Forward&quot;</span><span class="p">,</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">class: </span><span class="n">button_classes</span><span class="p">(</span><span class="ss">size: :small</span><span class="p">)</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;p&gt;</span>Perfect, see you Friday. I&#39;ve attached the portfolio in case it&#39;s useful, and copied Ben who asked for it last week.<span class="nt">&lt;/p&gt;</span>
+      <span class="nt">&lt;p&gt;</span>Ana<span class="nt">&lt;/p&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre><div class="UnmagicCodeView__copy"><unmagic-clipboard for="message_thread_email_source_code" class="UnmagicClipboard" data-copied-label="Copied"><button type="button" aria-label="Copy" title="Copy" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard></div></div>
+
+</div></unmagic-tabs></section>
+
+        
+<section id="message_thread_assistant" class="PreviewExample scroll-mt-20">
+  <div class="mb-3 min-h-9 pr-40">
+    <h2 class="text-base font-semibold">
+      <a href="#message_thread_assistant" class="hover:underline">An AI chat</a>
+    </h2>
+      <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">A bubble of your own and an unbubbled row for the reply, from the same helper. ai_chat_message is this with streaming, a thinking spinner and the optimistic template on top.</p>
+  </div>
+
+
+  <unmagic-tabs class="UnmagicTabs PreviewExample__tabs" id="message_thread_assistant_view"><div role="tablist" class="UnmagicTabs__list"><button type="button" role="tab" id="message_thread_assistant_view_tab_0" class="UnmagicTabs__tab" aria-controls="message_thread_assistant_view_panel_0" aria-selected="true" tabindex="0">Preview</button><button type="button" role="tab" id="message_thread_assistant_view_tab_1" class="UnmagicTabs__tab" aria-controls="message_thread_assistant_view_panel_1" aria-selected="false" tabindex="-1">Code</button></div><div role="tabpanel" id="message_thread_assistant_view_panel_0" class="UnmagicTabs__panel" aria-labelledby="message_thread_assistant_view_tab_0" tabindex="0">      <div class="rounded-xl border border-neutral-200 bg-white bg-[radial-gradient(var(--color-neutral-200)_1px,transparent_1px)] [background-size:16px_16px] p-6 sm:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-[radial-gradient(var(--color-neutral-800)_1px,transparent_1px)] ">
+        <div class="w-full">
+          <div class="mx-auto max-w-2xl">
+  <div id="thread_assistant" role="log" aria-live="polite" aria-relevant="additions" aria-label="Conversation" class="UnmagicMessageThread">
+    <article id="thread_assistant_q" class="UnmagicMessage UnmagicMessage--bubble UnmagicMessage--own"><div class="UnmagicMessage__main"><div class="UnmagicMessage__header"><span class="UnmagicVisuallyHidden">You</span></div><div class="UnmagicMessage__body">Who hasn&#39;t replied to the Platform Engineer invitations yet?</div></div></article>
+    <article id="thread_assistant_a" class="UnmagicMessage UnmagicMessage--row"><div class="UnmagicMessage__main"><div class="UnmagicMessage__body UnmagicProse">
+      <p>Three candidates haven't replied since Monday:</p>
+      <ul>
+        <li><strong>Ana Silva</strong> opened hers twice but hasn't answered.</li>
+        <li><strong>Grace Okafor</strong> hasn't opened hers.</li>
+        <li><strong>Tom Reyes</strong>'s bounced.</li>
+      </ul>
+      <p>I'd nudge Grace today and leave Ana until after she's back.</p>
+</div></div><div class="UnmagicMessage__actions"><unmagic-toolbar role="toolbar" aria-label="Message actions" aria-controls="thread_assistant_a" data-reveal="hover" class="UnmagicMessageActions"><unmagic-clipboard value="Three candidates haven&#39;t replied since Monday." class="UnmagicClipboard" data-copied-label="Copied"><button type="button" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button UnmagicMessageActions__action" aria-label="Copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard><form class="UnmagicMessageActions__form" method="post" action="#"><button aria-label="Try again" title="Try again" class="UnmagicButton UnmagicButton--icon UnmagicMessageActions__action" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/rotate-cw" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg></button><input type="hidden" name="authenticity_token" value="sAh4FqSApb9dYyJisg3oFYrZhLyRtrngw-MkA_msRotqR9OaZQ15iNAohx_PDcVKeHz8aWzxrRe4FgHCMMNh_A" autocomplete="off" /></form></unmagic-toolbar></div></article>    <article id="thread_assistant_q2" class="UnmagicMessage UnmagicMessage--bubble UnmagicMessage--own"><div class="UnmagicMessage__main"><div class="UnmagicMessage__header"><span class="UnmagicVisuallyHidden">You</span></div><div class="UnmagicMessage__body">Draft the nudge for Grace.</div></div></article>
+    <div class="UnmagicMessageTyping"><div class="UnmagicMessageTyping__main"><span class="UnmagicMessageTyping__bubble" aria-hidden="true"><i></i><i></i><i></i></span><span class="UnmagicVisuallyHidden">Typing</span></div></div>
+</div></div>
+
+        </div>
+      </div>
+</div><div role="tabpanel" id="message_thread_assistant_view_panel_1" class="UnmagicTabs__panel" aria-labelledby="message_thread_assistant_view_tab_1" tabindex="0" hidden="hidden">      <div class="UnmagicCodeView UnmagicCodeView--copy rounded-xl" id="message_thread_assistant_source"><pre class="UnmagicCodeView__pre"><code id="message_thread_assistant_source_code" class="UnmagicCodeView__code language-erb"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;mx-auto max-w-2xl&quot;</span><span class="nt">&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">message_thread</span> <span class="ss">id: </span><span class="s2">&quot;thread_assistant&quot;</span><span class="p">,</span> <span class="ss">live: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">label: </span><span class="s2">&quot;Conversation&quot;</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">message</span> <span class="s2">&quot;Who hasn&#39;t replied to the Platform Engineer invitations yet?&quot;</span><span class="p">,</span> <span class="ss">own: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">id: </span><span class="s2">&quot;thread_assistant_q&quot;</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">message</span> <span class="ss">variant: :row</span><span class="p">,</span> <span class="ss">id: </span><span class="s2">&quot;thread_assistant_a&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="n">m</span><span class="p">.</span><span class="nf">actions</span> <span class="p">{</span> <span class="o">|</span><span class="n">bar</span><span class="o">|</span> <span class="n">bar</span><span class="p">.</span><span class="nf">copy</span> <span class="s2">&quot;Three candidates haven&#39;t replied since Monday.&quot;</span><span class="p">;</span> <span class="n">bar</span><span class="p">.</span><span class="nf">action</span> <span class="s2">&quot;Try again&quot;</span><span class="p">,</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">icon: :rotate_cw</span><span class="p">,</span> <span class="ss">method: :post</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;p&gt;</span>Three candidates haven&#39;t replied since Monday:<span class="nt">&lt;/p&gt;</span>
+      <span class="nt">&lt;ul&gt;</span>
+        <span class="nt">&lt;li&gt;&lt;strong&gt;</span>Ana Silva<span class="nt">&lt;/strong&gt;</span> opened hers twice but hasn&#39;t answered.<span class="nt">&lt;/li&gt;</span>
+        <span class="nt">&lt;li&gt;&lt;strong&gt;</span>Grace Okafor<span class="nt">&lt;/strong&gt;</span> hasn&#39;t opened hers.<span class="nt">&lt;/li&gt;</span>
+        <span class="nt">&lt;li&gt;&lt;strong&gt;</span>Tom Reyes<span class="nt">&lt;/strong&gt;</span>&#39;s bounced.<span class="nt">&lt;/li&gt;</span>
+      <span class="nt">&lt;/ul&gt;</span>
+      <span class="nt">&lt;p&gt;</span>I&#39;d nudge Grace today and leave Ana until after she&#39;s back.<span class="nt">&lt;/p&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">message</span> <span class="s2">&quot;Draft the nudge for Grace.&quot;</span><span class="p">,</span> <span class="ss">own: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">id: </span><span class="s2">&quot;thread_assistant_q2&quot;</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">message_typing</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre><div class="UnmagicCodeView__copy"><unmagic-clipboard for="message_thread_assistant_source_code" class="UnmagicClipboard" data-copied-label="Copied"><button type="button" aria-label="Copy" title="Copy" class="UnmagicButton UnmagicButton--icon UnmagicClipboard__button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__idle" data-unmagic-icon="unmagic_components:lucide/copy" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicClipboard__done" data-unmagic-icon="unmagic_components:lucide/check" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button><span class="UnmagicVisuallyHidden" aria-live="polite"></span></unmagic-clipboard></div></div>
+
+</div></unmagic-tabs></section>
+
+    </div>
+
+    <nav class="mt-16 grid gap-4 border-t border-neutral-200 pt-8 sm:grid-cols-2 dark:border-neutral-800" aria-label="More components">
+        <a class="block rounded-xl border border-neutral-200 p-4 hover:border-neutral-300 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:border-neutral-700 dark:hover:bg-neutral-900" href="/unmagic-components/components/message_separator">
+          <span class="block text-xs text-neutral-500">Previous</span>
+          <span class="mt-1 block text-sm font-medium">Separator</span>
+</a>        <a class="block rounded-xl border border-neutral-200 p-4 hover:border-neutral-300 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:border-neutral-700 dark:hover:bg-neutral-900 text-right sm:col-start-2" href="/unmagic-components/components/message_typing">
+          <span class="block text-xs text-neutral-500">Next</span>
+          <span class="mt-1 block text-sm font-medium">Typing</span>
+</a>    </nav>
+  </article>
+
+  <aside class="hidden xl:block">
+    <div class="sticky top-24">
+      <p class="text-xs font-semibold text-neutral-500 dark:text-neutral-400">On this page</p>
+      <ul class="mt-3 space-y-1 border-l border-neutral-200 dark:border-neutral-800">
+          <li>
+            <a href="#message_thread_chat" class="-ml-px block border-l border-transparent py-1 pl-3 text-sm text-neutral-600 hover:border-neutral-400 hover:text-neutral-900 dark:text-neutral-400 dark:hover:border-neutral-500 dark:hover:text-neutral-100">A chat between people</a>
+          </li>
+          <li>
+            <a href="#message_thread_channel" class="-ml-px block border-l border-transparent py-1 pl-3 text-sm text-neutral-600 hover:border-neutral-400 hover:text-neutral-900 dark:text-neutral-400 dark:hover:border-neutral-500 dark:hover:text-neutral-100">A channel thread</a>
+          </li>
+          <li>
+            <a href="#message_thread_email" class="-ml-px block border-l border-transparent py-1 pl-3 text-sm text-neutral-600 hover:border-neutral-400 hover:text-neutral-900 dark:text-neutral-400 dark:hover:border-neutral-500 dark:hover:text-neutral-100">An email conversation</a>
+          </li>
+          <li>
+            <a href="#message_thread_assistant" class="-ml-px block border-l border-transparent py-1 pl-3 text-sm text-neutral-600 hover:border-neutral-400 hover:text-neutral-900 dark:text-neutral-400 dark:hover:border-neutral-500 dark:hover:text-neutral-100">An AI chat</a>
+          </li>
+      </ul>
+    </div>
+  </aside>
+</div>
+
+      </main>
+    </div>
+
+
+    <unmagic-modal><dialog class="UnmagicDialogBox" data-unmagic-dialog=""><turbo-frame id="modal"></turbo-frame><template data-unmagic-modal-skeleton=""><div class="UnmagicDialog" role="status"><span class="UnmagicVisuallyHidden">Loading…</span><header class="UnmagicDialog__header"><div class="UnmagicSkeleton UnmagicDialog__skeleton-title"></div></header><div class="UnmagicDialog__body"><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div><div class="UnmagicDialog__skeleton-field"><div class="UnmagicSkeleton UnmagicDialog__skeleton-label"></div><div class="UnmagicSkeleton UnmagicDialog__skeleton-input"></div></div></div><div class="UnmagicDialog__footer"><div class="UnmagicSkeleton UnmagicDialog__skeleton-button"></div></div></div></template><template data-unmagic-modal-error=""><div role="alert" class="UnmagicDialog"><header class="UnmagicDialog__header"><h2 id="unmagic_dialog_95b024a5_title" class="UnmagicDialog__title">Couldn’t load</h2><button type="button" class="UnmagicButton UnmagicButton--icon UnmagicDialog__close" aria-label="Close" data-unmagic-dialog-close=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/x" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></header><div class="UnmagicDialog__body"><div class="UnmagicDialog__error"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/circle-x" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg><p>Something went wrong loading this. Check your connection and try again.</p></div></div><div class="UnmagicDialog__footer"><button type="button" class="UnmagicButton UnmagicButton--primary" data-unmagic-modal-retry=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/rotate-cw" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>Try again</button></div></div></template></dialog></unmagic-modal>
+    <template data-unmagic-confirm=""><dialog class="UnmagicDialogBox" role="alertdialog" data-unmagic-dialog=""><form method="dialog" class="UnmagicDialog"><header class="UnmagicDialog__header"><h2 class="UnmagicDialog__title" data-unmagic-confirm-title="">Are you sure?</h2></header><div class="UnmagicDialog__body"><p data-unmagic-confirm-message=""></p></div><div class="UnmagicDialog__footer"><button value="cancel" class="UnmagicButton" data-unmagic-confirm-cancel="">Cancel</button><button value="confirm" class="UnmagicButton UnmagicButton--primary" data-unmagic-confirm-accept="">Confirm</button></div></form></dialog></template>
+    <unmagic-toasts id="unmagic_toasts" duration="5000" position="top_end"><div class="UnmagicToasts__stack" id="unmagic_toasts_stack" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="top_end"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_top_start" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="top_start"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_top" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="top"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_bottom_start" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="bottom_start"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_bottom" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="bottom"></div><div class="UnmagicToasts__stack" id="unmagic_toasts_stack_bottom_end" popover="manual" aria-live="polite" data-turbo-permanent="" data-position="bottom_end"></div><template data-unmagic-toast-blueprint=""><div class="UnmagicToast UnmagicToast--good" data-unmagic-toast="" data-toast-icon="default" style="--unmagic-toast-width: 384px; "><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/circle-check" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg><div class="UnmagicToast__main"><div class="UnmagicToast__content"><div class="UnmagicToast__title"></div><div class="UnmagicToast__message"></div></div><div class="UnmagicToast__actions"><button type="button" class="UnmagicButton UnmagicButton--small"></button></div></div><button type="button" class="UnmagicToast__dismiss" aria-label="Dismiss" data-unmagic-toast-dismiss=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon" data-unmagic-icon="unmagic_components:lucide/x" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div></template><template data-unmagic-toast-icon="good"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/circle-check" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></template><template data-unmagic-toast-icon="warn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/triangle-alert" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></template><template data-unmagic-toast-icon="bad"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/circle-x" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg></template><template data-unmagic-toast-icon="info"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template><template data-unmagic-toast-icon="neutral"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template><template data-unmagic-toast-icon="accent"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template><template data-unmagic-toast-icon="inverted"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="unmagic-icon UnmagicIcon UnmagicToast__icon" data-unmagic-icon="unmagic_components:lucide/info" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template></unmagic-toasts>
+  </body>
+</html>
