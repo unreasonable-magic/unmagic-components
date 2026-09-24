@@ -228,6 +228,23 @@ RSpec.describe Unmagic::Components::Browser do
     expect { Unmagic::Components.configuration.empty_state.call }.to raise_error(/host's empty_state/)
   end
 
+  # Likewise a host's default form builder, which a form_with with no builder:
+  # would otherwise pick up.
+  it "renders with Rails' form builder, whatever the host's default is" do
+    host_builder = Class.new(ActionView::Helpers::FormBuilder) do
+      def text_field(*) = raise("the host's form builder ran")
+    end
+    original = ActionView::Base.default_form_builder
+    ActionView::Base.default_form_builder = host_builder
+
+    described_class::Catalog.all.each do |component|
+      response = get("/components/#{component.slug}")
+      expect(response.status).to eq(200), "#{component.slug} answered #{response.status}: #{response.body[0, 500]}"
+    end
+  ensure
+    ActionView::Base.default_form_builder = original
+  end
+
   it "says what's missing when turbo-rails isn't in the bundle" do
     hide_const("Turbo::Engine")
     controller = described_class::ApplicationController.new

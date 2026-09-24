@@ -30,6 +30,10 @@ module Unmagic
         # controller doesn't have.
         around_action :with_default_configuration
 
+        # For the same reason, a form with no builder: gets Rails' own rather than
+        # the host's config.action_view.default_form_builder.
+        default_form_builder ::ActionView::Helpers::FormBuilder
+
         private
 
         # Checked per request rather than at load, because a host that eager loads
