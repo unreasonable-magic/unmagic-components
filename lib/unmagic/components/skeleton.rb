@@ -15,6 +15,16 @@ module Unmagic
       # The last line of a paragraph is shorter, so a block of text reads as one.
       LAST_LINE_WIDTH = "60%"
 
+      # The public shapes, which is what a table column's skeleton: symbol may name.
+      SHAPES = %i[text circle block button badge icon item].freeze
+
+      # A row of pills narrows as it goes, so it reads as chips rather than one bar.
+      # The first takes the CSS default.
+      BADGE_WIDTHS = [ nil, "3.5rem", "3rem", "3.75rem" ].freeze
+
+      # An item's description line, as a share of its title line.
+      DESCRIPTION_WIDTH = 0.7
+
       # A status region around some shapes, announced once.
       def self.group(view, label: nil, **options)
         view.tag.div(**options, role: "status", class: view.class_names("UnmagicSkeletonGroup", options[:class])) do
@@ -65,6 +75,41 @@ module Unmagic
         shape("button", width: width, modifier: ("UnmagicSkeleton--#{size}" if size), **options)
       end
 
+      # A badge's pill, the same height. count: renders a row of them that doesn't
+      # wrap, for a run of chips; width: then applies to each.
+      def badge(width: nil, count: 1, **options)
+        raise ArgumentError, "skeleton badge needs at least one pill (got #{count.inspect})" unless count.to_i >= 1
+
+        return shape("badge", width: width, **options) if count == 1
+
+        pills = Array.new(count) { |index| shape("badge", width: width || BADGE_WIDTHS[index % BADGE_WIDTHS.size]) }
+        view.tag.span(view.safe_join(pills), **options, "aria-hidden": "true",
+          class: view.class_names("UnmagicSkeletonBadges", options[:class]))
+      end
+
+      # An icon-only button (button_classes(:icon)): a square its size.
+      def icon(**options)
+        shape("icon", **options)
+      end
+
+      # The item media object: an optional avatar, a title line and a smaller,
+      # shorter description line under it. avatar: takes an avatar's size; width:
+      # sizes the title, and the description is a share of it.
+      def item(avatar: nil, description: true, width: nil, **options)
+        Avatar.validate!(avatar, :circle) if avatar
+
+        lines = [ line(width: width) ]
+        lines << view.tag.span(line(width: description_width(width)), class: "UnmagicSkeletonItem__description") if description
+
+        view.tag.span(**options, "aria-hidden": "true",
+          class: view.class_names("UnmagicSkeletonItem", options[:class]), style: style(options[:style])) do
+          view.safe_join [
+            (circle(size: Avatar::DIMENSIONS.fetch(avatar)) if avatar),
+            view.tag.span(view.safe_join(lines), class: "UnmagicSkeletonItem__main")
+          ].compact
+        end
+      end
+
       private
 
       attr_reader :view
@@ -79,6 +124,10 @@ module Unmagic
           class: view.class_names("UnmagicSkeletonLine", options[:class]), style: style(options[:style])) do
           shape("text", width: width)
         end
+      end
+
+      def description_width(width)
+        width ? "calc(#{width} * #{DESCRIPTION_WIDTH})" : "#{(DESCRIPTION_WIDTH * 100).round}%"
       end
 
       def shape(kind, width: nil, height: nil, modifier: nil, **options)

@@ -141,6 +141,19 @@
     }
   }
 
+  /* A skeleton cell's declared shape, lined up as the column aligns its content. */
+  .UnmagicTableSkeleton {
+    @apply flex min-w-0 items-center;
+  }
+
+  .is-right > .UnmagicTableSkeleton {
+    @apply justify-end;
+  }
+
+  .is-center > .UnmagicTableSkeleton {
+    @apply justify-center;
+  }
+
   .UnmagicTable .is-right {
     @apply text-right;
   }
@@ -249,6 +262,52 @@
   .UnmagicSkeleton--button.UnmagicSkeleton--large {
     @apply w-28 rounded-lg;
     height: calc(2.75rem + 2px);
+  }
+
+  /* A badge's height is its text-xs line box and py-0.5. */
+  .UnmagicSkeleton--badge {
+    @apply inline-block w-16 rounded-full align-middle;
+    height: 1.25rem;
+  }
+
+  /* A run of chips, spaced like a row of badges; it clips rather than wraps, so
+     it can't make its row taller. */
+  .UnmagicSkeletonBadges {
+    @apply inline-flex max-w-full gap-1 overflow-hidden whitespace-nowrap align-middle;
+  }
+
+  .UnmagicSkeletonBadges > .UnmagicSkeleton--badge {
+    @apply shrink-0;
+  }
+
+  /* An icon button is its size-4 icon, p-1.5 and a 1px border each side, square. */
+  .UnmagicSkeleton--icon {
+    @apply inline-block rounded-md align-middle;
+    width: calc(1.75rem + 2px);
+    height: calc(1.75rem + 2px);
+  }
+
+  @media (pointer: coarse) {
+    .UnmagicSkeleton--icon {
+      width: 2.75rem;
+      height: 2.75rem;
+    }
+  }
+
+  /* The item media object: title and description lines take the line boxes of
+     .UnmagicItem__title and .UnmagicItem__description. */
+  /* Full width even as a flex item, so its lines' percentage widths have
+     something to take a share of. */
+  .UnmagicSkeletonItem {
+    @apply flex w-full min-w-0 items-center gap-3;
+  }
+
+  .UnmagicSkeletonItem__main {
+    @apply block min-w-0 flex-1;
+  }
+
+  .UnmagicSkeletonItem__description {
+    @apply mt-0.5 block text-xs;
   }
 
   /* ------------------------------------------------------------ Empty state */

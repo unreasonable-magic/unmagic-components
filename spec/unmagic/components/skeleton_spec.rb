@@ -47,6 +47,49 @@ RSpec.describe "skeletons" do
       expect(block["style"]).to eq("height: 4rem; opacity: 0.5")
     end
 
+    it "renders a badge's pill, or a row of them narrowing as it goes" do
+      pill = html(view.skeleton_badge(width: "5rem", class: "mt-1")).at("span")
+      row = html(view.skeleton_badge(count: 3)).at("span.UnmagicSkeletonBadges")
+
+      expect(pill["class"]).to eq("UnmagicSkeleton UnmagicSkeleton--badge mt-1")
+      expect([ pill["style"], pill["aria-hidden"] ]).to eq([ "width: 5rem", "true" ])
+      expect(row["aria-hidden"]).to eq("true")
+      expect(row.css("> .UnmagicSkeleton--badge").map { |badge| badge["style"] }).to eq([ nil, "width: 3.5rem", "width: 3rem" ])
+    end
+
+    it "renders an icon button's square" do
+      icon = html(view.skeleton_icon).at("span")
+
+      expect(icon["class"]).to eq("UnmagicSkeleton UnmagicSkeleton--icon")
+      expect(icon["aria-hidden"]).to eq("true")
+    end
+
+    it "renders an item as a title over a shorter description" do
+      item = html(view.skeleton_item(width: "60%")).at("span.UnmagicSkeletonItem")
+      lines = item.css(".UnmagicSkeletonLine > .UnmagicSkeleton--text")
+
+      expect(item["aria-hidden"]).to eq("true")
+      expect(item.at(".UnmagicSkeleton--circle")).to be_nil
+      expect(item.at(".UnmagicSkeletonItem__description > .UnmagicSkeletonLine")).to be_present
+      expect(lines.map { |line| line["style"] }).to eq([ "width: 60%", "width: calc(60% * 0.7)" ])
+    end
+
+    it "puts an avatar-sized circle before an item, and drops its description on request" do
+      small = html(view.skeleton_item(avatar: :small)).at(".UnmagicSkeleton--circle")
+      large = html(view.skeleton_item(avatar: :large)).at(".UnmagicSkeleton--circle")
+      title_only = html(view.skeleton_item(description: false))
+
+      expect(small["style"]).to eq("width: 1.5rem; height: 1.5rem")
+      expect(large["style"]).to eq("width: 2.5rem; height: 2.5rem")
+      expect(title_only.css(".UnmagicSkeletonLine").size).to eq(1)
+      expect(title_only.at(".UnmagicSkeletonItem__description")).to be_nil
+    end
+
+    it "rejects no pills and an unknown avatar size" do
+      expect { view.skeleton_badge(count: 0) }.to raise_error(ArgumentError, /at least one pill/)
+      expect { view.skeleton_item(avatar: :huge) }.to raise_error(ArgumentError, /unknown avatar size :huge/)
+    end
+
     it "rejects no lines and an unknown button size" do
       expect { view.skeleton_text(lines: 0) }.to raise_error(ArgumentError, /at least one line/)
       expect { view.skeleton_button(size: :huge) }.to raise_error(ArgumentError, /unknown skeleton button size :huge/)

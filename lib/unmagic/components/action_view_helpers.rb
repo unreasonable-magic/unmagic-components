@@ -63,6 +63,13 @@ module Unmagic
       #        style; anything else is used as a class name, so a Tailwind host
       #        can pass "w-[40%]". Give every column of a deferred table a width
       #        so the skeleton and the rows that replace it lay out identically.
+      # skeleton: the shape a column's cells take in the deferred skeleton, so
+      #        its rows are the height of the rows that replace them. A symbol
+      #        names a skeleton builder shape (:item, :badge, :icon, :text); a
+      #        lambda gets the builder, for arguments or several shapes:
+      #        skeleton: ->(s) { s.item(avatar: :medium) }. Left out, the cell is
+      #        one bar. Details rows aren't part of the skeleton: they're per
+      #        record, so any placeholder would be wrong for most rows.
       #
       # Empty states come in two flavours. table.empty is the blank slate for a
       # genuinely empty dataset; table.no_results is shown instead when a
@@ -548,12 +555,15 @@ module Unmagic
       #
       # s.text is a line sized by the font around it (lines: for a paragraph);
       # s.circle an avatar (size:); s.block an image or chart (height:, width:);
-      # s.button a button_classes button (size: :small / :large). Each takes class:
-      # and style: too. The shapes are hidden from screen readers, which hear label:
-      # ("Loading…") once instead. Other options go on the wrapper.
+      # s.button a button_classes button (size: :small / :large); s.badge a badge's
+      # pill (count: for a row of chips); s.icon an icon-only button; s.item the item
+      # media object, a title over a smaller description (avatar: :small/:medium/
+      # :large puts a circle before them). Each takes class: and style: too. The
+      # shapes are hidden from screen readers, which hear label: ("Loading…") once
+      # instead. Other options go on the wrapper.
       #
-      # The same shapes stand alone as skeleton_text, skeleton_circle, skeleton_block
-      # and skeleton_button. detail_list, page_header and card take skeleton: true
+      # The same shapes stand alone as skeleton_text, skeleton_circle, skeleton_block,
+      # skeleton_button, skeleton_badge, skeleton_icon and skeleton_item. detail_list, page_header and card take skeleton: true
       # to render a skeleton version of themselves.
       def skeleton(label: nil, **options, &block)
         builder = Components::Skeleton.new(self)
@@ -578,6 +588,21 @@ module Unmagic
       # A button-sized shape outside a skeleton block.
       def skeleton_button(size: nil, width: nil, **options)
         Components::Skeleton.new(self).button(size: size, width: width, **options)
+      end
+
+      # A badge-sized pill (or count: of them) outside a skeleton block.
+      def skeleton_badge(width: nil, count: 1, **options)
+        Components::Skeleton.new(self).badge(width: width, count: count, **options)
+      end
+
+      # An icon-button-sized square outside a skeleton block.
+      def skeleton_icon(**options)
+        Components::Skeleton.new(self).icon(**options)
+      end
+
+      # A title over a description, with an optional avatar, outside a skeleton block.
+      def skeleton_item(avatar: nil, description: true, width: nil, **options)
+        Components::Skeleton.new(self).item(avatar: avatar, description: description, width: width, **options)
       end
 
       # The top of a page. The block's output becomes the actions on the right.

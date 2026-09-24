@@ -1,0 +1,26 @@
+<% table.column "Name", width: "30%", skeleton: ->(s) { s.item(avatar: :medium) } do |thing| %>
+  <div class="flex items-center gap-3">
+    <%= avatar thing.name, "aria-hidden": true %>
+    <div class="min-w-0">
+      <div class="truncate font-medium"><%= thing.name %></div>
+      <div class="mt-0.5 truncate text-xs text-neutral-500 dark:text-neutral-400"><%= thing.email %></div>
+    </div>
+  </div>
+<% end %>
+<% table.column "Role", width: "24%", skeleton: :item do |thing| %>
+  <div class="truncate"><%= thing.role %></div>
+  <div class="mt-0.5 truncate text-xs text-neutral-500 dark:text-neutral-400"><%= thing.company %></div>
+<% end %>
+<% table.column "Status", width: "15%", skeleton: :badge do |thing| %>
+  <%= badge thing.status, tone: thing.status == "Placed" ? :good : :neutral %>
+<% end %>
+<% table.column "Skills", width: "23%", skeleton: ->(s) { s.badge(count: 3) } do |thing| %>
+  <div class="flex gap-1 overflow-hidden">
+    <% thing.skills.each do |skill| %><%= badge skill, tone: :info %><% end %>
+  </div>
+<% end %>
+<% table.column width: "8%", align: :right, skeleton: :icon do |thing| %>
+  <%= menu do |menu| %>
+    <% menu.item "Edit", icon: :pencil %>
+  <% end %>
+<% end %>

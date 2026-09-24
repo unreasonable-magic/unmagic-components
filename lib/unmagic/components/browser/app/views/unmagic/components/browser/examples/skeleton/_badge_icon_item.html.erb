@@ -1,0 +1,36 @@
+<div class="grid items-start gap-6 sm:grid-cols-2">
+  <div class="grid gap-3">
+    <div class="flex items-center gap-2">
+      <%= badge "Placed", tone: :good %>
+      <%= skeleton_badge %>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="flex gap-1"><%= badge "Rust", tone: :info %><%= badge "Go", tone: :info %><%= badge "SQL", tone: :info %></span>
+      <%= skeleton_badge count: 3 %>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-2">
+    <%= button "More actions", :icon, icon: :pencil %>
+    <%= skeleton_icon %>
+  </div>
+
+  <div class="grid gap-4 text-sm">
+    <div class="flex items-center gap-3">
+      <%= avatar "Ada Lovelace", "aria-hidden": true %>
+      <div class="min-w-0">
+        <div class="font-medium">Ada Lovelace</div>
+        <div class="mt-0.5 text-xs text-neutral-500 dark:text-neutral-400">ada@example.com</div>
+      </div>
+    </div>
+    <%= skeleton_item avatar: :medium, width: "8rem" %>
+  </div>
+
+  <div class="grid gap-4 text-sm">
+    <div>
+      <div>Engineer</div>
+      <div class="mt-0.5 text-xs text-neutral-500 dark:text-neutral-400">Analytical Engines</div>
+    </div>
+    <%= skeleton_item width: "6rem" %>
+  </div>
+</div>
