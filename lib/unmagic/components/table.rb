@@ -241,15 +241,40 @@ module Unmagic
 
       def skeleton_rows
         Array.new(SKELETON_ROWS) do |index|
-          @columns.map.with_index { |column, column_index| skeleton_bar(column, index + column_index) }
+          @columns.map.with_index { |column, column_index| skeleton_cell(column, index + column_index) }
+        end
+      end
+
+      # A column that declares its shape gets it, in a cell carrying the column's
+      # own classes so it aligns and pads like the loaded one; one that doesn't
+      # gets a bar.
+      def skeleton_cell(column, seed)
+        return skeleton_bar(column, seed) unless column.skeleton
+
+        { content: tag.span(skeleton_shape(column, seed), class: "UnmagicTableSkeleton"), class: column.cell_classes }
+      end
+
+      # A symbol is the builder shape by that name; the ones sized by a width take
+      # the row's, so the rows vary as the bars do.
+      def skeleton_shape(column, seed)
+        shapes = Skeleton.new(view)
+
+        case column.skeleton
+        when :text, :item then shapes.public_send(column.skeleton, width: skeleton_width(column, seed))
+        when Symbol then shapes.public_send(column.skeleton)
+        else view.capture(shapes, &column.skeleton)
         end
       end
 
       def skeleton_bar(column, seed)
-        scale = column.width.present? ? SKELETON_FRACTIONS : SKELETON_WIDTHS
         classes = class_names("UnmagicSkeleton", "is-right" => column.right_aligned?)
 
-        tag.div class: classes, style: "width: #{scale[seed % scale.size]}"
+        tag.div class: classes, style: "width: #{skeleton_width(column, seed)}"
+      end
+
+      def skeleton_width(column, seed)
+        scale = column.width.present? ? SKELETON_FRACTIONS : SKELETON_WIDTHS
+        scale[seed % scale.size]
       end
     end
   end

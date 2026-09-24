@@ -14,5 +14,8 @@ Unmagic::Components::Browser::Catalog.component :table,
     { key: :deferred, title: "Deferred", layout: :full,
       description: "The first render never touches the collection. Reload to watch the skeleton swap for " \
                    "the rows without the columns shifting." },
+    { key: :deferred_shapes, title: "Deferred, with skeleton shapes", layout: :full,
+      description: "Each column declares its skeleton: — :item, :badge, :icon, or a lambda given the skeleton " \
+                   "builder — so the skeleton rows are the height and shape of the rows that replace them." },
     { key: :table_tag, title: "A static table from plain data", layout: :full }
   ]

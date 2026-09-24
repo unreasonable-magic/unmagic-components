@@ -306,6 +306,64 @@ RSpec.describe Unmagic::Components::Table do
       expect(doc.css(".UnmagicSkeleton").size).to eq(Unmagic::Components::Table::SKELETON_ROWS)
     end
 
+    describe "skeleton shapes" do
+      def skeleton_for(&columns)
+        html(view.table_for(things(1), defer: true, &columns))
+      end
+
+      it "keeps one bare bar per cell for a column that declares nothing" do
+        doc = skeleton_for { |table| table.column("Name", :name, width: "40%") }
+
+        expect(doc.css("tbody td > div.UnmagicSkeleton").size).to eq(Unmagic::Components::Table::SKELETON_ROWS)
+        expect(doc.at(".UnmagicTableSkeleton")).to be_nil
+      end
+
+      it "renders a named builder shape in every row" do
+        doc = skeleton_for do |table|
+          table.column("Name", :name, skeleton: :item)
+          table.column("Status", :role, skeleton: :badge)
+          table.column("", :name, skeleton: :icon)
+        end
+
+        rows = doc.css("tbody tr")
+        expect(rows.size).to eq(Unmagic::Components::Table::SKELETON_ROWS)
+        rows.each do |row|
+          cells = row.css("> td > .UnmagicTableSkeleton")
+          expect(cells[0].at("> .UnmagicSkeletonItem")).to be_present
+          expect(cells[1].at("> .UnmagicSkeleton--badge")).to be_present
+          expect(cells[2].at("> .UnmagicSkeleton--icon")).to be_present
+        end
+      end
+
+      it "varies an item's width by row, as the bars do" do
+        doc = skeleton_for { |table| table.column("Name", :name, width: "40%", skeleton: :item) }
+        widths = doc.css("tbody tr").map { |row| row.at(".UnmagicSkeleton--text")["style"] }
+
+        expect(widths.uniq.size).to be > 1
+      end
+
+      it "hands a lambda the skeleton builder and renders what it returns" do
+        builder = nil
+        doc = skeleton_for do |table|
+          table.column("Name", :name, skeleton: ->(s) { builder = s; s.item(avatar: :medium) })
+        end
+
+        expect(builder).to be_a(Unmagic::Components::Skeleton)
+        expect(doc.css("tbody td .UnmagicSkeleton--circle").size).to eq(Unmagic::Components::Table::SKELETON_ROWS)
+      end
+
+      it "carries the column's alignment onto the skeleton cell" do
+        doc = skeleton_for { |table| table.column("", :name, align: :right, skeleton: :icon) }
+
+        expect(doc.css("tbody td").map { |cell| cell["class"] }.uniq).to eq([ "is-right" ])
+      end
+
+      it "rejects an unknown shape when the column is declared" do
+        expect { skeleton_for { |table| table.column("Name", :name, skeleton: :bogus) } }
+          .to raise_error(ArgumentError, /unknown skeleton shape :bogus/)
+      end
+    end
+
     it "renders the real rows when the frame comes back for them" do
       view = build_view(turbo_frame: "things_table")
       doc = html(view.table_for(things(2), defer: true) { |table| table.column("Name", :name) })

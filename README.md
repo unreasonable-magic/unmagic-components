@@ -297,7 +297,7 @@ On the yielded builder:
 - `column(title = nil, attribute = nil, **options, &block)` — content comes from
   the block, else `record.public_send(attribute)`. Options: `sort:`,
   `direction:`, `align:` (`:right`/`:center`), `numeric:` (right-aligns and uses
-  tabular figures), `width:`, `class:`.
+  tabular figures), `width:`, `class:`, `skeleton:` (below).
 - `details(&block)` — a full-width companion row per record; capturing nothing
   skips it.
 - `empty(text = nil, **options, &block)` — the blank slate for an empty dataset.
@@ -323,6 +323,24 @@ style, or any other string, which is used as a class name so a Tailwind app can
 pass `"w-[40%]"`. Any width switches the table to a fixed layout. Give every
 column of a deferred table a width, so the skeleton and the rows that replace it
 lay out identically.
+
+A deferred table's skeleton draws one bar per cell. A column whose cells look
+like something else declares it with `skeleton:`, so the skeleton rows are the
+height and shape of the rows that replace them. It takes a skeleton builder shape
+by name, or a lambda given the builder (see [Skeletons](#skeletons)):
+
+```erb
+<% table.column "Name", width: "30%", skeleton: ->(s) { s.item(avatar: :medium) } do |person| %>…<% end %>
+<% table.column "Role", width: "25%", skeleton: :item do |person| %>…<% end %>
+<% table.column "Status", width: "15%", skeleton: :badge do |person| %>…<% end %>
+<% table.column "Skills", width: "22%", skeleton: ->(s) { s.badge(count: 3) } do |person| %>…<% end %>
+<% table.column width: "8%", align: :right, skeleton: :icon do |person| %>…<% end %>
+```
+
+`:text` and `:item` take a different width on each row, as the bars do. An
+unknown shape raises `ArgumentError` when the column is declared. `details` rows
+aren't part of the skeleton: they're per record, so any placeholder would be wrong
+for most rows.
 
 ### `detail_list(variant: :inline, **options, &block)`
 
@@ -1293,6 +1311,9 @@ like `form_for` does. You arrange its shapes with your own markup:
 | `s.circle(size:)` | An avatar or round icon (default `2.5rem`). |
 | `s.block(height:, width:)` | An image, chart or map (default `8rem` tall, full width). |
 | `s.button(size:, width:)` | A `button_classes` button, `size: :small` or `:large`. |
+| `s.badge(width:, count:)` | A `badge`'s pill. `count:` makes a row of chips that doesn't wrap. |
+| `s.icon` | An icon-only button (`button_classes(:icon)`), square. |
+| `s.item(avatar:, description:, width:)` | A title over a smaller, shorter description, like `item`. `avatar: :small`, `:medium` or `:large` puts an avatar-sized circle first; `description: false` leaves the title alone. |
 
 - **Nothing moves when content arrives.** Each shape is sized from what it
   replaces: a text line fills exactly one line of the font it sits in, so a line
@@ -1303,7 +1324,8 @@ like `form_for` does. You arrange its shapes with your own markup:
   ("Loading…", `unmagic.components.skeleton.loading`) once for the whole group.
 
 Outside a block, the same shapes are `skeleton_text`, `skeleton_circle`,
-`skeleton_block` and `skeleton_button`.
+`skeleton_block`, `skeleton_button`, `skeleton_badge`, `skeleton_icon` and
+`skeleton_item`.
 
 Some components render a skeleton version of themselves, so it matches the real
 one:
