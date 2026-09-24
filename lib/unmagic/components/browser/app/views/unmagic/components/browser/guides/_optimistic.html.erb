@@ -1,0 +1,58 @@
+<% prose = "mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400" %>
+<% step = "mt-12 text-lg font-semibold" %>
+
+<p class="<%= prose %>">
+  Three pieces, used together: the form mints the record's id, the page draws the record under that id as it
+  submits, and the server's element replaces the drawing because it has the same id. Nothing is matched up
+  by hand, and nothing shows twice.
+</p>
+
+<h2 class="<%= step %>">1. Mint the id in the form</h2>
+<p class="<%= prose %>">
+  <code>uuid_field</code> is a hidden field holding a fresh UUIDv7, minted in the browser and again whenever
+  the form resets. Without the script, the server's own id is sent.
+</p>
+<% optimistic_uuid_source = capture do %><%%= form.uuid_field :id %><% end %>
+<div class="mt-4"><%= render "code", id: "optimistic_uuid", source: optimistic_uuid_source.to_str %></div>
+
+<h2 class="<%= step %>">2. Draw the submission</h2>
+<p class="<%= prose %>">
+  <code>&lt;unmagic-optimistic&gt;</code>, inside the form, clones its template on submit. It takes the
+  element's id and text from the form's fields and places it in <code>container</code>.
+</p>
+<% optimistic_source = capture do %><%%= form_with model: Comment.new, builder: Unmagic::Components::FormBuilder do |form| %>
+  <%%= form.uuid_field :id %>
+  <unmagic-optimistic container="#comments">
+    <%%= form.text_area :body, required: true %>
+    <template>
+      <article class="comment is-pending" data-optimistic-id="comment[id]">
+        <p data-optimistic-text="comment[body]"></p>
+      </article>
+    </template>
+  </unmagic-optimistic>
+  <%%= form.submit "Comment" %>
+<%% end %><% end %>
+<div class="mt-4"><%= render "code", id: "optimistic_form", source: optimistic_source.to_str %></div>
+<p class="<%= prose %>">
+  A required field stops an empty form from submitting, so there's never a drawing with no record coming for
+  it. <code>scroll="false"</code> stops the new element scrolling into view.
+</p>
+
+<h2 class="<%= step %>">3. Answer with the real element</h2>
+<p class="<%= prose %>">
+  Create the record with the submitted id and answer with an
+  <%= link_to "upsert", guide_path("turbo_streams"), class: "underline" %>, from the response or a broadcast.
+  The element with that id is already on the page, so it's replaced in place:
+</p>
+<div class="mt-4">
+  <%= render "code", id: "optimistic_controller", language: :ruby, source: <<~'RUBY'.strip %>
+    def create
+      @comment = Comment.create!(params.expect(comment: %i[id body]))
+      render turbo_stream: turbo_stream.action(:upsert, "comments", @comment)
+    end
+  RUBY
+</div>
+<p class="<%= prose %>">
+  <code>ai_chat_composer</code> does all of this for chat. Needs <code>import "unmagic/components/uuid_input"</code>,
+  <code>"unmagic/components/optimistic"</code> and <code>"unmagic/components/upsert"</code>.
+</p>

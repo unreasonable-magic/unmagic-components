@@ -5,13 +5,25 @@ module Unmagic
     module Browser
       module ApplicationHelper
         def blocks_section? = %w[blocks block block_preview].include?(action_name)
+        def guides_section? = %w[overview installation theming guide].include?(action_name)
         def block_partial(block) = "unmagic/components/browser/blocks/#{block.slug}"
+        def guide_partial(guide) = "unmagic/components/browser/guides/#{guide.slug}"
+
+        # The local navigation's name, for the sidebar's aria-label.
+        def section_label
+          if blocks_section? then "Blocks"
+          elsif guides_section? then "Guides"
+          else "Components"
+          end
+        end
+
         def block_source(block) = Browser.root.join("app/views/unmagic/components/browser/blocks/_#{block.slug}.html.erb").read.rstrip
 
         # Add future top-level destinations here; local navigation stays separate.
         def browser_sections
           [
-            { label: "Components", path: root_path, current: !blocks_section? },
+            { label: "Guides", path: root_path, current: guides_section? },
+            { label: "Components", path: components_path, current: !blocks_section? && !guides_section? },
             { label: "Blocks", path: blocks_path, current: blocks_section? }
           ]
         end

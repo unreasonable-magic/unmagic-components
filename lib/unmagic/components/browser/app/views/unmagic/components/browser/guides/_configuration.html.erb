@@ -1,0 +1,46 @@
+<% prose = "mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400" %>
+<% step = "mt-12 text-lg font-semibold" %>
+
+<p class="<%= prose %>">
+  The components render a few things through settings rather than calling your helpers: a table's empty
+  state, its pager, submit and control classes, code blocks. Each has a working default, so the gem needs no
+  helper of yours and no pagination library. An app that already owns one of these points the setting at its
+  own version.
+</p>
+<div class="mt-4">
+  <%= render "code", id: "config_block", language: :ruby, source: <<~'RUBY'.strip %>
+    # config/initializers/unmagic_components.rb
+    Unmagic::Components.configure do |config|
+      config.empty_state = ->(view, content) { view.render("shared/empty_state", content: content) }
+      config.submit_class = ->(_view, variant) { "btn btn-#{variant}" }
+    end
+  RUBY
+</div>
+
+<h2 class="<%= step %>">Settings</h2>
+<dl class="mt-4 max-w-2xl divide-y divide-neutral-200 text-sm leading-6 dark:divide-neutral-800">
+  <% [
+    [ "empty_state", "(view, content)", "A table's blank slate. content is captured markup or a string." ],
+    [ "pagination", "(view, pagy:, turbo_frame:)", "A table's pager." ],
+    [ "pagy_for", "(view, collection)", "The pagy object a table pages with. nil hides the pager." ],
+    [ "submit_class", "(view, variant)", "The classes on the form builder's submit button." ],
+    [ "control_class", "(view, kind)", "The classes on a form control of that kind (:input, :select, :check…). nil leaves it unstyled." ],
+    [ "flash_tones", "a hash", "The tone each flash type's toast wears." ],
+    [ "modal_frame_id", "a string", "The id of the shared modal's frame. \"modal\" by default." ],
+    [ "highlight", "(source, language)", "Colours source, one html_safe string per line. Rouge by default." ],
+    [ "code_block", "(view, source, language)", "Frames a block of code: a payload, a backtrace. A code_view by default." ],
+    [ "sortable_item", "(view, record)", "A sortable item's { key:, rank: }." ],
+    [ "sortable_url", "(view)", "Where a sortable list posts a drop when it isn't given url:." ]
+  ].each do |name, called_with, purpose| %>
+    <div class="grid gap-1 py-3 sm:grid-cols-[12rem_1fr] sm:gap-4">
+      <dt><code class="font-semibold"><%= name %></code> <span class="block text-xs text-neutral-500"><%= called_with %></span></dt>
+      <dd class="text-neutral-600 dark:text-neutral-400"><%= purpose %></dd>
+    </div>
+  <% end %>
+</dl>
+
+<h2 class="<%= step %>">Changing them for a while</h2>
+<p class="<%= prose %>">
+  <code>Unmagic::Components.with_default_configuration</code> runs a block with the built-in settings and
+  puts yours back afterwards, for the current request or job only. This browser runs every request inside it, so it shows the gem's own components inside your app.
+</p>

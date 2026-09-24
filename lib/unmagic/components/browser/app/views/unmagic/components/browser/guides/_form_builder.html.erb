@@ -1,0 +1,44 @@
+<% prose = "mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400" %>
+<% step = "mt-12 text-lg font-semibold" %>
+
+<p class="<%= prose %>">
+  <code>Unmagic::Components::FormBuilder</code> is Rails' form builder with the chrome every app writes by
+  hand: the wrapper, the label and its required marker, the hint and the error line. Its controls are styled
+  too.
+</p>
+
+<h2 class="<%= step %>">Using it</h2>
+<p class="<%= prose %>">Pass it to a form, or make it the default for every form:</p>
+<div class="mt-4">
+  <%= render "code", id: "builder_default", language: :ruby, source: "config.action_view.default_form_builder = Unmagic::Components::FormBuilder" %>
+</div>
+
+<h2 class="<%= step %>">Fields</h2>
+<% field_source = capture do %><%%= form_with model: @label, builder: Unmagic::Components::FormBuilder do |form| %>
+  <%%= form.errors_summary %>
+  <%%= form.field :name, "Name", required: true, hint: "Shown in the sidebar." %>
+  <%%= form.field :email, "Email", as: :email_field %>
+  <%%= form.field :role, "Role" do %>
+    <%%= form.select :role, Role.all %>
+  <%% end %>
+  <%%= form.submit "Add label" %>
+<%% end %><% end %>
+<div class="mt-4"><%= render "code", id: "builder_fields", source: field_source.to_str %></div>
+<p class="<%= prose %>">
+  <code>field</code> renders the label, the control (<code>as:</code> picks it), the hint and the attribute's
+  errors, and marks the control <code>aria-invalid</code>. <code>errors_summary</code> shows the errors that
+  belong to the whole record. <code>group</code> lays fields out in a row.
+</p>
+
+<h2 class="<%= step %>">A submit that says what it's doing</h2>
+<p class="<%= prose %>">
+  <code>form.submit "Save"</code> reads "Saving…" while Turbo submits. Pass <code>submitting: false</code> to
+  leave the label alone, or a string to choose it.
+</p>
+
+<h2 class="<%= step %>">Beyond Rails' fields</h2>
+<p class="<%= prose %>">
+  <code>switch_field</code>, <code>check_box_field</code>, <code>check_box_collection</code>,
+  <code>radio_button_collection</code>, <code>combobox</code>, <code>password_field reveal: true</code>,
+  <code>one_time_code_field</code>, <code>autogrow_text_area</code> and <code>uuid_field</code>.
+</p>

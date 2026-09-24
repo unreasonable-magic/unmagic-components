@@ -1,0 +1,46 @@
+<% prose = "mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400" %>
+<% step = "mt-12 text-lg font-semibold" %>
+<% list = "mt-3 max-w-2xl list-disc space-y-2 pl-5 text-base leading-7 text-neutral-600 dark:text-neutral-400" %>
+
+<p class="<%= prose %>">
+  Every component is built to be used on a phone, by keyboard and with assistive settings. It's handled in
+  the CSS, so you get it without doing anything.
+</p>
+
+<h2 class="<%= step %>">Touch and small screens</h2>
+<ul class="<%= list %>">
+  <li><strong>Targets.</strong> Where the pointer is coarse, controls are at least 44px tall, and icon-only buttons 44px wide.</li>
+  <li><strong>No hover-only controls.</strong> Anything revealed on hover, such as a copy button or a message's actions, is always shown on a device that can't hover, and reachable by focus everywhere.</li>
+  <li><strong>Overlays come from the bottom.</strong> Below Tailwind's <code>sm</code> breakpoint, dialogs, drawers, menus and popovers become full-width sheets along the bottom edge.</li>
+  <li><strong>Tables stack.</strong> Below <code>sm</code>, each row of a <code>table_for</code> becomes a list of its cells, labelled from the head.</li>
+  <li><strong>Rows scroll, they don't wrap.</strong> Tabs, toolbars and chips stay on one line that scrolls sideways.</li>
+  <li><strong>Headers wrap.</strong> A page header's or section's actions drop below the title.</li>
+</ul>
+
+<h2 class="<%= step %>">Motion</h2>
+<p class="<%= prose %>">
+  Transitions are short (100 to 200ms). Under <code>prefers-reduced-motion: reduce</code>, anything that
+  moves, scales, rotates or scrolls smoothly stops. An indicator that would otherwise look frozen, such as a
+  spinner, fades in and out instead.
+</p>
+
+<h2 class="<%= step %>">Focus</h2>
+<p class="<%= prose %>">
+  Everything focusable shows a 2px outline, offset from the element, on <code>:focus-visible</code>: shown
+  for the keyboard and not for a mouse click.
+</p>
+
+<h2 class="<%= step %>">Forced colours</h2>
+<p class="<%= prose %>">
+  Where the CSS draws something the platform normally draws, such as a checkbox's tick or a select's arrow, a
+  <code>forced-colors: active</code> fallback hands it back to system colours, so it stays visible in Windows
+  High Contrast mode.
+</p>
+
+<h2 class="<%= step %>">Your app's global styles</h2>
+<p class="<%= prose %>">
+  The components guard against the bare-element rules an app most often has, such as margins on links in a
+  <code>&lt;nav&gt;</code> and type styles in content shown in the top layer. Styling bare elements broadly
+  (<code>a { … }</code>, <code>button { … }</code>) can still leak into a component. Scope those rules to your
+  own content where you can.
+</p>

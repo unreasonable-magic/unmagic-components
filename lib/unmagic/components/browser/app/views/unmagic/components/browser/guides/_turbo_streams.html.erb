@@ -1,0 +1,72 @@
+<% prose = "mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400" %>
+<% step = "mt-12 text-lg font-semibold" %>
+
+<p class="<%= prose %>">
+  The engine adds two actions to turbo-rails' <code>turbo_stream</code> builder when turbo-rails loads, so an
+  app without Turbo never sees them. The JavaScript adds a third action to Turbo itself.
+</p>
+
+<h2 class="<%= step %>">turbo_stream.toast</h2>
+<p class="<%= prose %>">
+  Pops a toast from a stream response, for something that happened outside the flash cycle, where there's
+  no redirect or render to carry a flash. It appends to the <code>flash_toasts</code> mount, so the layout
+  needs one.
+</p>
+<div class="mt-4">
+  <%= render "code", id: "streams_toast", language: :ruby, source: <<~'RUBY'.strip %>
+    render turbo_stream: turbo_stream.toast("Invitation sent.")
+    render turbo_stream: turbo_stream.toast("Couldn't reach Slack.", tone: :bad, duration: 0)
+  RUBY
+</div>
+<p class="<%= prose %>">
+  It takes <code>tone:</code> (<code>:good</code> by default, then <code>:warn</code>, <code>:bad</code>,
+  <code>:info</code>, <code>:neutral</code>, <code>:accent</code>, <code>:inverted</code>), <code>title:</code>,
+  <code>icon:</code>, <code>duration:</code> in milliseconds (<code>0</code> waits to be dismissed),
+  <code>position:</code>, <code>width:</code> and <code>layout:</code>. A block yields a builder for actions,
+  a leading slot and a body:
+</p>
+<% toast_source = capture do %><%%= turbo_stream.toast "Your export is ready.", title: "Reports" do |toast| %>
+  <%% toast.actions do %>
+    <%%= link_to "Download", export_path(@export), class: button_classes(size: :small) %>
+  <%% end %>
+<%% end %><% end %>
+<div class="mt-4"><%= render "code", id: "streams_toast_block", source: toast_source.to_str %></div>
+
+<h2 class="<%= step %>">turbo_stream.stream_markdown</h2>
+<p class="<%= prose %>">
+  Hands a reply rendered so far to the <code>streaming_markdown_tag</code> with that id, which paces its way
+  toward it. Send the whole render every time, not the new part: the element works out what's new.
+</p>
+<div class="mt-4">
+  <%= render "code", id: "streams_markdown", language: :ruby, source: <<~'RUBY'.strip %>
+    turbo_stream.stream_markdown "message_1_content", Markdown.render(message.content)
+
+    # From a model, through Turbo::Broadcastable
+    broadcast_action_to chat, action: :stream_markdown, target: "#{dom_id(self)}_content",
+      html: Markdown.render(content)
+  RUBY
+</div>
+<p class="<%= prose %>">Needs <code>import "unmagic/components/streaming_markdown"</code>.</p>
+
+<h2 class="<%= step %>">upsert</h2>
+<p class="<%= prose %>">
+  A stream action that merges <code>append</code> and <code>replace</code>. Its template holds one element
+  with a stable id. If that id is already on the page (rendered on load, streamed earlier, or drawn
+  optimistically) the element is replaced in place, so a record that's both on the page and broadcast never
+  shows twice. Otherwise it's inserted into the target at the position its id sorts to, so messages that
+  arrive out of order still land in order.
+</p>
+<div class="mt-4">
+  <%= render "code", id: "streams_upsert", language: :ruby, source: <<~'RUBY'.strip %>
+    render turbo_stream: turbo_stream.action(:upsert, "task_rows", partial: "tasks/row", locals: { task: @task })
+
+    # Newest first: the order flips
+    broadcast_action_to "tasks", action: :upsert, target: "task_rows",
+      attributes: { order: "desc" }, partial: "tasks/row", locals: { task: self }
+  RUBY
+</div>
+<p class="<%= prose %>">
+  The ordering assumes time-ordered ids, such as UUIDv7 or ULID. With random ids the position is stable but
+  arbitrary. Needs <code>import "unmagic/components/upsert"</code>, which <code>"unmagic/components"</code>
+  includes.
+</p>

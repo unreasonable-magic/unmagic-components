@@ -57,7 +57,7 @@
           <summary class="<%= button_classes(:icon) %> list-none [&::-webkit-details-marker]:hidden" aria-label="Menu">
             <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
           </summary>
-          <nav class="absolute left-0 top-11 max-h-[75vh] w-64 overflow-y-auto rounded-xl border border-neutral-200 bg-white p-2 shadow-lg dark:border-neutral-800 dark:bg-neutral-900" aria-label="<%= blocks_section? ? "Blocks" : "Components" %>" data-browser-nav>
+          <nav class="absolute left-0 top-11 max-h-[75vh] w-64 overflow-y-auto rounded-xl border border-neutral-200 bg-white p-2 shadow-lg dark:border-neutral-800 dark:bg-neutral-900" aria-label="<%= section_label %>" data-browser-nav>
             <%= render "nav" %>
           </nav>
         </details>
@@ -86,7 +86,7 @@
         </div>
       </header>
     <aside class="fixed bottom-0 top-14 left-0 z-30 hidden w-64 flex-col border-r border-neutral-200 bg-neutral-50/70 lg:flex dark:border-neutral-800 dark:bg-neutral-900/40">
-      <nav class="flex-1 overflow-y-auto px-3 pb-10" aria-label="<%= blocks_section? ? "Blocks" : "Components" %>" data-browser-nav>
+      <nav class="flex-1 overflow-y-auto px-3 pb-10" aria-label="<%= section_label %>" data-browser-nav>
         <%= render "nav" %>
       </nav>
     </aside>

@@ -1,0 +1,45 @@
+<% prose = "mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400" %>
+<% step = "mt-12 text-lg font-semibold" %>
+
+<p class="<%= prose %>">
+  Importing <code>"unmagic/components"</code> (or <code>"unmagic/components/confirm"</code>) replaces the
+  browser's <code>window.confirm</code> for Turbo's <code>data-turbo-confirm</code> with a dialog in the
+  components' own chrome. Nothing changes in your views.
+</p>
+<% confirm_source = capture do %><%%= button_to "Delete", label_path(label), method: :delete,
+      form: { data: { turbo_confirm: "Delete this label?",
+                      turbo_confirm_accept: "Delete",
+                      turbo_confirm_variant: "danger" } } %><% end %>
+<div class="mt-4"><%= render "code", id: "confirm_button", source: confirm_source.to_str %></div>
+
+<h2 class="<%= step %>">Options</h2>
+<p class="<%= prose %>">Read from the submit button first, then the form:</p>
+<ul class="mt-3 max-w-2xl list-disc space-y-1 pl-5 text-base leading-7 text-neutral-600 dark:text-neutral-400">
+  <li><code>data-turbo-confirm-title</code>: the heading, "Are you sure?" by default</li>
+  <li><code>data-turbo-confirm-accept</code>: the confirming button's label, "Confirm" by default</li>
+  <li><code>data-turbo-confirm-variant</code>: <code>"danger"</code> styles that button as destructive and focuses Cancel instead</li>
+</ul>
+<p class="<%= prose %>">
+  A link with <code>data-turbo-method</code> gets a form Turbo builds, which carries only
+  <code>data-turbo-confirm</code>. Use <code>button_to</code> when you need the other options.
+</p>
+
+<h2 class="<%= step %>">Translating it</h2>
+<p class="<%= prose %>">
+  Render the template once in the layout, and the dialog takes its words from your locale rather than the
+  English defaults:
+</p>
+<% confirm_template_source = capture do %><%%= confirm_dialog_template %><% end %>
+<div class="mt-4"><%= render "code", id: "confirm_template", source: confirm_template_source.to_str %></div>
+<p class="<%= prose %>">The keys sit under <code>unmagic.components.confirm</code>:</p>
+<div class="mt-4">
+  <%= render "code", id: "confirm_locale", language: :yaml, source: <<~'YAML'.strip %>
+    fr:
+      unmagic:
+        components:
+          confirm:
+            title: "Êtes-vous sûr ?"
+            cancel: "Annuler"
+            accept: "Confirmer"
+  YAML
+</div>

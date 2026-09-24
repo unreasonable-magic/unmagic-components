@@ -1,0 +1,70 @@
+<% prose = "mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400" %>
+<% step = "mt-12 text-lg font-semibold" %>
+
+<p class="<%= prose %>">
+  One <code>&lt;dialog&gt;</code> in the layout, around a turbo frame. A link aimed at the frame loads a page's
+  form into it, and the same action renders a full page when it's visited directly, so there's no second
+  template for the modal.
+</p>
+
+<h2 class="<%= step %>">1. Mount the modal</h2>
+<p class="<%= prose %>">Render it once, in the layout:</p>
+<% modal_mount_source = capture do %><%%= modal_frame %><% end %>
+<div class="mt-4"><%= render "code", id: "modal_mount", source: modal_mount_source.to_str %></div>
+<p class="<%= prose %>">
+  The dialog opens as soon as the frame starts fetching, with a skeleton until the response lands. A failed
+  load shows an error with a retry. Escape, a click on the backdrop or the close button closes it.
+</p>
+
+<h2 class="<%= step %>">2. Link to a form</h2>
+<p class="<%= prose %>">
+  <code>modal_link_to</code> takes <code>link_to</code>'s arguments. <code>side: :start</code> or
+  <code>:end</code> opens it as a drawer.
+</p>
+<% modal_link_source = capture do %><%%= modal_link_to "Edit", edit_label_path(label), class: button_classes %><% end %>
+<div class="mt-4"><%= render "code", id: "modal_link", source: modal_link_source.to_str %></div>
+
+<h2 class="<%= step %>">3. Render the form in a dialog</h2>
+<p class="<%= prose %>">
+  <code>dialog form:</code> takes <code>form_with</code>'s options and builds the form around the whole panel,
+  so a submit in the footer is inside it. When the request is for the modal frame, the dialog wraps itself in
+  that frame; otherwise it renders as it is.
+</p>
+<% dialog_source = capture do %><%%# app/views/labels/edit.html.erb %>
+<%%= dialog title: "Edit label", form: { model: @label } do |dialog, form| %>
+  <%%= form.field :name, "Name" %>
+  <%% dialog.footer { form.submit } %>
+<%% end %><% end %>
+<div class="mt-4"><%= render "code", id: "modal_dialog", source: dialog_source.to_str %></div>
+
+<h2 class="<%= step %>">4. Respond from the controller</h2>
+<p class="<%= prose %>">
+  <code>DialogResponder</code> answers a save with <code>turbo_stream.refresh</code>, which morphs the page
+  behind the modal. The modal closes in that same render, so the page repaints once, straight to the new
+  state. A request without Turbo gets a plain redirect. A failed save renders the form again with
+  <code>:unprocessable_content</code>, and the dialog stays open showing the errors.
+</p>
+<div class="mt-4">
+  <%= render "code", id: "modal_responder", language: :ruby, source: <<~'RUBY'.strip %>
+    class LabelsController < ApplicationController
+      include Unmagic::Components::DialogResponder
+
+      def update
+        if @label.update(label_params)
+          refresh_or_redirect labels_path, notice: "Label saved."
+        else
+          render :edit, status: :unprocessable_content
+        end
+      end
+    end
+  RUBY
+</div>
+<p class="<%= prose %>">
+  The refresh needs <code>turbo_refresh_method_tag :morph</code> in the layout to keep scroll position and
+  state. A plain <code>redirect_to</code> works too: the modal visits the page it lands on and closes. A
+  response that renders into the frame, such as a wizard's next step, keeps the dialog open.
+</p>
+<p class="<%= prose %>">
+  The frame's id is <code>"modal"</code>. Change it with <code>config.modal_frame_id</code>. Needs
+  <code>import "unmagic/components/modal"</code>.
+</p>

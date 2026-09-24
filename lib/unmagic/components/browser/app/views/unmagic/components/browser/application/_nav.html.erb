@@ -12,11 +12,20 @@
       <%= link_to block.name, block_path(block.slug), class: @block == block ? current : item, "aria-current": ("page" if @block == block) %>
     <% end %>
   <% end %>
+<% elsif guides_section? %>
+  <p class="<%= heading %> pt-5">Getting started</p>
+  <% [ [ "Overview", root_path ], [ "Installation", installation_path ], [ "Theming", theming_path ] ].each do |label, path| %>
+    <%= link_to label, path, class: current_page?(path) ? current : item, "aria-current": ("page" if current_page?(path)) %>
+  <% end %>
+  <% Unmagic::Components::Browser::GuideCatalog.grouped.each do |category, guides| %>
+    <p class="<%= heading %> pt-6"><%= category %></p>
+    <% guides.each do |guide| %>
+      <%= link_to guide.name, guide_path(guide.slug), class: @guide == guide ? current : item, "aria-current": ("page" if @guide == guide) %>
+    <% end %>
+  <% end %>
 <% else %>
-<p class="<%= heading %> pt-4">Getting started</p>
-<% [ [ "Overview", root_path ], [ "Installation", installation_path ], [ "Theming", theming_path ] ].each do |label, path| %>
-  <%= link_to label, path, class: current_page?(path) ? current : item, "aria-current": ("page" if current_page?(path)) %>
-<% end %>
+<p class="<%= heading %> pt-5">Components</p>
+<%= link_to "All components", components_path, class: current_page?(components_path) ? current : item, "aria-current": ("page" if current_page?(components_path)) %>
 
 <% @component_groups.each do |group, components| %>
   <p class="<%= heading %> pt-6"><%= group %></p>

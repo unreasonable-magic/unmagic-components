@@ -39,11 +39,17 @@ every app (see Styling).
   `Unmagic::Icon::Web`. The README shows a development-only mount and an
   `authenticate` block.
 - **It has these pages:**
-  - overview
-  - installation
-  - theming
+  - Guides, the first tab and the root: the overview, installation and theming
+    under Getting started, then one guide per thing the gem adds beyond its
+    components (Turbo Stream actions, the modal and `DialogResponder`, flash
+    toasts, the confirm dialog, optimistic updates, the form builder,
+    configuration) and the CSS (how it's built, the class naming, the colours
+    and variables, the styles meant for reuse, small screens and access), listed
+    in `GuideCatalog` at `/guides/<slug>`. Each links to the component pages that
+    show it working
+  - Components: a gallery of every component (`/components`) and one page per
+    component
   - a Blocks gallery, one page per block, and isolated full-page previews
-  - one page per component
   - the light/dark switch (`?theme=`, kept in the session)
 
   The old one-page-per-group URLs redirect with a relative path, so they keep
@@ -62,14 +68,15 @@ lib/unmagic/components/browser/
   config/routes.rb                     pages, demo endpoints, asset mounts
   app/controllers/…/browser/
     application_controller.rb          theme, catalog, turbo check, prefixed session keys
-    pages_controller.rb                overview, installation, theming, component
+    pages_controller.rb                guides, gallery, component, blocks
     demos_controller.rb                dialog, toast, board and AI chat endpoints
   app/helpers/…/browser/application_helper.rb   importmap, asset paths, example source
-  app/models/…/browser/                Catalog, Thing, Profile, Pager, Reply, BoardStore
+  app/models/…/browser/                Catalog, BlockCatalog, GuideCatalog, Thing, Profile, Pager, Reply, BoardStore
   app/views/layouts/…/browser/application.html.erb
   app/views/…/browser/application/     nav, crumb, example, code partials
   app/views/…/browser/pages/, demos/
   app/views/…/browser/examples/<slug>/_<key>.html.erb
+  app/views/…/browser/guides/_<slug>.html.erb   one Rails guide's body
   catalog/<slug>.rb                    one component's description and examples
   tailwind/browser.css                 source for the prebuilt stylesheet
   assets/browser.css                   the prebuilt stylesheet (committed)

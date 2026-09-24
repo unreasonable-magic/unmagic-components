@@ -16,8 +16,8 @@ RSpec.describe Unmagic::Components::Browser do
   def page(path) = Nokogiri::HTML5(get(path).body)
 
   describe "pages" do
-    it "renders the overview and the getting-started pages" do
-      %w[/ /installation /theming].each do |path|
+    it "renders the overview, the getting-started pages and the component gallery" do
+      %w[/ /installation /theming /components].each do |path|
         expect(get(path).status).to eq(200), "#{path} answered #{get(path).status}"
       end
     end
@@ -89,6 +89,16 @@ RSpec.describe Unmagic::Components::Browser do
       expect(page("/components/card").at_css('nav[aria-label="Global"] [aria-current="page"]').text).to eq("Components")
     end
 
+    it "shows the component gallery and only components in the Components section" do
+      html = page("/components")
+      expect(html.at_css('nav[aria-label="Global"] [aria-current="page"]').text).to eq("Components")
+      expect(html.at_css("a[href='#{prefix}/components/card']")).not_to be_nil
+      links = html.css('nav[aria-label="Components"] a').map { |link| link.text.strip }
+      expect(links).to include("All components", "Card")
+      expect(links).not_to include("Overview", "Installation", "Theming")
+      expect(page("/installation").at_css('nav[aria-label="Global"] [aria-current="page"]').text).to eq("Guides")
+    end
+
     it "renders each block, its source and an isolated preview under the mount" do
       described_class::BlockCatalog.all.each do |block|
         response = get("/blocks/#{block.slug}")
@@ -116,6 +126,41 @@ RSpec.describe Unmagic::Components::Browser do
     it "rejects unknown blocks and preview names" do
       expect(get("/blocks/nope").status).to eq(404)
       expect(get("/blocks/nope/preview").status).to eq(404)
+    end
+  end
+
+  describe "guides" do
+    it "lists every guide and renders each, with its sections and links to its components" do
+      index = page("/")
+      expect(index.css('nav[aria-label="Global"] a').map(&:text)).to eq(%w[Guides Components Blocks])
+      expect(index.at_css('nav[aria-label="Global"] [aria-current="page"]').text).to eq("Guides")
+      expect(index.css('nav[aria-label="Guides"] a').map(&:text)).to include("Overview", "Installation", "Theming", "Turbo Stream actions")
+      expect(index.css('nav[aria-label="Guides"] a').map(&:text)).not_to include("All guides", "Card")
+
+      described_class::GuideCatalog.all.each do |guide|
+        expect(index.at_css("a[href='#{prefix}/guides/#{guide.slug}']")).not_to be_nil
+        response = get("/guides/#{guide.slug}")
+        expect(response.status).to eq(200), "#{guide.slug} answered #{response.status}: #{response.body[0, 500]}"
+        html = Nokogiri::HTML5(response.body)
+        expect(html.at_css("h1").text).to eq(guide.name)
+        expect(html.at_css('nav[aria-label="Guides"] [aria-current="page"]').text).to eq(guide.name)
+        expect(html.css("article h2")).not_to be_empty
+        guide.components.each do |slug|
+          expect(described_class::Catalog.find(slug)).not_to be_nil, "#{guide.slug} links to a missing #{slug}"
+          expect(html.at_css("a[href='#{prefix}/components/#{slug}']")).not_to be_nil
+        end
+        ids = html.css("[id]").reject { |node| node.ancestors("template").any? }.map { |node| node["id"] }
+        expect(ids.uniq).to eq(ids)
+      end
+    end
+
+    it "shows ERB in a guide's code as written" do
+      source = page("/guides/modal_forms").at_css("#modal_dialog_code").text
+      expect(source).to include(%(<%= dialog title: "Edit label", form: { model: @label } do |dialog, form| %>))
+    end
+
+    it "answers 404 for a guide it doesn't have" do
+      expect(get("/guides/nope").status).to eq(404)
     end
   end
 

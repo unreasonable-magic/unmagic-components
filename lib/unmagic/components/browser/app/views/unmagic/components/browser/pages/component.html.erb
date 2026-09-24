@@ -1,6 +1,6 @@
 <% content_for :title, @component.name %>
 <% content_for :breadcrumbs do %>
-  <%= render "crumb", label: @component.group || "Components", path: root_path %>
+  <%= render "crumb", label: @component.group || "Components", path: components_path %>
   <%= render "crumb", label: @component.name %>
 <% end %>
 

@@ -1,0 +1,43 @@
+<% prose = "mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400" %>
+<% step = "mt-12 text-lg font-semibold" %>
+
+<p class="<%= prose %>">
+  Render <code>flash_toasts</code> once, in the layout, and every flash your controllers set shows as a toast.
+  It dismisses itself after <code>duration:</code> milliseconds, waits while it's hovered or focused, and
+  survives a morph refresh while it's on screen.
+</p>
+<% flash_mount_source = capture do %><%%= flash_toasts %><% end %>
+<div class="mt-4"><%= render "code", id: "flash_mount", source: flash_mount_source.to_str %></div>
+
+<h2 class="<%= step %>">Setting a flash</h2>
+<p class="<%= prose %>">Nothing changes in the controller:</p>
+<div class="mt-4">
+  <%= render "code", id: "flash_set", language: :ruby, source: %(redirect_to labels_path, notice: "Label saved.") %>
+</div>
+
+<h2 class="<%= step %>">Tones</h2>
+<p class="<%= prose %>">
+  Each flash type has a tone: <code>notice</code> and <code>success</code> are good, <code>alert</code> and
+  <code>error</code> are bad, <code>warning</code> warns, and anything else is info. Map your own types in an
+  initializer:
+</p>
+<div class="mt-4">
+  <%= render "code", id: "flash_tones", language: :ruby, source: <<~'RUBY'.strip %>
+    Unmagic::Components.configure do |config|
+      config.flash_tones = config.flash_tones.merge("saved" => :good)
+    end
+  RUBY
+</div>
+
+<h2 class="<%= step %>">Options</h2>
+<p class="<%= prose %>">
+  <code>duration: 0</code> keeps toasts up until they're dismissed, which also helps a system test that
+  checks for one. <code>position:</code> defaults to <code>:top_end</code>. Pass the flashes yourself to
+  leave some out:
+</p>
+<% flash_except_source = capture do %><%%= flash_toasts flash.to_hash.except("copy_link"), duration: 8000 %><% end %>
+<div class="mt-4"><%= render "code", id: "flash_except", source: flash_except_source.to_str %></div>
+<p class="<%= prose %>">
+  For a toast outside the flash cycle, use <%= link_to "turbo_stream.toast", guide_path("turbo_streams"), class: "underline" %>.
+  Needs <code>import "unmagic/components/toasts"</code>.
+</p>

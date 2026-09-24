@@ -1,0 +1,70 @@
+<% prose = "mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400" %>
+<% step = "mt-12 text-lg font-semibold" %>
+
+<p class="<%= prose %>">
+  The gem ships no compiled stylesheet. Every component's look is Tailwind CSS v4 source in one file,
+  <code>app/assets/tailwind/unmagic_components/engine.css</code>, and your app's own Tailwind build compiles
+  it with your theme. That's why Tailwind v4 is required, and why the components pick up your colours, radii
+  and dark mode without any setup.
+</p>
+
+<h2 class="<%= step %>">What's in the file</h2>
+<p class="<%= prose %>">
+  The Ruby renders stable class names (<code>UnmagicCard</code>, <code>UnmagicInput</code>) and the file gives
+  those classes their look, mostly with <code>@apply</code>:
+</p>
+<div class="mt-4">
+  <%= render "code", id: "css_rule", language: :css, source: <<~'CSS'.strip %>
+    @layer components {
+      .UnmagicBadge {
+        @apply inline-flex items-center gap-1 rounded-full bg-neutral-100 px-2 py-0.5 text-xs font-medium whitespace-nowrap text-neutral-600;
+        @apply dark:bg-neutral-800 dark:text-neutral-400;
+      }
+    }
+  CSS
+</div>
+<p class="<%= prose %>">
+  Because the styles hang off the gem's own classes, Tailwind doesn't have to scan the gem's Ruby for class
+  names. Tailwind always outputs rules written in a CSS layer, so every component's styles are in your build
+  whether a page uses them or not.
+</p>
+
+<h2 class="<%= step %>">Importing it</h2>
+<p class="<%= prose %>">
+  With tailwindcss-rails, the first build writes an entry point for the file. Import it after Tailwind:
+</p>
+<div class="mt-4">
+  <%= render "code", id: "css_import", language: :css, source: <<~'CSS'.strip %>
+    /* app/assets/tailwind/application.css */
+    @import "tailwindcss";
+    @import "../builds/tailwind/unmagic_components";
+  CSS
+</div>
+<p class="<%= prose %>">
+  With the Tailwind CLI or an npm build, import <code>engine.css</code> by its path inside the installed gem
+  (<code>bundle show unmagic-components</code>).
+</p>
+
+<h2 class="<%= step %>">Overriding a style</h2>
+<p class="<%= prose %>">
+  Every rule sits in <code>@layer components</code>, which comes before Tailwind's utilities. So a utility
+  you pass through <code>class:</code> wins over the gem's own style, whatever its specificity:
+</p>
+<% utilities_source = capture do %><%%= card title: "Members", class: "rounded-none shadow-none" do %>…<%% end %><% end %>
+<div class="mt-4"><%= render "code", id: "css_utilities", source: utilities_source.to_str %></div>
+<p class="<%= prose %>">
+  CSS you write outside a layer beats every layer, so a rule of your own for a gem class wins too. Use this
+  to change a component everywhere at once:
+</p>
+<div class="mt-4">
+  <%= render "code", id: "css_unlayered", language: :css, source: <<~'CSS'.strip %>
+    .UnmagicCard {
+      @apply rounded-sm shadow-none;
+    }
+  CSS
+</div>
+<p class="<%= prose %>">
+  For colours, radii, fonts and dark mode, change your theme instead, and every component follows. See
+  <%= link_to "Theming", theming_path, class: "underline" %> and
+  <%= link_to "Colours and variables", guide_path("variables"), class: "underline" %>.
+</p>

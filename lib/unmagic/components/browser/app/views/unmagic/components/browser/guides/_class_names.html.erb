@@ -1,0 +1,64 @@
+<% prose = "mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400" %>
+<% step = "mt-12 text-lg font-semibold" %>
+
+<p class="<%= prose %>">
+  Every class is BEM with a PascalCase block, and every block starts with <code>Unmagic</code>, so none
+  collides with your app's classes or Tailwind's utilities.
+</p>
+
+<h2 class="<%= step %>">Blocks, elements and modifiers</h2>
+<dl class="mt-4 max-w-2xl divide-y divide-neutral-200 text-sm leading-6 dark:divide-neutral-800">
+  <% [
+    [ "Block", "UnmagicTooltip", "The component: the outermost element a helper renders." ],
+    [ "Element", "UnmagicTooltip__popup", "A part of it, after two underscores. Elements don't nest in the name: a part inside a part is still Block__part." ],
+    [ "Modifier", "UnmagicButton--primary", "A variant, after two dashes, worn alongside the block: class=\"UnmagicButton UnmagicButton--primary\"." ]
+  ].each do |kind, example, meaning| %>
+    <div class="grid gap-1 py-3 sm:grid-cols-[12rem_1fr] sm:gap-4">
+      <dt><span class="font-semibold"><%= kind %></span> <code class="block text-xs text-neutral-500"><%= example %></code></dt>
+      <dd class="text-neutral-600 dark:text-neutral-400"><%= meaning %></dd>
+    </div>
+  <% end %>
+</dl>
+<p class="<%= prose %>">
+  A modifier comes from a helper's options, such as <code>variant:</code>, <code>size:</code> or
+  <code>tone:</code>, so you rarely write one by hand.
+</p>
+
+<h2 class="<%= step %>">State comes from attributes</h2>
+<p class="<%= prose %>">
+  There are no state classes such as <code>is-open</code> or <code>active</code>. A component's state is styled
+  from the attributes its markup already carries for accessibility or for its script:
+</p>
+<div class="mt-4">
+  <%= render "code", id: "class_names_state", language: :css, source: <<~'CSS'.strip %>
+    .UnmagicTabs__tab[aria-selected="true"],
+    .UnmagicTabs__tab[aria-current="page"] {
+      @apply bg-white text-neutral-900 dark:bg-neutral-700 dark:text-neutral-100;
+    }
+
+    .UnmagicClipboard[data-copied] .UnmagicClipboard__done {
+      @apply block;
+    }
+  CSS
+</div>
+<p class="<%= prose %>">
+  So the markup, what a screen reader hears and what's on screen can't disagree. For state of your own, set
+  the attribute (<code>aria-current="page"</code>, <code>aria-invalid="true"</code>, <code>disabled</code>,
+  <code>hidden</code>) and the style follows.
+</p>
+
+<h2 class="<%= step %>">Custom elements</h2>
+<p class="<%= prose %>">
+  Behaviour lives in custom elements named <code>unmagic-*</code> (<code>&lt;unmagic-tooltip&gt;</code>,
+  <code>&lt;unmagic-modal&gt;</code>). Most carry a block class as well. Those that only add behaviour, such as
+  <code>UnmagicOptimistic</code> and <code>UnmagicAutoscroll</code>, are <code>display: contents</code>, so
+  they don't take part in their parent's layout.
+</p>
+
+<h2 class="<%= step %>">What's safe to target</h2>
+<p class="<%= prose %>">
+  Block and modifier names, and the ARIA and <code>data-</code> attributes a helper documents, are what the
+  components' own Ruby and JavaScript rely on, so they stay stable. Element names and the markup inside a
+  component can change between versions. To restyle part of a component, prefer the helper's options or a
+  <code>class:</code> on it over a selector for its insides.
+</p>

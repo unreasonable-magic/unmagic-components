@@ -7,6 +7,8 @@ Unmagic::Components::Browser::Engine.routes.draw do
   get "blocks/:slug", to: "pages#block", as: :block
   get "installation", to: "pages#installation"
   get "theming", to: "pages#theming"
+  get "components", to: "pages#components"
+  get "guides/:slug", to: "pages#guide", as: :guide
   get "components/:slug", to: "pages#component", as: :component
 
   # What the dialog and toast examples talk to.

@@ -3,12 +3,14 @@
 module Unmagic
   module Components
     module Browser
-      # The browser's pages: the overview, the getting-started pages, and one page
-      # per component with every example it lists, live and as source.
+      # The browser's pages: the guides (the getting-started pages among them), the
+      # component gallery and one page per component with every example it lists,
+      # live and as source, and the blocks.
       class PagesController < ApplicationController
-        before_action :load_fixtures, only: %i[overview component block_preview]
+        before_action :load_fixtures, only: %i[components component block_preview]
 
         before_action :load_block, only: %i[block block_preview]
+        before_action :load_guide, only: :guide
 
         def blocks
         end
@@ -28,6 +30,12 @@ module Unmagic
         def theming
         end
 
+        def components
+        end
+
+        def guide
+        end
+
         def component
           @component = Catalog.find(params[:slug])
           raise ActionController::RoutingError, "No component named #{params[:slug]}" unless @component
@@ -38,6 +46,11 @@ module Unmagic
         def load_block
           @block = BlockCatalog.find(params[:slug])
           raise ActionController::RoutingError, "No block named #{params[:slug]}" unless @block
+        end
+
+        def load_guide
+          @guide = GuideCatalog.find(params[:slug])
+          raise ActionController::RoutingError, "No guide named #{params[:slug]}" unless @guide
         end
 
         # The data examples and thumbnails render from, set for every page that

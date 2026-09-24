@@ -1,0 +1,57 @@
+<% prose = "mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400" %>
+<% step = "mt-12 text-lg font-semibold" %>
+
+<p class="<%= prose %>">
+  Most classes belong to the helper that renders them. A few are meant for your own markup, so a link, a
+  Rails <code>*_tag</code> field or a block of Markdown can match the components.
+</p>
+
+<h2 class="<%= step %>">Buttons</h2>
+<p class="<%= prose %>">
+  <code>button_classes</code> returns the class string, so the look works with <code>link_to</code>,
+  <code>button_to</code> and <code>form.submit</code> alike. Variants are <code>:default</code>,
+  <code>:primary</code>, <code>:ghost</code>, <code>:danger</code> and <code>:icon</code>; sizes are
+  <code>:small</code> and <code>:large</code>.
+</p>
+<% buttons_source = capture do %><%%= link_to "New label", new_label_path, class: button_classes(:primary) %>
+<%%= button_to "Archive", archive_path(@label), class: button_classes(:ghost, size: :small) %><% end %>
+<div class="mt-4"><%= render "code", id: "using_buttons", source: buttons_source.to_str %></div>
+
+<h2 class="<%= step %>">Form controls</h2>
+<p class="<%= prose %>">
+  The form builder styles its own controls. Rails' <code>*_tag</code> helpers are left alone, and
+  <code>control_classes</code> is how to opt one in. Kinds are <code>:input</code>, <code>:text_area</code>,
+  <code>:password</code>, <code>:date</code>, <code>:select</code>, <code>:check</code> and
+  <code>:radio</code>. A <code>size:</code> sits a box level with a button of the same size.
+</p>
+<% controls_source = capture do %><%%= search_field_tag :q, params[:q], class: control_classes(:input, size: :small) %><% end %>
+<div class="mt-4"><%= render "code", id: "using_controls", source: controls_source.to_str %></div>
+<p class="<%= prose %>">
+  Both follow <code>config.control_class</code> and <code>config.submit_class</code>, so an app with its own
+  form styles gets its own classes back.
+</p>
+
+<h2 class="<%= step %>">Prose</h2>
+<p class="<%= prose %>">
+  <code>UnmagicProse</code> styles server-rendered Markdown: headings, lists, code, quotes and tables. Render
+  and sanitise the HTML yourself. Mark anything inside it that should keep its own look with
+  <code>not-prose</code>.
+</p>
+<% prose_source = capture do %><div class="UnmagicProse"><%%= sanitize Markdown.render(@note.body) %></div><% end %>
+<div class="mt-4"><%= render "code", id: "using_prose", source: prose_source.to_str %></div>
+
+<h2 class="<%= step %>">Visually hidden text</h2>
+<p class="<%= prose %>">
+  <code>UnmagicVisuallyHidden</code> hides text on screen and keeps it for screen readers, like Tailwind's
+  <code>sr-only</code>.
+</p>
+
+<h2 class="<%= step %>">Sortable variants</h2>
+<p class="<%= prose %>">
+  The file adds variants for a sortable item's drag states, so markup can decorate them with utilities:
+  <code>sortable-dragging</code>, <code>sortable-placeholder</code>, <code>sortable-lifted</code>,
+  <code>sortable-active</code> and <code>sortable-over</code>.
+</p>
+<div class="mt-4">
+  <%= render "code", id: "using_sortable", source: %(<li class="sortable-dragging:rotate-2 sortable-placeholder:opacity-40">…</li>) %>
+</div>

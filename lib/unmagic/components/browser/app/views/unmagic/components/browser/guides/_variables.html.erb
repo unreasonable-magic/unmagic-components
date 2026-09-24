@@ -1,0 +1,85 @@
+<% prose = "mt-3 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400" %>
+<% step = "mt-12 text-lg font-semibold" %>
+
+<p class="<%= prose %>">
+  The gem has no design tokens of its own. Its colours, radii and type sizes are Tailwind's, read from your
+  theme when your build compiles the file. Only a few layout values that change per instance, and the chart
+  palette, are <code>--unmagic-</code> variables.
+</p>
+
+<h2 class="<%= step %>">Your theme's variables</h2>
+<dl class="mt-4 max-w-2xl divide-y divide-neutral-200 text-sm leading-6 dark:divide-neutral-800">
+  <% [
+    [ "neutral", "--color-neutral-*", "Every surface, border and piece of text: bg-white dark:bg-neutral-900, border-neutral-200 dark:border-neutral-800." ],
+    [ "Tones", "red, green, amber, blue", "red is bad, green good, amber warn and blue info: badges, callouts, toasts, errors, the danger button." ],
+    [ "Accents", "sky, violet, teal, rose, emerald…", "A few other palette colours, where a component needs one more hue (an avatar's tint, a chart series)." ],
+    [ "Scale", "--radius-*, --text-*, --spacing", "rounded-md for controls, rounded-lg for panels, rounded-xl for cards and tables; text-sm for body text." ]
+  ].each do |name, variables, use| %>
+    <div class="grid gap-1 py-3 sm:grid-cols-[12rem_1fr] sm:gap-4">
+      <dt><span class="font-semibold"><%= name %></span> <code class="block text-xs text-neutral-500"><%= variables %></code></dt>
+      <dd class="text-neutral-600 dark:text-neutral-400"><%= use %></dd>
+    </div>
+  <% end %>
+</dl>
+<p class="<%= prose %>">
+  Redefine any of them in your <code>@theme</code> and the components change with the rest of your app:
+</p>
+<div class="mt-4">
+  <%= render "code", id: "variables_theme", language: :css, source: <<~'CSS'.strip %>
+    @theme {
+      --color-neutral-900: oklch(0.21 0.03 265);
+      --radius-md: 0.25rem;
+    }
+  CSS
+</div>
+
+<h2 class="<%= step %>">Dark mode</h2>
+<p class="<%= prose %>">
+  Each colour has a <code>dark:</code> pair, and the file never writes a theme selector of its own. It uses
+  your <code>dark</code> variant, which follows the visitor's system setting until you redefine it. See
+  <%= link_to "Theming", theming_path, class: "underline" %>.
+</p>
+
+<h2 class="<%= step %>">The gem's own variables</h2>
+<p class="<%= prose %>">
+  Called knobs, they're named <code>--unmagic-&lt;component&gt;-&lt;property&gt;</code>. Each has a default in
+  the CSS and is set on one instance, usually by a helper option, so you seldom write one yourself:
+</p>
+<dl class="mt-4 max-w-2xl divide-y divide-neutral-200 text-sm leading-6 dark:divide-neutral-800">
+  <% [
+    [ "--unmagic-toast-width", "384px", "Set by width: on a toast." ],
+    [ "--unmagic-scroll-area-max-height", "none", "Set by max_height: on scroll_area." ],
+    [ "--unmagic-code-view-max-height", "none", "Set by max_height: on code_view." ],
+    [ "--unmagic-board-column-height", "75dvh", "Set by column_height: on board." ]
+  ].each do |name, default, set_by| %>
+    <div class="grid gap-1 py-3 sm:grid-cols-[18rem_1fr] sm:gap-4">
+      <dt><code class="font-semibold"><%= name %></code> <span class="block text-xs text-neutral-500">default <%= default %></span></dt>
+      <dd class="text-neutral-600 dark:text-neutral-400"><%= set_by %></dd>
+    </div>
+  <% end %>
+</dl>
+
+<h2 class="<%= step %>">Chart colours</h2>
+<p class="<%= prose %>">
+  A chart draws from six series slots and four chrome colours, set on <code>.UnmagicChart</code> with a darker
+  step for dark mode. Series one is <code>blue</code>, then <code>orange</code>, <code>emerald</code>,
+  <code>amber</code>, <code>pink</code> and <code>neutral</code>. Change them on one chart with arbitrary
+  property utilities, or for every chart in your own CSS:
+</p>
+<% chart_source = capture do %><%%= chart @signups, labels: @weeks, class: "[--unmagic-chart-series-1:var(--color-violet-600)]" %><% end %>
+<div class="mt-4"><%= render "code", id: "variables_chart", source: chart_source.to_str %></div>
+<div class="mt-4">
+  <%= render "code", id: "variables_chart_css", language: :css, source: <<~'CSS'.strip %>
+    .UnmagicChart {
+      --unmagic-chart-series-1: var(--color-violet-600);
+
+      @variant dark {
+        --unmagic-chart-series-1: var(--color-violet-500);
+      }
+    }
+  CSS
+</div>
+<p class="<%= prose %>">
+  The other variables are <code>--unmagic-chart-surface</code>, <code>-ink</code> (labels),
+  <code>-grid</code> and <code>-axis</code>.
+</p>

@@ -14,7 +14,7 @@ RSpec.describe Unmagic::Components::Browser::Export do
   it "writes every page, the modal's dialog, a 404 and the assets" do
     written = export.run
 
-    expect(written).to include("index.html", "installation/index.html", "theming/index.html", "404.html",
+    expect(written).to include("index.html", "installation/index.html", "theming/index.html", "components/index.html", "404.html",
       "components/card/index.html", "components/code_view/index.html", "dialogs/profile/index.html",
       "blocks/index.html", "blocks/workspace/index.html", "blocks/workspace/preview/index.html",
       "blocks/team/index.html", "blocks/team/preview/index.html",
@@ -22,7 +22,7 @@ RSpec.describe Unmagic::Components::Browser::Export do
       "assets/browser/browser.js",
       "assets/stylesheets/browser.css", "assets/javascripts/unmagic/components.js",
       "assets/javascripts/unmagic/components/tabs.js", "assets/turbo/turbo.min.js")
-    expect(written.grep(%r{\Acomponents/}).size).to eq(Unmagic::Components::Browser::Catalog.all.size)
+    expect(written.grep(%r{\Acomponents/}).size).to eq(Unmagic::Components::Browser::Catalog.all.size + 1) # and the gallery
     expect(@dir.join("components/card/index.html")).to exist
   end
 
