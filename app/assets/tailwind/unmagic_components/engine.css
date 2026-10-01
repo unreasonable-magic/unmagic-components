@@ -5696,3 +5696,29 @@
 @layer components {
   .UnmagicImageCrop [data-crop-preview]:not([hidden]) { @apply mt-4 max-h-64 w-auto max-w-full; }
 }
+
+/* ------------------------------------------------------------ Code editor */
+/* CodeMirror injects unlayered defaults; important utilities here override that vendor CSS. */
+@layer components {
+  .UnmagicCodeEditor {
+    @apply block! min-w-0!;
+    & > [data-editor-mount] { @apply min-w-0!; }
+    &[data-ready] textarea { @apply sr-only!; }
+    & .cm-editor {
+      @apply rounded-md! border! border-neutral-300! bg-white! text-sm! text-neutral-900! dark:border-neutral-700! dark:bg-neutral-900! dark:text-neutral-100!;
+      &.cm-focused { @apply outline-2! outline-offset-2! outline-neutral-400! dark:outline-neutral-500!; }
+    }
+    & .cm-scroller { @apply max-h-96! overflow-auto! font-mono!; }
+    & .cm-content { @apply min-h-32! py-3!; }
+    & .cm-gutters { @apply border-neutral-200! bg-neutral-50! text-neutral-500! dark:border-neutral-700! dark:bg-neutral-950! dark:text-neutral-400!; }
+    & .cm-activeLine, & .cm-activeLineGutter { @apply bg-neutral-100! dark:bg-neutral-800!; }
+    & .cm-cursor { @apply border-neutral-900! dark:border-neutral-100!; }
+    & .cm-selectionBackground { @apply bg-neutral-200! dark:bg-neutral-700!; }
+    & .cm-tooltip, & .cm-panels { @apply border-neutral-300! bg-white! text-neutral-900! dark:border-neutral-700! dark:bg-neutral-900! dark:text-neutral-100!; }
+    & .UnmagicCodeEditor__keyword { @apply text-purple-700! dark:text-purple-300!; }
+    & .UnmagicCodeEditor__type { @apply text-blue-700! dark:text-blue-300!; }
+    & .UnmagicCodeEditor__string { @apply text-emerald-700! dark:text-emerald-300!; }
+    & .UnmagicCodeEditor__number { @apply text-amber-700! dark:text-amber-300!; }
+    & .UnmagicCodeEditor__comment { @apply text-neutral-500! dark:text-neutral-400!; }
+  }
+}

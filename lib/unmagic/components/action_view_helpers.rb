@@ -1133,6 +1133,16 @@ module Unmagic
         Components::Autogrow.wrap(self, text_area_tag(name, content, Components::Control.merge(self, options, :text_area)))
       end
 
+      # <%= code_editor_tag "query", "{ projects { id } }", language: :graphql %>
+      # language: :plaintext, or a CodeEditor::LANGUAGES symbol; schema: nil or GraphQL SDL.
+      # Blank values are empty. Other options go on the native textarea, including
+      # id/class, readonly, disabled, required and aria. Needs import
+      # "unmagic/components/code_editor"; dependencies load only with an editor.
+      def code_editor_tag(name, value = nil, language: :plaintext, schema: nil, **options)
+        textarea = text_area_tag(name, value, Components::Control.merge(self, options, :input))
+        Components::CodeEditor.wrap(self, textarea, language: language, schema: schema)
+      end
+
       # A checkbox drawn as a switch, outside a form builder. With label: it
       # renders the labelled layout. See FormBuilder#switch_field.
       def switch_tag(name, value = "1", checked: false, label: nil, hint: nil, **options)

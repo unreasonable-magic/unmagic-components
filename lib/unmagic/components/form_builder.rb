@@ -326,6 +326,17 @@ module Unmagic
         Components::Autogrow.wrap(@template, text_area(method, options))
       end
 
+      # A lazily loaded code editor, also available as field(..., as: :code_editor).
+      # language defaults to :plaintext; see CodeEditor::LANGUAGES for supported modes, with
+      # optional GraphQL SDL in schema:. Other options go on the textarea.
+      # Needs import "unmagic/components/code_editor".
+      def code_editor(method, options = {})
+        options = options.dup
+        language = options.delete(:language) || :plaintext
+        schema = options.delete(:schema)
+        Components::CodeEditor.wrap(@template, text_area(method, options), language: language, schema: schema)
+      end
+
       # A hidden field holding a fresh, time-ordered UUIDv7, so the form submits an
       # id the client already knows: to match an optimistically rendered element to
       # the record the server creates under the same id.

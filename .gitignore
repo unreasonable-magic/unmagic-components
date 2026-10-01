@@ -13,3 +13,6 @@ mise.local.toml
 !/.claude/hooks/
 !/.claude/settings.json
 /.env
+
+# Development-only language vendoring tools.
+/bin/support/code-editor-languages/node_modules/

@@ -1,0 +1,5 @@
+<form id="editor_demo_form" data-block-demo-form>
+  <%= label_tag "editor_json", "Variables", class: "UnmagicLabel" %>
+  <%= code_editor_tag "variables", JSON.pretty_generate({ limit: 10, active: true }), language: :json, id: "editor_json" %>
+  <button type="reset" class="UnmagicButton">Reset</button>
+</form>

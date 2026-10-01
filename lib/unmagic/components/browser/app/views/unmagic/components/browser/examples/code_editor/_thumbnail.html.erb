@@ -1,0 +1,2 @@
+<%# Keep the gallery lightweight: rendering a real editor would load CodeMirror here. %>
+<%= text_area_tag nil, '{ "limit": 10 }', readonly: true, tabindex: -1, class: "UnmagicInput font-mono", aria: { label: "Code editor preview" } %>

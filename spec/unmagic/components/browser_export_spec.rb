@@ -19,7 +19,12 @@ RSpec.describe Unmagic::Components::Browser::Export do
       "blocks/index.html", "blocks/workspace/index.html", "blocks/workspace/preview/index.html",
       "blocks/team/index.html", "blocks/team/preview/index.html",
       "blocks/login/preview/index.html", "blocks/signup/preview/index.html", "blocks/sidebar/preview/index.html",
-      "assets/browser/browser.js",
+      "assets/browser/browser.js", "components/code_editor/index.html",
+      "assets/javascripts/unmagic/components/code_editor/editor.js",
+      "assets/javascripts/unmagic/components/code_editor/vendor/codemirror.js",
+      "assets/javascripts/unmagic/components/code_editor/vendor/LICENSES.txt",
+      "assets/javascripts/unmagic/components/code_editor/vendor/LICENSES-languages.txt",
+      "assets/javascripts/unmagic/components/code_editor/vendor/@codemirror--lang-python.js",
       "assets/stylesheets/browser.css", "assets/javascripts/unmagic/components.js",
       "assets/javascripts/unmagic/components/tabs.js", "assets/turbo/turbo.min.js")
     expect(written.grep(%r{\Acomponents/}).size).to eq(Unmagic::Components::Browser::Catalog.all.size + 1) # and the gallery

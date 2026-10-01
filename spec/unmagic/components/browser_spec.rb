@@ -221,7 +221,7 @@ RSpec.describe Unmagic::Components::Browser do
       recorder.instance_eval(File.read(importmap), importmap)
 
       expect(pinned).to include("unmagic/components", "unmagic/components/modal")
-      expect(imports.keys).to match_array(pinned + [ "@hotwired/turbo-rails" ])
+      expect(imports.keys).to match_array(pinned.uniq + [ "@hotwired/turbo-rails" ])
       expect(head.css("script[type=module]").map(&:text)).to include('import "unmagic/components"')
     end
 

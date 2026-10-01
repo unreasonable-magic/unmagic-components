@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- A lazily loaded CodeMirror editor for Rails views and form builders, with native textarea fallback, Turbo draft restoration, and plain text, JSON, schema-aware GraphQL, JavaScript, TypeScript, Python, Ruby, HTML, CSS, SQL, Java, C++ and Go support.
+
 - Messaging components, a new "Messaging" group in the browser: `message_thread`
   (the container, a live log when asked), `message` (one message as a `:bubble`,
   a `:row` or an `:email`, with author, avatar, time, `continued:` runs,
