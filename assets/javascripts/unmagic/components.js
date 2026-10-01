@@ -39,3 +39,6 @@ import "unmagic/components/board"
 import "unmagic/components/image_zoom"
 import "unmagic/components/image_crop"
 import "unmagic/components/image_color_picker"
+
+// Registration only; the editor and languages load when an instance connects.
+import "unmagic/components/code_editor"
