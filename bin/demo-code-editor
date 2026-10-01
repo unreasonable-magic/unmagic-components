@@ -1,0 +1,108 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Visible Chrome demo with assertions; start bin/dev first.
+require "bundler/setup"
+require "fileutils"
+require "unmagic/browser"
+
+$stdout.sync = true
+base = ENV.fetch("BROWSER_URL", "http://localhost:5701")
+out = File.expand_path("../tmp/code-editor-demo", __dir__)
+FileUtils.mkdir_p(out)
+driver = Unmagic::Browser::Driver::Local.new(headless: ENV["HEADLESS"] == "1", slow_mo: 30)
+browser = Unmagic::Browser.new(driver: driver)
+browser.open("#{base}/installation") do |session|
+  session.wait_for(selector: "main")
+  raise "Editor dependency loaded on a normal page" if session.evaluate(<<~JS)
+    () => performance.getEntriesByType('resource').some(r => r.name.includes('/code_editor/'))
+  JS
+  puts "Normal page: zero editor dependency requests"
+  File.binwrite("#{out}/without-editor.png", session.screenshot)
+
+  # Insert the exact native structure used by the helper, on a page with no other
+  # editors, to check the JSON language doesn't pull in GraphQL dependencies.
+  session.evaluate(<<~JS)
+    () => {
+      const element = document.createElement('unmagic-code-editor');
+      element.className = 'UnmagicCodeEditor'; element.setAttribute('language', 'json');
+      element.innerHTML = '<textarea aria-label="Lazy JSON">{ "limit": 10 }</textarea><div data-editor-mount></div><span data-editor-status data-error-message="Editor unavailable"></span>';
+      document.querySelector('main').prepend(element);
+    }
+  JS
+  session.wait_for(selector: "unmagic-code-editor[data-ready]")
+  raise "JSON loaded GraphQL" if session.evaluate(<<~JS)
+    () => performance.getEntriesByType('resource').some(r => /graphql/.test(r.name))
+  JS
+  puts "JSON editor: loaded on demand, zero GraphQL requests"
+
+  session.visit("#{base}/components/code_editor")
+  session.wait_for(selector: 'unmagic-code-editor[language="graphql"][data-ready]')
+  session.wait_for(selector: '#editor_demo_form unmagic-code-editor[data-ready]')
+  session.evaluate("() => { const e = document.querySelector('#editor_demo_form unmagic-code-editor'); e.value = ''; }")
+  session.find('#editor_demo_form .cm-content').fill_in('{ "limit": 25 }')
+  raise "FormData was not synchronized" unless session.evaluate(<<~JS)
+    () => new FormData(document.querySelector('#editor_demo_form')).get('variables') === '{ "limit": 25 }'
+  JS
+  session.find('#editor_demo_form button[type="reset"]').click
+  raise "Reset did not restore original" unless session.evaluate(<<~JS)
+    () => document.querySelector('#editor_demo_form unmagic-code-editor').value.includes('10')
+  JS
+  raise "Editor reset differed from textarea" unless session.evaluate(<<~JS)
+    () => { const e = document.querySelector('#editor_demo_form unmagic-code-editor'); return e.editor.state.doc.toString() === e.value; }
+  JS
+  session.evaluate(<<~JS)
+    async () => {
+      const e = document.querySelector('unmagic-code-editor[language="graphql"]');
+      e.value = '{ pro }'; e.editor.dispatch({selection: {anchor: 5}}); e.focus();
+      const {startCompletion} = await import('unmagic/components/code_editor/vendor/@codemirror--autocomplete');
+      startCompletion(e.editor);
+    }
+  JS
+  session.wait_for(selector: '.cm-tooltip-autocomplete')
+  raise "Schema completion missing" unless session.evaluate("() => document.querySelector('.cm-tooltip-autocomplete').textContent.includes('projects')")
+  session.press("Escape")
+  puts "Form edit/reset and schema-aware GraphQL completion passed"
+
+  session.evaluate(<<~JS)
+    () => { document.querySelector('#editor_demo_form unmagic-code-editor').value = '{ "draft": true }'; }
+  JS
+  session.evaluate("() => new Promise(resolve => { document.addEventListener('turbo:load', () => resolve(true), {once: true}); Turbo.visit(#{"#{base}/installation".inspect}); })")
+  session.wait_for(selector: 'main')
+  session.wait_for(text: "Installation")
+  session.evaluate("() => new Promise(resolve => { document.addEventListener('turbo:load', () => resolve(true), {once: true}); history.back(); })")
+  session.wait_for(selector: '#editor_demo_form unmagic-code-editor[data-ready]')
+  raise "Turbo lost draft" unless session.evaluate(<<~JS)
+    () => document.querySelector('#editor_demo_form unmagic-code-editor').value === '{ "draft": true }'
+  JS
+  # Wait for cached-page scroll restoration, then reset the exact form. The
+  # native reset action is already exercised by the earlier visible click.
+  session.evaluate("() => new Promise(resolve => { document.querySelector('#editor_demo_form').reset(); requestAnimationFrame(() => requestAnimationFrame(() => resolve(true))); })")
+  raise "Turbo changed form reset default" unless session.evaluate(<<~JS)
+    () => document.querySelector('#editor_demo_form unmagic-code-editor').value.includes('10')
+  JS
+  puts "Turbo back restored draft and retained original reset value"
+
+  %w[light dark].each do |theme|
+    [ 1280, 390 ].each do |width|
+      session.emulate(viewport: { width: width, height: 1000 }, reduced_motion: :reduce)
+      session.visit("#{base}/components/code_editor?theme=#{theme}")
+      session.wait_for(selector: 'unmagic-code-editor[language="graphql"][data-ready]')
+      File.binwrite("#{out}/#{theme}-#{width}.png", session.screenshot)
+      raise "Page overflows phone" if session.evaluate("() => document.documentElement.scrollWidth > innerWidth")
+    end
+  end
+  session.evaluate(<<~JS)
+    () => {
+      const e = document.querySelector('unmagic-code-editor[language="graphql"]');
+      e.remove(); e.setAttribute('schema', 'invalid schema');
+      document.querySelector('main').prepend(e);
+    }
+  JS
+  session.wait_for(text: "Editor unavailable. Use the text field.")
+  raise "Fallback textarea is hidden" unless session.evaluate(<<~JS)
+    () => { const e = document.querySelector('unmagic-code-editor[language="graphql"]'); return !e.hasAttribute('data-ready') && !e.textarea.hasAttribute('aria-hidden'); }
+  JS
+  puts "Light/dark desktop/phone and failed-load fallback passed"
+end
+puts "Screenshots: #{out}"

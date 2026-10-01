@@ -1,0 +1,42 @@
+<div class="space-y-6">
+  <div>
+    <%= label_tag "editor_javascript", "javascript", class: "UnmagicLabel" %>
+    <%= code_editor_tag "javascript", "const greeting = (name) => `Hello, ${name}`;", language: :javascript, id: "editor_javascript" %>
+  </div>
+  <div>
+    <%= label_tag "editor_typescript", "typescript", class: "UnmagicLabel" %>
+    <%= code_editor_tag "typescript", "interface User { name: string }\nconst greet = (user: User): string => user.name;", language: :typescript, id: "editor_typescript" %>
+  </div>
+  <div>
+    <%= label_tag "editor_python", "python", class: "UnmagicLabel" %>
+    <%= code_editor_tag "python", "def greet(name):\n    return f\"Hello, {name}\"", language: :python, id: "editor_python" %>
+  </div>
+  <div>
+    <%= label_tag "editor_ruby", "ruby", class: "UnmagicLabel" %>
+    <%= code_editor_tag "ruby", "def greet(name)\n  \"Hello, \#{name}\"\nend", language: :ruby, id: "editor_ruby" %>
+  </div>
+  <div>
+    <%= label_tag "editor_html", "html", class: "UnmagicLabel" %>
+    <%= code_editor_tag "html", "<section class=\"greeting\">\n  <h1>Hello</h1>\n  <script>const ready = true;</script>\n  <style>h1 { color: blue; }</style>\n</section>", language: :html, id: "editor_html" %>
+  </div>
+  <div>
+    <%= label_tag "editor_css", "css", class: "UnmagicLabel" %>
+    <%= code_editor_tag "css", ".greeting {\n  color: blue;\n  padding: 1rem;\n}", language: :css, id: "editor_css" %>
+  </div>
+  <div>
+    <%= label_tag "editor_sql", "sql", class: "UnmagicLabel" %>
+    <%= code_editor_tag "sql", "SELECT name FROM users WHERE active = TRUE ORDER BY name;", language: :sql, id: "editor_sql" %>
+  </div>
+  <div>
+    <%= label_tag "editor_java", "java", class: "UnmagicLabel" %>
+    <%= code_editor_tag "java", "class Greeting {\n  String greet(String name) { return \"Hello, \" + name; }\n}", language: :java, id: "editor_java" %>
+  </div>
+  <div>
+    <%= label_tag "editor_cpp", "cpp", class: "UnmagicLabel" %>
+    <%= code_editor_tag "cpp", "#include <string>\nstd::string greet(std::string name) { return \"Hello, \" + name; }", language: :cpp, id: "editor_cpp" %>
+  </div>
+  <div>
+    <%= label_tag "editor_go", "go", class: "UnmagicLabel" %>
+    <%= code_editor_tag "go", "package main\n\nfunc greet(name string) string {\n  return \"Hello, \" + name\n}", language: :go, id: "editor_go" %>
+  </div>
+</div>

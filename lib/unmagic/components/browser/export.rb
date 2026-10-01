@@ -87,7 +87,7 @@ module Unmagic
             files = case kind
             when "stylesheets" then [ "browser.css" ]
             when "browser" then [ "browser.js" ]
-            when "javascripts" then Dir[root.join("unmagic/components{,/**/*}.js")].map { |f| Pathname(f).relative_path_from(root).to_s }
+            when "javascripts" then Dir[root.join("unmagic/components{,/**/*}.js"), root.join("unmagic/components/code_editor/vendor/LICENSES*.txt")].map { |f| Pathname(f).relative_path_from(root).to_s }
             when "turbo" then [ "turbo.min.js" ]
             end
 

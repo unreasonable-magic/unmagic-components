@@ -1,0 +1,71 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+require "fileutils"
+require "json"
+require "unmagic/browser"
+
+$stdout.sync = true
+base = ENV.fetch("BROWSER_URL", "http://localhost:5701")
+out = File.expand_path("../tmp/code-editor-languages-demo", __dir__)
+samples = JSON.parse(File.read(File.expand_path("support/code-editor-languages/samples.json", __dir__)))
+FileUtils.mkdir_p(out)
+driver = Unmagic::Browser::Driver::Local.new(headless: ENV["HEADLESS"] == "1", slow_mo: 30)
+browser = Unmagic::Browser.new(driver: driver)
+browser.open("#{base}/installation") do |session|
+  samples.each do |language, source|
+    session.visit("#{base}/installation")
+    session.wait_for(selector: "main")
+    raise "Editor loaded before an editor was rendered" if session.evaluate(<<~JS)
+      () => performance.getEntriesByType('resource').some(r => r.name.includes('/code_editor/'))
+    JS
+    session.evaluate(<<~JS, language, source)
+      (language, source) => {
+        const form = document.createElement('form'); form.id = 'language_demo';
+        const label = document.createElement('label'); label.htmlFor = 'language_source'; label.textContent = language;
+        const e = document.createElement('unmagic-code-editor'); e.className = 'UnmagicCodeEditor'; e.setAttribute('language', language);
+        const textarea = document.createElement('textarea'); textarea.name = 'source'; textarea.id = 'language_source'; textarea.textContent = source;
+        const mount = document.createElement('div'); mount.setAttribute('data-editor-mount', '');
+        const status = document.createElement('span'); status.setAttribute('data-editor-status', '');
+        e.append(textarea, mount, status); form.append(label, e);
+        document.querySelector('main').replaceChildren(form);
+      }
+    JS
+    session.wait_for(selector: 'unmagic-code-editor[data-ready] .cm-content span[class]')
+    result = session.evaluate(<<~JS, language, source)
+      async (language, source) => {
+        const e = document.querySelector('unmagic-code-editor');
+        const {syntaxTree} = await import('unmagic/components/code_editor/vendor/@codemirror--language');
+        const tree = syntaxTree(e.editor.state);
+        const errors = []; tree.iterate({enter(node) { if (node.type.isError) errors.push(node.from); }});
+        return {
+          tree: tree.toString(), errors,
+          value: new FormData(document.querySelector('form')).get('source'),
+          requests: performance.getEntriesByType('resource').map(r => r.name).filter(n => /lang-|legacy-ruby|graphql/.test(n)),
+        };
+      }
+    JS
+    raise "#{language}: form value changed" unless result["value"] == source
+    raise "#{language}: parse errors #{result['errors']}" unless result["errors"].empty?
+    raise "TypeScript annotations weren't parsed" if language == "typescript" && !result["tree"].include?("TypeAnnotation")
+    expected = case language
+    when "typescript" then "lang-javascript"
+    when "ruby" then "legacy-ruby"
+    else "lang-#{language}"
+    end
+    raise "#{language}: wrong modules #{result['requests']}" unless result["requests"].any? && result["requests"].all? { |url| url.include?(expected) }
+    session.emulate(viewport: { width: 1000, height: 700 }, reduced_motion: :reduce)
+    File.binwrite("#{out}/#{language}.png", session.screenshot)
+    puts "#{language}: highlights, parses, submits, and loads only #{expected}"
+  end
+
+  %w[light dark].each do |theme|
+    session.emulate(viewport: { width: 390, height: 1000 }, reduced_motion: :reduce)
+    session.visit("#{base}/components/code_editor?theme=#{theme}")
+    session.wait_for(selector: 'unmagic-code-editor[language="go"][data-ready]')
+    raise "Page overflow" if session.evaluate("() => document.documentElement.scrollWidth > innerWidth")
+    File.binwrite("#{out}/all-#{theme}-phone.png", session.screenshot)
+  end
+end
+puts "Screenshots: #{out}"

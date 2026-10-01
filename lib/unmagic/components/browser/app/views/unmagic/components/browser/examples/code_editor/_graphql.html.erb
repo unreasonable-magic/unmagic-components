@@ -1,0 +1,3 @@
+<%= label_tag "editor_graphql", "Query", class: "UnmagicLabel" %>
+<%= code_editor_tag "query", "{ projects { id name } }", language: :graphql,
+  schema: "type Query { projects: [Project!]! } type Project { id: ID! name: String! }", id: "editor_graphql" %>

@@ -2198,3 +2198,54 @@ https://github.com/unreasonable-magic/unmagic-components.
 ## License
 
 Available as open source under the terms of the [MIT License](LICENSE).
+
+## Code editor
+
+```erb
+<%= code_editor_tag "query", "{ projects { id } }", language: :graphql,
+  schema: "type Query { projects: [Project!]! } type Project { id: ID! }",
+  aria: { label: "Query" } %>
+<%= form.field :settings, "Settings", as: :code_editor, language: :json %>
+<%= code_editor_tag "result", @result.to_json, language: :json, readonly: true %>
+```
+
+Import `unmagic/components` or `unmagic/components/code_editor`. Only the small
+custom element wrapper loads globally. CodeMirror loads when an editor connects;
+Language support loads only for editors using that language. All dependencies
+are vendored, namespaced and pinned with `preload: false`. No CDN, npm install or
+bundling step is required. Apps wiring their own assets must preserve the dynamic
+imports and map the `unmagic/components/code_editor/` modules without preloading
+them; do not flatten them into the application bundle.
+
+`language:` accepts `:plaintext` (default), `:json`, `:graphql`, `:javascript`,
+`:typescript`, `:python`, `:ruby`, `:html`, `:css`, `:sql`, `:java`, `:cpp` or `:go`.
+
+```erb
+<%= form.code_editor :source, language: :ruby %>
+<%= form.code_editor :source, language: :typescript %>
+```
+
+TypeScript shares the JavaScript parser. HTML includes JavaScript and CSS parsing
+for embedded scripts and styles. Ruby uses CodeMirror's stream parser; SQL uses
+its standard SQL dialect. These provide highlighting and editor language support,
+not a compiler, language server or runtime. `schema:` accepts
+optional GraphQL SDL for completion and diagnostics. This is an editor, not a
+GraphQL transport: the app owns fetching schemas, executing queries and formatting.
+All other options go on the textarea, including `id:`, `class:`, `aria:`,
+`required:`, `readonly:` and `disabled:`. Label it normally. Blank values are empty.
+`form.code_editor(:attribute, **options)` also works without a field wrapper.
+
+The native textarea remains usable during loading or failure, stays synchronized
+for form submission, and handles reset. Tab leaves the editor. The wrapper exposes
+`value`, `focus()` and the CodeMirror `editor` instance once ready. Set the wrapper's
+`value` to update it programmatically, or set the textarea and dispatch `input`.
+It bubbles `unmagic-code-editor:ready`, `:change` (`{ value }`) and `:error`
+(`{ error }`). Drafts survive Turbo caching and element moves; reset restores the
+server's initial value. I18n: `unmagic.components.code_editor.error`.
+
+`bin/demo-code-editor` replays the visible demo and checks lazy loading, editing,
+form submission, reset, schema completion and Turbo restoration. It saves screenshots
+under `tmp/code-editor-demo/`. Start `bin/dev` first; `HEADLESS=1` runs unattended.
+
+Run `bin/demo-code-editor-languages` to check highlighting, parsing and isolated
+language downloads for all ten additional languages in visible Chrome.

@@ -31,6 +31,9 @@ Waiting for healthy instances…", language: :plaintext, id: "release_log" %>
       <% end %>
     </div>
     <div class="space-y-6">
+      <%= card title: "Release configuration" do %>
+        <%= code_editor_tag "release_config", JSON.pretty_generate({ replicas: 3, health_check: "/up" }), language: :json, aria: { label: "Release configuration" } %>
+      <% end %>
       <%= card title: "Build artifacts" do %>
         <%= tree_view label: "Build artifacts" do |tree| %>
           <% tree.branch "release", icon: :folder do |folder| %><% folder.leaf "app.js", icon: :file_code %><% folder.leaf "app.css", icon: :file_code %><% folder.leaf "manifest.json", icon: :file_json %><% end %>

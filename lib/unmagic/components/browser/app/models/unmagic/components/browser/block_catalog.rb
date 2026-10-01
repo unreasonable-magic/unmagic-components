@@ -39,7 +39,7 @@ module Unmagic
           Block.new(slug: "asset_studio", name: "Asset studio", description: "Inspect, crop and sample artwork alongside its details and related files.",
             category: "Creative tools", components: %w[image_zoom image_crop image_color_picker tabs copy_button item empty_state section card detail_list avatar page_header]),
           Block.new(slug: "release_monitor", name: "Release monitor", description: "Build logs, release notes, rollout activity and pending health metrics.",
-            category: "Developer tools", components: %w[callout spinner separator elapsed local_time panel code_view scroll_area streaming_markdown skeleton tree_view timeline disclosure card page_header]),
+            category: "Developer tools", components: %w[callout spinner separator elapsed local_time panel code_view code_editor scroll_area streaming_markdown skeleton tree_view timeline disclosure card page_header]),
           Block.new(slug: "customer_workspace", name: "Customer workspace", description: "Account details, paginated contacts, notes and contextual actions.",
             category: "People", components: %w[popover dialog confirm toast context_menu pagination table detail_list card button avatar page_header]),
           Block.new(slug: "assistant_workspace", name: "Research assistant", description: "A conversation with sources, slash commands, a composer, plan and files.",
