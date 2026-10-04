@@ -1661,7 +1661,7 @@ module Unmagic
       # (ai_chat_payload), failures (a count for a call that mostly worked),
       # progress (a line beside the spinner, with id "#{id}_progress" to replace),
       # and made (content kept outside the fold). With no payloads there is no
-      # disclosure. open: true opens it. element: true opts into <unmagic-tool-call>:
+      # disclosure. Renders <unmagic-tool-call>; open: true opens its disclosure.
       # payload insertion/removal updates its disclosure, and CSS draws connectors.
       # Needs import "unmagic/components/tool_call"; without it content stays readable.
       # The element's state property/attribute updates presentation in place;

@@ -4633,20 +4633,6 @@
     @apply relative text-sm text-neutral-500 dark:text-neutral-400;
   }
 
-  /* The line joining a run: every row draws it, and only a row following another
-     shows it. It reaches up into the gap above, centred on the glyph's column,
-     rather than taking room of its own. */
-  .UnmagicAIChatToolCall__join {
-    @apply absolute hidden w-px -translate-x-1/2 bg-neutral-200 dark:bg-neutral-700;
-    left: 0.4375rem;
-    top: calc(var(--spacing) * -2.5);
-    height: calc(var(--spacing) * 2);
-  }
-
-  [data-ai-chat-timeline] + [data-ai-chat-timeline] > .UnmagicAIChatToolCall__join {
-    @apply block;
-  }
-
   .UnmagicAIChatToolCall__row {
     @apply flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5;
   }
@@ -4718,14 +4704,8 @@
     @apply relative mt-2 flex flex-wrap gap-2 pl-5.5;
   }
 
-  .UnmagicAIChatToolCall__rail {
-    @apply absolute bottom-0 w-px -translate-x-1/2 bg-neutral-200 dark:bg-neutral-700;
-    left: 0.4375rem;
-    top: calc(var(--spacing) * -1.5);
-  }
-
-  /* The opt-in element owns decoration and disclosure, while its public parts
-     remain caller-owned stream targets. Legacy rows keep their original spans. */
+  /* The element owns decoration and disclosure; public parts remain caller-owned
+     stream targets. Only adjacent timeline participants get a joining line. */
   unmagic-tool-call {
     @apply block;
   }

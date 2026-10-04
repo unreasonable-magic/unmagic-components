@@ -60,14 +60,17 @@ plan. Names and exact attribute contracts need review in each component note.
 
 ## 1 Tool calls and timeline connections
 
-Started: `element: true` implements light-DOM row/payload/result parts, dynamic
-native disclosure, shared reader-choice preservation, and CSS connectors.
+Implemented: the helper now always renders `<unmagic-tool-call>` with light-DOM
+row/payload/result parts, dynamic native disclosure, shared reader-choice
+preservation, and CSS connectors.
 Reactive `state` attributes/properties now own glyphs, accessible status, busy
 state, progress, and visibility of supplied timing/failure readings. Compact
 direct HTML no longer needs internal classes or a row wrapper. See the
-[implemented slice](components/ai_chat/tool_call.md#opt-in-element-migration).
+[implemented slice](components/ai_chat/tool_call.md#custom-element-api).
 
-- [x] Add the opt-in `element: true` helper renderer and individual element import.
+- [x] Introduce the element renderer and individual element import.
+- [x] Switch repo consumers through the default helper, remove the duplicate Ruby
+  renderer and decoration styles, and document the changed DOM/import contract.
 - [x] Move disclosure creation/removal and connector decoration to JS/CSS.
 - [x] Share reader-choice restoration with the existing AI chat behavior.
 - [x] Observe state and translated labels; reflect state/name properties and
@@ -79,10 +82,10 @@ Current code: [tool_call.rb](../lib/unmagic/components/ai_chat/tool_call.rb),
 [ai_chat.js](../app/assets/javascripts/unmagic/components/ai_chat.js), and the
 AI chat tool call section of [engine.css](../app/assets/tailwind/unmagic_components/engine.css).
 
-Ruby chooses a disclosure versus a plain row using `payloads.any?`, emits empty
-`__join` and `__rail` spans, selects state glyphs, and conditionally includes
-progress and readings. CSS already detects adjacent timeline participants; no
-server-side grouping algorithm needs to be replaced.
+Ruby supplies escaped content, translations, formatted readings and custom icon
+templates. The element chooses disclosure structure and state presentation; CSS
+detects adjacent timeline participants. The old Ruby presentation path and its
+`__join`/`__rail` decoration spans have been removed.
 
 Proposed public HTML:
 
@@ -103,25 +106,26 @@ Contract: `state` keeps `queued`, `running`, `waiting`, `done`, `failed`.
 updates with the same ID. Omit `data-ai-chat-timeline` for `timeline: false`.
 `payload` is repeatable; `result` maps to the existing `made` builder method.
 Status translations and glyph inputs follow TODO 0. Existing timing helpers can
-render an optional `data-part="timing"` containing `<unmagic-elapsed>` or text.
+render `data-part="elapsed"` and `data-part="duration"` readings containing
+`<unmagic-elapsed>` or formatted text.
 
-- [ ] Add `tool_call.js`; make the Ruby builder emit public parts rather than
+- [x] Add `tool_call.js`; make the Ruby builder emit public parts rather than
   deciding the entire internal structure in `render`, `disclosure`, and `row`.
-- [ ] Upgrade payload-bearing calls with native `<details>/<summary>`, keeping
+- [x] Upgrade payload-bearing calls with native `<details>/<summary>`, keeping
   results outside the fold. React when the first payload arrives or the last is
   removed. Preserve focus and each payload node; before upgrade show all content.
-- [ ] Replace `__join` and `__rail` spans with CSS pseudo-elements where their
+- [x] Replace `__join` and `__rail` spans with CSS pseudo-elements where their
   geometry permits. Reuse the existing participant attribute across eligible
   types; permission and request panels continue to interrupt a run.
-- [ ] Specify whether `[hidden]` participants break a run. Initially preserve
+- [x] Specify whether `[hidden]` participants break a run. Initially preserve
   physical DOM adjacency; do not accidentally bridge messages or unrelated rows.
   Keep one marker column and consistent gap geometry for connected types.
-- [ ] Move progress visibility and state presentation to the element. Preserve
+- [x] Move progress visibility and state presentation to the element. Preserve
   the custom success icon, zero-failure suppression, and failed-state rules.
   Keep supplied failure counts and timing facts authoritative.
-- [ ] Integrate disclosure preservation with `ai_chat.js` before removing any
+- [x] Integrate disclosure preservation with `ai_chat.js` before removing any
   existing hook. Avoid two competing stores of the same open/closed choice.
-- [ ] Verify streaming payload insertion/removal, running-to-done/failed changes,
+- [x] Verify streaming payload insertion/removal, running-to-done/failed changes,
   mixed adjacent participants, results outside the fold, keyboard focus, and
   reader-chosen disclosure state across replacement and Turbo restoration.
 
