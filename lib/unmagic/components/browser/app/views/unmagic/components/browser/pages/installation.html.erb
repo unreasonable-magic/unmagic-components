@@ -30,6 +30,14 @@
     <code>app/assets/tailwind/unmagic_components/engine.css</code> from the gem's install path
     (<code>bundle show unmagic-components</code>) instead.
   </p>
+  <p class="<%= prose %>">
+    Then give the page itself the colours the components expect. In dark mode the components turn dark, but the
+    page behind them stays white unless something says otherwise. Put <code>UnmagicPage</code> on your layout's
+    <code>&lt;html&gt;</code> tag:
+  </p>
+  <div class="mt-4">
+    <%= render "code", id: "install_page", source: %(<html lang="en" class="UnmagicPage">) %>
+  </div>
 
   <h2 class="<%= step %>">3. Import the JavaScript</h2>
   <p class="<%= prose %>">

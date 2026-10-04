@@ -44,6 +44,19 @@
 @custom-variant sortable-over (&[data-sortable-over], &:has([data-sortable-over]));
 
 @layer components {
+  /* ------------------------------------------------------------------- Page */
+
+  /* The page behind the components: white with neutral-900 text, or neutral-950
+     with neutral-100 text in dark mode, the surfaces and text colour every
+     component assumes. It goes on <html>: a root element's background fills the
+     whole window, and color-scheme gives scrollbars and native controls the
+     matching theme. Without it a dark-mode visitor gets dark components on a
+     white page, and headings drawn in light text vanish into it. */
+  .UnmagicPage {
+    @apply bg-white text-neutral-900 antialiased;
+    @apply dark:bg-neutral-950 dark:text-neutral-100 dark:[color-scheme:dark];
+  }
+
   /* ------------------------------------------------------------------ Table */
 
   /* Content-sized by default, so a Markdown table wearing this class hugs its

@@ -28,6 +28,9 @@ RSpec.describe "the Tailwind stylesheet" do
         ".UnmagicAvatar--tint-6", ".UnmagicProse", ".UnmagicAIChat", ".UnmagicAIChatToolCall__join", ".UnmagicAIChatPermission__allow",
         ".UnmagicBoard__cards", ".UnmagicTimeline__marker--dot", "[data-sortable-dragging]")
       expect(css).to include("@layer components")
+      # The page's dark colours follow the host's dark variant, like every component's.
+      page = css[/^ *\.UnmagicPage \{$.*?^  \}$/m]
+      expect(page).to include("&:where(.dark, .dark *)", "color-scheme: dark")
     end
   end
 end

@@ -73,6 +73,20 @@ With tailwindcss-rails, import the engine's entry file after Tailwind itself in
 tailwindcss-rails generates that entry file on every build and watch, or on
 demand with `bin/rails tailwindcss:engines`.
 
+Then give the page itself the colours the components expect, by putting
+`UnmagicPage` on your layout's `<html>` tag:
+
+```erb
+<html lang="en" class="UnmagicPage">
+```
+
+It sets a white page with `neutral-900` text, and in dark mode a `neutral-950`
+page with `neutral-100` text and `color-scheme: dark`, so scrollbars and native
+controls match. Without it the components follow dark mode but the page behind
+them stays white, and anything drawn in the components' light text, such as a
+page header's title, disappears into it. Your own utilities on `<html>` or
+`<body>` still win, so a different page colour is one class away.
+
 With the Tailwind CLI or an npm build, import the gem's file by path. `bundle
 show unmagic-components` prints where the gem is installed:
 
@@ -140,8 +154,9 @@ text, and red, green and amber for tones), with a `dark:` variant for every
 colour. They look right with Tailwind's defaults and follow your theme from
 there.
 
-**Dark mode** follows your app's `dark` variant. Tailwind's default is the
-visitor's system setting. To switch on a class or an attribute instead, redefine
+**Dark mode** follows your app's `dark` variant, and so does `UnmagicPage`, the
+page colour behind the components (see [Installation](#installation)).
+Tailwind's default is the visitor's system setting. To switch on a class or an attribute instead, redefine
 the variant in your Tailwind input file and the components switch with it:
 
 ```css
