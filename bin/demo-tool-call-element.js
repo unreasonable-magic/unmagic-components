@@ -12,6 +12,7 @@ async function runToolCallElementDemo() {
   let call = demo.querySelector("#element_direct")
   const source = call.cloneNode(true)
   const row = call.querySelector('[data-part="row"]')
+  assert(!document.querySelector("div.UnmagicAIChatToolCall, .UnmagicAIChatToolCall__join, .UnmagicAIChatToolCall__rail"), "Legacy tool call markup remains")
   assert(helper.querySelector("details"), "Helper payload should create a disclosure")
   assert(!helper.querySelector('details [data-part="result"]'), "Results must stay outside")
   assert(!call.querySelector("details"), "No payload means no disclosure")
@@ -27,8 +28,8 @@ async function runToolCallElementDemo() {
     }
     const progress = states.querySelector(".UnmagicAIChatToolCall__progress")
     assert(getComputedStyle(progress).order === "1", "Disclosure arrow can wrap below progress")
-    assert(getComputedStyle(document.querySelector("#mixed_element"), "::before").content !== "none", "Legacy-to-element join missing")
-    assert(getComputedStyle(document.querySelector("#mixed_legacy_after .UnmagicAIChatToolCall__join")).display === "block", "Element-to-legacy join missing")
+    assert(getComputedStyle(document.querySelector("#mixed_element"), "::before").content !== "none", "Adjacent helper join missing")
+    assert(getComputedStyle(document.querySelector("#mixed_helper_after"), "::before").content !== "none", "Following helper join missing")
     for (const id of ["mixed_after_break", "mixed_standalone"]) {
       assert(getComputedStyle(document.getElementById(id), "::before").content === "none", `${id} should not join`)
     }

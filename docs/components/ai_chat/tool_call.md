@@ -4,9 +4,10 @@
 > Tier: 2 (small element)
 > Relates to: [payload](payload.md), [transcript](transcript.md), `<unmagic-elapsed>`
 
-## Opt-in element migration
+## Custom element API
 
-`element: true` selects `<unmagic-tool-call>` instead of the legacy `<div>`.
+`ai_chat_tool_call` always renders `<unmagic-tool-call>`. The builder API is
+unchanged; the temporary `element:` option and legacy renderer are removed.
 The element observes `state` (`queued`, `running`, `waiting`, `done`, `failed`)
 and exposes a reflecting `state` property. Missing or invalid attributes render
 as queued; assigning an invalid property raises `TypeError` without changing it.
@@ -25,7 +26,7 @@ content remains readable.
 
 ```erb
 <%= ai_chat_tool_call name: "search_files", state: :done,
-  element: true, id: "search_call" do |tool| %>
+  id: "search_call" do |tool| %>
   <% tool.summary "Configuration files" %>
   <% tool.answered "config.yml" %>
 <% end %>
@@ -73,9 +74,11 @@ identity, listeners, and focus.
 An upgrade enclosing an already-focused payload opens the disclosure so the
 control does not become hidden. This does not overwrite the stored reader choice.
 
-CSS pseudo-elements replace join/rail spans on this path. Physical adjacency
-matches legacy behavior, including explicit timeline gap markers. Requests and
-permissions do not participate. Legacy rendering and selectors remain available.
+CSS pseudo-elements draw the connectors. Physical adjacency includes explicit
+timeline gap markers. Requests and permissions do not participate. Hosts using
+`div.UnmagicAIChatToolCall`, `__join`, or `__rail` selectors must migrate them;
+those nodes no longer exist. Import `unmagic/components/tool_call` before relying
+on disclosures. The aggregate import already includes it.
 
 Verify dynamic payload insertion/removal, results outside the fold, node identity,
 keyboard focus, clone/move/reconnect, ID-keyed replacement, and Turbo cache/morph.
@@ -114,12 +117,29 @@ returns focus to the summary when hidden. Properties assigned before definition
 were also checked during a fresh page load. Desktop/light and mobile/dark browser
 runs passed; the browser includes buttons that exercise the public state setter.
 
+### Default renderer verification on 4 October 2026
+
+The helper now uses the element in every repo consumer. Visible Chrome replays
+passed at desktop/light and mobile/dark across the tool-call catalog (21 calls),
+conversation (3 calls), and assistant workspace (1 call). State changes retained
+payload identity, disclosure state and focused summaries. Native Enter opened
+the workspace payload. The detailed replay also passed payload mutation, timing,
+labels, focus, selection, cloning, reconnection and Turbo append/remove/morph.
+Forced-colour, reduced-motion and JavaScript-disabled checks also passed with
+the default renderer; all five states retained visible payloads/results without
+script. No browser console errors or warnings were observed.
+
+Replay `bin/demo-tool-call-consumers.js` from the tool-call page to visit these
+consumers and exercise their state setters. No application writes are made.
+The full Ruby suite passed: 526 examples. Local worktree fixtures need permission
+to bind test ports and isolation from personal Git identity hooks.
+
 ## As built
 
 Where the build differs from this note:
 
 - There is no `data-ai-chat-cluster`; the timeline markers do that job (see [transcript](transcript.md)).
-- `tool.progress` renders only while the call is running.
+- `tool.progress` is supplied for every state; the element shows it only while running.
 
 ## Purpose
 
@@ -193,33 +213,16 @@ is the seam and a tick is the fallback.
 
 ## Markup
 
-```html
-<div id="tool_call_9" class="UnmagicAIChatToolCall" data-ai-chat-timeline="row" data-ai-chat-cluster>
-  <span class="UnmagicAIChatToolCall__join" aria-hidden="true"></span>
+Ruby renders a readable row (`data-part="row"`) with name, summary, fallback
+status and formatted readings, followed by payload and result parts. The element
+wraps that row in native `details`/`summary` only when payloads exist. It owns the
+state glyph and disclosure arrow; CSS owns the joining lines. There are no
+server-generated decoration spans or alternate rendering paths.
 
-  <details class="UnmagicAIChatToolCall__disclosure">
-    <summary>
-      <span class="UnmagicAIChatToolCall__glyph">…<span class="UnmagicVisuallyHidden">Done</span></span>
-      <code class="UnmagicAIChatToolCall__name">search_messages</code>
-      <span class="UnmagicAIChatToolCall__summary">car seat</span>
-      <svg class="UnmagicAIChatToolCall__chevron" aria-hidden="true">…</svg>
-      <span class="UnmagicAIChatToolCall__readings">…</span>
-    </summary>
-
-    <div class="UnmagicAIChatToolCall__body">
-      <span class="UnmagicAIChatToolCall__rail" aria-hidden="true"></span>
-      …asked, answered…
-    </div>
-  </details>
-</div>
-```
-
-Built on `<details>`, so the disclosure needs no JavaScript. A broadcast
-replaces the element on every state change, though, and would put it back to
-`open:` each time, so a call given an `id:` marks its `<details>` with
-`data-ai-chat-disclosure` and `ai_chat.js` carries the person's own open or shut
-across the replacement (see [plan](plan.md#behaviour-javascript)). Without the
-script, the server's `open:` decides every render.
+Use the public parts for stream targets. A call's `id:` is copied onto the
+native disclosure's `data-ai-chat-disclosure` marker so `ai_chat.js` restores
+the reader's choice across replacement. `open:` supplies the initial preference.
+Without JavaScript the row, payloads and results remain visible, without folding.
 
 ## Accessibility
 
@@ -230,25 +233,18 @@ script, the server's `open:` decides every render.
   the one thing in the row conveyed only by a glyph and a colour.
 - The live clock is not a live region. See [`../elapsed.md`](../elapsed.md).
 - A `:running` call's row carries `aria-busy="true"`.
-- The joining line and the rail are `aria-hidden`: they are the visual grammar of
-  grouping, and the reading order already groups them.
+- Joining lines and rails are empty CSS pseudo-elements, absent from the
+  accessibility tree; the reading order already groups the calls.
 - The chevron rotates rather than changing glyph, so nothing is announced twice.
 
 ## Styling
 
 CSS section: **AI chat tool calls**.
 
-- `.UnmagicAIChatToolCall`, `__join`, `__disclosure`, `__glyph`, `__name`,
-  `__summary`, `__chevron`, `__readings`, `__body`, `__rail`, `__made`
-
-The timeline is the interesting CSS:
-
-```css
-.UnmagicAIChatToolCall__join {
-  @apply absolute -top-3.5 left-[0.4375rem] hidden h-3 w-px -translate-x-1/2 bg-neutral-200;
-}
-[data-ai-chat-timeline] + [data-ai-chat-timeline] .UnmagicAIChatToolCall__join { @apply block; }
-```
+Internal classes style the row, disclosure, glyph, name, summary, readings,
+body and result. Public `data-part` attributes identify caller-owned content.
+The host's `::before` joins adjacent timeline participants; the generated body's
+and result's `::before` draw the vertical rails.
 
 Every row draws the line; only a row that follows another shows it. It reaches up
 into the gap above rather than taking space of its own, so what it connects is
@@ -262,7 +258,7 @@ nothing cannot be what separates two rows — without them a run reads as broken
 wherever the transcript kept a receipt. The note for [message](message.md) says
 where the host renders these.
 
-`__rail` carries the line down the side of an open row's body, so an open call is
+A body pseudo-element carries the line down an open row, so an open call is
 a stretch of the run rather than a hole in it.
 
 Colours: neutrals throughout, amber for `:waiting`, red for `:failed`, amber for
@@ -272,9 +268,10 @@ named exception, since a frozen spinner reads as a hang.
 
 ## Behaviour (JavaScript)
 
-None of its own. It composes `<unmagic-elapsed>` for a running clock, and
-`<details>` does the rest. `ai_chat.js` keeps a person's open or shut across
-replacements of a call with an `id:`.
+Import `unmagic/components/tool_call`, or the aggregate `unmagic/components`.
+The element owns reactive state presentation and native disclosure structure,
+and composes `<unmagic-elapsed>` for a running clock. `ai_chat.js` keeps a
+person's open or shut across replacements of a call with an `id:`.
 
 `tool.progress(text)` renders an element with its own id
 (`#{id}_progress`) so the host can replace just that line as a tool reports. The
@@ -298,15 +295,15 @@ gem renders it; the host broadcasts to it.
 
 `spec/unmagic/components/ai_chat_tool_call_spec.rb`:
 
-- Each state's glyph, classes and visually hidden label.
-- `aria-busy` on a running row only.
-- `data-ai-chat-timeline="row"`, and its absence under `timeline: false`.
-- `icon:` overriding the done glyph, and only the done glyph.
-- Each builder part in its position; `made` outside the `<details>`.
-- No `<details>` at all when no part supplies content.
-- `open:` reaching the `details` element.
-- `ArgumentError` for an unknown state.
-- Passthrough `class:` and attributes.
+- Custom element output by default, with no server-generated disclosure or decoration.
+- Initial state, translated labels and `aria-busy`.
+- Timeline participation, `open:`, IDs, passthrough attributes and escaping.
+- All caller-supplied content retained for later reactive state changes.
+- Formatted timings, partial failures and custom success icon templates.
+- Payload filtering, results outside the disclosure, and unknown-state validation.
+
+The browser replay verifies state glyphs, visibility, disclosure choices and
+keyboard focus after upgrade, streaming and Turbo morphs.
 
 ## Preview
 

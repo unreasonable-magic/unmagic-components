@@ -1,4 +1,4 @@
-// <unmagic-tool-call> — progressive disclosure, rendered by ai_chat_tool_call(element: true).
+// <unmagic-tool-call> — progressive disclosure, rendered by ai_chat_tool_call.
 // Direct data-part="row", "payload" (repeatable), and "result" nodes are caller-owned.
 // Without JS all content is readable. Append payloads to the host, remove by ID.
 // open is the initial preference; identified calls share ai_chat's reader choice.
