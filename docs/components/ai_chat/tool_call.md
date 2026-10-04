@@ -82,8 +82,8 @@ on disclosures. The aggregate import already includes it.
 
 Verify dynamic payload insertion/removal, results outside the fold, node identity,
 keyboard focus, clone/move/reconnect, ID-keyed replacement, and Turbo cache/morph.
-Compare light/dark and phone layouts. Replay `bin/demo-tool-call-element.js` in
-the component browser console.
+Compare light/dark and phone layouts. `spec/e2e/ai_chat_tool_call_spec.rb` runs
+these checks in headless Chrome.
 
 ### Browser verification on 3 October 2026
 
@@ -100,12 +100,13 @@ This is an accessibility-tree check, not a VoiceOver/NVDA speech test; actual
 screen-reader output remains unverified. Testing used Chrome mobile emulation,
 not physical iOS/Android devices or Safari/Firefox.
 
-`bundle exec ruby bin/demo-tool-call-accessibility` replays settings unavailable
-through Chrome DevTools MCP in a separate temporary, visible Chrome profile:
-JavaScript disabled, forced colors, and reduced motion. All payloads/results
-remain visible without script; connectors, focus outlines, and disclosure arrows
-remain visible in forced colors; reduced motion uses a pulse instead of rotation.
-It writes screenshots and results under `tmp/tool-call-manual/`.
+Settings unavailable through Chrome DevTools MCP were checked in a separate
+temporary, visible Chrome profile: JavaScript disabled, forced colors, and
+reduced motion. All payloads/results remain visible without script; connectors,
+focus outlines, and disclosure arrows remain visible in forced colors; reduced
+motion uses a pulse instead of rotation. The end-to-end spec now asserts the
+no-script content, the pulse, the connector's system colour and keyboard
+disclosure; focus outlines and arrows in forced colors were judged by eye.
 
 ### Reactive state verification on 4 October 2026
 
@@ -129,9 +130,8 @@ Forced-colour, reduced-motion and JavaScript-disabled checks also passed with
 the default renderer; all five states retained visible payloads/results without
 script. No browser console errors or warnings were observed.
 
-Replay `bin/demo-tool-call-consumers.js` from the tool-call page to visit these
-consumers and exercise their state setters. No application writes are made.
-The full Ruby suite passed: 526 examples. Local worktree fixtures need permission
+The end-to-end spec now visits these consumers and exercises their state
+setters. The full Ruby suite passed: 526 examples. Local worktree fixtures need permission
 to bind test ports and isolation from personal Git identity hooks.
 
 ## As built
@@ -302,8 +302,11 @@ gem renders it; the host broadcasts to it.
 - Formatted timings, partial failures and custom success icon templates.
 - Payload filtering, results outside the disclosure, and unknown-state validation.
 
-The browser replay verifies state glyphs, visibility, disclosure choices and
-keyboard focus after upgrade, streaming and Turbo morphs.
+`spec/e2e/ai_chat_tool_call_spec.rb` drives the component browser in headless
+Chrome. It verifies state glyphs, visibility, disclosure choices and keyboard
+focus after upgrade, streaming and Turbo morphs; each consumer on a desktop in
+light and a phone in dark; reduced motion and forced colours; and readable
+content without JavaScript.
 
 ## Preview
 

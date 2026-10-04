@@ -501,8 +501,16 @@ So that this styling can't clash with a host's own inputs:
   - `ArgumentError` for every validated option (`primitives_spec.rb`).
 - **Configuration is reset after every example.** A spec that changes a seam
   needs no cleanup.
-- **There are no JavaScript tests.** Behaviour is verified by hand in the
-  browser, so the design note lists what to check there.
+- **JavaScript with logic worth pinning down gets an end-to-end spec** in
+  `spec/e2e/`, named for the component (`ai_chat_tool_call_spec.rb`).
+  - `require "e2e_helper"` serves the component browser from the spec
+    application and drives it in headless Chrome through unmagic-browser, so
+    Chrome has to be installed. `HEADFUL=1` runs it in a window.
+  - `visit_browser(path)` opens a page of the browser. `js(body)` runs a script
+    there and returns what it saw: act in JavaScript, assert in Ruby.
+  - Work on the browser's examples, and reach other pages as a reader would.
+- **Everything else is verified by hand in the browser**, so the design note
+  lists what to check there.
 
 ## Browser
 

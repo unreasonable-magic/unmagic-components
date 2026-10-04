@@ -75,8 +75,9 @@ direct HTML no longer needs internal classes or a row wrapper. See the
 - [x] Share reader-choice restoration with the existing AI chat behavior.
 - [x] Observe state and translated labels; reflect state/name properties and
   preserve payload identity, selection, focus, and disclosure choice on updates.
-- [x] Add helper/direct HTML examples and a replayable visible-browser demo
-  covering streams, morphs, identity, focus, cloning, and reconnection.
+- [x] Add helper/direct HTML examples and an end-to-end spec
+  (`spec/e2e/ai_chat_tool_call_spec.rb`) covering streams, morphs, identity,
+  focus, cloning, and reconnection.
 
 Current code: [tool_call.rb](../lib/unmagic/components/ai_chat/tool_call.rb),
 [ai_chat.js](../app/assets/javascripts/unmagic/components/ai_chat.js), and the
@@ -394,9 +395,11 @@ Proposed public HTML:
   focus, accessible names, and the component-specific cases listed above.
 - [ ] Run relevant specs and lint; rebuild the committed browser stylesheet with
   `bundle exec rake browser:css` when CSS changes.
-- [ ] Demo the migration in visible Chrome using Chrome DevTools MCP. Save a
-  replayable script, screenshots, and a recording where practical. Include dynamic
-  updates demonstrating the rendering logic that moved into the component.
+- [ ] Demo the migration in visible Chrome using Chrome DevTools MCP, with
+  screenshots and a recording where practical. Include dynamic updates
+  demonstrating the rendering logic that moved into the component.
+- [ ] Keep the demo's checks as an end-to-end spec in `spec/e2e/`, not as a
+  one-off script (`HEADFUL=1 bundle exec rspec spec/e2e` replays it in a window).
 
 This document only plans work; implementation and browser demos belong to the
 individual migration tasks.

@@ -30,6 +30,8 @@ each component from scratch to these principles.
 - `app/assets/javascripts/unmagic/components/`: one custom element per file,
   imported by `components.js`
 - `spec/unmagic/components/`: RSpec and Nokogiri specs (`build_view`, `html`)
+- `spec/e2e/`: end-to-end specs that drive the component browser in headless
+  Chrome (`e2e_helper`, `visit_browser`, `js`)
 - `lib/unmagic/components/browser/`: the component browser engine a host mounts
   (catalog, example partials, prebuilt `assets/browser.css`)
 - `config.ru`: a host app that mounts the browser, for `bin/dev`
@@ -37,7 +39,7 @@ each component from scratch to these principles.
 ## Commands
 
 ```sh
-bundle exec rspec      # specs
+bundle exec rspec      # specs; the ones in spec/e2e need Chrome (HEADFUL=1 to watch)
 bundle exec rubocop    # lint
 bin/dev                # builds the browser's CSS, then serves the browser at http://localhost:5701 (?theme=dark for dark)
 bundle exec rake browser:css  # rebuilds lib/unmagic/components/browser/assets/browser.css (commit it)

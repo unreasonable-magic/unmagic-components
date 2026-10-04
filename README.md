@@ -1967,11 +1967,7 @@ icon, accessible status, busy state, progress, and supplied timing/failure readi
 without replacing payloads or closing disclosures. Ruby provides translated
 labels and formatted values; direct HTML needs no internal CSS classes.
 See the [element API](docs/components/ai_chat/tool_call.md#custom-element-api)
-for direct HTML and stream ownership. To replay its browser checks, open
-`/components/ai_chat_tool_call`, paste `bin/demo-tool-call-element.js` into the
-console, and run `await runToolCallElementDemo()` on a freshly loaded page.
-`bin/demo-tool-call-consumers.js` also replays the catalog, conversation, and
-assistant workspace using `await runToolCallConsumerDemo()`.
+for direct HTML and stream ownership.
 
 ```erb
 <%= ai_chat_tool_call name: call.name, state: call.state, id: dom_id(call), icon: call.category_icon do |tool| %>
