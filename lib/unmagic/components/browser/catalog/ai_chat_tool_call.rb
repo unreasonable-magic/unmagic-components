@@ -7,6 +7,9 @@ Unmagic::Components::Browser::Catalog.component :ai_chat_tool_call,
   description: "One reach for a tool, from the ask to the answer, as a row. A run of them is joined by a line into a " \
                "timeline, because four calls in one breath are one stretch of work, not four events.",
   examples: [
+    { key: :element, title: "Element migration", layout: :full,
+      description: "Opt-in helper output and direct HTML. The element creates disclosures as payloads arrive; " \
+                   "results stay visible and CSS joins neighboring calls." },
     { key: :run, title: "A run of calls", layout: :full,
       description: "Rows join up, counting the hidden gap markers between them. A done call's glyph says what it was " \
                    "about." },

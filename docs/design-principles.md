@@ -69,6 +69,24 @@ index and detail pages), not marketing pages.
    options. Enumerated options are few and validated. Anything else a caller
    passes lands on the root element.
 
+## Incremental element migrations
+
+An opt-in migration may let a light-DOM element generate presentation structure
+from server-rendered content. Before upgrade all content must remain readable,
+with native links, labels, and stream IDs intact. `ai_chat_tool_call(element: true)`
+renders a row, payloads, and results; the element adds a native disclosure and CSS
+draws connectors. Existing rendering remains the default. Ruby still owns
+escaping, translated labels, icons, and initial state until a component explicitly
+documents a reactive state API. Tool calls now observe `state` and translated
+label attributes; attributes are the source of truth, with reflecting JavaScript
+properties. Keep caller-owned rich content separate from generated presentation.
+
+Public `data-part` nodes belong to the caller. Move them without cloning or
+replacing their content; observers must ignore their own structural edits.
+Generated structure must survive snapshot cloning, reconnection, and streams.
+Document individual imports and no-script behavior. CSS-only custom tags need no
+empty JavaScript registration.
+
 ## Ruby
 
 ### Files

@@ -86,6 +86,64 @@ RSpec.describe "AI chat tool calls and payloads" do
       expect { view.ai_chat_tool_call(name: "a", state: :dozing) }
         .to raise_error(ArgumentError, /unknown ai_chat_tool_call state :dozing/)
     end
+
+    it "opts into readable element parts without server-generated disclosure or decoration" do
+      call = html(view.ai_chat_tool_call(name: "<search>", state: :running, id: "element_call",
+        element: true, open: true, class: "extra", data: { custom: "kept" }) do |tool|
+        tool.asked nil
+        tool.answered ""
+        tool.progress "Still working"
+        tool.made { view.link_to("Result", "/result") }
+      end).at("unmagic-tool-call")
+
+      expect(call["id"]).to eq("element_call")
+      expect(call["class"]).to include("extra")
+      expect(call["data-custom"]).to eq("kept")
+      expect(call["data-ai-chat-timeline"]).to eq("row")
+      expect(call["aria-busy"]).to eq("true")
+      expect(call.key?("open")).to be(true)
+      expect(call.at('[data-part="row"] code').text).to eq("<search>")
+      expect(call.at("search")).to be_nil
+      expect(call.at("#element_call_progress").text).to eq("Still working")
+      expect(call.css('> [data-part="payload"]').size).to eq(1)
+      expect(call.at('> [data-part="result"] a')["href"]).to eq("/result")
+      expect(call.at("details, .UnmagicAIChatToolCall__join, .UnmagicAIChatToolCall__rail")).to be_nil
+    end
+
+    it "keeps element calls without payloads readable and can opt out of the timeline" do
+      call = html(view.ai_chat_tool_call(name: "ping", state: :done, element: true, timeline: false))
+        .at("unmagic-tool-call")
+      expect(call.at('[data-part="row"]').text).to include("ping")
+      expect(call.at('[data-part="payload"]')).to be_nil
+      expect(call["data-ai-chat-timeline"]).to be_nil
+      expect(call.key?("open")).to be(false)
+    end
+
+    it "supplies all state-independent content for reactive element updates" do
+      call = html(view.ai_chat_tool_call(name: "search", state: :failed, element: true, icon: :folder) do |tool|
+        tool.progress "Looking"
+        tool.failures 2
+        tool.timing started_at: Time.current, duration: 0
+      end).at("unmagic-tool-call")
+      expect(call["state"]).to eq("failed")
+      expect(call["label-running"]).to eq("Running")
+      expect(call.at('[data-part="progress"]').text).to eq("Looking")
+      expect(call.at('[data-part="failures"]').text).to include("2 failed")
+      expect(call.at('[data-part="elapsed"] unmagic-elapsed')).not_to be_nil
+      expect(call.at('[data-part="duration"]').text).to eq("Took0s")
+      expect(call.at('template[data-part="success-icon"] svg')["data-unmagic-icon"]).to end_with("/folder")
+      expect(call.at(".UnmagicAIChatToolCall__glyph")).to be_nil
+    end
+
+    it "supplies translated labels for future states" do
+      I18n.backend.store_translations(:en, unmagic: { components: { ai_chat: { tool_call: { running: "En cours" } } } })
+      I18n.with_locale(:en) do
+        call = html(view.ai_chat_tool_call(name: "search", state: :queued, element: true)).at("unmagic-tool-call")
+        expect(call["label-running"]).to eq("En cours")
+      end
+    ensure
+      I18n.backend.reload!
+    end
   end
 
   describe "#ai_chat_payload" do

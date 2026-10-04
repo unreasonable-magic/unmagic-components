@@ -14,7 +14,7 @@ module Unmagic
         LABELS = { queued: "Queued", running: "Running", waiting: "Waiting on you", done: "Done",
                    failed: "Failed" }.freeze
 
-        def initialize(view, name:, state:, id: nil, icon: nil, open: false, timeline: true, **options)
+        def initialize(view, name:, state:, id: nil, icon: nil, open: false, timeline: true, element: false, **options)
           AIChat.validate!("ai_chat_tool_call", :state, state, STATES)
 
           @view = view
@@ -24,6 +24,7 @@ module Unmagic
           @icon = icon
           @open = open
           @timeline = timeline
+          @element = element
           @options = options
           @summary = nil
           @timing = nil
@@ -80,6 +81,7 @@ module Unmagic
 
         def render
           payloads = @payloads.map(&:render).select(&:present?)
+          return render_element(payloads) if @element
 
           view.content_tag(:div, **@options,
             id: @id,
@@ -99,6 +101,46 @@ module Unmagic
         attr_reader :view
 
         delegate :tag, :safe_join, to: :view, private: true
+
+        # Supply facts and translated content; the element owns state presentation.
+        def render_element(payloads)
+          labels = LABELS.to_h { |state, fallback| [ "label-#{state}", AIChat.t("tool_call.#{state}", default: fallback) ] }
+          view.content_tag("unmagic-tool-call", **@options, **labels, id: @id, open: @open, state: @state,
+            "aria-busy": ("true" if @state == :running),
+            data: { ai_chat_timeline: ("row" if @timeline) }.merge(@options[:data] || {}),
+            class: view.class_names("UnmagicAIChatToolCall", "UnmagicAIChatToolCall--#{@state}", @options[:class])) do
+            safe_join [
+              tag.span(safe_join([
+                tag.span(labels.fetch("label-#{@state}"), "data-part": "status"),
+                tag.code(@name, "data-part": "name", class: "UnmagicAIChatToolCall__name"),
+                (tag.span(@summary, "data-part": "summary", class: "UnmagicAIChatToolCall__summary") if @summary.present?),
+                element_readings,
+                (tag.span(@progress, "data-part": "progress", id: ("#{@id}_progress" if @id),
+                  class: "UnmagicAIChatToolCall__progress") if @progress.present?)
+              ].compact), "data-part": "row", class: "UnmagicAIChatToolCall__row"),
+              (tag.template(Icons.svg(view, @icon), "data-part": "success-icon") if @icon),
+              *payloads.map { |payload| tag.div(payload, "data-part": "payload") },
+              (tag.div(@made, "data-part": "result", class: "UnmagicAIChatToolCall__made") if @made.present?)
+            ].compact
+          end
+        end
+
+        def element_readings
+          parts = []
+          unless @failures.to_i.zero?
+            parts << tag.span(reading(:triangle_alert, AIChat.t("tool_call.partly_failed", default: "Partly failed"),
+              AIChat.t("tool_call.failures", count: @failures, default: "%{count} failed"), modifier: "warn"), "data-part": "failures")
+          end
+          if @timing&.dig(:started_at)
+            parts << tag.span(reading(:timer, AIChat.t("tool_call.running_for", default: "Running for"),
+              Elapsed.new(view, @timing[:started_at], direction: :up).render), "data-part": "elapsed")
+          end
+          if @timing&.dig(:duration)
+            parts << tag.span(reading(:timer, AIChat.t("tool_call.took", default: "Took"),
+              Duration.format(@timing[:duration])), "data-part": "duration")
+          end
+          tag.span(safe_join(parts), "data-part": "readings", class: "UnmagicAIChatToolCall__readings") if parts.any?
+        end
 
         # <details> so the disclosure needs no script. A broadcast replaces the row
         # on every change of state, so with an id it is marked for ai_chat.js to
