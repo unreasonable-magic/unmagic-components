@@ -8,9 +8,6 @@ module Unmagic
       class ToolCall
         STATES = %i[queued running waiting done failed].freeze
 
-        GLYPHS = { queued: :circle_dashed, running: :loader_circle, waiting: :circle_question_mark,
-                   done: :circle_check, failed: :circle_x }.freeze
-
         LABELS = { queued: "Queued", running: "Running", waiting: "Waiting on you", done: "Done",
                    failed: "Failed" }.freeze
 
@@ -78,18 +75,26 @@ module Unmagic
           nil
         end
 
+        # Supply facts and translated content; the element owns state presentation.
         def render
           payloads = @payloads.map(&:render).select(&:present?)
-
-          view.content_tag(:div, **@options,
-            id: @id,
+          labels = LABELS.to_h { |state, fallback| [ "label-#{state}", AIChat.t("tool_call.#{state}", default: fallback) ] }
+          view.content_tag("unmagic-tool-call", **@options, **labels, id: @id, open: @open, state: @state,
             "aria-busy": ("true" if @state == :running),
             data: { ai_chat_timeline: ("row" if @timeline) }.merge(@options[:data] || {}),
             class: view.class_names("UnmagicAIChatToolCall", "UnmagicAIChatToolCall--#{@state}", @options[:class])) do
             safe_join [
-              (tag.span(class: "UnmagicAIChatToolCall__join", "aria-hidden": "true") if @timeline),
-              payloads.any? ? disclosure(payloads) : tag.div(row(chevron: false), class: "UnmagicAIChatToolCall__row"),
-              (tag.div(safe_join([ rail, @made ]), class: "UnmagicAIChatToolCall__made") if @made.present?)
+              tag.span(safe_join([
+                tag.span(labels.fetch("label-#{@state}"), "data-part": "status"),
+                tag.code(@name, "data-part": "name", class: "UnmagicAIChatToolCall__name"),
+                (tag.span(@summary, "data-part": "summary", class: "UnmagicAIChatToolCall__summary") if @summary.present?),
+                readings,
+                (tag.span(@progress, "data-part": "progress", id: ("#{@id}_progress" if @id),
+                  class: "UnmagicAIChatToolCall__progress") if @progress.present?)
+              ].compact), "data-part": "row", class: "UnmagicAIChatToolCall__row"),
+              (tag.template(Icons.svg(view, @icon), "data-part": "success-icon") if @icon),
+              *payloads.map { |payload| tag.div(payload, "data-part": "payload") },
+              (tag.div(@made, "data-part": "result", class: "UnmagicAIChatToolCall__made") if @made.present?)
             ].compact
           end
         end
@@ -100,63 +105,21 @@ module Unmagic
 
         delegate :tag, :safe_join, to: :view, private: true
 
-        # <details> so the disclosure needs no script. A broadcast replaces the row
-        # on every change of state, so with an id it is marked for ai_chat.js to
-        # carry the reader's own open or shut across the replacement.
-        def disclosure(payloads)
-          tag.details(open: @open, "data-ai-chat-disclosure": @id, class: "UnmagicAIChatToolCall__disclosure") do
-            safe_join [
-              tag.summary(row(chevron: true), class: "UnmagicAIChatToolCall__row"),
-              tag.div(safe_join([ rail, *payloads ]), class: "UnmagicAIChatToolCall__body")
-            ]
-          end
-        end
-
-        def row(chevron:)
-          safe_join [
-            glyph,
-            tag.code(@name, class: "UnmagicAIChatToolCall__name"),
-            (tag.span(@summary, class: "UnmagicAIChatToolCall__summary") if @summary.present?),
-            (Icons.svg(view, :chevron_right, class: "UnmagicAIChatChevron") if chevron),
-            readings,
-            (progress_line if @state == :running && @progress.present?)
-          ].compact
-        end
-
-        # A call that simply worked is the common case, so its glyph says what it was
-        # about (icon:) rather than repeating a tick down the whole timeline.
-        def glyph
-          name = @state == :done && @icon ? @icon : GLYPHS.fetch(@state)
-
-          tag.span(class: "UnmagicAIChatToolCall__glyph") do
-            safe_join [
-              Icons.svg(view, name, class: ("UnmagicAIChatSpinner" if @state == :running)),
-              tag.span(AIChat.t("tool_call.#{@state}", default: LABELS.fetch(@state)), class: "UnmagicVisuallyHidden")
-            ]
-          end
-        end
-
         def readings
-          items = [ failures_reading, timing_reading ].compact
-          tag.span(safe_join(items), class: "UnmagicAIChatToolCall__readings") if items.any?
-        end
-
-        def failures_reading
-          return if @failures.to_i.zero? || @state == :failed
-
-          reading(:triangle_alert, AIChat.t("tool_call.partly_failed", default: "Partly failed"),
-            AIChat.t("tool_call.failures", count: @failures, default: "%{count} failed"), modifier: "warn")
-        end
-
-        def timing_reading
-          return unless @timing
-
-          if @state == :running && @timing[:started_at]
-            reading(:timer, AIChat.t("tool_call.running_for", default: "Running for"),
-              Elapsed.new(view, @timing[:started_at], direction: :up).render)
-          elsif @timing[:duration]
-            reading(:timer, AIChat.t("tool_call.took", default: "Took"), Duration.format(@timing[:duration]))
+          parts = []
+          unless @failures.to_i.zero?
+            parts << tag.span(reading(:triangle_alert, AIChat.t("tool_call.partly_failed", default: "Partly failed"),
+              AIChat.t("tool_call.failures", count: @failures, default: "%{count} failed"), modifier: "warn"), "data-part": "failures")
           end
+          if @timing&.dig(:started_at)
+            parts << tag.span(reading(:timer, AIChat.t("tool_call.running_for", default: "Running for"),
+              Elapsed.new(view, @timing[:started_at], direction: :up).render), "data-part": "elapsed")
+          end
+          if @timing&.dig(:duration)
+            parts << tag.span(reading(:timer, AIChat.t("tool_call.took", default: "Took"),
+              Duration.format(@timing[:duration])), "data-part": "duration")
+          end
+          tag.span(safe_join(parts), "data-part": "readings", class: "UnmagicAIChatToolCall__readings") if parts.any?
         end
 
         # Each reading leads with a glyph, so a run of small grey numbers can be told
@@ -166,15 +129,6 @@ module Unmagic
             "UnmagicAIChatToolCall__reading--#{modifier}" => modifier)) do
             safe_join [ Icons.svg(view, icon), tag.span(label, class: "UnmagicVisuallyHidden"), value ]
           end
-        end
-
-        def progress_line
-          tag.span(@progress, id: ("#{@id}_progress" if @id), class: "UnmagicAIChatToolCall__progress")
-        end
-
-        # The timeline carried down the side of whatever hangs under a row.
-        def rail
-          tag.span(class: "UnmagicAIChatToolCall__rail", "aria-hidden": "true")
         end
       end
     end

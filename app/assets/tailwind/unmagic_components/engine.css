@@ -4633,20 +4633,6 @@
     @apply relative text-sm text-neutral-500 dark:text-neutral-400;
   }
 
-  /* The line joining a run: every row draws it, and only a row following another
-     shows it. It reaches up into the gap above, centred on the glyph's column,
-     rather than taking room of its own. */
-  .UnmagicAIChatToolCall__join {
-    @apply absolute hidden w-px -translate-x-1/2 bg-neutral-200 dark:bg-neutral-700;
-    left: 0.4375rem;
-    top: calc(var(--spacing) * -2.5);
-    height: calc(var(--spacing) * 2);
-  }
-
-  [data-ai-chat-timeline] + [data-ai-chat-timeline] > .UnmagicAIChatToolCall__join {
-    @apply block;
-  }
-
   .UnmagicAIChatToolCall__row {
     @apply flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5;
   }
@@ -4718,10 +4704,59 @@
     @apply relative mt-2 flex flex-wrap gap-2 pl-5.5;
   }
 
-  .UnmagicAIChatToolCall__rail {
-    @apply absolute bottom-0 w-px -translate-x-1/2 bg-neutral-200 dark:bg-neutral-700;
+  /* The element owns decoration and disclosure; public parts remain caller-owned
+     stream targets. Only adjacent timeline participants get a joining line. */
+  unmagic-tool-call {
+    @apply block;
+  }
+
+  unmagic-tool-call [data-part][hidden] {
+    display: none !important;
+  }
+
+  [data-ai-chat-timeline] + unmagic-tool-call[data-ai-chat-timeline]::before {
+    @apply absolute w-px -translate-x-1/2 bg-neutral-200 content-[''];
+    left: 0.4375rem;
+    top: calc(var(--spacing) * -2.5);
+    height: calc(var(--spacing) * 2);
+    @variant dark { @apply bg-neutral-700; }
+  }
+
+  unmagic-tool-call > [data-part="payload"] {
+    @apply mt-2 pl-5.5;
+  }
+
+  unmagic-tool-call > details[data-tool-call-generated] > summary > [data-part="row"] {
+    display: contents;
+  }
+
+  /* Progress occupies its own line; the disclosure arrow belongs above it. */
+  unmagic-tool-call > details[data-tool-call-generated] > summary > [data-part="row"] > .UnmagicAIChatToolCall__progress {
+    order: 1;
+  }
+
+  unmagic-tool-call > details[data-tool-call-generated] > summary::after {
+    @apply size-1.5 shrink-0 rotate-[-45deg] border-r border-b content-[''];
+  }
+
+  unmagic-tool-call > details[data-tool-call-generated][open] > summary::after {
+    @apply rotate-45;
+  }
+
+  unmagic-tool-call > details[data-tool-call-generated] > [data-tool-call-body]::before,
+  unmagic-tool-call > [data-part="result"]::before {
+    @apply absolute bottom-0 w-px -translate-x-1/2 bg-neutral-200 content-[''];
     left: 0.4375rem;
     top: calc(var(--spacing) * -1.5);
+    @variant dark { @apply bg-neutral-700; }
+  }
+
+  @media (forced-colors: active) {
+    [data-ai-chat-timeline] + unmagic-tool-call[data-ai-chat-timeline]::before,
+    unmagic-tool-call > details[data-tool-call-generated] > [data-tool-call-body]::before,
+    unmagic-tool-call > [data-part="result"]::before {
+      background-color: CanvasText;
+    }
   }
 
   /* ------------------------------------------------------- AI chat payloads */

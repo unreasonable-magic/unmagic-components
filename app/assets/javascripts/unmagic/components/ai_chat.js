@@ -176,6 +176,9 @@ function keepChoices(node) {
   }
 }
 
+// Element-generated disclosures use the same choice as server-rendered ones.
+export { keepChoices as restoreDisclosureChoices }
+
 const ASKING = ".UnmagicAIChatRequest--waiting[role=alert], .UnmagicAIChatPermission--waiting[role=alert]"
 
 function arrive(node) {

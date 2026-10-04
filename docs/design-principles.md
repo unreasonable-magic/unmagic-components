@@ -69,6 +69,25 @@ index and detail pages), not marketing pages.
    options. Enumerated options are few and validated. Anything else a caller
    passes lands on the root element.
 
+## Incremental element migrations
+
+An opt-in migration may let a light-DOM element generate presentation structure
+from server-rendered content. Before upgrade all content must remain readable,
+with native links, labels, and stream IDs intact. After comparison and browser
+verification, document the default switch and removed DOM selectors.
+`ai_chat_tool_call` now always renders an element with a row, payloads, and
+results; the element adds a native disclosure and CSS draws connectors. Ruby
+still owns escaping, translated labels, custom icons, and initial state until a
+component explicitly documents a reactive state API. Tool calls now observe `state` and translated
+label attributes; attributes are the source of truth, with reflecting JavaScript
+properties. Keep caller-owned rich content separate from generated presentation.
+
+Public `data-part` nodes belong to the caller. Move them without cloning or
+replacing their content; observers must ignore their own structural edits.
+Generated structure must survive snapshot cloning, reconnection, and streams.
+Document individual imports and no-script behavior. CSS-only custom tags need no
+empty JavaScript registration.
+
 ## Ruby
 
 ### Files
@@ -482,8 +501,16 @@ So that this styling can't clash with a host's own inputs:
   - `ArgumentError` for every validated option (`primitives_spec.rb`).
 - **Configuration is reset after every example.** A spec that changes a seam
   needs no cleanup.
-- **There are no JavaScript tests.** Behaviour is verified by hand in the
-  browser, so the design note lists what to check there.
+- **JavaScript with logic worth pinning down gets an end-to-end spec** in
+  `spec/e2e/`, named for the component (`ai_chat_tool_call_spec.rb`).
+  - `require "e2e_helper"` serves the component browser from the spec
+    application and drives it in headless Chrome through unmagic-browser, so
+    Chrome has to be installed. `HEADFUL=1` runs it in a window.
+  - `visit_browser(path)` opens a page of the browser. `js(body)` runs a script
+    there and returns what it saw: act in JavaScript, assert in Ruby.
+  - Work on the browser's examples, and reach other pages as a reader would.
+- **Everything else is verified by hand in the browser**, so the design note
+  lists what to check there.
 
 ## Browser
 

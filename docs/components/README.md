@@ -21,6 +21,10 @@ Untitled UI's messaging set.
 
 Status is `draft` until reviewed, then `reviewed`, then `built`.
 
+The [custom element migration todos](../component-migration-todos.md) propose
+moving composition and presentation rules from existing Ruby renderers into
+elements and CSS, with draft APIs, implementation tasks, and verification cases.
+
 ## Already shipped
 
 These are documented in the README and have no notes here:

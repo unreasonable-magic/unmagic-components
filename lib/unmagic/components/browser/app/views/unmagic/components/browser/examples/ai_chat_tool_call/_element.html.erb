@@ -1,0 +1,42 @@
+<div id="tool_call_element_demo" class="mx-auto max-w-2xl space-y-2.5">
+  <%= ai_chat_tool_call name: "search_files", state: :done, id: "element_search" do |tool| %>
+    <% tool.summary "Configuration files · helper output" %>
+    <% tool.answered "config/database.yml" %>
+    <% tool.made { link_to "View configuration", "#tool_call_element_demo", class: "underline" } %>
+  <% end %>
+  <unmagic-tool-call id="element_direct" name="read_file" state="done" data-ai-chat-timeline="row">
+    <span data-part="summary">Direct HTML · change its state below</span>
+    <span data-part="progress">Reading configuration…</span>
+    <div data-part="result">Results remain visible outside the disclosure.</div>
+  </unmagic-tool-call>
+</div>
+<div class="mx-auto mt-4 flex max-w-2xl flex-wrap gap-2">
+  <% %w[queued running waiting done failed].each do |state| %>
+    <button type="button" class="UnmagicButton" onclick="document.getElementById('element_direct').state = '<%= state %>'"><%= state.humanize %></button>
+  <% end %>
+</div>
+
+<div id="tool_call_element_states" class="mx-auto mt-6 max-w-2xl space-y-4">
+  <h3 class="text-sm font-medium">Element states</h3>
+  <% %i[queued running waiting done failed].each do |state| %>
+    <%= ai_chat_tool_call name: "render_scene", state: state,
+      id: "element_state_#{state}", icon: :folder, timeline: false do |tool| %>
+      <% tool.summary "#{state} · a long description of the configuration and rendering work" %>
+      <% tool.progress "Frame 12 of 40" %>
+      <% tool.timing started_at: @now - 72, duration: 3.1 %>
+      <% tool.failures 2 %>
+      <% tool.answered "Output for #{state}" %>
+      <% tool.made { link_to "View #{state} result", "#element_state_#{state}", class: "underline" } %>
+    <% end %>
+  <% end %>
+</div>
+
+<div id="tool_call_element_mixed" class="mx-auto mt-6 max-w-2xl space-y-2.5">
+  <h3 class="text-sm font-medium">Helper and direct HTML timeline</h3>
+  <%= ai_chat_tool_call name: "helper_before", state: :done, id: "mixed_helper_before" %>
+  <unmagic-tool-call name="element_middle" state="done" id="mixed_element" data-ai-chat-timeline="row"></unmagic-tool-call>
+  <%= ai_chat_tool_call name: "helper_after", state: :done, id: "mixed_helper_after" %>
+  <p id="mixed_break">A message interrupts the run.</p>
+  <%= ai_chat_tool_call name: "element_after_message", state: :done, id: "mixed_after_break" %>
+  <%= ai_chat_tool_call name: "standalone", state: :done, timeline: false, id: "mixed_standalone" %>
+</div>
