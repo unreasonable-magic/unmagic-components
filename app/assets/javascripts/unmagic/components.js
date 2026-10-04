@@ -33,6 +33,7 @@ import "unmagic/components/toolbar"
 import "unmagic/components/slash_menu"
 import "unmagic/components/dropzone"
 import "unmagic/components/ai_chat"
+import "unmagic/components/tool_call"
 import "unmagic/components/sortable"
 import "unmagic/components/board"
 

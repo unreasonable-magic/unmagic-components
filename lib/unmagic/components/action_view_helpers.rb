@@ -1661,7 +1661,11 @@ module Unmagic
       # (ai_chat_payload), failures (a count for a call that mostly worked),
       # progress (a line beside the spinner, with id "#{id}_progress" to replace),
       # and made (content kept outside the fold). With no payloads there is no
-      # disclosure. open: true opens it. Other options go on the root <div>.
+      # disclosure. open: true opens it. element: true opts into <unmagic-tool-call>:
+      # payload insertion/removal updates its disclosure, and CSS draws connectors.
+      # Needs import "unmagic/components/tool_call"; without it content stays readable.
+      # The element's state property/attribute updates presentation in place;
+      # Ruby supplies translated labels and formatted values. Other options go on the root.
       def ai_chat_tool_call(name:, state:, id: nil, icon: nil, open: false, timeline: true, **options, &block)
         builder = Components::AIChat::ToolCall.new(self, name: name, state: state, id: id, icon: icon, open: open,
           timeline: timeline, **options)

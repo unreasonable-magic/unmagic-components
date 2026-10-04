@@ -4724,6 +4724,61 @@
     top: calc(var(--spacing) * -1.5);
   }
 
+  /* The opt-in element owns decoration and disclosure, while its public parts
+     remain caller-owned stream targets. Legacy rows keep their original spans. */
+  unmagic-tool-call {
+    @apply block;
+  }
+
+  unmagic-tool-call [data-part][hidden] {
+    display: none !important;
+  }
+
+  [data-ai-chat-timeline] + unmagic-tool-call[data-ai-chat-timeline]::before {
+    @apply absolute w-px -translate-x-1/2 bg-neutral-200 content-[''];
+    left: 0.4375rem;
+    top: calc(var(--spacing) * -2.5);
+    height: calc(var(--spacing) * 2);
+    @variant dark { @apply bg-neutral-700; }
+  }
+
+  unmagic-tool-call > [data-part="payload"] {
+    @apply mt-2 pl-5.5;
+  }
+
+  unmagic-tool-call > details[data-tool-call-generated] > summary > [data-part="row"] {
+    display: contents;
+  }
+
+  /* Progress occupies its own line; the disclosure arrow belongs above it. */
+  unmagic-tool-call > details[data-tool-call-generated] > summary > [data-part="row"] > .UnmagicAIChatToolCall__progress {
+    order: 1;
+  }
+
+  unmagic-tool-call > details[data-tool-call-generated] > summary::after {
+    @apply size-1.5 shrink-0 rotate-[-45deg] border-r border-b content-[''];
+  }
+
+  unmagic-tool-call > details[data-tool-call-generated][open] > summary::after {
+    @apply rotate-45;
+  }
+
+  unmagic-tool-call > details[data-tool-call-generated] > [data-tool-call-body]::before,
+  unmagic-tool-call > [data-part="result"]::before {
+    @apply absolute bottom-0 w-px -translate-x-1/2 bg-neutral-200 content-[''];
+    left: 0.4375rem;
+    top: calc(var(--spacing) * -1.5);
+    @variant dark { @apply bg-neutral-700; }
+  }
+
+  @media (forced-colors: active) {
+    [data-ai-chat-timeline] + unmagic-tool-call[data-ai-chat-timeline]::before,
+    unmagic-tool-call > details[data-tool-call-generated] > [data-tool-call-body]::before,
+    unmagic-tool-call > [data-part="result"]::before {
+      background-color: CanvasText;
+    }
+  }
+
   /* ------------------------------------------------------- AI chat payloads */
 
   .UnmagicAIChatPayload {

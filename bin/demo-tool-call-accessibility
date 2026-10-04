@@ -1,0 +1,80 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Extra browser settings not exposed by Chrome DevTools MCP. Uses a temporary
+# Chrome profile, never a personal profile. Start bin/dev, then run with bundle exec.
+require "bundler/setup"
+require "puppeteer"
+require "fileutils"
+require "json"
+
+out = File.expand_path("../tmp/tool-call-manual", __dir__)
+FileUtils.mkdir_p(out)
+base = ENV.fetch("BROWSER_URL", "http://127.0.0.1:5701")
+results = {}
+
+Puppeteer.launch(headless: false, executable_path: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome") do |browser|
+  page = browser.new_page
+  page.viewport = Puppeteer::Viewport.new(width: 1280, height: 1000)
+  page.goto("#{base}/components/ai_chat_tool_call")
+  page.wait_for_selector("#element_state_running details")
+
+  page.client.send_message("Emulation.setEmulatedMedia", features: [
+    { name: "prefers-reduced-motion", value: "reduce" },
+    { name: "forced-colors", value: "active" }
+  ])
+  results[:media] = page.evaluate(<<~JS)
+    () => {
+      document.querySelector('#tool_call_element_states').scrollIntoView({block:'center'});
+      const spinner = document.querySelector('#element_state_running .UnmagicAIChatSpinner');
+      const line = getComputedStyle(document.querySelector('#mixed_element'), '::before');
+      const summary = document.querySelector('#element_state_running summary');
+      summary.focus();
+      return {
+        reduced: matchMedia('(prefers-reduced-motion: reduce)').matches,
+        forced: matchMedia('(forced-colors: active)').matches,
+        animation: getComputedStyle(spinner).animationName,
+        lineColor: line.backgroundColor,
+        arrowColor: getComputedStyle(summary, '::after').borderRightColor,
+        focusOutline: getComputedStyle(summary).outlineStyle
+      };
+    }
+  JS
+  raise "Media overrides failed" unless results[:media].values_at("reduced", "forced").all?
+  raise "Reduced motion still spins" unless results[:media]["animation"] == "unmagic-ai-chat-pulse"
+  page.screenshot(path: "#{out}/forced-colors-reduced-motion.png")
+  page.keyboard.press("Enter")
+  raise "Forced-color disclosure failed" unless page.evaluate("document.querySelector('#element_state_running details').open")
+  page.screenshot(path: "#{out}/forced-colors-expanded.png")
+
+  page.client.send_message("Emulation.setEmulatedMedia", features: [])
+  page.javascript_enabled = false
+  page.goto("#{base}/components/ai_chat_tool_call")
+  # DevTools evaluation still works while page script execution is disabled.
+  results[:no_script] = page.evaluate(<<~JS)
+    () => {
+      document.querySelector('#tool_call_element_states').scrollIntoView({block:'center'});
+      return {
+        upgraded: !!customElements.get('unmagic-tool-call'),
+        calls: [...document.querySelectorAll('#tool_call_element_states unmagic-tool-call')].map(e => ({
+          id: e.id,
+          disclosure: !!e.querySelector('details'),
+          payloadVisible: e.querySelector('[data-part=payload]').checkVisibility(),
+          resultVisible: e.querySelector('[data-part=result]').checkVisibility(),
+          status: e.querySelector('[data-part=status]').textContent
+        }))
+      };
+    }
+  JS
+  raise "JavaScript was not disabled" if results[:no_script]["upgraded"]
+  raise "No-script content missing" unless results[:no_script]["calls"].all? { |call| call["payloadVisible"] && call["resultVisible"] && !call["disclosure"] }
+  page.screenshot(path: "#{out}/javascript-disabled.png")
+  page.javascript_enabled = true
+  page.reload
+  page.wait_for_selector("#element_state_running details")
+  results[:restored] = true
+end
+
+File.write("#{out}/accessibility-settings.json", JSON.pretty_generate(results))
+puts JSON.pretty_generate(results)
+puts "Screenshots: #{out}"

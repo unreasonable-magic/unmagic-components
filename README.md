@@ -1951,7 +1951,23 @@ for 12s"; `streaming: true` shows "Thinking…". `reasoning.block { }` adds a
 block. Blank content renders nothing. I18n:
 `unmagic.components.ai_chat.reasoning.title`, `.thinking` and `.duration`.
 
-### `ai_chat_tool_call(name:, state:, id: nil, icon: nil, open: false, timeline: true, **options, &block)`
+### `ai_chat_tool_call(name:, state:, id: nil, icon: nil, open: false, timeline: true, element: false, **options, &block)`
+
+Opt into the first custom-element migration with `element: true`. It renders
+`<unmagic-tool-call>` with readable row, payload, and result parts. The element
+adds/removes a native disclosure when payloads arrive/disappear, keeps results
+outside the fold, and draws connectors through CSS. Without JavaScript all
+content remains readable. Existing rendering is the default.
+
+Import `unmagic/components/tool_call` individually or use the aggregate import.
+Set `call.state = "done"` or `call.setAttribute("state", "done")` to update its
+icon, accessible status, busy state, progress, and supplied timing/failure readings
+without replacing payloads or closing disclosures. Ruby provides translated
+labels and formatted values; direct HTML needs no internal CSS classes.
+See the [element API](docs/components/ai_chat/tool_call.md#opt-in-element-migration)
+for direct HTML and stream ownership. To replay its browser checks, open
+`/components/ai_chat_tool_call`, paste `bin/demo-tool-call-element.js` into the
+console, and run `await runToolCallElementDemo()` on a freshly loaded page.
 
 ```erb
 <%= ai_chat_tool_call name: call.name, state: call.state, id: dom_id(call), icon: call.category_icon do |tool| %>

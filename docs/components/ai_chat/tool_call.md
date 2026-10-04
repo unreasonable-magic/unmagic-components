@@ -4,6 +4,116 @@
 > Tier: 2 (small element)
 > Relates to: [payload](payload.md), [transcript](transcript.md), `<unmagic-elapsed>`
 
+## Opt-in element migration
+
+`element: true` selects `<unmagic-tool-call>` instead of the legacy `<div>`.
+The element observes `state` (`queued`, `running`, `waiting`, `done`, `failed`)
+and exposes a reflecting `state` property. Missing or invalid attributes render
+as queued; assigning an invalid property raises `TypeError` without changing it.
+State changes update glyphs, accessible status, busy state, progress, partial
+failure visibility, and selection of supplied elapsed/duration readings. They do
+not recreate payloads, results, or the disclosure. `name` is also a reflecting
+property/attribute for simple tool names; a supplied name part takes precedence.
+
+Ruby supplies translated `label-queued`, `label-running`, `label-waiting`,
+`label-done`, and `label-failed` attributes. Direct HTML defaults to English and
+can override each label. An optional `template[data-part="success-icon"]`
+contains a decorative SVG to use when done. Default glyphs are bundled locally.
+Formatted failure and timing content remain caller supplied, not inferred from
+elapsed wall time. The full interface requires JavaScript; before upgrade caller
+content remains readable.
+
+```erb
+<%= ai_chat_tool_call name: "search_files", state: :done,
+  element: true, id: "search_call" do |tool| %>
+  <% tool.summary "Configuration files" %>
+  <% tool.answered "config.yml" %>
+<% end %>
+```
+
+Direct HTML needs no internal classes or row wrapper:
+
+```html
+<unmagic-tool-call name="search_files" state="running">
+  <span data-part="summary">Finding configuration files</span>
+  <span data-part="progress">Searched 12 directories</span>
+  <pre data-part="payload">...</pre>
+  <a data-part="result" href="/files/config">View configuration</a>
+</unmagic-tool-call>
+```
+
+```js
+call.state = "done"
+call.setAttribute("state", "running") // same behavior
+```
+
+These are light-DOM parts, not slots. The element generates the row and applies
+its internal classes. An explicit row span is also accepted for Rails helper
+output. Payload and result parts may repeat. The host accepts an initial `open`
+boolean and `data-ai-chat-timeline="row"` participation. Parts `elapsed`,
+`duration`, and `failures` hold formatted readings; an optional `readings` wrapper
+groups them. Elapsed takes precedence over duration while running. On failure,
+partial-failure readings are hidden; the supplied count itself is never changed.
+When a state update hides a focused progress/reading control, focus returns to
+the disclosure summary (or the row when there is no disclosure).
+
+Import `unmagic/components/tool_call` (also in the aggregate import). It imports
+shared AI chat disclosure behavior, moves row/payload nodes into native
+details/summary, and keeps results outside. All content is readable without script.
+Payloads count by element presence, even when empty. Only direct host parts and
+direct payloads in the generated body participate. Append new payloads to the
+host; IDs still address parts after relocation.
+
+Removing the last payload removes the disclosure; adding one restores it.
+Reader choices use the existing ID-keyed disclosure store. Local open state also
+survives losing all payloads on the same instance. A replacement without an ID
+starts from `open`. Reconnection/cloning adopts generated structure. Removing a
+focused summary transfers focus to the row; moving caller nodes preserves their
+identity, listeners, and focus.
+An upgrade enclosing an already-focused payload opens the disclosure so the
+control does not become hidden. This does not overwrite the stored reader choice.
+
+CSS pseudo-elements replace join/rail spans on this path. Physical adjacency
+matches legacy behavior, including explicit timeline gap markers. Requests and
+permissions do not participate. Legacy rendering and selectors remain available.
+
+Verify dynamic payload insertion/removal, results outside the fold, node identity,
+keyboard focus, clone/move/reconnect, ID-keyed replacement, and Turbo cache/morph.
+Compare light/dark and phone layouts. Replay `bin/demo-tool-call-element.js` in
+the component browser console.
+
+### Browser verification on 3 October 2026
+
+Manually inspected all five element states in Chrome at desktop and phone sizes,
+in light and dark themes, plus mixed legacy/element neighbors and interrupted
+runs. Enter and Space toggle each state; Tab visits the opened payload region
+then the result link. Result-link activation leaves the disclosure unchanged.
+Long summaries truncate without horizontal overflow. Fixed a discovered arrow
+wrapping defect by ordering the progress line after the disclosure arrow.
+
+The accessibility tree exposes named disclosure controls, expanded state,
+translated status text, the running busy state, and named payload regions.
+This is an accessibility-tree check, not a VoiceOver/NVDA speech test; actual
+screen-reader output remains unverified. Testing used Chrome mobile emulation,
+not physical iOS/Android devices or Safari/Firefox.
+
+`bundle exec ruby bin/demo-tool-call-accessibility` replays settings unavailable
+through Chrome DevTools MCP in a separate temporary, visible Chrome profile:
+JavaScript disabled, forced colors, and reduced motion. All payloads/results
+remain visible without script; connectors, focus outlines, and disclosure arrows
+remain visible in forced colors; reduced motion uses a pulse instead of rotation.
+It writes screenshots and results under `tmp/tool-call-manual/`.
+
+### Reactive state verification on 4 October 2026
+
+The replay cycles all states through both setters and attributes, including live
+translation changes, custom success icons, supplied timing/failure readings,
+invalid inputs, name reflection, and snapshot clones. It preserves payload node
+identity, text selection, focus, and disclosure state. A focused progress control
+returns focus to the summary when hidden. Properties assigned before definition
+were also checked during a fresh page load. Desktop/light and mobile/dark browser
+runs passed; the browser includes buttons that exercise the public state setter.
+
 ## As built
 
 Where the build differs from this note:
