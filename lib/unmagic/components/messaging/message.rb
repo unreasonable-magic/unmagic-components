@@ -43,6 +43,7 @@ module Unmagic
           @id = id
           @options = options
           @meta = @quote = @attachments = @reactions = @extra = @actions = @status = nil
+          @highlights = []
         end
 
         # A line under the author: "to Ben, Chloe", "via SMS", a badge.
@@ -54,6 +55,13 @@ module Unmagic
         # The message this one replies to. href: links the author to it.
         def quote(content = nil, author: nil, href: nil, &block)
           @quote = { content: block ? view.capture(&block) : content, author: author, href: href }
+          nil
+        end
+
+        # A passage of the body to mark, as text_highlights does: its text, or
+        # from: one quote to: another. Once for each passage, in any colour.
+        def highlight(text = nil, from: nil, to: nil, color: :yellow)
+          @highlights << TextHighlights.build({ text: text, from: from, to: to, color: color })
           nil
         end
 
@@ -152,7 +160,10 @@ module Unmagic
 
         def prose? = @variant != :bubble
 
-        def prepare(body) = @variant == :bubble ? trimmed(body) : body
+        def prepare(body)
+          body = trimmed(body) if @variant == :bubble
+          @highlights.empty? ? body : TextHighlights.new(view, @highlights).render(body)
+        end
 
         # The bubble keeps the line breaks that were typed, so a block's own leading
         # newline and indentation would show as a blank first line. Trimming the ends

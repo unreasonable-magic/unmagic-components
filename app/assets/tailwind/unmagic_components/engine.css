@@ -3867,6 +3867,42 @@
     @apply list-none pl-1;
   }
 
+  /* ------------------------------------------------------------- Highlights */
+
+  /* A highlighter pen over text: an opaque pen colour with near-black ink in
+     both themes, so a mark reads the same on a white page, a dark one, and a
+     dark "own" message bubble, whose text would otherwise be white on yellow.
+     One highlight crossing a link or a paragraph is several marks, so the
+     rounding and padding are cloned onto each line box rather than drawn once. */
+  .UnmagicMark {
+    @apply rounded-xs bg-yellow-200 px-px text-neutral-950 dark:bg-yellow-300;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+
+    @media (forced-colors: active) {
+      background-color: Mark;
+      color: MarkText;
+    }
+  }
+
+  .UnmagicMark--green {
+    @apply bg-green-200 dark:bg-green-300;
+  }
+
+  .UnmagicMark--blue {
+    @apply bg-blue-200 dark:bg-blue-300;
+  }
+
+  .UnmagicMark--pink {
+    @apply bg-pink-200 dark:bg-pink-300;
+  }
+
+  .UnmagicMark--red {
+    @apply bg-red-200 dark:bg-red-300;
+  }
+
   /* -------------------------------------------------------- Custom elements */
 
   /* Elements that only add behaviour, and must not take part in their parent's

@@ -41,6 +41,9 @@ Gem::Specification.new do |spec|
   spec.add_dependency "unmagic-color", "~> 0.3"
   # Source is coloured with Rouge: code views, tool payloads and prose code blocks.
   spec.add_dependency "rouge", ">= 4.0"
+  # text_highlights marks passages inside HTML by splitting its text nodes.
+  # ActionView already brings Nokogiri through its sanitizer; this says so.
+  spec.add_dependency "nokogiri", ">= 1.12"
 
   spec.add_development_dependency "rspec", "~> 3.12"
   spec.add_development_dependency "rake", "~> 13.0"

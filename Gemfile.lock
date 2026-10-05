@@ -4,6 +4,7 @@ PATH
     unmagic-components (0.6.0)
       actionview (>= 7.0)
       activesupport (>= 7.0)
+      nokogiri (>= 1.12)
       railties (>= 7.0)
       rouge (>= 4.0)
       unmagic-color (~> 0.3)

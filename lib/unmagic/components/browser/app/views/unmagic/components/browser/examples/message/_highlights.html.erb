@@ -1,0 +1,13 @@
+<div class="mx-auto max-w-md">
+  <%= message_thread do %>
+    <%= message author: "Ana Silva", avatar: true, time: @now - 9.minutes do |m| %>
+      <% m.highlight "I can’t do Friday", color: :red %>
+      <% m.highlight from: "I'll pick them up", to: "at 5" %>
+      I can’t do Friday after all. I'll pick them up from school on Saturday at 5 instead.
+    <% end %>
+    <%= message own: true, time: @now - 2.minutes do |m| %>
+      <% m.highlight "Saturday works", color: :green %>
+      Saturday works. Thanks for letting me know.
+    <% end %>
+  <% end %>
+</div>

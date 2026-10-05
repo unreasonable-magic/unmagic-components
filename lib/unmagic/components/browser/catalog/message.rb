@@ -19,6 +19,9 @@ Unmagic::Components::Browser::Catalog.component :message,
     { key: :parts, title: "Every part", layout: :full,
       description: "A row with a meta line, a quoted reply, attachments, reactions, an edited mark, a footer of your " \
                    "own and actions. Parts take a builder when their block takes an argument." },
+    { key: :highlights, title: "Highlighted passages", layout: :full,
+      description: "m.highlight marks a passage of the body, as text_highlights does: a quote, or from: one to: " \
+                   "another, in any colour. The marks read on a dark own bubble too." },
     { key: :email, title: "Collapsed and open", layout: :full,
       description: "collapsible: true folds an email into a details whose summary is the header and a line of the " \
                    "body; open: false starts it shut." }

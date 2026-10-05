@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `text_highlights`, passages of a text marked like a highlighter pen: a word, a
+  sentence, or everything `from:` one quote `to:` another, each in yellow,
+  green, blue, pink or red. Passages are found by what they say, forgiving
+  case, whitespace, curly quotes, dashes and ellipses, and marked on the server
+  as `<mark class="UnmagicMark">`s that can run across links and paragraphs.
+  `message` gains an `m.highlight` part that marks its body the same way.
+
 - `UnmagicPage`, a class for the layout's `<html>` tag that gives the page the
   colours the components assume: white with `neutral-900` text, or in dark mode
   `neutral-950` with `neutral-100` text and `color-scheme: dark`. Without it a
