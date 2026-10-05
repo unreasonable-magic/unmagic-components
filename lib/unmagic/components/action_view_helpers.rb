@@ -1422,6 +1422,38 @@ module Unmagic
       # Messaging: people talking to each other, or to a machine. See
       # docs/components/messaging.
 
+      # Passages of a text marked like a highlighter pen: a word, a sentence, or
+      # everything from one quote to another, each in its own colour.
+      #
+      #   <%= text_highlights message.body, "pick them up at 5" %>
+      #
+      #   <%= text_highlights message.body, [
+      #         "pick them up",
+      #         { text: "not before Friday", color: :red },
+      #         { from: "I can't", to: "this week", color: :blue }
+      #       ] %>
+      #
+      #   <%= text_highlights [ "Friday" ] do %>
+      #     <%= Markdown.render(note.body) %>
+      #   <% end %>
+      #
+      # A highlight is a string (that text, yellow), or a Hash of text: or from:
+      # and to:, with color: :yellow (default), :green, :blue, :pink or :red. It
+      # is found by what it says: case, runs of whitespace, curly or straight
+      # quotes, dashes and ellipses don't need to match exactly. Each marks the
+      # first place it's found (quote more to reach a later one); a range runs from
+      # from: to the first to: after it; where two overlap, the later wins. One
+      # that isn't there marks nothing.
+      #
+      # The content is the first argument or the block. A plain string is text and
+      # is escaped; html_safe markup keeps its tags, and a highlight may run across
+      # them. Each piece is a <mark class="UnmagicMark UnmagicMark--<color>"
+      # data-highlight="<index>">. With no highlights, or no content, the content
+      # comes back as it was. There is no wrapper, so there are no options.
+      def text_highlights(content = nil, highlights, &block)
+        Components::TextHighlights.new(self, highlights).render(block ? capture(&block) : content)
+      end
+
       # The container a conversation's messages sit in.
       #
       #   <%= message_thread id: "messages", live: true, label: "Chat with Ana" do %>
@@ -1473,8 +1505,10 @@ module Unmagic
       # a bubble keeps the line breaks typed into it; a row or an email is prose
       # (UnmagicProse), your rendered HTML.
       # Parts: meta (a line under the author), quote(text, author:, href:) (what
-      # this replies to), attachments, reactions, status(:sending | :sent |
-      # :delivered | :read | :failed, at:), footer (your own footer content) and
+      # this replies to), highlight(text, color:) or highlight(from:, to:, color:)
+      # (passages of the body to mark, as text_highlights does; once per
+      # passage), attachments, reactions, status(:sending | :sent | :delivered |
+      # :read | :failed, at:), footer (your own footer content) and
       # actions(**options). attachments, reactions and actions build the matching
       # component when their block takes an argument ({ |bar| … } gets a
       # message_actions for this id:, so it needs one) and take markup when it

@@ -27,6 +27,7 @@
           <% end %>
           <%= message variant: :email, author: "Ana Silva", avatar: true, time: now - 2.hours, collapsible: true, id: "inbox_email_3" do |m| %>
             <% m.meta "to Keith Pitt, cc Ben Reyes" %>
+            <% m.highlight "copied Ben who asked for it", color: :blue %>
             <% m.attachments { |files| files.file "portfolio-2026.pdf", size: 4_820_000, url: "#" } %>
             <% m.actions(reveal: :always) do |bar| %>
               <% bar.control { link_to "Reply", "#", class: button_classes(size: :small) } %>

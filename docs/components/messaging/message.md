@@ -68,6 +68,11 @@ Builder parts, each recording and returning `nil`:
 - `m.quote(content = nil, author: nil, href: nil, &block)` — the message this
   one replies to, above the body. `href:` links the author to it and sets
   `cite`.
+- `m.highlight(text = nil, from: nil, to: nil, color: :yellow)` — a passage of
+  the body to mark, once per passage: its text, or `from:` one quote `to:`
+  another. The body goes through `text_highlights`
+  ([`../text_highlights.md`](../text_highlights.md)), so a bubble's plain text
+  and a row's prose both work.
 - `m.attachments { }` — after the body. A block that takes an argument gets a
   `message_attachments` builder (`{ |files| files.file … }`); one that doesn't
   is captured as markup.

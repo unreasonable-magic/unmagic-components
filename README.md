@@ -971,6 +971,44 @@ A key or a combination drawn as key caps: `kbd "Esc"`, `kbd :mod, "K"`,
 glyphs and carry their spoken names; `:mod` is ⌘ on Apple platforms and Ctrl
 elsewhere.
 
+### `text_highlights(content = nil, highlights, &block)`
+
+```erb
+<%= text_highlights message.body, "pick them up at 5" %>
+
+<%= text_highlights message.body, [
+      "pick them up",
+      { text: "not before Friday", color: :red },
+      { from: "I can't", to: "this week", color: :blue }
+    ] %>
+
+<%= text_highlights [ "Friday" ] do %>
+  <%= Markdown.render(note.body) %>
+<% end %>
+```
+
+Passages of a text marked like a highlighter pen: a word, a sentence, or
+everything from one quote to another, each in its own colour.
+
+- **A highlight** is a string (that text, in yellow) or a Hash: `text:`, or
+  `from:` and `to:` for a range, with `color:` `:yellow` (default), `:green`,
+  `:blue`, `:pink` or `:red`. An unknown colour, or both or neither of `text:`
+  and a range, raises `ArgumentError`.
+- **Found by what it says.** Case, runs of whitespace and line breaks, curly or
+  straight quotes, dashes and ellipses needn't match exactly. Each highlight
+  marks the first place it's found, as a URL's text fragment does; quote more to
+  reach a later one. A range runs from `from:` to the first `to:` after it.
+  Where two overlap, the later one wins. One that isn't there marks nothing.
+- **Content** is the first argument or the block. A plain string is text and is
+  escaped; `html_safe` markup keeps its tags, and a highlight can run across
+  them (a link, a paragraph break).
+- **Marks** are `<mark class="UnmagicMark UnmagicMark--<color>"
+  data-highlight="<index>">`, one per piece, put in on the server: they show
+  without script, print, and use the system's `Mark` colours under forced
+  colours. There is no wrapper and so no options.
+- `Unmagic::Components::TextHighlights.new(view, highlights)` does the same
+  work; after `render(content)`, `unmatched` lists what wasn't found.
+
 ### `empty_state(content = nil, title: nil, icon: nil, **options, &block)`
 
 ```erb
@@ -1761,7 +1799,9 @@ in; without it there is no role and no label. Always renders, empty or not.
 - **Body:** the content or the block. A bubble keeps the line breaks typed into
   it; a row or an email is prose (`UnmagicProse`), your rendered HTML.
 - **Parts:** `m.meta` (a line under the author), `m.quote(text, author:, href:)`
-  (what this replies to), `m.attachments`, `m.reactions`, `m.status(state, at:)`
+  (what this replies to), `m.highlight(text, color:)` or
+  `m.highlight(from:, to:, color:)` (a passage of the body to mark, as
+  `text_highlights` does), `m.attachments`, `m.reactions`, `m.status(state, at:)`
   (`:sending`, `:sent`, `:delivered`, `:read` or `:failed`, a word and a glyph),
   `m.footer` (your own footer content) and `m.actions(**options)`. `attachments`,
   `reactions` and `actions` build the matching component when their block takes
