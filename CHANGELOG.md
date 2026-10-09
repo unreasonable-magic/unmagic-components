@@ -21,6 +21,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `:timeupdate`, `:chapterchange` and `:error`. `video_cover`,
   `video_chapters` and `video_now_playing` are a cover, a chapter list and a
   "now playing" line to start from, each replaceable with your own markup.
+  Toggle buttons swap their look off the `aria-pressed` the player keeps
+  (`group-aria-pressed:` in Tailwind), and the Lucide set gains `pause`,
+  `skip-back`, `skip-forward`, `volume-2` and `volume-x`.
 
 - Avatar fills: what sits behind an avatar's initials is now a seam,
   `config.avatar_fill`, with `fill:` to override it for one avatar. Fills ship

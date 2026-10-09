@@ -1797,6 +1797,19 @@ its own: everything around it is your markup, pointed at its `id`.
   `--toggle-mute`; and the text of every `<output for="tour" name="…">`:
   `chapter`, `chapter-index`, `time`, `duration`, `remaining`. An `<output>` is
   a polite live region; give a ticking `time` `aria-live="off"`.
+- **Toggle buttons** keep one name and change their look from `aria-pressed`,
+  which the player keeps true. With Tailwind, mark the button `group` and swap
+  its icons with `group-aria-pressed:`, no script:
+
+  ```erb
+  <button type="button" class="group" commandfor="tour" command="--toggle" aria-label="Play">
+    <%= Unmagic::Components::Icons.svg(self, :play, class: "group-aria-pressed:hidden") %>
+    <%= Unmagic::Components::Icons.svg(self, :pause, class: "hidden group-aria-pressed:block") %>
+  </button>
+  ```
+
+  The element's own state attributes do the same for anything around it, e.g.
+  `group-has-[unmagic-video[playing]]:` on a container.
 - **Script:** `play()`, `pause()`, `seek(seconds)`, `currentTime`, `duration`,
   `paused`, `muted`, `chapters` and `currentChapter`.
 - **Events**, which bubble: `unmagic-video:ready` `{ duration }`,

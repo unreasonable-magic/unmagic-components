@@ -11,15 +11,23 @@
   `video_providers.js` holds the native and Stream providers.
 - A Stream player with no cover mounts at once, so there's something on
   screen; with a cover it waits for the first play.
-- The "Chapters" example streams an open film, Big Buck Bunny (CC BY 3.0,
-  credited under the player as the licence requires), from Wikimedia Commons:
-  a VP9 WebM with a QuickTime fallback, in a `<video>` passed in the block.
-  Wikimedia rate-limits clients without a descriptive User-Agent, which a
-  browser sends; scripted fetches need one.
-- The other examples play a generated clip the browser ships
-  (`assets/videos/tour.mp4`, four 15-second coloured segments with a running
-  counter), so they work offline. `bin/demo-video` replays them in Chrome,
-  checking every behaviour above; `LIVE=1` also checks the film.
+- Both examples stream open films from Wikimedia Commons, credited under the
+  player as their CC BY 3.0 licences require: Big Buck Bunny in "Chapters",
+  and Tears of Steel (2.4:1, so `--unmagic-video-aspect: 12 / 5`) in "Your own
+  controls". Each is a VP9 WebM with a QuickTime fallback in a `<video>`
+  passed in the block, its cover a frame from the film and its chapters at
+  real scene changes. Wikimedia rate-limits clients without a descriptive
+  User-Agent, which a browser sends; scripted fetches need one.
+- "Your own controls" shows the toggle pattern: each `--toggle` and
+  `--toggle-mute` button keeps one name and swaps its icon with Tailwind's
+  `group-aria-pressed:`, off the `aria-pressed` the player keeps. The gem's
+  Lucide set gains `pause`, `skip-back`, `skip-forward`, `volume-2` and
+  `volume-x` for it.
+- The asset studio block's walkthrough and the catalog thumbnail play a
+  generated clip the browser ships (`assets/videos/tour.mp4`, four 15-second
+  coloured segments with a running counter), so `bin/demo-video` checks every
+  behaviour above offline, pressing controls it adds for the run; `LIVE=1`
+  also plays both films and checks the icon swaps.
 
 ## Purpose
 

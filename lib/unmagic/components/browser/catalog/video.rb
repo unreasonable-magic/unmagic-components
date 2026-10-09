@@ -15,7 +15,8 @@ Unmagic::Components::Browser::Catalog.component :video,
                    "video_cover covers it until it plays, video_chapters lists the chapters as seek buttons, and " \
                    "video_now_playing names the one playing. Press a chapter before playing to start there." },
     { key: :controls, title: "Your own controls",
-      description: "controls: false, and a control bar of plain buttons and outputs: play and pause, skip, " \
-                   "chapters, mute, speed. The player keeps aria-pressed on the toggles and the clock current. " \
-                   "This one plays a short clip the browser ships, so it works offline." }
+      description: "controls: false, and a control bar of plain buttons and outputs. The player keeps " \
+                   "aria-pressed on --toggle and --toggle-mute, so the play and mute buttons swap their icons " \
+                   "with Tailwind's group-aria-pressed: variant and no script. A 2.4:1 film, shaped by the " \
+                   "--unmagic-video-aspect knob." }
   ]

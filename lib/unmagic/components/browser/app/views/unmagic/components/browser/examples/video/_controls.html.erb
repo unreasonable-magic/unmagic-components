@@ -1,32 +1,68 @@
-<% chapters = [ { start: 0, title: "Welcome" }, { start: 15, title: "The workshop" },
-                { start: 30, title: "How the parts fit together" }, { start: 45, title: "Questions" } ] %>
-<% player = "video_controls_tour" %>
-<div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_16rem]">
+<%# Tears of Steel (c) Blender Foundation, mango.blender.org, CC BY 3.0, streamed from Wikimedia Commons. %>
+<% film = "https://upload.wikimedia.org/wikipedia/commons/transcoded/c/cb/Tears_of_Steel_1080p.webm/Tears_of_Steel_1080p.webm" %>
+<% still = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Tears_of_Steel_1080p.webm/1280px-seek%3D302-Tears_of_Steel_1080p.webm.jpg" %>
+<% chapters = [
+     { start: 0, title: "Opening titles" },
+     { start: "0:25", title: "Goodbye on the bridge" },
+     { start: "1:10", title: "Holding the line" },
+     { start: "2:54", title: "A plan in the lab" },
+     { start: "4:15", title: "Back to the bridge" },
+     { start: "6:12", title: "Rewriting the past" },
+     { start: "7:55", title: "The last stand" },
+     { start: "9:48", title: "Credits" }
+   ] %>
+<% player = "video_controls_film" %>
+<% icon = ->(name, classes) { Unmagic::Components::Icons.svg(self, name, class: classes) } %>
+<div class="grid gap-3">
   <div class="grid content-start gap-3">
-    <%= video_player id: player, src: browser_asset_path("browser", "videos/tour.mp4"), chapters: chapters, controls: false do %>
-      <%= video_cover player, image: browser_asset_path("browser", "videos/tour.jpg"), label: "Play the tour", caption: "The tour · 1:00" %>
+    <%# A 2.4:1 film, so the box takes its shape from the knob. %>
+    <%= video_player id: player, chapters: chapters, controls: false, title: "Tears of Steel",
+          style: "--unmagic-video-aspect: 12 / 5" do %>
+      <video preload="metadata" playsinline poster="<%= still %>">
+        <source src="<%= film %>.480p.vp9.webm" type="video/webm">
+        <source src="<%= film %>.360p.mpeg4.mov" type="video/quicktime">
+      </video>
+      <%= video_cover player, image: still, label: "Play Tears of Steel", caption: "Tears of Steel · 12:14" %>
     <% end %>
+
+    <%# The player keeps aria-pressed on --toggle and --toggle-mute, so each button
+        swaps its own icon with group-aria-pressed: and keeps one name. %>
     <div class="flex flex-wrap items-center gap-2">
-      <%= button_group label: "Playback" do |group| %>
-        <% group.button "Previous", commandfor: player, command: "--previous-chapter", "aria-label": "Previous chapter" %>
-        <% group.button "−5s", commandfor: player, command: "--skip", value: -5, "aria-label": "Back 5 seconds" %>
-        <% group.button "Play", :primary, commandfor: player, command: "--toggle" %>
-        <% group.button "+5s", commandfor: player, command: "--skip", value: 5, "aria-label": "Forward 5 seconds" %>
-        <% group.button "Next", commandfor: player, command: "--next-chapter", "aria-label": "Next chapter" %>
-      <% end %>
-      <%= button "Mute", :ghost, commandfor: player, command: "--toggle-mute" %>
+      <button type="button" class="UnmagicButton UnmagicButton--icon" commandfor="<%= player %>" command="--previous-chapter"
+              aria-label="Previous chapter" title="Previous chapter">
+        <%= icon.call(:skip_back, nil) %>
+      </button>
+      <button type="button" class="group UnmagicButton UnmagicButton--icon" commandfor="<%= player %>" command="--toggle"
+              aria-label="Play" title="Play or pause">
+        <%= icon.call(:play, "group-aria-pressed:hidden") %>
+        <%= icon.call(:pause, "hidden group-aria-pressed:block") %>
+      </button>
+      <button type="button" class="UnmagicButton UnmagicButton--icon" commandfor="<%= player %>" command="--next-chapter"
+              aria-label="Next chapter" title="Next chapter">
+        <%= icon.call(:skip_forward, nil) %>
+      </button>
+      <button type="button" class="group UnmagicButton UnmagicButton--icon" commandfor="<%= player %>" command="--toggle-mute"
+              aria-label="Mute" title="Mute or unmute">
+        <%= icon.call(:volume_2, "group-aria-pressed:hidden") %>
+        <%= icon.call(:volume_x, "hidden group-aria-pressed:block") %>
+      </button>
+      <%= button "−10s", :ghost, commandfor: player, command: "--skip", value: -10, "aria-label": "Back 10 seconds" %>
+      <%= button "+10s", :ghost, commandfor: player, command: "--skip", value: 10, "aria-label": "Forward 10 seconds" %>
       <%= button "1.5×", :ghost, commandfor: player, command: "--rate", value: 1.5, "aria-label": "Play at one and a half times speed" %>
       <%= button "1×", :ghost, commandfor: player, command: "--rate", value: 1, "aria-label": "Play at normal speed" %>
+      <p class="m-0 ml-auto font-mono text-xs text-neutral-500 tabular-nums dark:text-neutral-400">
+        <output for="<%= player %>" name="time" aria-live="off">0:00</output> /
+        <output for="<%= player %>" name="duration">–</output>
+      </p>
     </div>
-    <p class="m-0 font-mono text-xs text-neutral-500 tabular-nums dark:text-neutral-400">
-      <output for="<%= player %>" name="time" aria-live="off">0:00</output> /
-      <output for="<%= player %>" name="duration">–</output> ·
-      chapter <output for="<%= player %>" name="chapter-index"></output>:
-      <output for="<%= player %>" name="chapter"></output>
+    <p class="m-0 text-xs text-neutral-500 dark:text-neutral-400">
+      <a class="underline" href="https://mango.blender.org/" rel="noopener">Tears of Steel</a> © Blender Foundation,
+      <a class="underline" href="https://creativecommons.org/licenses/by/3.0/" rel="noopener">CC BY 3.0</a>,
+      from <a class="underline" href="https://commons.wikimedia.org/wiki/File:Tears_of_Steel_1080p.webm" rel="noopener">Wikimedia Commons</a>.
     </p>
   </div>
-  <div class="grid content-start gap-3">
+  <div class="grid gap-3 border-t border-neutral-200 pt-3 dark:border-neutral-800">
     <%= video_now_playing player %>
-    <%= video_chapters player, chapters %>
+    <%= video_chapters player, chapters, class: "sm:grid-flow-col sm:grid-rows-4 sm:gap-x-4" %>
   </div>
 </div>

@@ -3,7 +3,12 @@
 
 # Replay the video demos in visible Chrome, checking what the player does and
 # saving screenshots. Start bin/dev first. HEADLESS=1 runs the same checks
-# without a window; LIVE=1 also checks the film streamed from Wikimedia Commons.
+# without a window.
+#
+# The checks run against the asset studio block, whose walkthrough plays the
+# clip the browser ships, so they work offline; the controls they press are
+# added to the page for the run. LIVE=1 also plays the two films on the Video
+# page, which stream from Wikimedia Commons.
 require "bundler/setup"
 require "fileutils"
 require "json"
@@ -28,13 +33,20 @@ def wait_until(session, script, timeout: 5)
   end
 end
 
+def press(session, player, command, value = nil)
+  selector = "[commandfor=#{player}][command='#{command}']"
+  selector += "[value='#{value}']" if value
+  session.find(selector).click
+end
+
 driver = Unmagic::Browser::Driver::Local.new(headless: ENV["HEADLESS"] == "1", slow_mo: 20)
-Unmagic::Browser.new(driver: driver).open("#{base}/components/video") do |session|
+Unmagic::Browser.new(driver: driver).open("#{base}/blocks/asset_studio/preview") do |session|
   %w[light dark].each do |theme|
     session.emulate(viewport: { width: 1280, height: 900 })
-    session.visit("#{base}/components/video?theme=#{theme}")
-    session.wait_for(selector: "#video_controls_tour video")
-    wait_until(session, "document.getElementById('video_controls_tour').duration > 0")
+    session.visit("#{base}/blocks/asset_studio/preview?theme=#{theme}")
+    session.wait_for(selector: "#studio_walkthrough video")
+    player = "document.getElementById('studio_walkthrough')"
+    wait_until(session, "#{player}.duration > 0")
 
     session.evaluate(<<~JS)
       () => {
@@ -43,58 +55,64 @@ Unmagic::Browser.new(driver: driver).open("#{base}/components/video") do |sessio
           document.addEventListener(`unmagic-video:${name}`, (event) =>
             window.__events.push([name, JSON.parse(JSON.stringify(event.detail))]))
         }
+        const bar = document.createElement("div")
+        bar.innerHTML = [
+          ["--toggle"], ["--next-chapter"], ["--previous-chapter"], ["--skip", "5"], ["--toggle-mute"], ["--rate", "1.5"]
+        ].map(([command, value]) =>
+          `<button type="button" commandfor="studio_walkthrough" command="${command}"${value ? ` value="${value}"` : ""}>${command}</button>`
+        ).join("") + `<output for="studio_walkthrough" name="time" aria-live="off"></output><output for="studio_walkthrough" name="duration"></output>`
+        document.getElementById("studio_walkthrough").after(bar)
       }
     JS
 
-    player = "document.getElementById('video_controls_tour')"
     check "#{theme}: chapters read from the children", session.evaluate("() => #{player}.chapters.map((c) => [c.start, c.end, c.title])"),
-      [ [ 0, 15, "Welcome" ], [ 15, 30, "The workshop" ], [ 30, 45, "How the parts fit together" ], [ 45, 60, "Questions" ] ]
+      [ [ 0, 15, "Sketching the outline" ], [ 15, 30, "Blocking in colour" ], [ 30, 45, "Light on the water" ], [ 45, 60, "Exporting" ] ]
     check "#{theme}: the cover shows before playing", session.evaluate("() => #{player}.querySelector('unmagic-video-cover').hidden"), false
-    File.binwrite("#{out}/chapters-#{theme}-before.png", session.screenshot)
 
     # A chapter pressed before playing starts the video there.
-    session.find("[commandfor=video_controls_tour][command='--seek'][value='30']").click
+    press session, "studio_walkthrough", "--seek", "30"
     wait_until(session, "!#{player}.paused && #{player}.currentTime >= 30")
     check "#{theme}: the cover hides once started", session.evaluate("() => #{player}.querySelector('unmagic-video-cover').hidden"), true
     check "#{theme}: the element says it's playing", session.evaluate("() => #{player}.hasAttribute('playing')"), true
     check "#{theme}: current-chapter", session.evaluate("() => #{player}.getAttribute('current-chapter')"), "2"
     check "#{theme}: the pressed chapter is aria-current",
-      session.evaluate("() => [...document.querySelectorAll('[commandfor=video_controls_tour][aria-current=true]')].map((b) => b.value)"), [ "30" ]
-    check "#{theme}: now playing", session.evaluate("() => document.querySelector('output[for=video_controls_tour][name=chapter]').textContent"),
-      "How the parts fit together"
+      session.evaluate("() => [...document.querySelectorAll('[commandfor=studio_walkthrough][aria-current=true]')].map((b) => b.value)"), [ "30" ]
+    check "#{theme}: its button is named with a space",
+      session.evaluate("() => document.querySelector('[commandfor=studio_walkthrough][aria-current=true]').textContent.trim()"), "0:30 Light on the water"
+    check "#{theme}: now playing", session.evaluate("() => document.querySelector('output[for=studio_walkthrough][name=chapter]').textContent"),
+      "Light on the water"
     check "#{theme}: first play is reported once", session.evaluate("() => window.__events.filter(([n]) => n === 'play').map(([, d]) => d.first)"), [ true ]
     check "#{theme}: chapterchange told what changed", session.evaluate("() => window.__events.find(([n]) => n === 'chapterchange')[1].chapter.title"),
-      "How the parts fit together"
-    File.binwrite("#{out}/chapters-#{theme}-playing.png", session.screenshot)
+      "Light on the water"
+    File.binwrite("#{out}/walkthrough-#{theme}.png", session.screenshot)
 
-    # The control bar: toggles, skips and chapter steps.
-    bar = player
-    toggle = "document.querySelector('[commandfor=video_controls_tour][command=\"--toggle\"]')"
+    # Toggles, skips and chapter steps.
+    toggle = "document.querySelector('[commandfor=studio_walkthrough][command=\"--toggle\"]')"
     check "#{theme}: the toggle is pressed while playing", session.evaluate("() => #{toggle}.getAttribute('aria-pressed')"), "true"
-    session.find("[commandfor=video_controls_tour][command='--toggle']").click
-    wait_until(session, "#{bar}.paused")
+    press session, "studio_walkthrough", "--toggle"
+    wait_until(session, "#{player}.paused")
     check "#{theme}: the toggle is released when paused", session.evaluate("() => #{toggle}.getAttribute('aria-pressed')"), "false"
-    session.find("[commandfor=video_controls_tour][command='--toggle']").click
-    wait_until(session, "!#{bar}.paused")
-    session.find("[commandfor=video_controls_tour][command='--next-chapter']").click
-    wait_until(session, "#{bar}.currentTime >= 45")
-    check "#{theme}: next chapter", session.evaluate("() => #{bar}.currentChapter.title"), "Questions"
-    session.find("[commandfor=video_controls_tour][command='--skip'][value='5']").click
-    wait_until(session, "#{bar}.currentTime >= 50")
-    session.find("[commandfor=video_controls_tour][command='--previous-chapter']").click
-    wait_until(session, "#{bar}.currentTime < 47")
-    check "#{theme}: previous chapter goes back to this one's start", session.evaluate("() => #{bar}.currentChapter.title"), "Questions"
-    session.find("[commandfor=video_controls_tour][command='--toggle-mute']").click
-    wait_until(session, "#{bar}.muted")
-    check "#{theme}: mute is pressed", session.evaluate("() => document.querySelector('[command=\"--toggle-mute\"]').getAttribute('aria-pressed')"), "true"
-    session.find("[commandfor=video_controls_tour][command='--rate'][value='1.5']").click
-    check "#{theme}: speed", session.evaluate("() => #{bar}.querySelector('video').playbackRate"), 1.5
-    check "#{theme}: the clock", session.evaluate("() => document.querySelector('output[for=video_controls_tour][name=time]').textContent"),
+    press session, "studio_walkthrough", "--toggle"
+    wait_until(session, "!#{player}.paused")
+    press session, "studio_walkthrough", "--next-chapter"
+    wait_until(session, "#{player}.currentTime >= 45")
+    check "#{theme}: next chapter", session.evaluate("() => #{player}.currentChapter.title"), "Exporting"
+    press session, "studio_walkthrough", "--skip", "5"
+    wait_until(session, "#{player}.currentTime >= 50")
+    press session, "studio_walkthrough", "--previous-chapter"
+    wait_until(session, "#{player}.currentTime < 47")
+    check "#{theme}: previous chapter goes back to this one's start", session.evaluate("() => #{player}.currentChapter.title"), "Exporting"
+    press session, "studio_walkthrough", "--toggle-mute"
+    wait_until(session, "#{player}.muted")
+    check "#{theme}: mute is pressed",
+      session.evaluate("() => document.querySelector('[commandfor=studio_walkthrough][command=\"--toggle-mute\"]').getAttribute('aria-pressed')"), "true"
+    press session, "studio_walkthrough", "--rate", "1.5"
+    check "#{theme}: speed", session.evaluate("() => #{player}.querySelector('video').playbackRate"), 1.5
+    check "#{theme}: the clock", session.evaluate("() => document.querySelector('output[for=studio_walkthrough][name=time]').textContent"),
       ->(text) { text.match?(/\A0:4\d\z/) }
-    check "#{theme}: the duration", session.evaluate("() => document.querySelector('output[for=video_controls_tour][name=duration]').textContent"), "1:00"
-    session.find("[commandfor=video_controls_tour][command='--toggle']").click
-    wait_until(session, "#{bar}.paused")
-    File.binwrite("#{out}/controls-#{theme}.png", session.screenshot)
+    check "#{theme}: the duration", session.evaluate("() => document.querySelector('output[for=studio_walkthrough][name=duration]').textContent"), "1:00"
+    press session, "studio_walkthrough", "--toggle"
+    wait_until(session, "#{player}.paused")
 
     # Chapters streamed in later are picked up.
     session.evaluate(<<~JS)
@@ -102,23 +120,49 @@ Unmagic::Browser.new(driver: driver).open("#{base}/components/video") do |sessio
         const chapter = document.createElement("unmagic-video-chapter")
         chapter.setAttribute("start", "50")
         chapter.hidden = true
-        chapter.textContent = "Goodbye"
-        document.getElementById("video_controls_tour").append(chapter)
+        chapter.textContent = "Signing off"
+        document.getElementById("studio_walkthrough").append(chapter)
       }
     JS
-    wait_until(session, "#{bar}.chapters.length === 5")
-    check "#{theme}: a chapter added later", session.evaluate("() => #{bar}.chapters.at(-1).title"), "Goodbye"
+    wait_until(session, "#{player}.chapters.length === 5")
+    check "#{theme}: a chapter added later", session.evaluate("() => #{player}.chapters.at(-1).title"), "Signing off"
   end
 
-  # The film streams from Wikimedia Commons, so it's only checked when asked.
+  # The films stream from Wikimedia Commons, so they're only played when asked.
   if ENV["LIVE"] == "1"
-    film = "document.getElementById('video_chapters_film')"
+    session.emulate(viewport: { width: 1280, height: 900 })
     session.visit("#{base}/components/video?theme=light")
-    session.find("[commandfor=video_chapters_film][command='--seek'][value='390']").click
+
+    film = "document.getElementById('video_chapters_film')"
+    press session, "video_chapters_film", "--seek", "390"
     wait_until(session, "!#{film}.paused && #{film}.currentTime >= 390", timeout: 30)
-    check "live: the film seeks to a chapter", session.evaluate("() => #{film}.currentChapter.title"), "Taking flight"
-    check "live: the film's duration", session.evaluate("() => Math.round(#{film}.duration)"), ->(seconds) { seconds.between?(630, 640) }
-    File.binwrite("#{out}/film.png", session.screenshot)
+    check "live: Big Buck Bunny seeks to a chapter", session.evaluate("() => #{film}.currentChapter.title"), "Taking flight"
+    check "live: its duration", session.evaluate("() => Math.round(#{film}.duration)"), ->(seconds) { seconds.between?(630, 640) }
+    session.evaluate("() => #{film}.pause()")
+
+    controls = "document.getElementById('video_controls_film')"
+    shown = lambda do |command|
+      "[...document.querySelectorAll('[commandfor=video_controls_film][command=\"#{command}\"] svg')]" \
+        ".filter((svg) => getComputedStyle(svg).display !== 'none').map((svg) => svg.dataset.unmagicIcon.split('/').pop())"
+    end
+    check "live: the play button shows play", session.evaluate("() => #{shown.call("--toggle")}"), [ "play" ]
+    session.evaluate("() => #{controls}.scrollIntoView({ block: 'center' })")
+    press session, "video_controls_film", "--toggle"
+    wait_until(session, "!#{controls}.paused", timeout: 30)
+    check "live: playing, it shows pause", session.evaluate("() => #{shown.call("--toggle")}"), [ "pause" ]
+    check "live: and keeps its name",
+      session.evaluate("() => document.querySelector('[commandfor=video_controls_film][command=\"--toggle\"]').getAttribute('aria-label')"), "Play"
+    press session, "video_controls_film", "--toggle-mute"
+    wait_until(session, "#{controls}.muted")
+    check "live: muted, it shows the crossed speaker", session.evaluate("() => #{shown.call("--toggle-mute")}"), [ "volume-x" ]
+    press session, "video_controls_film", "--next-chapter"
+    wait_until(session, "#{controls}.currentTime >= 25", timeout: 30)
+    check "live: Tears of Steel steps to the next chapter", session.evaluate("() => #{controls}.currentChapter.title"), "Goodbye on the bridge"
+    sleep 2
+    File.binwrite("#{out}/films.png", session.screenshot)
+    press session, "video_controls_film", "--toggle"
+    wait_until(session, "#{controls}.paused")
+    check "live: paused, it shows play again", session.evaluate("() => #{shown.call("--toggle")}"), [ "play" ]
   end
 end
 puts "Screenshots in #{out}"
