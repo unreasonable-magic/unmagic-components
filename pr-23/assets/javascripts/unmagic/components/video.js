@@ -157,7 +157,9 @@ class UnmagicVideo extends HTMLElement {
   // The snapshot keeps the server's markup: stopped, with the cover showing.
   #beforeCache = () => {
     this.pause()
-    this.querySelectorAll(":scope > unmagic-video-cover").forEach((cover) => { cover.hidden = false })
+    const covers = this.querySelectorAll(":scope > unmagic-video-cover")
+    covers.forEach((cover) => { cover.hidden = false })
+    if (covers.length) this.querySelectorAll(":scope > video, :scope > iframe").forEach((media) => { media.inert = true })
     for (const name of [ "playing", "started", "ended", "current-chapter" ]) this.removeAttribute(name)
   }
 
@@ -222,7 +224,11 @@ class UnmagicVideo extends HTMLElement {
     if (this.#current >= 0) this.setAttribute("current-chapter", this.#current)
     else this.removeAttribute("current-chapter")
 
-    for (const cover of this.querySelectorAll(":scope > unmagic-video-cover")) cover.hidden = started
+    // Behind a cover the video's own controls are out of sight, so they're out of
+    // reach too, until it starts.
+    const covers = this.querySelectorAll(":scope > unmagic-video-cover")
+    for (const cover of covers) cover.hidden = started
+    for (const media of this.querySelectorAll(":scope > video, :scope > iframe")) media.inert = covers.length > 0 && !started
 
     if (force || this.#controlsStale(playing)) this.#reflectControls(playing)
     this.#reflectOutputs()
