@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- A flash toast now shows after a Turbo visit to a different page, such as a
+  form that redirects from `new` to the record it created. The new page's
+  `<unmagic-toasts>` connected while Turbo had its permanent regions swapped out
+  for placeholders, so it found no region, threw "Toast mount has no top_end
+  region" and dropped the toast. It now waits for the regions to come back.
+  Redirects back to the same page were unaffected, because a morph keeps the
+  regions in place.
+
 ### Added
 
 - `video_player`, a video the page drives with its own controls: an
