@@ -74,6 +74,7 @@ RSpec.describe "video" do
       expect(buttons.map { |button| [ button["commandfor"], button["command"], button["value"] ] }.uniq.first).to eq([ "tour", "--seek", "0" ])
       expect(buttons.map { |button| button.at(".UnmagicVideoChapters__time").text }).to eq([ "0:00", "1:12", "3:05", "1:01:12" ])
       expect(buttons[1].at(".UnmagicVideoChapters__title").text).to eq("Tools & <parts>")
+      expect(buttons[1].text).to eq("1:12 Tools & <parts>")
     end
 
     it "renders nothing without chapters" do

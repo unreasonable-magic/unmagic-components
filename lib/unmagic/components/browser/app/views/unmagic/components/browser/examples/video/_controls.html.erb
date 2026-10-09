@@ -8,11 +8,11 @@
     <% end %>
     <div class="flex flex-wrap items-center gap-2">
       <%= button_group label: "Playback" do |group| %>
-        <% group.button "Previous chapter", commandfor: player, command: "--previous-chapter" %>
+        <% group.button "Previous", commandfor: player, command: "--previous-chapter", "aria-label": "Previous chapter" %>
         <% group.button "−5s", commandfor: player, command: "--skip", value: -5, "aria-label": "Back 5 seconds" %>
         <% group.button "Play", :primary, commandfor: player, command: "--toggle" %>
         <% group.button "+5s", commandfor: player, command: "--skip", value: 5, "aria-label": "Forward 5 seconds" %>
-        <% group.button "Next chapter", commandfor: player, command: "--next-chapter" %>
+        <% group.button "Next", commandfor: player, command: "--next-chapter", "aria-label": "Next chapter" %>
       <% end %>
       <%= button "Mute", :ghost, commandfor: player, command: "--toggle-mute" %>
       <%= button "1.5×", :ghost, commandfor: player, command: "--rate", value: 1.5, "aria-label": "Play at one and a half times speed" %>

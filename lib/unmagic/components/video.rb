@@ -145,10 +145,11 @@ module Unmagic
         view.tag.li do
           view.tag.button(type: "button", commandfor: @player_id, command: "--seek", value: chapter.start,
             class: "UnmagicVideoChapters__chapter") do
+            # The space keeps the button's name "1:12 The workshop", not "1:12The workshop".
             view.safe_join [
               view.tag.span(Video.timecode(chapter.start), class: "UnmagicVideoChapters__time"),
               view.tag.span(chapter.title, class: "UnmagicVideoChapters__title")
-            ]
+            ], " "
           end
         end
       end
