@@ -3675,9 +3675,45 @@
     grid-area: 1 / 1;
   }
 
+  /* The image takes the avatar's fill, so a transparent picture sits on the
+     colour rather than on the initials. */
   .UnmagicAvatar__image {
-    @apply size-full object-cover;
+    @apply relative size-full object-cover;
+    background: inherit;
     border-radius: inherit;
+  }
+
+  /* A sized image that fails to load draws the browser's broken-image glyph
+     over the initials. A broken image renders its pseudo-elements (a loaded one
+     doesn't), so ::before hides the glyph under the page's surface, and ::after
+     lays the fill (translucent in dark mode) and the image's initials over it. */
+  .UnmagicAvatar__image::before,
+  .UnmagicAvatar__image::after {
+    @apply absolute inset-0;
+    border-radius: inherit;
+  }
+
+  .UnmagicAvatar__image::before {
+    @apply bg-white;
+    content: "";
+  }
+
+  .UnmagicAvatar__image {
+    @variant dark {
+      &::before {
+        @apply bg-neutral-900;
+      }
+    }
+  }
+
+  .UnmagicAvatar__image::after {
+    @apply grid place-items-center;
+    content: attr(data-initials);
+    background: inherit;
+  }
+
+  .UnmagicAvatar__image[data-initials-long]::after {
+    content: attr(data-initials-long);
   }
 
   /* A logo shows whole, on the page's surface rather than the initials' fill. */
@@ -3699,10 +3735,15 @@
     .UnmagicAvatar__initials--short {
       @apply inline;
     }
+
+    .UnmagicAvatar__image[data-initials-long]::after {
+      content: attr(data-initials);
+    }
   }
 
   @container (width < 2.5rem) {
-    .UnmagicAvatar__initials--long {
+    .UnmagicAvatar__initials--long,
+    .UnmagicAvatar__image[data-initials-long]::after {
       @apply text-[0.625rem];
     }
   }

@@ -1700,8 +1700,8 @@ I18n under `unmagic.components.board`: `label`, `add_card`, `add_card_submit`,
 <% end %>
 ```
 
-- **Initials** always render. The image sits on top of them, so a broken image
-  shows the initials without any script.
+- **Initials** always render. The image sits on top of them, and an image that
+  fails to load shows the fill and initials in its place, without any script.
   - A plain string reads its first and last words ("Ada Lovelace" is "AL").
     `kind: :person` knows particles and mononyms ("Ludwig van Beethoven" is
     "LB", "Prince" is "PR"). `kind: :organization` drops legal suffixes and

@@ -28,9 +28,16 @@ Where the build differs from this note:
 - **Sizes** gained `:xlarge` (3.5rem) and `:xxlarge` (5rem), and a CSS length
   (`"1.75rem"`) sets the `--unmagic-avatar-size` knob, with initials at 0.4 of
   it. **`fit: :contain`** shows a logo whole, on a white/`neutral-900` surface.
-- A broken `src` still shows Chrome's broken-image glyph over the initials when
-  the image is sized; the "no script" fallback only fully holds where the
-  browser draws nothing for `alt=""`. Open.
+- **Broken images:** a sized `<img>` that fails to load draws the browser's
+  broken-image glyph even with `alt=""`, over the initials under it. The image
+  carries `data-initials` (and `data-initials-long`), and since a broken image
+  renders its pseudo-elements while a loaded one doesn't, `::before` hides the
+  glyph under the page surface (`white`/`neutral-900`) and `::after` lays the
+  avatar's fill (inherited, translucent in dark mode) and the initials over it.
+  Still no script. Verified in Chrome; check Firefox and Safari by hand. A
+  `fit: :contain` logo falls back onto its own surface.
+- The image inherits the avatar's fill as its background, so a transparent
+  picture sits on the colour rather than over the initials.
 
 ## Purpose
 

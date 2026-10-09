@@ -30,6 +30,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `avatar`'s `tint: false` is now `fill: false`.
 
+### Fixed
+
+- An avatar whose image fails to load shows its fill and initials again, not
+  the browser's broken-image glyph over them. Still CSS only.
+
 - `text_highlights`, passages of a text marked like a highlighter pen: a word, a
   sentence, or everything `from:` one quote `to:` another, each in yellow,
   green, blue, pink or red. Passages are found by what they say, forgiving

@@ -151,6 +151,17 @@ RSpec.describe "icons and avatars" do
     end
   end
 
+  describe "avatar broken images" do
+    it "gives the image its initials, for the CSS to draw if it fails to load" do
+      image = html(view.avatar("Ada Lovelace", src: "/ada.png")).at("img")
+      expect(image["data-initials"]).to eq("AL")
+      expect(image["data-initials-long"]).to be_nil
+
+      logo = html(view.avatar("4K Gardens", kind: :organization, src: "/logo.png")).at("img")
+      expect([ logo["data-initials"], logo["data-initials-long"] ]).to eq([ "4K", "4KG" ])
+    end
+  end
+
   describe "avatar sizes and fit" do
     it "takes the larger named sizes and a CSS length" do
       expect(html(view.avatar("Ada", size: :xxlarge)).at("span")["class"]).to include("UnmagicAvatar--xxlarge")

@@ -108,10 +108,7 @@ module Unmagic
           class: view.class_names("UnmagicAvatar", size_class,
             { "UnmagicAvatar--square" => @shape == :square, "UnmagicAvatar--contain" => @fit == :contain },
             fill&.class_name, @options[:class])) do
-          safe_join [
-            *initials_tags,
-            (tag.img(src: @src, alt: "", loading: "lazy", decoding: "async", class: "UnmagicAvatar__image") if @src.present?)
-          ].compact
+          safe_join [ *initials_tags, image_tag ].compact
         end
       end
 
@@ -124,16 +121,35 @@ module Unmagic
       # Where the name has a longer mark, both render and the avatar's own width
       # picks one (a container query), so the same call reads right at any size.
       def initials_tags
-        return [ initials_tag("—") ] if @name.empty?
-
-        short = @initials || @name_object.initials
-        long = @initials || (@name_object.respond_to?(:initials_long) ? @name_object.initials_long : short)
+        short, long = initials
 
         if long == short
           [ initials_tag(short) ]
         else
           [ initials_tag(long, "UnmagicAvatar__initials--long"), initials_tag(short, "UnmagicAvatar__initials--short") ]
         end
+      end
+
+      # The image carries the initials too: a sized image that fails to load draws
+      # the browser's broken-image glyph over the initials under it, so the CSS
+      # covers it with the fill and these (a broken image renders ::before; a
+      # loaded one doesn't).
+      def image_tag
+        return if @src.blank?
+
+        short, long = initials
+        tag.img(src: @src, alt: "", loading: "lazy", decoding: "async", class: "UnmagicAvatar__image",
+          data: { initials: short, initials_long: (long unless long == short) })
+      end
+
+      def initials
+        @initials_pair ||=
+          if @name.empty?
+            [ "—", "—" ]
+          else
+            short = @initials || @name_object.initials
+            [ short, @initials || (@name_object.respond_to?(:initials_long) ? @name_object.initials_long : short) ]
+          end
       end
 
       def initials_tag(text, modifier = nil)
