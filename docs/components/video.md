@@ -11,9 +11,15 @@
   `video_providers.js` holds the native and Stream providers.
 - A Stream player with no cover mounts at once, so there's something on
   screen; with a cover it waits for the first play.
-- The browser's example video is generated (`assets/videos/tour.mp4`, four
-  15-second coloured segments with a running counter), and `bin/demo-video`
-  replays the examples in Chrome, checking every behaviour above.
+- The "Chapters" example streams an open film, Big Buck Bunny (CC BY 3.0,
+  credited under the player as the licence requires), from Wikimedia Commons:
+  a VP9 WebM with a QuickTime fallback, in a `<video>` passed in the block.
+  Wikimedia rate-limits clients without a descriptive User-Agent, which a
+  browser sends; scripted fetches need one.
+- The other examples play a generated clip the browser ships
+  (`assets/videos/tour.mp4`, four 15-second coloured segments with a running
+  counter), so they work offline. `bin/demo-video` replays them in Chrome,
+  checking every behaviour above; `LIVE=1` also checks the film.
 
 ## Purpose
 

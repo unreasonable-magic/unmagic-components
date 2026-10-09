@@ -1,16 +1,32 @@
+<%# Big Buck Bunny (c) Blender Foundation, peach.blender.org, CC BY 3.0, streamed from Wikimedia Commons. %>
+<% film = "https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c0/Big_Buck_Bunny_4K.webm/Big_Buck_Bunny_4K.webm" %>
+<% still = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Big_Buck_Bunny_4K.webm/960px-seek%3D54-Big_Buck_Bunny_4K.webm.jpg" %>
 <% chapters = [
-     { start: 0, title: "Welcome" },
-     { start: 15, title: "The workshop" },
-     { start: "0:30", title: "How the parts fit together" },
-     { start: "0:45", title: "Questions" }
+     { start: 0, title: "Morning in the meadow" },
+     { start: "0:46", title: "Out of the burrow" },
+     { start: "2:00", title: "Three troublemakers" },
+     { start: "4:05", title: "Into the woods" },
+     { start: "5:15", title: "Setting the traps" },
+     { start: "6:30", title: "Taking flight" },
+     { start: "8:12", title: "Credits" }
    ] %>
 <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_16rem]">
-  <%= video_player id: "video_chapters_tour", src: browser_asset_path("browser", "videos/tour.mp4"), chapters: chapters do %>
-    <%= video_cover "video_chapters_tour", image: browser_asset_path("browser", "videos/tour.jpg"),
-          label: "Play the tour", caption: "The tour · 1:00" %>
-  <% end %>
+  <div class="grid content-start gap-2">
+    <%= video_player id: "video_chapters_film", chapters: chapters, title: "Big Buck Bunny" do %>
+      <video controls preload="metadata" playsinline poster="<%= still %>">
+        <source src="<%= film %>.480p.vp9.webm" type="video/webm">
+        <source src="<%= film %>.360p.mpeg4.mov" type="video/quicktime">
+      </video>
+      <%= video_cover "video_chapters_film", image: still, label: "Play Big Buck Bunny", caption: "Big Buck Bunny · 10:34" %>
+    <% end %>
+    <p class="m-0 text-xs text-neutral-500 dark:text-neutral-400">
+      <a class="underline" href="https://peach.blender.org/" rel="noopener">Big Buck Bunny</a> © Blender Foundation,
+      <a class="underline" href="https://creativecommons.org/licenses/by/3.0/" rel="noopener">CC BY 3.0</a>,
+      from <a class="underline" href="https://commons.wikimedia.org/wiki/File:Big_Buck_Bunny_4K.webm" rel="noopener">Wikimedia Commons</a>.
+    </p>
+  </div>
   <div class="grid content-start gap-3">
-    <%= video_now_playing "video_chapters_tour" %>
-    <%= video_chapters "video_chapters_tour", chapters %>
+    <%= video_now_playing "video_chapters_film" %>
+    <%= video_chapters "video_chapters_film", chapters %>
   </div>
 </div>

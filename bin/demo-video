@@ -3,7 +3,7 @@
 
 # Replay the video demos in visible Chrome, checking what the player does and
 # saving screenshots. Start bin/dev first. HEADLESS=1 runs the same checks
-# without a window.
+# without a window; LIVE=1 also checks the film streamed from Wikimedia Commons.
 require "bundler/setup"
 require "fileutils"
 require "json"
@@ -33,8 +33,8 @@ Unmagic::Browser.new(driver: driver).open("#{base}/components/video") do |sessio
   %w[light dark].each do |theme|
     session.emulate(viewport: { width: 1280, height: 900 })
     session.visit("#{base}/components/video?theme=#{theme}")
-    session.wait_for(selector: "#video_chapters_tour video")
-    wait_until(session, "document.getElementById('video_chapters_tour').duration > 0")
+    session.wait_for(selector: "#video_controls_tour video")
+    wait_until(session, "document.getElementById('video_controls_tour').duration > 0")
 
     session.evaluate(<<~JS)
       () => {
@@ -46,21 +46,21 @@ Unmagic::Browser.new(driver: driver).open("#{base}/components/video") do |sessio
       }
     JS
 
-    player = "document.getElementById('video_chapters_tour')"
+    player = "document.getElementById('video_controls_tour')"
     check "#{theme}: chapters read from the children", session.evaluate("() => #{player}.chapters.map((c) => [c.start, c.end, c.title])"),
       [ [ 0, 15, "Welcome" ], [ 15, 30, "The workshop" ], [ 30, 45, "How the parts fit together" ], [ 45, 60, "Questions" ] ]
     check "#{theme}: the cover shows before playing", session.evaluate("() => #{player}.querySelector('unmagic-video-cover').hidden"), false
     File.binwrite("#{out}/chapters-#{theme}-before.png", session.screenshot)
 
     # A chapter pressed before playing starts the video there.
-    session.find("#video_chapters_tour ~ div button[value='30']").click
+    session.find("[commandfor=video_controls_tour][command='--seek'][value='30']").click
     wait_until(session, "!#{player}.paused && #{player}.currentTime >= 30")
     check "#{theme}: the cover hides once started", session.evaluate("() => #{player}.querySelector('unmagic-video-cover').hidden"), true
     check "#{theme}: the element says it's playing", session.evaluate("() => #{player}.hasAttribute('playing')"), true
     check "#{theme}: current-chapter", session.evaluate("() => #{player}.getAttribute('current-chapter')"), "2"
     check "#{theme}: the pressed chapter is aria-current",
-      session.evaluate("() => [...document.querySelectorAll('[commandfor=video_chapters_tour][aria-current=true]')].map((b) => b.value)"), [ "30" ]
-    check "#{theme}: now playing", session.evaluate("() => document.querySelector('output[for=video_chapters_tour][name=chapter]').textContent"),
+      session.evaluate("() => [...document.querySelectorAll('[commandfor=video_controls_tour][aria-current=true]')].map((b) => b.value)"), [ "30" ]
+    check "#{theme}: now playing", session.evaluate("() => document.querySelector('output[for=video_controls_tour][name=chapter]').textContent"),
       "How the parts fit together"
     check "#{theme}: first play is reported once", session.evaluate("() => window.__events.filter(([n]) => n === 'play').map(([, d]) => d.first)"), [ true ]
     check "#{theme}: chapterchange told what changed", session.evaluate("() => window.__events.find(([n]) => n === 'chapterchange')[1].chapter.title"),
@@ -68,31 +68,32 @@ Unmagic::Browser.new(driver: driver).open("#{base}/components/video") do |sessio
     File.binwrite("#{out}/chapters-#{theme}-playing.png", session.screenshot)
 
     # The control bar: toggles, skips and chapter steps.
-    bar = "document.getElementById('video_controls_tour')"
+    bar = player
+    toggle = "document.querySelector('[commandfor=video_controls_tour][command=\"--toggle\"]')"
+    check "#{theme}: the toggle is pressed while playing", session.evaluate("() => #{toggle}.getAttribute('aria-pressed')"), "true"
+    session.find("[commandfor=video_controls_tour][command='--toggle']").click
+    wait_until(session, "#{bar}.paused")
+    check "#{theme}: the toggle is released when paused", session.evaluate("() => #{toggle}.getAttribute('aria-pressed')"), "false"
     session.find("[commandfor=video_controls_tour][command='--toggle']").click
     wait_until(session, "!#{bar}.paused")
-    check "#{theme}: the toggle is pressed while playing",
-      session.evaluate("() => document.querySelector('[commandfor=video_controls_tour][command=\"--toggle\"]').getAttribute('aria-pressed')"), "true"
     session.find("[commandfor=video_controls_tour][command='--next-chapter']").click
-    wait_until(session, "#{bar}.currentTime >= 15")
-    check "#{theme}: next chapter", session.evaluate("() => #{bar}.currentChapter.title"), "The workshop"
+    wait_until(session, "#{bar}.currentTime >= 45")
+    check "#{theme}: next chapter", session.evaluate("() => #{bar}.currentChapter.title"), "Questions"
     session.find("[commandfor=video_controls_tour][command='--skip'][value='5']").click
-    wait_until(session, "#{bar}.currentTime >= 20")
+    wait_until(session, "#{bar}.currentTime >= 50")
     session.find("[commandfor=video_controls_tour][command='--previous-chapter']").click
-    wait_until(session, "#{bar}.currentTime < 17")
-    check "#{theme}: previous chapter goes back to this one's start", session.evaluate("() => #{bar}.currentChapter.title"), "The workshop"
+    wait_until(session, "#{bar}.currentTime < 47")
+    check "#{theme}: previous chapter goes back to this one's start", session.evaluate("() => #{bar}.currentChapter.title"), "Questions"
     session.find("[commandfor=video_controls_tour][command='--toggle-mute']").click
     wait_until(session, "#{bar}.muted")
     check "#{theme}: mute is pressed", session.evaluate("() => document.querySelector('[command=\"--toggle-mute\"]').getAttribute('aria-pressed')"), "true"
     session.find("[commandfor=video_controls_tour][command='--rate'][value='1.5']").click
     check "#{theme}: speed", session.evaluate("() => #{bar}.querySelector('video').playbackRate"), 1.5
     check "#{theme}: the clock", session.evaluate("() => document.querySelector('output[for=video_controls_tour][name=time]').textContent"),
-      ->(text) { text.match?(/\A0:1\d\z/) }
+      ->(text) { text.match?(/\A0:4\d\z/) }
     check "#{theme}: the duration", session.evaluate("() => document.querySelector('output[for=video_controls_tour][name=duration]').textContent"), "1:00"
     session.find("[commandfor=video_controls_tour][command='--toggle']").click
     wait_until(session, "#{bar}.paused")
-    check "#{theme}: the toggle is released when paused",
-      session.evaluate("() => document.querySelector('[commandfor=video_controls_tour][command=\"--toggle\"]').getAttribute('aria-pressed')"), "false"
     File.binwrite("#{out}/controls-#{theme}.png", session.screenshot)
 
     # Chapters streamed in later are picked up.
@@ -107,6 +108,17 @@ Unmagic::Browser.new(driver: driver).open("#{base}/components/video") do |sessio
     JS
     wait_until(session, "#{bar}.chapters.length === 5")
     check "#{theme}: a chapter added later", session.evaluate("() => #{bar}.chapters.at(-1).title"), "Goodbye"
+  end
+
+  # The film streams from Wikimedia Commons, so it's only checked when asked.
+  if ENV["LIVE"] == "1"
+    film = "document.getElementById('video_chapters_film')"
+    session.visit("#{base}/components/video?theme=light")
+    session.find("[commandfor=video_chapters_film][command='--seek'][value='390']").click
+    wait_until(session, "!#{film}.paused && #{film}.currentTime >= 390", timeout: 30)
+    check "live: the film seeks to a chapter", session.evaluate("() => #{film}.currentChapter.title"), "Taking flight"
+    check "live: the film's duration", session.evaluate("() => Math.round(#{film}.duration)"), ->(seconds) { seconds.between?(630, 640) }
+    File.binwrite("#{out}/film.png", session.screenshot)
   end
 end
 puts "Screenshots in #{out}"

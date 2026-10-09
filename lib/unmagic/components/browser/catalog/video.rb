@@ -11,9 +11,11 @@ Unmagic::Components::Browser::Catalog.component :video,
                "data inside it, and it marks the chapter playing on every control that seeks to it.",
   examples: [
     { key: :chapters, title: "Chapters",
-      description: "video_cover covers it until it plays, video_chapters lists the chapters as seek buttons, and " \
+      description: "An open film streamed from Wikimedia Commons, in a <video> of your own with two sources. " \
+                   "video_cover covers it until it plays, video_chapters lists the chapters as seek buttons, and " \
                    "video_now_playing names the one playing. Press a chapter before playing to start there." },
     { key: :controls, title: "Your own controls",
       description: "controls: false, and a control bar of plain buttons and outputs: play and pause, skip, " \
-                   "chapters, mute, speed. The player keeps aria-pressed on the toggles and the clock current." }
+                   "chapters, mute, speed. The player keeps aria-pressed on the toggles and the clock current. " \
+                   "This one plays a short clip the browser ships, so it works offline." }
   ]
