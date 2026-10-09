@@ -107,6 +107,8 @@ that. It is the glue between a video and the page around it.
 - `<output>` is a polite live region, so a chapter change is announced. A
   ticking `time` output takes `aria-live="off"`.
 - The cover's button is labelled (`label:`). The image inside is `alt=""`.
+  While a cover shows, the video or iframe behind it is `inert`, so its own
+  controls aren't in the tab order or the accessibility tree out of sight.
 - Seeking from a chapter button off screen scrolls the player into view
   (`block: "nearest"`, instant under reduced motion).
 

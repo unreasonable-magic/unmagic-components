@@ -68,11 +68,13 @@ Unmagic::Browser.new(driver: driver).open("#{base}/blocks/asset_studio/preview")
     check "#{theme}: chapters read from the children", session.evaluate("() => #{player}.chapters.map((c) => [c.start, c.end, c.title])"),
       [ [ 0, 15, "Sketching the outline" ], [ 15, 30, "Blocking in colour" ], [ 30, 45, "Light on the water" ], [ 45, 60, "Exporting" ] ]
     check "#{theme}: the cover shows before playing", session.evaluate("() => #{player}.querySelector('unmagic-video-cover').hidden"), false
+    check "#{theme}: the video behind it is inert", session.evaluate("() => #{player}.querySelector('video').inert"), true
 
     # A chapter pressed before playing starts the video there.
     press session, "studio_walkthrough", "--seek", "30"
     wait_until(session, "!#{player}.paused && #{player}.currentTime >= 30")
     check "#{theme}: the cover hides once started", session.evaluate("() => #{player}.querySelector('unmagic-video-cover').hidden"), true
+    check "#{theme}: and the video is reachable", session.evaluate("() => #{player}.querySelector('video').inert"), false
     check "#{theme}: the element says it's playing", session.evaluate("() => #{player}.hasAttribute('playing')"), true
     check "#{theme}: current-chapter", session.evaluate("() => #{player}.getAttribute('current-chapter')"), "2"
     check "#{theme}: the pressed chapter is aria-current",
