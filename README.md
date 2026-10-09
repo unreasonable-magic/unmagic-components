@@ -1745,6 +1745,88 @@ I18n under `unmagic.components.board`: `label`, `add_card`, `add_card_submit`,
 I18n: `unmagic.components.avatar.group` ("%{count} people") and
 `unmagic.components.avatar.more` ("+%{count}").
 
+## Video
+
+### `video_player(id:, src: nil, provider: :native, chapters: [], poster: nil, controls: true, **options, &block)`
+
+```erb
+<%= video_player id: "tour", src: "/tour.mp4", chapters: @chapters do %>
+  <%= video_cover "tour", image: "/still.jpg", label: "Play the tour", caption: "The tour · 4:40" %>
+<% end %>
+
+<%= video_chapters "tour", @chapters %>
+<%= video_now_playing "tour" %>
+
+<button commandfor="tour" command="--toggle">Play</button>
+<output for="tour" name="time" aria-live="off"></output> / <output for="tour" name="duration"></output>
+```
+
+A video the page drives with its own controls. `<unmagic-video>` has no UI of
+its own: everything around it is your markup, pointed at its `id`.
+
+- **Chapters** are data: `chapters:` takes Hashes or objects answering
+  `start` (seconds or `"1:12"`), `title` and optionally `end`, and renders them
+  as hidden `<unmagic-video-chapter start="72">Title</unmagic-video-chapter>`
+  children. A native `<video>`'s `<track kind="chapters">` is read when there
+  are none, and `player.chapters = [...]` sets them from script. Chapters
+  added later (a Turbo Stream, a morph) are picked up.
+- **Providers:** `:native` renders a `<video>` for `src:` (or pass your own
+  `<video>` in the block). `:stream` builds a Cloudflare Stream iframe from
+  `src:` on first play, cued to where it was asked to start.
+- **The cover** is anything inside `<unmagic-video-cover>`, hidden once the
+  video starts. `video_cover` is one: a button with the still, a caption and a
+  play glyph.
+- **Controls** are buttons with invoker commands: `commandfor` names the
+  player, `command` the action, `value` its argument. Browsers without invoker
+  commands get them through one delegated listener.
+
+  | Command | `value` |
+  |---|---|
+  | `--play`, `--pause`, `--toggle` | |
+  | `--seek` | seconds or `"1:12"`; plays |
+  | `--skip` | `"10"` or `"-10"` |
+  | `--chapter` | a chapter's index |
+  | `--next-chapter`, `--previous-chapter` | |
+  | `--mute`, `--unmute`, `--toggle-mute` | |
+  | `--rate` | `"1.5"` |
+  | `--fullscreen` | |
+
+- **State it keeps:** `playing`, `started`, `ended`, `muted` and
+  `current-chapter` on the element; `aria-current="true"` on the `--seek` or
+  `--chapter` button for the chapter playing; `aria-pressed` on `--toggle` and
+  `--toggle-mute`; and the text of every `<output for="tour" name="…">`:
+  `chapter`, `chapter-index`, `time`, `duration`, `remaining`. An `<output>` is
+  a polite live region; give a ticking `time` `aria-live="off"`.
+- **Toggle buttons** keep one name and change their look from `aria-pressed`,
+  which the player keeps true. With Tailwind, mark the button `group` and swap
+  its icons with `group-aria-pressed:`, no script:
+
+  ```erb
+  <button type="button" class="group" commandfor="tour" command="--toggle" aria-label="Play">
+    <%= Unmagic::Components::Icons.svg(self, :play, class: "group-aria-pressed:hidden") %>
+    <%= Unmagic::Components::Icons.svg(self, :pause, class: "hidden group-aria-pressed:block") %>
+  </button>
+  ```
+
+  The element's own state attributes do the same for anything around it, e.g.
+  `group-has-[unmagic-video[playing]]:` on a container.
+- **Script:** `play()`, `pause()`, `seek(seconds)`, `currentTime`, `duration`,
+  `paused`, `muted`, `chapters` and `currentChapter`.
+- **Events**, which bubble: `unmagic-video:ready` `{ duration }`,
+  `unmagic-video:play` `{ first }`, `unmagic-video:pause`,
+  `unmagic-video:ended`, `unmagic-video:timeupdate` `{ currentTime }`,
+  `unmagic-video:chapterchange` `{ chapter, previous }` and
+  `unmagic-video:error` `{ message }`.
+- **Shape:** 16:9 unless the `--unmagic-video-aspect` knob says otherwise
+  (`style: "--unmagic-video-aspect: 9 / 16"`).
+
+`video_chapters(player_id, chapters)` lists the chapters as seek buttons, each
+a timecode and a title. `video_now_playing(player_id, label: "Now playing")` is
+the current chapter in an `<output>`.
+
+Needs `import "unmagic/components/video"`. I18n: `unmagic.components.video.chapters`
+("Chapters") and `unmagic.components.video.now_playing` ("Now playing").
+
 ## Elapsed times
 
 ### `elapsed_tag(time, direction: :up, **options)`

@@ -57,6 +57,7 @@ These are documented in the README and have no notes here:
 | [bulk_select](bulk_select.md) | Checkbox Select All | draft |
 | [drawer](drawer.md) | Drawer, Slideover | built |
 | [popover](popover.md) | Popover | built |
+| [video](video.md) | Video Player | built |
 | [password_field](password_field.md) | Password | built |
 | [one_time_code_field](one_time_code_field.md) | Two Factor | built |
 | [infinite_scroll](infinite_scroll.md) | Infinite Scroll | draft |
