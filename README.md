@@ -1688,27 +1688,55 @@ I18n under `unmagic.components.board`: `label`, `add_card`, `add_card_submit`,
 
 ## Avatars
 
-### `avatar(name, src: nil, size: :medium, shape: :circle, tint: true, skeleton: false, **options)`
+### `avatar(name, src: nil, size: :medium, shape: :circle, fit: :cover, kind: :name, initials: nil, seed: nil, fill: nil, skeleton: false, **options)`
 
 ```erb
 <%= avatar "Ada Lovelace" %>
-<%= avatar @user.name, src: @user.avatar_url, size: :large %>
-<%= avatar "Acme Ltd", shape: :square %>
+<%= avatar @user.name, src: @user.avatar_url, size: :large, seed: @user.id %>
+<%= avatar "Acme Pty Ltd", kind: :organization, shape: :square, fit: :contain, src: @acme.logo_url %>
 
 <%= avatar_group max: 3, size: :small do |group| %>
-  <% @members.each { |member| group.avatar member.name, src: member.avatar_url } %>
+  <% @members.each { |member| group.avatar member.name, src: member.avatar_url, seed: member.id } %>
 <% end %>
 ```
 
-- **Initials** come from the first and last words ("Ada Lovelace" is "AL") and
-  always render. The image sits on top of them, so a broken image shows the
-  initials without any script.
-- **Tint:** the initials sit on one of six palette tints picked from the name
-  with `unmagic-color`'s stable string hash, so a person keeps their colour on
-  every page and every server. `tint: false` is neutral. Override
-  `UnmagicAvatar--tint-1` … `-6` to recolour them.
-- **Sizes:** `:small`, `:medium` and `:large` (1.5, 2 and 2.5rem).
-  `skeleton: true` renders a skeleton circle of the same size.
+- **Initials** always render. The image sits on top of them, so a broken image
+  shows the initials without any script.
+  - A plain string reads its first and last words ("Ada Lovelace" is "AL").
+    `kind: :person` knows particles and mononyms ("Ludwig van Beethoven" is
+    "LB", "Prince" is "PR"). `kind: :organization` drops legal suffixes and
+    reads capitals inside a word ("Kestrel Pty Ltd" is "KE", "BrightPath" is "BP").
+  - A name object that answers `#initials` is asked directly, so a model can
+    hand over `Unmagic::Components::Name::Person.new(name)`, or its own object.
+    `initials:` overrides both.
+  - A name with a longer mark (`#initials_long`, "4K Gardens" is "4KG") shows
+    it where the avatar is at least 1.75rem wide, and its two-letter initials
+    below that.
+- **Fill:** what sits behind the initials, picked from `seed:` (by default the
+  name), so a person keeps their colour on every page and every server. Pass a
+  record's id as `seed:` to keep the colour through a rename.
+  - `Avatar::Tints` (the default): six palette tints that follow dark mode.
+    Override `UnmagicAvatar--tint-1` … `-6` to recolour them.
+  - `Avatar::Solid.new(lightness: 45, saturation: 45..70, foreground: "#ffffff")`:
+    one colour from the whole hue wheel, with white initials on it.
+  - `Avatar::Gradient.new(angle: 135, hue_shift: 25, lighten: 0.15, **solid)`:
+    Solid's colour eased into a second stop, turned by `hue_shift:` degrees and
+    lightened by `lighten:`.
+  - Your own: anything with `#call(seed)` that returns an
+    `Avatar::Fill.new(class_name:, background:, foreground:)`. `background:` is
+    any CSS background; it and `foreground:` are written to the avatar's
+    `--unmagic-avatar-background` and `--unmagic-avatar-foreground`, which your
+    CSS can also set.
+  - Set one for the app with `config.avatar_fill = …`, or pass `fill:` for one
+    avatar. `fill: false` is the neutral surface.
+  - `Unmagic::Components::Avatar.fill_for(seed)` returns the same fill outside
+    a view, for an email, a theme or a JSON payload.
+- **Sizes:** `:small`, `:medium`, `:large`, `:xlarge` and `:xxlarge` (1.5, 2,
+  2.5, 3.5 and 5rem), or a CSS length such as `"1.75rem"` for a box in between;
+  its initials scale with it. `skeleton: true` renders a skeleton circle of the
+  same size.
+- **Shape and fit:** `shape: :square` is for organisations. `fit: :contain`
+  shows a logo whole on the page's surface rather than cropping it.
 - **Accessibility:** an avatar is `role="img"` named for the person. Pass
   `"aria-hidden": true` when the name is written beside it.
 - **Groups:** `avatar_group` sets the size and shape for every avatar in it, and

@@ -238,6 +238,8 @@ name, and the host `@import`s it after `tailwindcss`.
   or `--unmagic-carousel-per-view`. Knobs are named
   `--unmagic-<component>-<property>` and documented only in that component's
   README section. They carry layout values for one instance, never colours.
+  The one exception is an avatar's fill, whose colour is picked per person
+  (`--unmagic-avatar-background`, `--unmagic-avatar-foreground`).
 - **Scale.** Use Tailwind's scale, matched to the existing components:
   - Type: `text-sm` for body text, `text-xs` for small labels.
   - Radii: `rounded-md` (items and controls), `rounded-lg` (panels),

@@ -3655,9 +3655,20 @@
 
   /* The initials always render; the image sits in the same grid cell on top, so a
      broken image (alt="" draws nothing) shows the initials through it. */
+  /* A fill writes --unmagic-avatar-background (any CSS background, so a gradient
+     works) and --unmagic-avatar-foreground; without them it's the neutral
+     surface. The avatar is its own container, so the initials can pick a mark
+     for the box they're in. */
   .UnmagicAvatar {
-    @apply relative inline-grid shrink-0 place-items-center overflow-hidden rounded-full bg-neutral-100 align-middle font-medium text-neutral-600 select-none;
-    @apply dark:bg-neutral-800 dark:text-neutral-400;
+    @apply relative inline-grid shrink-0 place-items-center overflow-hidden rounded-full align-middle font-medium select-none;
+    container-type: inline-size;
+    background: var(--unmagic-avatar-background, var(--color-neutral-100));
+    color: var(--unmagic-avatar-foreground, var(--color-neutral-600));
+
+    @variant dark {
+      background: var(--unmagic-avatar-background, var(--color-neutral-800));
+      color: var(--unmagic-avatar-foreground, var(--color-neutral-400));
+    }
   }
 
   .UnmagicAvatar > * {
@@ -3667,6 +3678,33 @@
   .UnmagicAvatar__image {
     @apply size-full object-cover;
     border-radius: inherit;
+  }
+
+  /* A logo shows whole, on the page's surface rather than the initials' fill. */
+  .UnmagicAvatar--contain .UnmagicAvatar__image {
+    @apply bg-white object-contain dark:bg-neutral-900;
+  }
+
+  /* A name with a longer mark ("4KG") shows it where there's room, and its
+     two-letter initials below that. */
+  .UnmagicAvatar__initials--short {
+    @apply hidden;
+  }
+
+  @container (width < 1.75rem) {
+    .UnmagicAvatar__initials--long {
+      @apply hidden;
+    }
+
+    .UnmagicAvatar__initials--short {
+      @apply inline;
+    }
+  }
+
+  @container (width < 2.5rem) {
+    .UnmagicAvatar__initials--long {
+      @apply text-[0.625rem];
+    }
   }
 
   .UnmagicAvatar--small {
@@ -3681,12 +3719,28 @@
     @apply size-10 text-sm;
   }
 
+  .UnmagicAvatar--xlarge {
+    @apply size-14 text-lg;
+  }
+
+  .UnmagicAvatar--xxlarge {
+    @apply size-20 text-2xl;
+  }
+
+  /* size: "1.75rem": the box from the knob, and initials in proportion. */
+  .UnmagicAvatar--sized,
+  .UnmagicAvatarGroup--sized .UnmagicAvatarGroup__more {
+    width: var(--unmagic-avatar-size);
+    height: var(--unmagic-avatar-size);
+    font-size: calc(var(--unmagic-avatar-size) * 0.4);
+  }
+
   .UnmagicAvatar--square {
     @apply rounded-md;
   }
 
-  /* Six palette tints, picked from the name. A host recolours them through its
-     palette, or by overriding these classes. */
+  /* Avatar::Tints, the default fill: six palette tints, picked from the seed. A
+     host recolours them through its palette, or by overriding these classes. */
   .UnmagicAvatar--tint-1 {
     @apply bg-sky-100 text-sky-700 dark:bg-sky-400/15 dark:text-sky-300;
   }
@@ -3747,6 +3801,14 @@
 
   .UnmagicAvatarGroup--large .UnmagicAvatarGroup__more {
     @apply size-10 text-sm;
+  }
+
+  .UnmagicAvatarGroup--xlarge .UnmagicAvatarGroup__more {
+    @apply size-14 text-lg;
+  }
+
+  .UnmagicAvatarGroup--xxlarge .UnmagicAvatarGroup__more {
+    @apply size-20 text-2xl;
   }
 
   /* ---------------------------------------------------------------- Elapsed */

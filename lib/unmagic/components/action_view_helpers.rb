@@ -1307,21 +1307,26 @@ module Unmagic
           .render(block ? capture(&block) : content)
       end
 
-      # A person's or organisation's picture, falling back to their initials on one
-      # of six tints picked from the name, the same on every page and server.
+      # A person's or organisation's picture, falling back to their initials on a
+      # fill picked from the name, the same on every page and server.
       #
       #   <%= avatar "Ada Lovelace" %>
-      #   <%= avatar @user.name, src: @user.avatar_url, size: :large %>
-      #   <%= avatar "Acme Ltd", shape: :square %>
+      #   <%= avatar @user.name, src: @user.avatar_url, size: :large, seed: @user.id %>
+      #   <%= avatar "Acme Pty Ltd", kind: :organization, shape: :square, fit: :contain %>
       #
-      # size: :small, :medium (default) or :large. shape: :circle (default) or
-      # :square. tint: false for the neutral surface. skeleton: true renders a
-      # skeleton circle of the same size. A blank src falls back to the initials,
-      # and a broken image shows them through it. The avatar is role="img" named
-      # for the person; pass "aria-hidden": true when the name is already written
-      # beside it. Other options go on the <span>.
-      def avatar(name, src: nil, size: :medium, shape: :circle, tint: true, skeleton: false, **options)
-        Components::Avatar.new(self, name, src: src, size: size, shape: shape, tint: tint, skeleton: skeleton, **options).render
+      # size: :small, :medium (default), :large, :xlarge, :xxlarge, or a CSS length
+      # ("1.75rem"). shape: :circle (default) or :square. fit: :contain shows a
+      # logo whole rather than cropping it. kind: :person or :organization reads a
+      # plain string's initials as one; a name object that answers #initials (and
+      # #initials_long) is asked directly, and initials: overrides both. seed:
+      # picks the colour (default: the name); fill: overrides the configured
+      # avatar_fill for this one, or false for the neutral surface. skeleton: true
+      # renders a skeleton circle of the same size. A blank src falls back to the
+      # initials, and a broken image shows them through it. The avatar is
+      # role="img" named for the person; pass "aria-hidden": true when the name is
+      # already written beside it. Other options go on the <span>.
+      def avatar(name, **options)
+        Components::Avatar.new(self, name, **options).render
       end
 
       # A stack of avatars.

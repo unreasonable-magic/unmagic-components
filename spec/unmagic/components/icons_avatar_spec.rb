@@ -60,8 +60,8 @@ RSpec.describe "icons and avatars" do
       expect(tint.("ada  lovelace")).to eq(tint.("Ada Lovelace"))
     end
 
-    it "is neutral with tint: false, and for a blank name" do
-      expect(html(view.avatar("Ada", tint: false)).at("span")["class"]).not_to include("tint")
+    it "is neutral with fill: false, and for a blank name" do
+      expect(html(view.avatar("Ada", fill: false)).at("span")["class"]).not_to include("tint")
 
       blank = html(view.avatar("")).at("span.UnmagicAvatar")
       expect(blank["class"]).not_to include("tint")
@@ -83,6 +83,88 @@ RSpec.describe "icons and avatars" do
     it "rejects an unknown size or shape" do
       expect { view.avatar("Ada", size: :huge) }.to raise_error(ArgumentError, /unknown avatar size :huge/)
       expect { view.avatar("Ada", shape: :blob) }.to raise_error(ArgumentError, /unknown avatar shape :blob/)
+    end
+  end
+
+  describe "avatar initials" do
+    it "reads a plain string as the kind it's told" do
+      initials = ->(*args, **opts) { html(view.avatar(*args, **opts)).css(".UnmagicAvatar__initials").map(&:text) }
+
+      expect(initials.call("Prince")).to eq([ "P" ])
+      expect(initials.call("Prince", kind: :person)).to eq([ "PR" ])
+      expect(initials.call("Kestrel Pty Ltd", kind: :organization)).to eq([ "KE" ])
+      expect(initials.call("Ada Lovelace", initials: "🦄")).to eq([ "🦄" ])
+      expect { view.avatar("Ada", kind: :robot) }.to raise_error(ArgumentError, /unknown avatar kind :robot/)
+    end
+
+    it "asks a name object for its own initials" do
+      name = Struct.new(:to_s, :initials).new("Ada Lovelace", "AD")
+
+      expect(html(view.avatar(name)).at(".UnmagicAvatar__initials").text).to eq("AD")
+    end
+
+    it "renders a longer mark beside the initials for the avatar's width to choose" do
+      avatar = html(view.avatar("4K Gardens", kind: :organization)).at(".UnmagicAvatar")
+
+      expect(avatar.at(".UnmagicAvatar__initials--long").text).to eq("4KG")
+      expect(avatar.at(".UnmagicAvatar__initials--short").text).to eq("4K")
+      expect(avatar.css("[aria-hidden=true]").size).to eq(2)
+    end
+  end
+
+  describe "avatar fills" do
+    after { Unmagic::Components.configuration.avatar_fill = nil }
+
+    it "tints from the seed rather than the name when given one" do
+      tint = ->(**opts) { html(view.avatar("Ada", **opts)).at("span")["class"][/tint-\d/] }
+
+      expect(tint.call(seed: "user-1")).to eq(tint.call(seed: "user-1"))
+      expect((1..20).map { |n| tint.call(seed: "user-#{n}") }.uniq.size).to be > 1
+    end
+
+    it "writes a gradient's colours to the avatar's custom properties" do
+      avatar = html(view.avatar("Ada", seed: "019a", fill: Unmagic::Components::Avatar::Gradient.new)).at("span")
+
+      expect(avatar["class"]).not_to include("tint")
+      expect(avatar["style"]).to match(/--unmagic-avatar-background: linear-gradient\(135deg, #\h{6} 0%, #\h{6} 100%\);/)
+      expect(avatar["style"]).to include("--unmagic-avatar-foreground: #ffffff;")
+    end
+
+    it "uses the configured fill, and the same colours outside a view" do
+      Unmagic::Components.configure { |config| config.avatar_fill = Unmagic::Components::Avatar::Solid.new(lightness: 30) }
+      fill = Unmagic::Components::Avatar.fill_for("019a")
+
+      expect(fill.background).to match(/\A#\h{6}\z/)
+      expect(html(view.avatar("Ada", seed: "019a")).at("span")["style"]).to include(fill.background)
+    end
+
+    it "takes any callable" do
+      fill = ->(seed) { Unmagic::Components::Avatar::Fill.new(class_name: "brand-#{seed.length}") }
+
+      expect(html(view.avatar("Ada", fill: fill)).at("span")["class"]).to include("brand-3")
+    end
+
+    it "keeps a caller's style alongside the fill's" do
+      style = html(view.avatar("Ada", fill: Unmagic::Components::Avatar::Solid.new, style: "margin: 0")).at("span")["style"]
+
+      expect(style).to include("--unmagic-avatar-background").and end_with("margin: 0")
+    end
+  end
+
+  describe "avatar sizes and fit" do
+    it "takes the larger named sizes and a CSS length" do
+      expect(html(view.avatar("Ada", size: :xxlarge)).at("span")["class"]).to include("UnmagicAvatar--xxlarge")
+
+      sized = html(view.avatar("Ada", size: "1.75rem")).at("span")
+      expect(sized["class"]).to include("UnmagicAvatar--sized")
+      expect(sized["style"]).to include("--unmagic-avatar-size: 1.75rem;")
+      expect(html(view.avatar("Ada", size: "1.75rem", skeleton: true)).at(".UnmagicSkeleton--circle")["style"]).to include("1.75rem")
+      expect { view.avatar("Ada", size: "big") }.to raise_error(ArgumentError, /unknown avatar size "big"/)
+    end
+
+    it "contains a logo" do
+      expect(html(view.avatar("Acme", src: "/logo.svg", fit: :contain)).at("span")["class"]).to include("UnmagicAvatar--contain")
+      expect { view.avatar("Acme", fit: :stretch) }.to raise_error(ArgumentError, /unknown avatar fit :stretch/)
     end
   end
 
