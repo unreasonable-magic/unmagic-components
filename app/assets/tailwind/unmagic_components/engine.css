@@ -3852,6 +3852,112 @@
     @apply size-20 text-2xl;
   }
 
+  /* ------------------------------------------------------------------ Video */
+
+  /* A box of the video's shape (16:9 unless --unmagic-video-aspect says
+     otherwise), with the video or iframe and the cover stacked in one grid cell. */
+  .UnmagicVideo {
+    @apply relative grid w-full overflow-hidden rounded-xl bg-neutral-950;
+    aspect-ratio: var(--unmagic-video-aspect, 16 / 9);
+  }
+
+  .UnmagicVideo > * {
+    grid-area: 1 / 1;
+  }
+
+  .UnmagicVideo > video,
+  .UnmagicVideo > iframe {
+    @apply block size-full border-0 object-contain;
+  }
+
+  .UnmagicVideo > unmagic-video-chapter {
+    @apply hidden;
+  }
+
+  .UnmagicVideoCover {
+    @apply relative z-10 block size-full;
+  }
+
+  .UnmagicVideoCover__button {
+    @apply relative grid size-full cursor-pointer place-items-center overflow-hidden bg-neutral-900 p-0 text-white;
+  }
+
+  .UnmagicVideoCover__button:focus-visible {
+    @apply outline-2 -outline-offset-4 outline-white;
+  }
+
+  .UnmagicVideoCover__image {
+    @apply absolute inset-0 size-full object-cover;
+  }
+
+  .UnmagicVideoCover__caption {
+    @apply absolute top-3 left-4 font-mono text-xs text-white/80;
+    text-shadow: 0 1px 2px rgb(0 0 0 / 0.6);
+  }
+
+  .UnmagicVideoCover__play {
+    @apply relative grid size-14 place-items-center rounded-full bg-white/90 text-neutral-900 shadow-lg transition-transform duration-150;
+  }
+
+  .UnmagicVideoCover__play .UnmagicIcon {
+    @apply ml-0.5 size-6 fill-current;
+  }
+
+  .UnmagicVideoCover__button:hover .UnmagicVideoCover__play,
+  .UnmagicVideoCover__button:focus-visible .UnmagicVideoCover__play {
+    @apply scale-105 bg-white;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .UnmagicVideoCover__play {
+      @apply transition-none;
+    }
+
+    .UnmagicVideoCover__button:hover .UnmagicVideoCover__play,
+    .UnmagicVideoCover__button:focus-visible .UnmagicVideoCover__play {
+      @apply scale-100;
+    }
+  }
+
+  .UnmagicVideoChapters {
+    @apply m-0 grid list-none gap-0.5 p-0;
+  }
+
+  .UnmagicVideoChapters__chapter {
+    @apply flex w-full cursor-pointer items-baseline gap-3 rounded-md px-2 py-1.5 text-left text-sm text-neutral-700;
+    @apply hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800;
+  }
+
+  .UnmagicVideoChapters__chapter:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+  }
+
+  /* The chapter playing, marked by the player. */
+  .UnmagicVideoChapters__chapter[aria-current="true"] {
+    @apply bg-neutral-100 font-medium text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100;
+  }
+
+  .UnmagicVideoChapters__time {
+    @apply shrink-0 font-mono text-xs text-neutral-500 tabular-nums dark:text-neutral-400;
+  }
+
+  .UnmagicVideoChapters__title {
+    @apply min-w-0;
+    overflow-wrap: anywhere;
+  }
+
+  .UnmagicVideoNowPlaying {
+    @apply m-0 text-xs text-neutral-500 dark:text-neutral-400;
+  }
+
+  .UnmagicVideoNowPlaying__chapter {
+    @apply font-medium text-neutral-900 dark:text-neutral-100;
+  }
+
+  .UnmagicVideoNowPlaying__chapter:empty::before {
+    content: "—";
+  }
+
   /* ---------------------------------------------------------------- Elapsed */
 
   /* tabular-nums is the reason for styling it at all: without it the reading

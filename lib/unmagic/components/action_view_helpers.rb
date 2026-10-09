@@ -1329,6 +1329,55 @@ module Unmagic
         Components::Avatar.new(self, name, **options).render
       end
 
+      # A video the page drives with its own controls. It has no UI of its own:
+      # buttons anywhere point at it with invoker commands, and <output>s show
+      # where it is.
+      #
+      #   <%= video_player id: "tour", src: "/tour.mp4", chapters: @chapters do %>
+      #     <%= video_cover "tour", image: "/still.jpg", label: "Play the tour" %>
+      #   <% end %>
+      #   <button commandfor="tour" command="--seek" value="1:12">The workshop</button>
+      #
+      # provider: :native (default) plays src in a <video> the server renders, or
+      # one given in the block. :stream builds a Cloudflare Stream iframe from src
+      # on first play. chapters: Hashes or objects answering start (seconds or
+      # "1:12"), title and optionally end; they render as hidden
+      # <unmagic-video-chapter>s. poster: is the still image; controls: false
+      # hides the video's own controls. title: names a Stream iframe. Other
+      # options go on the element. Needs import "unmagic/components/video".
+      def video_player(id:, src: nil, provider: :native, chapters: [], poster: nil, controls: true, **options, &block)
+        Components::Video.new(self, id: id, src: src, provider: provider, chapters: chapters, poster: poster,
+          controls: controls, **options).render(block ? capture(&block) : nil)
+      end
+
+      # What covers a video until it plays: a button that plays it, with the
+      # still, an optional caption and a play glyph. Goes inside video_player.
+      # label: names the button. Other options go on the <unmagic-video-cover>.
+      #
+      #   <%= video_cover "tour", image: "/still.jpg", label: "Play the tour", caption: "4:40" %>
+      def video_cover(player_id, image:, label:, caption: nil, **options)
+        Components::VideoCover.new(self, player_id, image: image, label: label, caption: caption, **options).render
+      end
+
+      # A video's chapters as a list of buttons that seek it, each a timecode and
+      # a title; the player marks the one playing aria-current. Renders nothing
+      # without chapters. Other options go on the <ol>.
+      #
+      #   <%= video_chapters "tour", @chapters %>
+      def video_chapters(player_id, chapters, **options)
+        Components::VideoChapters.new(self, player_id, chapters, **options).render
+      end
+
+      # The chapter playing, as "Now playing: The workshop", kept current by the
+      # player. A polite live region, so a new chapter is announced. Other
+      # options go on the <p>.
+      def video_now_playing(player_id, label: I18n.t("unmagic.components.video.now_playing", default: "Now playing"), **options)
+        tag.p(**options, class: class_names("UnmagicVideoNowPlaying", options[:class])) do
+          safe_join [ tag.span("#{label}:", class: "UnmagicVideoNowPlaying__label"), " ",
+            tag.output(for: player_id, name: "chapter", class: "UnmagicVideoNowPlaying__chapter") ]
+        end
+      end
+
       # A stack of avatars.
       #
       #   <%= avatar_group max: 3, size: :small do |group| %>

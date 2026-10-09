@@ -26,5 +26,19 @@
       <%= empty_state "No other versions yet.", title: "Version history" %>
     </div>
   </div>
+  <% walkthrough = [ { start: 0, title: "Sketching the outline" }, { start: 15, title: "Blocking in colour" },
+                     { start: 30, title: "Light on the water" }, { start: 45, title: "Exporting" } ] %>
+  <%= section "Walkthrough" do %>
+    <div class="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      <%= video_player id: "studio_walkthrough", src: browser_asset_path("browser", "videos/tour.mp4"), chapters: walkthrough do %>
+        <%= video_cover "studio_walkthrough", image: browser_asset_path("browser", "videos/tour.jpg"),
+              label: "Play the walkthrough", caption: "Walkthrough · 1:00" %>
+      <% end %>
+      <div class="grid content-start gap-3">
+        <%= video_now_playing "studio_walkthrough" %>
+        <%= video_chapters "studio_walkthrough", walkthrough %>
+      </div>
+    </div>
+  <% end %>
   <%= card title: "Artwork notes", id: "asset_notes" do %><p class="text-sm text-neutral-500">Leave space around the mountain peak. The crop tool produces a new image without changing this original.</p><% end %>
 </main>

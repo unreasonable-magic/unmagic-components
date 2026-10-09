@@ -1,0 +1,16 @@
+<% chapters = [
+     { start: 0, title: "Welcome" },
+     { start: 15, title: "The workshop" },
+     { start: "0:30", title: "How the parts fit together" },
+     { start: "0:45", title: "Questions" }
+   ] %>
+<div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_16rem]">
+  <%= video_player id: "video_chapters_tour", src: browser_asset_path("browser", "videos/tour.mp4"), chapters: chapters do %>
+    <%= video_cover "video_chapters_tour", image: browser_asset_path("browser", "videos/tour.jpg"),
+          label: "Play the tour", caption: "The tour · 1:00" %>
+  <% end %>
+  <div class="grid content-start gap-3">
+    <%= video_now_playing "video_chapters_tour" %>
+    <%= video_chapters "video_chapters_tour", chapters %>
+  </div>
+</div>

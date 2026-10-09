@@ -1,0 +1,24 @@
+<% chapters = [ { start: 0, title: "Welcome" }, { start: 15, title: "The workshop" },
+                { start: 30, title: "How the parts fit together" }, { start: 45, title: "Questions" } ] %>
+<% player = "video_controls_tour" %>
+<div class="grid max-w-2xl gap-3">
+  <%= video_player id: player, src: browser_asset_path("browser", "videos/tour.mp4"), chapters: chapters, controls: false %>
+  <div class="flex flex-wrap items-center gap-2">
+    <%= button_group label: "Playback" do |group| %>
+      <% group.button "Previous chapter", commandfor: player, command: "--previous-chapter" %>
+      <% group.button "−5s", commandfor: player, command: "--skip", value: -5, "aria-label": "Back 5 seconds" %>
+      <% group.button "Play", :primary, commandfor: player, command: "--toggle" %>
+      <% group.button "+5s", commandfor: player, command: "--skip", value: 5, "aria-label": "Forward 5 seconds" %>
+      <% group.button "Next chapter", commandfor: player, command: "--next-chapter" %>
+    <% end %>
+    <%= button "Mute", :ghost, commandfor: player, command: "--toggle-mute" %>
+    <%= button "1.5×", :ghost, commandfor: player, command: "--rate", value: 1.5, "aria-label": "Play at one and a half times speed" %>
+    <%= button "1×", :ghost, commandfor: player, command: "--rate", value: 1, "aria-label": "Play at normal speed" %>
+  </div>
+  <p class="m-0 font-mono text-xs text-neutral-500 tabular-nums dark:text-neutral-400">
+    <output for="<%= player %>" name="time" aria-live="off">0:00</output> /
+    <output for="<%= player %>" name="duration">–</output> ·
+    chapter <output for="<%= player %>" name="chapter-index"></output>:
+    <output for="<%= player %>" name="chapter"></output>
+  </p>
+</div>

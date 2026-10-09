@@ -1,0 +1,112 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Replay the video demos in visible Chrome, checking what the player does and
+# saving screenshots. Start bin/dev first. HEADLESS=1 runs the same checks
+# without a window.
+require "bundler/setup"
+require "fileutils"
+require "json"
+require "unmagic/browser"
+
+base = ENV.fetch("BROWSER_URL", "http://localhost:5701")
+out = File.expand_path("../tmp/video-demo", __dir__)
+FileUtils.mkdir_p(out)
+
+def check(label, actual, expected)
+  ok = expected.is_a?(Proc) ? expected.call(actual) : actual == expected
+  puts "#{ok ? "ok  " : "FAIL"} #{label}: #{actual.inspect}"
+  raise "#{label} was #{actual.inspect}" unless ok
+end
+
+def wait_until(session, script, timeout: 5)
+  deadline = Time.now + timeout
+  until session.evaluate("() => #{script}")
+    raise "timed out waiting for #{script}" if Time.now > deadline
+
+    sleep 0.1
+  end
+end
+
+driver = Unmagic::Browser::Driver::Local.new(headless: ENV["HEADLESS"] == "1", slow_mo: 20)
+Unmagic::Browser.new(driver: driver).open("#{base}/components/video") do |session|
+  %w[light dark].each do |theme|
+    session.emulate(viewport: { width: 1280, height: 900 })
+    session.visit("#{base}/components/video?theme=#{theme}")
+    session.wait_for(selector: "#video_chapters_tour video")
+    wait_until(session, "document.getElementById('video_chapters_tour').duration > 0")
+
+    session.evaluate(<<~JS)
+      () => {
+        window.__events = []
+        for (const name of ["ready", "play", "pause", "chapterchange", "ended"]) {
+          document.addEventListener(`unmagic-video:${name}`, (event) =>
+            window.__events.push([name, JSON.parse(JSON.stringify(event.detail))]))
+        }
+      }
+    JS
+
+    player = "document.getElementById('video_chapters_tour')"
+    check "#{theme}: chapters read from the children", session.evaluate("() => #{player}.chapters.map((c) => [c.start, c.end, c.title])"),
+      [ [ 0, 15, "Welcome" ], [ 15, 30, "The workshop" ], [ 30, 45, "How the parts fit together" ], [ 45, 60, "Questions" ] ]
+    check "#{theme}: the cover shows before playing", session.evaluate("() => #{player}.querySelector('unmagic-video-cover').hidden"), false
+    File.binwrite("#{out}/chapters-#{theme}-before.png", session.screenshot)
+
+    # A chapter pressed before playing starts the video there.
+    session.find("#video_chapters_tour ~ div button[value='30']").click
+    wait_until(session, "!#{player}.paused && #{player}.currentTime >= 30")
+    check "#{theme}: the cover hides once started", session.evaluate("() => #{player}.querySelector('unmagic-video-cover').hidden"), true
+    check "#{theme}: the element says it's playing", session.evaluate("() => #{player}.hasAttribute('playing')"), true
+    check "#{theme}: current-chapter", session.evaluate("() => #{player}.getAttribute('current-chapter')"), "2"
+    check "#{theme}: the pressed chapter is aria-current",
+      session.evaluate("() => [...document.querySelectorAll('[commandfor=video_chapters_tour][aria-current=true]')].map((b) => b.value)"), [ "30" ]
+    check "#{theme}: now playing", session.evaluate("() => document.querySelector('output[for=video_chapters_tour][name=chapter]').textContent"),
+      "How the parts fit together"
+    check "#{theme}: first play is reported once", session.evaluate("() => window.__events.filter(([n]) => n === 'play').map(([, d]) => d.first)"), [ true ]
+    check "#{theme}: chapterchange told what changed", session.evaluate("() => window.__events.find(([n]) => n === 'chapterchange')[1].chapter.title"),
+      "How the parts fit together"
+    File.binwrite("#{out}/chapters-#{theme}-playing.png", session.screenshot)
+
+    # The control bar: toggles, skips and chapter steps.
+    bar = "document.getElementById('video_controls_tour')"
+    session.find("[commandfor=video_controls_tour][command='--toggle']").click
+    wait_until(session, "!#{bar}.paused")
+    check "#{theme}: the toggle is pressed while playing",
+      session.evaluate("() => document.querySelector('[commandfor=video_controls_tour][command=\"--toggle\"]').getAttribute('aria-pressed')"), "true"
+    session.find("[commandfor=video_controls_tour][command='--next-chapter']").click
+    wait_until(session, "#{bar}.currentTime >= 15")
+    check "#{theme}: next chapter", session.evaluate("() => #{bar}.currentChapter.title"), "The workshop"
+    session.find("[commandfor=video_controls_tour][command='--skip'][value='5']").click
+    wait_until(session, "#{bar}.currentTime >= 20")
+    session.find("[commandfor=video_controls_tour][command='--previous-chapter']").click
+    wait_until(session, "#{bar}.currentTime < 17")
+    check "#{theme}: previous chapter goes back to this one's start", session.evaluate("() => #{bar}.currentChapter.title"), "The workshop"
+    session.find("[commandfor=video_controls_tour][command='--toggle-mute']").click
+    wait_until(session, "#{bar}.muted")
+    check "#{theme}: mute is pressed", session.evaluate("() => document.querySelector('[command=\"--toggle-mute\"]').getAttribute('aria-pressed')"), "true"
+    session.find("[commandfor=video_controls_tour][command='--rate'][value='1.5']").click
+    check "#{theme}: speed", session.evaluate("() => #{bar}.querySelector('video').playbackRate"), 1.5
+    check "#{theme}: the clock", session.evaluate("() => document.querySelector('output[for=video_controls_tour][name=time]').textContent"),
+      ->(text) { text.match?(/\A0:1\d\z/) }
+    check "#{theme}: the duration", session.evaluate("() => document.querySelector('output[for=video_controls_tour][name=duration]').textContent"), "1:00"
+    session.find("[commandfor=video_controls_tour][command='--toggle']").click
+    wait_until(session, "#{bar}.paused")
+    check "#{theme}: the toggle is released when paused",
+      session.evaluate("() => document.querySelector('[commandfor=video_controls_tour][command=\"--toggle\"]').getAttribute('aria-pressed')"), "false"
+    File.binwrite("#{out}/controls-#{theme}.png", session.screenshot)
+
+    # Chapters streamed in later are picked up.
+    session.evaluate(<<~JS)
+      () => {
+        const chapter = document.createElement("unmagic-video-chapter")
+        chapter.setAttribute("start", "50")
+        chapter.hidden = true
+        chapter.textContent = "Goodbye"
+        document.getElementById("video_controls_tour").append(chapter)
+      }
+    JS
+    wait_until(session, "#{bar}.chapters.length === 5")
+    check "#{theme}: a chapter added later", session.evaluate("() => #{bar}.chapters.at(-1).title"), "Goodbye"
+  end
+end
+puts "Screenshots in #{out}"

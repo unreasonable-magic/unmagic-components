@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `video_player`, a video the page drives with its own controls: an
+  `<unmagic-video>` with no UI of its own, controlled by buttons anywhere on
+  the page through invoker commands (`commandfor`, `command="--seek"`,
+  `value="1:12"`), and showing where it is in `<output for name>`s. Chapters
+  are hidden `<unmagic-video-chapter>` children (or a native video's
+  `<track kind="chapters">`), and the player marks the chapter playing
+  `aria-current` on the buttons that seek to it. It plays an mp4 in a native
+  `<video>`, or builds a Cloudflare Stream iframe on first play, and fires
+  `unmagic-video:ready`, `:play` (`{ first }`), `:pause`, `:ended`,
+  `:timeupdate`, `:chapterchange` and `:error`. `video_cover`,
+  `video_chapters` and `video_now_playing` are a cover, a chapter list and a
+  "now playing" line to start from, each replaceable with your own markup.
+
 - Avatar fills: what sits behind an avatar's initials is now a seam,
   `config.avatar_fill`, with `fill:` to override it for one avatar. Fills ship
   as `Avatar::Tints` (the default, unchanged), `Avatar::Solid` and
