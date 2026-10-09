@@ -1,0 +1,13 @@
+<% people = [ "Ada Lovelace", "Grace Hopper", "Katherine Johnson", "Alan Turing", "Margaret Hamilton", "Dennis Ritchie" ] %>
+<div class="grid gap-4">
+  <% { "Solid" => Unmagic::Components::Avatar::Solid.new,
+       "Gradient" => Unmagic::Components::Avatar::Gradient.new,
+       "Gradient, wider turn" => Unmagic::Components::Avatar::Gradient.new(hue_shift: 60, angle: 90, lightness: 40) }.each do |label, fill| %>
+    <div class="flex flex-wrap items-center gap-3">
+      <span class="w-40 text-xs text-neutral-500"><%= label %></span>
+      <% people.each do |name| %>
+        <%= avatar name, size: :large, fill: fill %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

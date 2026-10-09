@@ -17,6 +17,10 @@ there is no Stimulus.
 3. Build it to the note, then follow the checklist at the end of the
    principles.
 
+Example names and text, in code, specs, docs and commits, are always invented
+and generic: never a real company name, and never the app a component came
+from. See "Example content" in the principles.
+
 Component ideas can come from other libraries, such as Rails Blocks, but only
 as a list of what's missing. Never copy their markup, classes or code: design
 each component from scratch to these principles.

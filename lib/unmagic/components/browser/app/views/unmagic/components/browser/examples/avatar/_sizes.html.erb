@@ -1,8 +1,19 @@
-<div class="flex items-center gap-4">
-  <%= avatar "Ada Lovelace", size: :small %>
-  <%= avatar "Ada Lovelace" %>
-  <%= avatar "Ada Lovelace", size: :large %>
-  <%= avatar "Grace Hopper", size: :large, src: "/missing-picture.png" %>
-  <%= avatar "Acme Ltd", size: :large, shape: :square %>
-  <%= avatar "Ada Lovelace", size: :large, skeleton: true %>
+<% portrait = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZmRlNjhhIi8+PGNpcmNsZSBjeD0iMzIiIGN5PSIyNiIgcj0iMTIiIGZpbGw9IiM5MjQwMGUiLz48cGF0aCBkPSJNMTAgNjRjMi0xNCAxMi0yMiAyMi0yMnMyMCA4IDIyIDIyeiIgZmlsbD0iI2I0NTMwOSIvPjwvc3ZnPg==" %>
+<div class="grid gap-4">
+  <div class="flex flex-wrap items-center gap-4">
+    <%= avatar "Ada Lovelace", size: :small %>
+    <%= avatar "Ada Lovelace" %>
+    <%= avatar "Ada Lovelace", size: :large %>
+    <%= avatar "Ada Lovelace", size: :xlarge %>
+    <%= avatar "Ada Lovelace", size: :xxlarge %>
+    <%= avatar "Ada Lovelace", size: "1.75rem" %>
+    <%= avatar "Ada Lovelace", size: :large, skeleton: true %>
+  </div>
+  <div class="flex flex-wrap items-center gap-4">
+    <%= avatar "Grace Hopper", size: :large, src: portrait %>
+    <%= avatar "Grace Hopper", size: :small, src: "/missing-picture.png" %>
+    <%= avatar "Grace Hopper", size: :large, src: "/missing-picture.png" %>
+    <%= avatar "Grace Hopper", size: :xxlarge, src: "/missing-picture.png", fill: Unmagic::Components::Avatar::Gradient.new %>
+    <%= avatar "4K Gardens", kind: :organization, shape: :square, size: :xlarge, fit: :contain, src: "/missing-logo.png" %>
+  </div>
 </div>

@@ -1,58 +1,93 @@
 # frozen_string_literal: true
 
 require "active_support/core_ext/string/filters"
-require "unmagic/color"
 
 module Unmagic
   module Components
     # A person's or organisation's picture, falling back to their initials. See
     # ActionViewHelpers#avatar.
     class Avatar
-      SIZES = %i[small medium large].freeze
+      SIZES = %i[small medium large xlarge xxlarge].freeze
       SHAPES = %i[circle square].freeze
-      TINTS = 6
+      FITS = %i[cover contain].freeze
 
-      # The skeleton for each size, so a loading avatar and a loaded one line up.
-      DIMENSIONS = { small: "1.5rem", medium: "2rem", large: "2.5rem" }.freeze
+      # How a plain string is read for its initials. A name object that answers
+      # #initials itself is used as it is.
+      KINDS = { name: Name, person: Name::Person, organization: Name::Organization }.freeze
+
+      # Each named size's box, which a loading avatar's skeleton matches.
+      DIMENSIONS = { small: "1.5rem", medium: "2rem", large: "2.5rem", xlarge: "3.5rem", xxlarge: "5rem" }.freeze
+
+      # A size given as a CSS length rather than by name, for a box between the
+      # named ones.
+      LENGTH = /\A\d+(\.\d+)?(rem|em|px)\z/
 
       class << self
-        # "Ada Lovelace" → "AL", "Plato" → "P".
-        def initials(name)
-          words = name.to_s.squish.split
-          return "" if words.empty?
-
-          [ words.first, (words.last if words.size > 1) ].compact.map { |word| word[0] }.join.upcase
+        # "Ada Lovelace" → "AL", "Plato" → "P". kind: reads it as a :person or an
+        # :organization instead.
+        def initials(name, kind: :name)
+          name_object(name, kind).initials
         end
 
-        # One of six palette tints, the same for a name on every page and every
-        # server. Ruby's String#hash is seeded per process, so it can't be used here;
-        # unmagic-color's string hash is stable.
-        def tint(name)
-          normalised = name.to_s.squish.downcase
-          return if normalised.empty?
+        # The fill an avatar seeded with seed: wears, through the configured
+        # avatar_fill unless fill: is given. For a host drawing the same colours
+        # somewhere an avatar can't go, such as an email or a JSON payload. nil for
+        # a blank seed or fill: false.
+        def fill_for(seed, fill: nil)
+          fill = Components.configuration.avatar_fill if fill.nil?
+          return if fill == false || seed.to_s.squish.empty?
 
-          (Unmagic::Color::String::HashFunction.call(normalised) % TINTS) + 1
+          fill.call(seed)
         end
 
-        def validate!(size, shape)
-          unless SIZES.include?(size)
-            raise ArgumentError, "unknown avatar size #{size.inspect} (expected one of #{SIZES.inspect})"
+        def name_object(name, kind)
+          return name if name.respond_to?(:initials)
+
+          KINDS.fetch(kind) do
+            raise ArgumentError, "unknown avatar kind #{kind.inspect} (expected one of #{KINDS.keys.inspect})"
+          end.new(name)
+        end
+
+        def dimension(size)
+          DIMENSIONS.fetch(size, size)
+        end
+
+        def validate!(size, shape, fit: :cover)
+          unless SIZES.include?(size) || (size.is_a?(String) && size.match?(LENGTH))
+            raise ArgumentError, "unknown avatar size #{size.inspect} (expected one of #{SIZES.inspect}, or a CSS length)"
           end
-          return if SHAPES.include?(shape)
+          unless SHAPES.include?(shape)
+            raise ArgumentError, "unknown avatar shape #{shape.inspect} (expected one of #{SHAPES.inspect})"
+          end
+          return if FITS.include?(fit)
 
-          raise ArgumentError, "unknown avatar shape #{shape.inspect} (expected one of #{SHAPES.inspect})"
+          raise ArgumentError, "unknown avatar fit #{fit.inspect} (expected one of #{FITS.inspect})"
+        end
+
+        # The class and knob a size puts on an element named block.
+        def size_attributes(block, size)
+          if size.is_a?(String)
+            [ "#{block}--sized", "--unmagic-avatar-size: #{size};" ]
+          else
+            [ "#{block}--#{size}", nil ]
+          end
         end
       end
 
-      def initialize(view, name, src: nil, size: :medium, shape: :circle, tint: true, skeleton: false, **options)
-        self.class.validate!(size, shape)
+      def initialize(view, name, src: nil, size: :medium, shape: :circle, fit: :cover, kind: :name, initials: nil,
+        seed: nil, fill: nil, skeleton: false, **options)
+        self.class.validate!(size, shape, fit: fit)
 
         @view = view
+        @name_object = self.class.name_object(name, kind)
         @name = name.to_s.squish
         @src = src
         @size = size
         @shape = shape
-        @tint = tint
+        @fit = fit
+        @initials = initials
+        @seed = seed.nil? ? @name : seed
+        @fill = fill
         @skeleton = skeleton
         @options = options
       end
@@ -60,19 +95,20 @@ module Unmagic
       # The initials always render and the image sits on top of them, so an image
       # that fails to load shows the initials through it without any script.
       def render
-        return Skeleton.new(view).circle(size: DIMENSIONS.fetch(@size), **@options) if @skeleton
+        return Skeleton.new(view).circle(size: self.class.dimension(@size), **@options) if @skeleton
 
-        tint = self.class.tint(@name) if @tint
+        fill = self.class.fill_for(@seed, fill: @fill) if @name.present?
+        size_class, size_style = self.class.size_attributes("UnmagicAvatar", @size)
+
         view.content_tag(:span, **@options,
           role: "img",
           "aria-label": @name.presence,
           title: @name.presence,
-          class: view.class_names("UnmagicAvatar", "UnmagicAvatar--#{@size}",
-            { "UnmagicAvatar--square" => @shape == :square, "UnmagicAvatar--tint-#{tint}" => tint }, @options[:class])) do
-          safe_join [
-            tag.span(@name.present? ? self.class.initials(@name) : "—", class: "UnmagicAvatar__initials", "aria-hidden": "true"),
-            (tag.img(src: @src, alt: "", loading: "lazy", decoding: "async", class: "UnmagicAvatar__image") if @src.present?)
-          ].compact
+          style: [ size_style, fill&.style, @options[:style] ].compact.join(" ").presence,
+          class: view.class_names("UnmagicAvatar", size_class,
+            { "UnmagicAvatar--square" => @shape == :square, "UnmagicAvatar--contain" => @fit == :contain },
+            fill&.class_name, @options[:class])) do
+          safe_join [ *initials_tags, image_tag ].compact
         end
       end
 
@@ -81,6 +117,44 @@ module Unmagic
       attr_reader :view
 
       delegate :tag, :safe_join, to: :view, private: true
+
+      # Where the name has a longer mark, both render and the avatar's own width
+      # picks one (a container query), so the same call reads right at any size.
+      def initials_tags
+        short, long = initials
+
+        if long == short
+          [ initials_tag(short) ]
+        else
+          [ initials_tag(long, "UnmagicAvatar__initials--long"), initials_tag(short, "UnmagicAvatar__initials--short") ]
+        end
+      end
+
+      # The image carries the initials too: a sized image that fails to load draws
+      # the browser's broken-image glyph over the initials under it, so the CSS
+      # covers it with the fill and these (a broken image renders ::before; a
+      # loaded one doesn't).
+      def image_tag
+        return if @src.blank?
+
+        short, long = initials
+        tag.img(src: @src, alt: "", loading: "lazy", decoding: "async", class: "UnmagicAvatar__image",
+          data: { initials: short, initials_long: (long unless long == short) })
+      end
+
+      def initials
+        @initials_pair ||=
+          if @name.empty?
+            [ "—", "—" ]
+          else
+            short = @initials || @name_object.initials
+            [ short, @initials || (@name_object.respond_to?(:initials_long) ? @name_object.initials_long : short) ]
+          end
+      end
+
+      def initials_tag(text, modifier = nil)
+        tag.span(text, class: view.class_names("UnmagicAvatar__initials", modifier), "aria-hidden": "true")
+      end
     end
 
     # A stack of avatars, collapsing past max: into a "+N" counter. See
@@ -110,9 +184,11 @@ module Unmagic
         shown = @max ? @people.first(@max) : @people
         hidden = @people.drop(shown.size)
         label = I18n.t("unmagic.components.avatar.group", count: @people.size, default: "%{count} people")
+        size_class, size_style = Avatar.size_attributes("UnmagicAvatarGroup", @size)
 
         view.content_tag(:div, **@options, role: "group", "aria-label": label,
-          class: view.class_names("UnmagicAvatarGroup", "UnmagicAvatarGroup--#{@size}", @options[:class])) do
+          style: [ size_style, @options[:style] ].compact.join(" ").presence,
+          class: view.class_names("UnmagicAvatarGroup", size_class, @options[:class])) do
           view.safe_join [
             *shown.map { |name, options| Avatar.new(view, name, size: @size, shape: @shape, **options).render },
             (more(hidden) if hidden.any?)

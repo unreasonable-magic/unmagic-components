@@ -9,6 +9,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Avatar fills: what sits behind an avatar's initials is now a seam,
+  `config.avatar_fill`, with `fill:` to override it for one avatar. Fills ship
+  as `Avatar::Tints` (the default, unchanged), `Avatar::Solid` and
+  `Avatar::Gradient` (colours from the whole hue wheel, tuned by lightness,
+  saturation, hue shift, lightening and angle), and any `#call(seed)` returning
+  an `Avatar::Fill`. `seed:` picks the colour from something steadier than the
+  name, such as a record's id, and `Avatar.fill_for(seed)` gives the same
+  colours outside a view.
+- `Unmagic::Components::Name`, `Name::Person` and `Name::Organization`: names
+  that know their first and last parts and their initials, through surname
+  particles, mononyms, legal suffixes, capitals inside a word and number-led
+  marks. `avatar` reads a plain string as one with `kind:`, asks any name object
+  that answers `#initials` directly, and shows `#initials_long` ("4KG") where
+  the avatar has room. `initials:` overrides them.
+- Avatars come in `:xlarge` and `:xxlarge` (3.5 and 5rem), or any CSS length,
+  and take `fit: :contain` to show a logo whole.
+
+### Changed
+
+- `avatar`'s `tint: false` is now `fill: false`.
+
+### Fixed
+
+- An avatar whose image fails to load shows its fill and initials again, not
+  the browser's broken-image glyph over them. Still CSS only.
+
 - `text_highlights`, passages of a text marked like a highlighter pen: a word, a
   sentence, or everything `from:` one quote `to:` another, each in yellow,
   green, blue, pink or red. Passages are found by what they say, forgiving

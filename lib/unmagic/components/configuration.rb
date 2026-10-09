@@ -8,7 +8,7 @@ module Unmagic
     # versions in an initializer.
     class Configuration
       attr_writer :empty_state, :pagination, :pagy_for, :submit_class, :control_class, :modal_frame_id, :flash_tones,
-        :highlight, :code_block, :sortable_item, :sortable_url
+        :highlight, :code_block, :sortable_item, :sortable_url, :avatar_fill
 
       # The tone each flash type's toast wears, keyed by the flash type as a string.
       # A type that isn't listed is :info.
@@ -88,6 +88,17 @@ module Unmagic
       # unmagic-sortable points it at its endpoint.
       def sortable_url
         @sortable_url ||= ->(_view) { nil }
+      end
+
+      # What sits behind an avatar's initials. Called with (seed), the avatar's
+      # seed: or its name, and returns an Avatar::Fill, or nil for the neutral
+      # surface. The default is Avatar::Tints; Avatar::Solid and Avatar::Gradient
+      # colour from the whole hue wheel, or an app hands back its own.
+      #
+      #   config.avatar_fill = Unmagic::Components::Avatar::Gradient.new(lightness: 45, hue_shift: 25)
+      #   config.avatar_fill = ->(seed) { Unmagic::Components::Avatar::Fill.new(background: MyBrand.color(seed)) }
+      def avatar_fill
+        @avatar_fill ||= Avatar::Tints.new
       end
 
       # The classes on a form control. Called with (view, kind), where kind is one

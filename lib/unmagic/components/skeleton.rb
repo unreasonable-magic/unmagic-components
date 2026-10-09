@@ -104,7 +104,7 @@ module Unmagic
         view.tag.span(**options, "aria-hidden": "true",
           class: view.class_names("UnmagicSkeletonItem", options[:class]), style: style(options[:style])) do
           view.safe_join [
-            (circle(size: Avatar::DIMENSIONS.fetch(avatar)) if avatar),
+            (circle(size: Avatar.dimension(avatar)) if avatar),
             view.tag.span(view.safe_join(lines), class: "UnmagicSkeletonItem__main")
           ].compact
         end

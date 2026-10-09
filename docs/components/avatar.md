@@ -11,6 +11,33 @@ Where the build differs from this note:
 
 - The tint is picked with `unmagic-color`'s stable string hash (BKDR) rather than `Zlib.crc32`; the gem depends on unmagic-color for this.
 - Specs are in `icons_avatar_spec.rb`, and the preview has its own Avatar page.
+- **Fills** replaced `tint:`. The colour behind the initials comes from
+  `config.avatar_fill` (`Avatar::Tints` by default; `Avatar::Solid`,
+  `Avatar::Gradient` or any `#call(seed)` returning an `Avatar::Fill`), or
+  `fill:` per avatar, picked from `seed:` (default: the name). A fill's
+  `background`/`foreground` go to `--unmagic-avatar-background` and
+  `--unmagic-avatar-foreground`, an accepted exception to "knobs never carry
+  colours": the colour is per person, so it can't live in a class. Hosts asked
+  for this to keep their own look (such as white initials on a seeded gradient)
+  and to keep a colour through a rename by seeding with an id.
+- **Initials** come from `Unmagic::Components::Name` (`name.rb`), with
+  `Name::Person` and `Name::Organization` behind `kind:`. Any object answering
+  `#initials` is asked directly; `initials:` overrides. `#initials_long` renders
+  as a second span, and a container query on the avatar shows it from 1.75rem
+  wide (at 0.625rem type below 2.5rem).
+- **Sizes** gained `:xlarge` (3.5rem) and `:xxlarge` (5rem), and a CSS length
+  (`"1.75rem"`) sets the `--unmagic-avatar-size` knob, with initials at 0.4 of
+  it. **`fit: :contain`** shows a logo whole, on a white/`neutral-900` surface.
+- **Broken images:** a sized `<img>` that fails to load draws the browser's
+  broken-image glyph even with `alt=""`, over the initials under it. The image
+  carries `data-initials` (and `data-initials-long`), and since a broken image
+  renders its pseudo-elements while a loaded one doesn't, `::before` hides the
+  glyph under the page surface (`white`/`neutral-900`) and `::after` lays the
+  avatar's fill (inherited, translucent in dark mode) and the initials over it.
+  Still no script. Verified in Chrome; check Firefox and Safari by hand. A
+  `fit: :contain` logo falls back onto its own surface.
+- The image inherits the avatar's fill as its background, so a transparent
+  picture sits on the colour rather than over the initials.
 
 ## Purpose
 

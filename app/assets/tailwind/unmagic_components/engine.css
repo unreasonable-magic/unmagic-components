@@ -3655,18 +3655,97 @@
 
   /* The initials always render; the image sits in the same grid cell on top, so a
      broken image (alt="" draws nothing) shows the initials through it. */
+  /* A fill writes --unmagic-avatar-background (any CSS background, so a gradient
+     works) and --unmagic-avatar-foreground; without them it's the neutral
+     surface. The avatar is its own container, so the initials can pick a mark
+     for the box they're in. */
   .UnmagicAvatar {
-    @apply relative inline-grid shrink-0 place-items-center overflow-hidden rounded-full bg-neutral-100 align-middle font-medium text-neutral-600 select-none;
-    @apply dark:bg-neutral-800 dark:text-neutral-400;
+    @apply relative inline-grid shrink-0 place-items-center overflow-hidden rounded-full align-middle font-medium select-none;
+    container-type: inline-size;
+    background: var(--unmagic-avatar-background, var(--color-neutral-100));
+    color: var(--unmagic-avatar-foreground, var(--color-neutral-600));
+
+    @variant dark {
+      background: var(--unmagic-avatar-background, var(--color-neutral-800));
+      color: var(--unmagic-avatar-foreground, var(--color-neutral-400));
+    }
   }
 
   .UnmagicAvatar > * {
     grid-area: 1 / 1;
   }
 
+  /* The image takes the avatar's fill, so a transparent picture sits on the
+     colour rather than on the initials. */
   .UnmagicAvatar__image {
-    @apply size-full object-cover;
+    @apply relative size-full object-cover;
+    background: inherit;
     border-radius: inherit;
+  }
+
+  /* A sized image that fails to load draws the browser's broken-image glyph
+     over the initials. A broken image renders its pseudo-elements (a loaded one
+     doesn't), so ::before hides the glyph under the page's surface, and ::after
+     lays the fill (translucent in dark mode) and the image's initials over it. */
+  .UnmagicAvatar__image::before,
+  .UnmagicAvatar__image::after {
+    @apply absolute inset-0;
+    border-radius: inherit;
+  }
+
+  .UnmagicAvatar__image::before {
+    @apply bg-white;
+    content: "";
+  }
+
+  .UnmagicAvatar__image {
+    @variant dark {
+      &::before {
+        @apply bg-neutral-900;
+      }
+    }
+  }
+
+  .UnmagicAvatar__image::after {
+    @apply grid place-items-center;
+    content: attr(data-initials);
+    background: inherit;
+  }
+
+  .UnmagicAvatar__image[data-initials-long]::after {
+    content: attr(data-initials-long);
+  }
+
+  /* A logo shows whole, on the page's surface rather than the initials' fill. */
+  .UnmagicAvatar--contain .UnmagicAvatar__image {
+    @apply bg-white object-contain dark:bg-neutral-900;
+  }
+
+  /* A name with a longer mark ("4KG") shows it where there's room, and its
+     two-letter initials below that. */
+  .UnmagicAvatar__initials--short {
+    @apply hidden;
+  }
+
+  @container (width < 1.75rem) {
+    .UnmagicAvatar__initials--long {
+      @apply hidden;
+    }
+
+    .UnmagicAvatar__initials--short {
+      @apply inline;
+    }
+
+    .UnmagicAvatar__image[data-initials-long]::after {
+      content: attr(data-initials);
+    }
+  }
+
+  @container (width < 2.5rem) {
+    .UnmagicAvatar__initials--long,
+    .UnmagicAvatar__image[data-initials-long]::after {
+      @apply text-[0.625rem];
+    }
   }
 
   .UnmagicAvatar--small {
@@ -3681,12 +3760,28 @@
     @apply size-10 text-sm;
   }
 
+  .UnmagicAvatar--xlarge {
+    @apply size-14 text-lg;
+  }
+
+  .UnmagicAvatar--xxlarge {
+    @apply size-20 text-2xl;
+  }
+
+  /* size: "1.75rem": the box from the knob, and initials in proportion. */
+  .UnmagicAvatar--sized,
+  .UnmagicAvatarGroup--sized .UnmagicAvatarGroup__more {
+    width: var(--unmagic-avatar-size);
+    height: var(--unmagic-avatar-size);
+    font-size: calc(var(--unmagic-avatar-size) * 0.4);
+  }
+
   .UnmagicAvatar--square {
     @apply rounded-md;
   }
 
-  /* Six palette tints, picked from the name. A host recolours them through its
-     palette, or by overriding these classes. */
+  /* Avatar::Tints, the default fill: six palette tints, picked from the seed. A
+     host recolours them through its palette, or by overriding these classes. */
   .UnmagicAvatar--tint-1 {
     @apply bg-sky-100 text-sky-700 dark:bg-sky-400/15 dark:text-sky-300;
   }
@@ -3747,6 +3842,14 @@
 
   .UnmagicAvatarGroup--large .UnmagicAvatarGroup__more {
     @apply size-10 text-sm;
+  }
+
+  .UnmagicAvatarGroup--xlarge .UnmagicAvatarGroup__more {
+    @apply size-14 text-lg;
+  }
+
+  .UnmagicAvatarGroup--xxlarge .UnmagicAvatarGroup__more {
+    @apply size-20 text-2xl;
   }
 
   /* ---------------------------------------------------------------- Elapsed */

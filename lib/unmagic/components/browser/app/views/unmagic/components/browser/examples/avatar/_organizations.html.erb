@@ -1,0 +1,8 @@
+<div class="flex flex-wrap items-end gap-4">
+  <% [ "Kestrel Pty Ltd", "BrightPath", "4K Gardens", "Guild of Lanterns" ].each do |name| %>
+    <%= avatar name, kind: :organization, shape: :square, size: :xlarge %>
+  <% end %>
+  <%= avatar "4K Gardens", kind: :organization, shape: :square, size: :small %>
+  <%= avatar "Ludwig van Beethoven", kind: :person, size: :xlarge %>
+  <%= avatar "Prince", kind: :person, size: :xlarge %>
+</div>
