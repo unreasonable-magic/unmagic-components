@@ -516,6 +516,18 @@ http://localhost:5701. Everything lives under `lib/unmagic/components/browser/`.
   motion. The browser compiles the gem's Tailwind file with its own `dark`
   variant, set on `[data-theme="dark"]`, exactly as a host would.
 
+## Example content
+
+Names, text and data in examples, specs, docs, comments and commit messages are
+invented and generic.
+
+- Never use a real company, product or brand name, and never name an app that
+  uses the gem. Make one up that shows the same thing: "Kestrel Pty Ltd" for a
+  legal suffix, "BrightPath" for a capital inside a word, "4K Gardens" for a
+  name led by a number, "Acme" for any organisation.
+- Write for any app, not the one the component came from. Describe the
+  component's behaviour, not a host's feature or its classes.
+
 ## Documentation
 
 - A README section for the helper, under the matching heading. Copy the
@@ -536,7 +548,8 @@ http://localhost:5701. Everything lives under `lib/unmagic/components/browser/`.
 6. A browser page with examples, checked in light and dark, by keyboard, and
    with reduced motion.
 7. README and CHANGELOG.
-8. `bundle exec rspec` and `bundle exec rubocop` pass.
+8. Example content is invented: no real company names, nothing app-specific.
+9. `bundle exec rspec` and `bundle exec rubocop` pass.
 
 ## Open decisions
 
