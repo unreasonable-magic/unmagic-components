@@ -1,0 +1,6 @@
+en:
+  errors:
+    messages:
+      not_a_boolean: "must be true or false"
+      not_a_string: "must be text"
+      multiple_of: "must be a multiple of %{count}"

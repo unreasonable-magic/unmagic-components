@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-# Worktree management adapted from hoops. Keep compatible with system Ruby
+# Worktree management. Keep compatible with system Ruby
 # for editor hooks; dependency installation runs through mise when available.
 
 require "fileutils"

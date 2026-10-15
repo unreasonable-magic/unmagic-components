@@ -33,6 +33,8 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "activesupport", ">= 7.0"
   spec.add_dependency "actionview", ">= 7.0"
+  spec.add_dependency "activemodel", ">= 7.0"
+  spec.add_dependency "json_schemer", "~> 2.4"
   spec.add_dependency "railties", ">= 7.0"
   # Icons render through unmagic-icon, from a Lucide subset the gem ships. An
   # avatar's tint is picked with unmagic-color's stable string hash, since Ruby's

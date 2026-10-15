@@ -8,6 +8,8 @@ Unmagic::Components::Browser::Catalog.component :forms,
   description: "The chrome around a form control — the wrapper, the label and its required marker, the hint " \
                "and the error line — and the look of the controls it builds, through config.control_class.",
   examples: [
+    { key: :schema, title: "JSON Schema fields", layout: :full, server: true,
+      description: "Generate controls from a flat JSON Schema. Submit to validate and see typed values; no values are saved." },
     { key: :fields, title: "Fields", layout: :full,
       description: "field builds its control from as:, or takes one from a block; group lays fields out in a row." },
     { key: :states, title: "Invalid, disabled and read-only", layout: :full,

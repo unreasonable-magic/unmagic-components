@@ -2347,6 +2347,65 @@ and saves screenshots under `tmp/image-demo/`. Set `HEADLESS=1` for automation.
 Interaction references: [Kibo Image Crop](https://www.kibo-ui.com/components/image-crop)
 and [Kibo Image Zoom](https://www.kibo-ui.com/components/image-zoom).
 
+## Forms from JSON Schema
+
+`form.schema_fields(schema)` renders a flat object schema using the existing
+form builder: text, integer/number, boolean checkbox, enum select, and
+`format: "color"` inputs. Pass a Ruby hash (string or symbol keys) or an
+`Unmagic::Components::JSONSchema::Schema`. No JavaScript is needed.
+
+```ruby
+schema = Unmagic::Components::JSONSchema::Schema.new(
+  type: "object", required: ["name"],
+  properties: {
+    name: { type: "string", title: "Display name", minLength: 3 },
+    enabled: { type: "boolean", default: true },
+    accent: { type: "string", format: "color", default: "#0f9488" }
+  }
+)
+@settings = Unmagic::Components::JSONSchema::Instance.new(schema, submitted_values)
+@settings.valid? # json_schemer validation, with ActiveModel errors
+@settings.to_h   # typed values and defaults, limited to declared properties
+```
+
+```erb
+<%= form_with model: @settings, scope: :settings, url: settings_path,
+      builder: Unmagic::Components::FormBuilder do |form| %>
+  <%= form.errors_summary %>
+  <%= form.schema_fields(@settings.schema) %>
+  <%= form.submit "Save" %>
+<% end %>
+```
+
+`Instance` applies defaults only to absent properties, preserving explicit
+`false`, `0`, empty strings and `nil`. Numeric strings are parsed as JSON numbers;
+invalid input remains invalid rather than becoming zero. Booleans accept
+`true`/`false`, `"true"`/`"false"`, and `1`/`0` (including strings). Call `valid?`
+before persisting `to_h`; render the same instance again to show field errors.
+Errors use Rails I18n validation keys (for example, `blank`, `too_short`,
+`not_an_integer` and `greater_than_or_equal_to`), including normal model and
+attribute overrides. The gem supplies English defaults for `not_a_boolean`,
+`not_a_string` and `multiple_of` under `errors.messages`; apps can translate or
+override those keys just like Rails' built-in errors.
+The host owns parameter permitting, authorization and persistence.
+
+You can also use `schema_fields` with an existing model or a scoped form without
+an instance. The bound object's values win over defaults; validation and coercion
+are then the host's responsibility. Labels use `title` or a humanized key, and
+`description` supplies the hint. Enum selects include a blank choice; required
+selects reject it. Required booleans still allow false. Empty schemas render no
+fields.
+
+This is a supported subset of JSON Schema, not an Ajv dialect. Forms accept up to
+50 flat primitive properties with keys up to 128 characters (no brackets,
+control characters or trailing `?`). Nested objects, arrays, union types,
+references and conditional/composed schemas raise `ArgumentError` before
+rendering. Standard validation constraints such as `minimum`, `pattern` and
+`minLength` are checked on the server; the browser handles required fields and
+numeric steps. `format: "color"` is a custom rendering hint, not a color validator;
+add a standard `pattern` constraint when needed. Native color controls use black
+for an empty value. Ajv-specific keywords are not implemented.
+
 ## Development
 
 ```sh

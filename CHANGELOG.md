@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `FormBuilder#schema_fields` generates flat JSON Schema forms, including enums,
+  booleans and color inputs. Namespaced `JSONSchema::Schema` and `Instance` provide
+  defaults, primitive coercion and `json_schemer` validation with field errors.
+
 - `video_player`, a video the page drives with its own controls: an
   `<unmagic-video>` with no UI of its own, controlled by buttons anywhere on
   the page through invoker commands (`commandfor`, `command="--seek"`,
