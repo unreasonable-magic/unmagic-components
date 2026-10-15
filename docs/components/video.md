@@ -25,9 +25,7 @@
   `volume-x` for it.
 - The asset studio block's walkthrough and the catalog thumbnail play a
   generated clip the browser ships (`assets/videos/tour.mp4`, four 15-second
-  coloured segments with a running counter), so `bin/demo-video` checks every
-  behaviour above offline, pressing controls it adds for the run; `LIVE=1`
-  also plays both films and checks the icon swaps.
+  coloured segments with a running counter) for offline playback checks.
 
 ## Purpose
 

@@ -17,12 +17,11 @@ The agent asking something it cannot work out on its own, with the answers to it
 right there rather than a sentence somebody has to reply to. The work has stopped
 and it is waiting on a person.
 
-Two applications built this, and they built two different shapes of it:
+Requests have two shapes:
 
-- **toybox** asks in choices — one or more questions, each with labelled options
+- Choices — one or more questions, each with labelled options
   and a description, single- or multi-select.
-- **hooops** asks with a form built from a JSON schema, which is what MCP's
-  elicitation is.
+- Forms built from a JSON schema for structured elicitation.
 
 They are the same component. The ask, the waiting, the answered state and the
 place it sits in the transcript are identical; only the control differs. One
@@ -207,7 +206,7 @@ refuse); dark theme; forced-colours mode.
 ## Open questions
 
 - Should the gem build the form from a JSON schema itself, rather than taking a
-  block? hooops has a `shared/_schema_fields` partial that does it. Proposed: no
+  block? Proposed: no
   for this round — schema-to-field mapping is a component of its own with its own
   design problems, and `request.form` takes a block precisely so it can be added
   later without changing this API.

@@ -65,10 +65,10 @@ These are documented in the README and have no notes here:
 | [context_menu](context_menu.md) | Context Menu | built |
 | [animated_number](animated_number.md) | Animated Number | draft |
 | [hotkey](hotkey.md) | KBD & Hotkey (the shortcut) | draft |
-| [sortable_list](sortable_list.md) | (none) drag-and-drop ordering, extracted from hooops | built |
+| [sortable_list](sortable_list.md) | (none) drag-and-drop ordering | built |
 | [board](board.md) | (none) a Trello-style board on sortable lists | built |
 | [position](position.md) | (infrastructure) shared placement and `menu` on the Popover API | built |
-| [auto_scroll](auto_scroll.md) | (none) `<unmagic-autoscroll>`, extracted from hooops and toybox | built |
+| [auto_scroll](auto_scroll.md) | (none) `<unmagic-autoscroll>` | built |
 | [optimistic](optimistic.md) | (none) `<unmagic-optimistic>`, the client half of the `upsert` contract | built |
 | [elapsed](elapsed.md) | (none) `<unmagic-elapsed>`, a clock counting up from a server-named moment | built |
 

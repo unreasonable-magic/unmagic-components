@@ -18,10 +18,9 @@ assistant-ui's `ActionBarPrimitive`, and **none of the three applications here h
 one** — they are built in this round so [message](message.md) never has to change
 shape to admit them later.
 
-The argument for building it now rather than later: every one of these
-applications has a "the reply was wrong" path that currently means retyping the
-question, and hooops already grew a Retry button inside its failure card, which is
-this component arriving one action at a time in the wrong place.
+A reply that needs another attempt should offer a Retry action rather than
+requiring the reader to retype the question. Keeping these actions together
+makes them easier to find.
 
 For controls that act on a turn. Not for controls that act on the conversation —
 that is page chrome.

@@ -26,10 +26,7 @@ character cursor toward it every animation frame.
 For streamed prose. Not for a progress bar, a log tail or anything whose arrival
 *is* the information — those should paint immediately.
 
-This is hooops's `streaming_markdown.js`, which is the most considered piece of
-UI in any of the three applications. It lifts nearly verbatim: it is already a
-custom element, already dependency-free apart from Turbo, and already solves
-problems the other two have not hit yet.
+The streaming renderer is a custom element with no dependencies apart from Turbo.
 
 ## API
 
@@ -88,9 +85,8 @@ partial reply rather than nothing, and the element reveals onward from there.
 None of its own beyond `display: block`. The prose styling is `UnmagicProse`, a
 separate section of `engine.css` this component only names.
 
-`UnmagicProse` is worth extracting in its own right: hooops and toybox both hand-wrote
-a prose stylesheet for exactly this content, and the gem's `detail_list` and
-`callout` already have opinions that should agree with it.
+`UnmagicProse` provides shared prose styling for this content. The gem's
+`detail_list` and `callout` styles should agree with it.
 
 - Type: `text-sm`, `leading-relaxed`, `overflow-wrap: break-word` on every block,
   because a model emits URLs and digests that no column can hold.

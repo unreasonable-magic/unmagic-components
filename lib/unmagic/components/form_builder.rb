@@ -216,8 +216,8 @@ module Unmagic
 
       # Render a flat JSON Schema object through this builder's existing controls.
       # The form object supplies current values; missing values use schema defaults.
-      def schema_fields(schema)
-        Components::SchemaFields.new(self, @template, schema).render
+      def schema_fields(schema, ui_schema: nil)
+        Components::SchemaFields.new(self, @template, schema, ui_schema: ui_schema).render
       end
 
       # Label + control + hint + error, wrapped consistently. Pass a block to supply

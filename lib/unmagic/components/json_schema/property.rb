@@ -28,9 +28,7 @@ class Unmagic::Components::JSONSchema::Property
   # The FormBuilder input (`as:`) for this property. Booleans render as a
   # checkbox and enums as a select, so they don't come through here.
   def input_type
-    if format == "color"
-      :color_field
-    elsif type == "integer" || type == "number"
+    if type == "integer" || type == "number"
       :number_field
     else
       :text_field

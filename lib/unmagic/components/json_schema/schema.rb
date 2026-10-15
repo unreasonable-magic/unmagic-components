@@ -65,6 +65,9 @@ class Unmagic::Components::JSONSchema::Schema
 
     form_properties_document.each do |name, definition|
       next unless definition.is_a?(Hash)
+      if definition["format"] == "color"
+        errors << "format: color was removed; use UI schema options.unmagic.widget: color for #{name.inspect}"
+      end
       if (definition.keys & %w[properties patternProperties items prefixItems]).any?
         errors << "contains nested fields for #{name.inspect}"
       end
