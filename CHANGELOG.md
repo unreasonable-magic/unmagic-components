@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Add a JSON Forms UI schema subset for control ordering, labels, multiline text,
+  and color widgets. Breaking: replace data-schema `format: "color"` with
+  UI-schema `options.unmagic.widget: "color"`.
+
 ### Added
 
 - `FormBuilder#schema_fields` generates flat JSON Schema forms, including enums,

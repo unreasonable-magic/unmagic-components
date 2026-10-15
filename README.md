@@ -2350,8 +2350,9 @@ and [Kibo Image Zoom](https://www.kibo-ui.com/components/image-zoom).
 ## Forms from JSON Schema
 
 `form.schema_fields(schema)` renders a flat object schema using the existing
-form builder: text, integer/number, boolean checkbox, enum select, and
-`format: "color"` inputs. Pass a Ruby hash (string or symbol keys) or an
+form builder: text, integer/number, boolean checkbox, and enum select.
+Pass `ui_schema:` to choose multiline text or color controls. The data schema can
+be a Ruby hash (string or symbol keys) or an
 `Unmagic::Components::JSONSchema::Schema`. No JavaScript is needed.
 
 ```ruby
@@ -2360,7 +2361,7 @@ schema = Unmagic::Components::JSONSchema::Schema.new(
   properties: {
     name: { type: "string", title: "Display name", minLength: 3 },
     enabled: { type: "boolean", default: true },
-    accent: { type: "string", format: "color", default: "#0f9488" }
+    accent: { type: "string", default: "#0f9488" }
   }
 )
 @settings = Unmagic::Components::JSONSchema::Instance.new(schema, submitted_values)
@@ -2402,9 +2403,52 @@ control characters or trailing `?`). Nested objects, arrays, union types,
 references and conditional/composed schemas raise `ArgumentError` before
 rendering. Standard validation constraints such as `minimum`, `pattern` and
 `minLength` are checked on the server; the browser handles required fields and
-numeric steps. `format: "color"` is a custom rendering hint, not a color validator;
-add a standard `pattern` constraint when needed. Native color controls use black
-for an empty value. Ajv-specific keywords are not implemented.
+numeric steps. Ajv-specific keywords are not implemented.
+
+### UI schema
+
+`form.schema_fields(schema, ui_schema: ui_schema)` accepts a documented subset of
+[JSON Forms UI schemas](https://jsonforms.io/docs/). Both schemas accept string or
+symbol keys. This is rendered on the server with the existing Rails controls;
+JSON Forms JavaScript is not required.
+
+```ruby
+ui_schema = {
+  type: "VerticalLayout",
+  elements: [
+    { type: "Control", scope: "#/properties/name", label: "Your name" },
+    { type: "Control", scope: "#/properties/enabled" },
+    { type: "Control", scope: "#/properties/accent",
+      options: { unmagic: { widget: "color" } } }
+  ]
+}
+```
+
+Supported elements and options:
+
+- `VerticalLayout` with ordered `elements` (layouts may nest).
+- `Control` with a `scope` referencing a flat property, such as `#/properties/body`.
+  JSON Pointer escaping (`~1` for `/`, `~0` for `~`) is supported.
+- `label`: a string override, `true` for the default, or `false` to hide the
+  visible label while keeping the default title as the accessible name.
+- `options: { multi: true }`: render a non-enum string as a textarea.
+- `options: { unmagic: { widget: "color" } }`: render a non-enum string as a
+  native color input. This is an Unmagic extension; it cannot combine with `multi`.
+
+Without a UI schema, all properties render in schema order. With an explicit UI
+schema, only listed controls render; omitted properties still participate in
+server validation. Defaults, required fields, constraints, titles and descriptions
+continue to come from the data schema. UI schemas do not change submitted values
+or validation rules.
+
+Unsupported elements, keys and options, invalid scopes and duplicate controls raise
+`ArgumentError` before rendering. Trees are limited to 100 elements and 10 layout
+levels. Horizontal layouts, groups, rules and nested data controls are not yet supported.
+
+**Breaking change:** `format: "color"` in the data schema now raises `ArgumentError`.
+Remove it and use `options.unmagic.widget: "color"` on the UI control instead.
+Color is a rendering choice, not a validator; add a `pattern` constraint to the
+data schema if needed. Native color controls use black for an empty value.
 
 ## Development
 

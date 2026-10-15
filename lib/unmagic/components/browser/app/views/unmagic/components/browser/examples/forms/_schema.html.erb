@@ -3,21 +3,30 @@
   required: ["name", "role", "enabled"],
   properties: {
     name: { type: "string", title: "Display name", description: "At least three characters.", minLength: 3, default: "Ada" },
+    body: { type: "string", title: "Biography", default: "Building thoughtful tools.\nOne component at a time.", minLength: 3 },
     role: { type: "string", enum: ["Designer", "Engineer"], default: "Engineer" },
     count: { type: "integer", title: "Team size", minimum: 1, default: 3 },
     rate: { type: "number", title: "Hourly rate", default: 42.5 },
-    accent: { type: "string", title: "Accent color", format: "color", default: "#0f9488" },
+    accent: { type: "string", title: "Accent color", default: "#0f9488" },
     enabled: { type: "boolean", title: "Enable notifications", default: true }
   }
 ) %>
-<% instance = Unmagic::Components::JSONSchema::Instance.new(schema, params.fetch(:schema_demo, ActionController::Parameters.new).permit(:name, :role, :count, :rate, :accent, :enabled).to_h) %>
+<% ui_schema = { type: "VerticalLayout", elements: schema.property_names.map { |key|
+  options = case key
+  when "body" then { multi: true }
+  when "accent" then { unmagic: { widget: "color" } }
+  else {}
+  end
+  { type: "Control", scope: "#/properties/#{key}", options: options }
+} } %>
+<% instance = Unmagic::Components::JSONSchema::Instance.new(schema, params.fetch(:schema_demo, ActionController::Parameters.new).permit(:name, :body, :role, :count, :rate, :accent, :enabled).to_h) %>
 <% submitted = params.key?(:schema_demo) %>
 <% valid = instance.valid? if submitted %>
 <div class="mx-auto max-w-xl">
   <%= form_with model: instance, scope: :schema_demo, url: request.path, method: :get,
         id: "schema_demo_form", builder: Unmagic::Components::FormBuilder do |form| %>
     <%= form.errors_summary %>
-    <%= form.schema_fields(schema) %>
+    <%= form.schema_fields(schema, ui_schema: ui_schema) %>
     <%= form.submit "Validate" %>
   <% end %>
   <% if submitted %>
