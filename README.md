@@ -2401,9 +2401,6 @@ numeric steps. `format: "color"` is a custom rendering hint, not a color validat
 add a standard `pattern` constraint when needed. Native color controls use black
 for an empty value. Ajv-specific keywords are not implemented.
 
-Replay the visible browser demo with `bundle exec ruby bin/demo-schema-forms`
-after starting `bin/dev` (`BROWSER_URL` overrides its default URL).
-
 ## Development
 
 ```sh
