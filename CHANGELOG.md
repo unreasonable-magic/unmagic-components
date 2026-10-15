@@ -300,7 +300,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   inside a badge; this is the counterpart to `leading`, and the two interleave in
   call order.
 - `sortable_list` and `sortable_handle`: drag-and-drop ordering by pointer or
-  keyboard, extracted from hooops.
+  keyboard.
   - Elements `<unmagic-sortable-list>`, `<unmagic-sortable-item>` and
     `<unmagic-sortable-param>`.
   - Keyboard reordering with announcements.

@@ -16,8 +16,8 @@ The model's thinking, collapsed above the reply it led to. Shut by default,
 because it is working-out rather than an answer, and available because when a
 reply is wrong the working-out is the first place anyone looks.
 
-This is assistant-ui's `ReasoningGroup`, and hooops and kp2 both built the
-single-block version of it as a "Thought process" disclosure.
+This corresponds to assistant-ui's `ReasoningGroup`. A single reasoning block
+appears as a "Thought process" disclosure.
 
 For reasoning content a provider hands back. Not for a tool call's payloads —
 that is [tool_call](tool_call.md) — and not for a general disclosure, which is

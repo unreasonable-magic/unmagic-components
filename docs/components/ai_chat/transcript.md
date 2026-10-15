@@ -105,7 +105,7 @@ CSS section: **AI chat transcript**, next to the other `UnmagicAIChat*` sections
 - `.UnmagicAIChatTranscript` — the column.
 - `.UnmagicAIChatTranscript__latest` — the jump-to-latest button.
 
-The spacing rule is the part worth writing down, and it comes from hooops:
+The spacing rule excludes hidden entries:
 
 ```css
 .UnmagicAIChatTranscript > :not([hidden]) ~ :not([hidden]) { margin-top: calc(var(--spacing) * 4); }

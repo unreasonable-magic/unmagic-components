@@ -17,7 +17,7 @@ GraphQL instance. GraphQL's process import uses the vendored browser shim.
 
 Keep this subtree pinned with preload:false. Keep language imports dynamic in
 editor.js and keep editor.js out of the shared entry point. After updating,
-run bin/demo-code-editor: Ruby specs cannot catch missing browser imports.
+check the editor in a real browser: Ruby specs cannot catch missing browser imports.
 
 The ten additional languages are generated from pinned npm packages by
 `bin/support/code-editor-languages/build.mjs`. To regenerate, run `npm ci

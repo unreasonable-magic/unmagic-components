@@ -22,10 +22,6 @@ For any growing region: an agent transcript, a log tail, a live import report.
 Not for a region that grows at the *top* (a paginated history loading upwards);
 that is a scroll-anchoring problem and this element would fight it.
 
-This exists in hooops and toybox as the same Stimulus controller, already
-drifted: one uses private fields and the other doesn't, and the comments have
-been reworded past each other. It is the plainest extraction in the round.
-
 ## API
 
 ```erb

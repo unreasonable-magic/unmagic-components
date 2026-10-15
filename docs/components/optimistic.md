@@ -29,8 +29,7 @@ then corrects in front of the reader.
 
 The gem ships both other thirds of this contract already. `<uuid-input>` mints
 the id the record will be created under, and `upsert` reconciles the broadcast
-against it. This is the missing client half, and it exists in hooops and toybox
-as the same Stimulus controller with 26 differing lines between them.
+against it. This component supplies the client half of that contract.
 
 ## API
 

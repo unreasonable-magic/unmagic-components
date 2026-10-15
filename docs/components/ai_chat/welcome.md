@@ -15,9 +15,8 @@ Where the build differs from this note:
 What a conversation with nothing in it says, and the suggestions that get one
 started. assistant-ui's `Thread.Welcome` plus `Suggestions`.
 
-kp2 built the chips — prompts narrowed to the page the reader is on — and hooops
-built the placeholder version, a real doable prompt rotated into the composer's
-placeholder text. Both are answers to the same problem: a person facing an empty
+Suggestion chips narrow prompts to the page the reader is on. The placeholder
+version rotates a concrete prompt into the composer's placeholder text. Both are answers to the same problem: a person facing an empty
 box does not know what the agent can do, and a generic "Ask me anything" tells
 them nothing.
 

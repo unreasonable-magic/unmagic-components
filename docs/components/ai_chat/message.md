@@ -102,9 +102,8 @@ can key on its id.
 ```
 
 The body element's id is the record's id with `_content` appended, because the
-streaming flush targets the body while the upsert targets the whole turn. That
-convention is hooops's and it is load-bearing; the note names it so the host
-doesn't have to guess.
+streaming flush targets the body while the upsert targets the whole turn. The
+host must use this convention so both targets resolve correctly.
 
 ## Accessibility
 

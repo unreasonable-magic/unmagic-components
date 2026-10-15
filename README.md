@@ -2340,10 +2340,6 @@ I18n keys under `unmagic.components`: `image_zoom.open`, `.close`;
 `image_crop.x`, `.y`, `.width`, `.height`, `.crop`, `.reset`, `.error`;
 `image_color_picker.pick`, `.error`.
 
-Run `bin/demo-images` with `bin/dev` running to replay the visible browser demo.
-It checks all three components at desktop and phone widths, in both themes,
-and saves screenshots under `tmp/image-demo/`. Set `HEADLESS=1` for automation.
-
 Interaction references: [Kibo Image Crop](https://www.kibo-ui.com/components/image-crop)
 and [Kibo Image Zoom](https://www.kibo-ui.com/components/image-zoom).
 
@@ -2510,10 +2506,3 @@ for form submission, and handles reset. Tab leaves the editor. The wrapper expos
 It bubbles `unmagic-code-editor:ready`, `:change` (`{ value }`) and `:error`
 (`{ error }`). Drafts survive Turbo caching and element moves; reset restores the
 server's initial value. I18n: `unmagic.components.code_editor.error`.
-
-`bin/demo-code-editor` replays the visible demo and checks lazy loading, editing,
-form submission, reset, schema completion and Turbo restoration. It saves screenshots
-under `tmp/code-editor-demo/`. Start `bin/dev` first; `HEADLESS=1` runs unattended.
-
-Run `bin/demo-code-editor-languages` to check highlighting, parsing and isolated
-language downloads for all ten additional languages in visible Chrome.

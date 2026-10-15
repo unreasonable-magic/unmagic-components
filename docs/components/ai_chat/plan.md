@@ -28,9 +28,6 @@ a wizard's progress — that is the planned [`steps`](../steps.md) component, wh
 is linear, finite and known in advance. A plan is none of those: it is rewritten
 wholesale, it can grow, and a step can be parked on a person.
 
-hooops and toybox both built this, both put it in a side panel, and both landed
-on the same four states.
-
 ## API
 
 ```erb

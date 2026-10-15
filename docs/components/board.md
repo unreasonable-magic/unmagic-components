@@ -2,8 +2,7 @@
 
 > Status: built
 > Tier: 3 (large)
-> Replaces or relates to: [sortable_list](sortable_list.md), which it's built on;
-> hooops' deleted job kanban (`jobs/show/_kanban`)
+> Replaces or relates to: [sortable_list](sortable_list.md), which it's built on
 
 ## Purpose
 

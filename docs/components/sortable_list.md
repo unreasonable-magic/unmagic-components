@@ -2,8 +2,7 @@
 
 > Status: built
 > Tier: 3 (large)
-> Replaces or relates to: hooops' `<sortable-list>`, `<sortable-item>` and drag
-> session, which this extracts; [board](board.md), built on it; the
+> Replaces or relates to: [board](board.md), built on it; the
 > [unmagic-sortable](https://github.com/unreasonable-magic/unmagic-sortable) gem,
 > which owns the server half
 
@@ -18,21 +17,19 @@ writes one row.
 It isn't for ordering the server decides, which is `table_for`'s sort links, or for
 choosing items, which is a checkbox list.
 
-## Where it came from
+## Interaction requirements
 
-hooops built this as three custom elements and a pointer-driven drag engine, with
-no Stimulus. That's already this gem's shape, so the engine came across nearly
-whole. Its drop contract (`moved`, `original`, `prev`, `next`, plus the list's
-params) is kept exactly, so hooops can move onto the gem without touching its
-endpoint. Building a board on it showed what hooops never needed:
+Three custom elements share a pointer-driven drag engine, with no Stimulus.
+The drop contract supplies `moved`, `original`, `prev`, `next`, and the list's
+params. Board interactions require:
 
 - **Lists inside items.** A board's card list sits inside its column's item.
-  hooops found an item's handle, and a list's params, without regard to nesting,
-  so a column grabbed a card's handle and a card list lost its column param.
+  Handle and parameter lookup must respect nesting so columns and cards keep
+  their own drag handles and list parameters.
 - **Dropping past an inner list.** A column dragged over a card list has to land
   in the board's list, not stop at the card list that won't take it.
-- **Keyboard reordering.** hooops had none, which leaves reordering
-  unavailable to anyone who can't drag. The principles require keyboard parity.
+- **Keyboard reordering.** Reordering must be available to anyone who cannot
+  drag. The principles require keyboard parity.
 - **Scrolling at the edges while dragging, and Escape to cancel a drag.**
 - **Morph refreshes.** A Turbo refresh resets attributes the element added
   (tabindex, `aria-describedby`), so it re-applies them after every morph.
