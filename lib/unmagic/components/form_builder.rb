@@ -214,6 +214,12 @@ module Unmagic
         end
       end
 
+      # Render a flat JSON Schema object through this builder's existing controls.
+      # The form object supplies current values; missing values use schema defaults.
+      def schema_fields(schema)
+        Components::SchemaFields.new(self, @template, schema).render
+      end
+
       # Label + control + hint + error, wrapped consistently. Pass a block to supply
       # a control the builder doesn't know how to make (a select, a file picker, two
       # inputs side by side); otherwise it is built from `as:`.

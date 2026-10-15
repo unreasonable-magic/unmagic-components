@@ -1,0 +1,29 @@
+<% schema = Unmagic::Components::JSONSchema::Schema.new(
+  type: "object",
+  required: ["name", "role", "enabled"],
+  properties: {
+    name: { type: "string", title: "Display name", description: "At least three characters.", minLength: 3, default: "Ada" },
+    role: { type: "string", enum: ["Designer", "Engineer"], default: "Engineer" },
+    count: { type: "integer", title: "Team size", minimum: 1, default: 3 },
+    rate: { type: "number", title: "Hourly rate", default: 42.5 },
+    accent: { type: "string", title: "Accent color", format: "color", default: "#0f9488" },
+    enabled: { type: "boolean", title: "Enable notifications", default: true }
+  }
+) %>
+<% instance = Unmagic::Components::JSONSchema::Instance.new(schema, params.fetch(:schema_demo, ActionController::Parameters.new).permit(:name, :role, :count, :rate, :accent, :enabled).to_h) %>
+<% submitted = params.key?(:schema_demo) %>
+<% valid = instance.valid? if submitted %>
+<div class="mx-auto max-w-xl">
+  <%= form_with model: instance, scope: :schema_demo, url: request.path, method: :get,
+        id: "schema_demo_form", builder: Unmagic::Components::FormBuilder do |form| %>
+    <%= form.errors_summary %>
+    <%= form.schema_fields(schema) %>
+    <%= form.submit "Validate" %>
+  <% end %>
+  <% if submitted %>
+    <p id="schema_demo_result" role="status" class="mt-4"><%= valid ? "Valid settings" : "Please correct the fields above" %></p>
+    <% if valid %>
+      <%= code_view JSON.pretty_generate(instance.to_h), language: :json %>
+    <% end %>
+  <% end %>
+</div>
