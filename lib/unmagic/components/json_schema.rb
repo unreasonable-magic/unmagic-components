@@ -4,6 +4,9 @@ require "active_model"
 require "active_support/core_ext/hash/keys"
 require "json_schemer"
 
+# Also load the schema-specific defaults when used without a Rails engine.
+I18n.load_path |= [ File.expand_path("../../../config/locales/en.yml", __dir__) ]
+
 module Unmagic
   module Components
     module JSONSchema

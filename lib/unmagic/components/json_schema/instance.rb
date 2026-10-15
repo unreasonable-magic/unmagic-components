@@ -30,6 +30,10 @@ class Unmagic::Components::JSONSchema::Instance
     @values[key.to_s]
   end
 
+  def read_attribute_for_validation(attribute)
+    self[attribute]
+  end
+
   private
 
   # An unset property with no default is omitted (absent ≠ null in JSON Schema), so
@@ -46,18 +50,22 @@ class Unmagic::Components::JSONSchema::Instance
     end
   end
 
-  def validation_message(error)
+  def validation_error(error)
     definition = error["schema"]
     case error["type"]
-    when "minLength" then "must be at least #{definition['minLength']} characters"
-    when "maxLength" then "must be at most #{definition['maxLength']} characters"
-    when "minimum" then "must be at least #{definition['minimum']}"
-    when "maximum" then "must be at most #{definition['maximum']}"
-    when "integer" then "must be a whole number"
-    when "number" then "must be a number"
-    when "boolean" then "must be true or false"
-    when "enum" then "is not one of the available choices"
-    else "is invalid"
+    when "minLength" then [ :too_short, { count: definition["minLength"] } ]
+    when "maxLength" then [ :too_long, { count: definition["maxLength"] } ]
+    when "minimum" then [ :greater_than_or_equal_to, { count: definition["minimum"] } ]
+    when "maximum" then [ :less_than_or_equal_to, { count: definition["maximum"] } ]
+    when "exclusiveMinimum" then [ :greater_than, { count: definition["exclusiveMinimum"] } ]
+    when "exclusiveMaximum" then [ :less_than, { count: definition["exclusiveMaximum"] } ]
+    when "multipleOf" then [ :multiple_of, { count: definition["multipleOf"] } ]
+    when "integer" then [ :not_an_integer, {} ]
+    when "number" then [ :not_a_number, {} ]
+    when "boolean" then [ :not_a_boolean, {} ]
+    when "string" then [ :not_a_string, {} ]
+    when "enum", "const" then [ :inclusion, {} ]
+    else [ :invalid, {} ]
     end
   end
 
@@ -65,9 +73,10 @@ class Unmagic::Components::JSONSchema::Instance
     JSONSchemer.schema(schema.document).validate(@values).each do |error|
       key = error["data_pointer"].to_s.delete_prefix("/").presence
       if error["type"] == "required"
-        error.fetch("details").fetch("missing_keys").each { |name| errors.add(name, "is required") }
+        error.fetch("details").fetch("missing_keys").each { |name| errors.add(name, :blank) }
       else
-        errors.add(key&.gsub("~1", "/")&.gsub("~0", "~") || :base, validation_message(error))
+        type, options = validation_error(error)
+        errors.add(key&.gsub("~1", "/")&.gsub("~0", "~") || :base, type, **options)
       end
     end
   end

@@ -2382,6 +2382,11 @@ schema = Unmagic::Components::JSONSchema::Schema.new(
 invalid input remains invalid rather than becoming zero. Booleans accept
 `true`/`false`, `"true"`/`"false"`, and `1`/`0` (including strings). Call `valid?`
 before persisting `to_h`; render the same instance again to show field errors.
+Errors use Rails I18n validation keys (for example, `blank`, `too_short`,
+`not_an_integer` and `greater_than_or_equal_to`), including normal model and
+attribute overrides. The gem supplies English defaults for `not_a_boolean`,
+`not_a_string` and `multiple_of` under `errors.messages`; apps can translate or
+override those keys just like Rails' built-in errors.
 The host owns parameter permitting, authorization and persistence.
 
 You can also use `schema_fields` with an existing model or a scoped form without

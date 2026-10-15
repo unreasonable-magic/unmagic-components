@@ -55,7 +55,7 @@ RSpec.describe "Schema-driven forms" do
     expect(doc.at('input[name="settings[count]"]')["aria-invalid"]).to eq("true")
     expect(doc.at('input[type="checkbox"]')["aria-invalid"]).to eq("true")
     expect(doc.at('select[name="settings[role]"]')["aria-invalid"]).to eq("true")
-    expect(doc.css(".UnmagicError").map(&:text).join).to include("is required", "must be a whole number")
+    expect(doc.css(".UnmagicError").map(&:text).join).to include("can't be blank", "must be an integer")
   end
 
   it "escapes schema-supplied labels, hints, defaults and enum choices" do
