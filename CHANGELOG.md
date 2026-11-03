@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- A table in a flush card no longer paints its header and hovered rows past
+  the card's rounded corners. The flush body now clips its content to the
+  card's radius, square at a corner that meets a header, bar or footer.
 - A flash toast now shows after a Turbo visit to a different page, such as a
   form that redirects from `new` to the record it created. The new page's
   `<unmagic-toasts>` connected while Turbo had its permanent regions swapped out
