@@ -18,10 +18,10 @@
 // A relative time keeps itself current from one shared, minute-aligned clock, and
 // stops ticking once it has settled into a date (a week out).
 //
-// A Turbo morph keeps the element and writes the server's fallback back into its
-// <time>. The attributes are unchanged, so no lifecycle callback runs; the element
-// listens for the morph's own `turbo:morph-element` and localises again. It needs
-// no Turbo otherwise.
+// A morph (Turbo's, or any other) keeps the element and writes the server's
+// fallback back into its <time>. The attributes are unchanged, so no lifecycle
+// callback runs; instead the element watches its own text and localises again
+// whenever something else writes it. It needs no Turbo.
 
 const ABSOLUTE = {
   short: { dateStyle: "short", timeStyle: "short" },
@@ -36,19 +36,16 @@ class UnmagicTime extends HTMLElement {
   static observedAttributes = ["datetime", "format", "compact"]
 
   #unsubscribe = null
-
-  constructor() {
-    super()
-    // Turbo dispatches this on each morphed element, and it bubbles up from the
-    // inner <time>, after the morph has overwritten the text.
-    this.addEventListener("turbo:morph-element", this.#morphed)
-  }
+  #observer = new MutationObserver(() => this.#check())
+  #written = null
 
   connectedCallback() {
     this.#render()
+    this.#observer.observe(this, { subtree: true, childList: true, characterData: true, attributeFilter: ["title"] })
   }
 
   disconnectedCallback() {
+    this.#observer.disconnect()
     this.#stopTicking()
   }
 
@@ -56,7 +53,14 @@ class UnmagicTime extends HTMLElement {
     if (this.isConnected) this.#render()
   }
 
-  #morphed = () => this.#render()
+  // Something other than this element wrote into its <time>, usually a morph
+  // putting the server's fallback back. This element's own writes come through
+  // here too, and match what it remembers writing.
+  #check() {
+    const target = this.#target
+    if (this.#written && target.textContent === this.#written.text && target.title === this.#written.title) return
+    this.#render()
+  }
 
   get #target() {
     return this.querySelector(":scope > time") ?? this
@@ -71,18 +75,23 @@ class UnmagicTime extends HTMLElement {
       this.#renderRelative(date)
     } else {
       this.#stopTicking()
-      this.#target.textContent = formatter(ABSOLUTE[format] ?? ABSOLUTE.medium).format(date)
+      this.#write(formatter(ABSOLUTE[format] ?? ABSOLUTE.medium).format(date))
     }
   }
 
   #renderRelative(date) {
     const { text, live } = relative(date, new Date(), this.hasAttribute("compact"))
-    const target = this.#target
-    target.textContent = text
-    target.title = formatter({ dateStyle: "long", timeStyle: "short" }).format(date)
+    this.#write(text, formatter({ dateStyle: "long", timeStyle: "short" }).format(date))
 
     if (live && !this.#unsubscribe) this.#unsubscribe = subscribe(() => this.#render())
     if (!live) this.#stopTicking()
+  }
+
+  #write(text, title) {
+    const target = this.#target
+    target.textContent = text
+    if (title) target.title = title
+    this.#written = { text, title: target.title }
   }
 
   #stopTicking() {
