@@ -25,6 +25,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   region" and dropped the toast. It now waits for the regions to come back.
   Redirects back to the same page were unaffected, because a morph keeps the
   regions in place.
+- `local_time_tag` localises its time again after a morph. A morph keeps the
+  `<unmagic-time>` and its `datetime`, so no lifecycle callback ran, but it
+  overwrote the inner `<time>` with the server's fallback, which then stuck in
+  the server's zone and language. The element now watches its own text and
+  re-renders when anything else writes it, so Turbo's morph and any other
+  morphing library behave the same.
 
 ### Added
 
