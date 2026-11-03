@@ -1844,12 +1844,25 @@
     @apply flex-auto p-4 text-sm leading-normal;
   }
 
+  /* Flush content runs to the card's edge, so the body clips it to the card's
+     corners: a table's header and hovered rows would otherwise paint square
+     corners over the curve. The radius is the card's less its border, as on the
+     footer. A corner that meets a header, bar or footer stays square. */
   .UnmagicCard__body--flush {
-    @apply p-0;
+    @apply overflow-hidden p-0;
+    border-radius: calc(var(--radius-xl) - 1px);
   }
 
   .UnmagicCard__header + .UnmagicCard__body--flush {
-    @apply mt-4;
+    @apply mt-4 rounded-t-none;
+  }
+
+  .UnmagicCard__bar + .UnmagicCard__body--flush {
+    @apply rounded-t-none;
+  }
+
+  .UnmagicCard__body--flush:not(:last-child) {
+    @apply rounded-b-none;
   }
 
   /* A table in a flush card borrows the card's edge rather than drawing its own. */
