@@ -9,12 +9,10 @@ import { toolCallIcons } from "unmagic/components/tool_call_icons"
 import "unmagic/components/elapsed"
 
 const LABELS = { queued: "Queued", running: "Running", waiting: "Waiting on you", done: "Done", failed: "Failed" }
-const PART_CLASSES = {
-  name: "UnmagicAIChatToolCall__name", summary: "UnmagicAIChatToolCall__summary",
-  progress: "UnmagicAIChatToolCall__progress", readings: "UnmagicAIChatToolCall__readings",
-  failures: "UnmagicAIChatToolCall__reading", elapsed: "UnmagicAIChatToolCall__reading", duration: "UnmagicAIChatToolCall__reading",
-  result: "UnmagicAIChatToolCall__made"
-}
+// The parts that belong in the row. Direct HTML may leave them loose on the
+// host, and the element gathers them. Nothing here is a class: CSS styles the
+// element by its tag, its state attribute and these data-part names.
+const ROW_PARTS = ["name", "summary", "progress", "readings", "failures", "elapsed", "duration"]
 
 class UnmagicToolCall extends HTMLElement {
   static observedAttributes = ["state", "name", ...Object.keys(LABELS).map(state => `label-${state}`)]
@@ -60,19 +58,15 @@ class UnmagicToolCall extends HTMLElement {
   }
 
   #prepareRow() {
-    this.classList.add("UnmagicAIChatToolCall")
     let row = this.#parts("row")[0]
     if (!row) {
       row = document.createElement("span")
       row.dataset.part = "row"
       this.prepend(row)
     }
-    row.classList.add("UnmagicAIChatToolCall__row")
-    for (const [part, className] of Object.entries(PART_CLASSES)) {
+    for (const part of ROW_PARTS) {
       for (const node of this.#parts(part)) {
-        node.classList.add(className)
-        if (part === "failures") node.classList.add("UnmagicAIChatToolCall__reading--warn")
-        if (part !== "result" && node.parentElement === this) row.append(node)
+        if (node.parentElement === this) row.append(node)
       }
     }
     let name = this.#parts("name")[0]
@@ -80,7 +74,6 @@ class UnmagicToolCall extends HTMLElement {
       name = document.createElement("code")
       name.dataset.part = "name"
       name.dataset.toolCallName = ""
-      name.className = PART_CLASSES.name
       row.prepend(name)
     }
     if (name?.hasAttribute("data-tool-call-name") && name.textContent !== this.name) name.textContent = this.name
@@ -89,14 +82,12 @@ class UnmagicToolCall extends HTMLElement {
 
   #updateState(row) {
     const state = this.state
-    for (const value of Object.keys(LABELS)) this.classList.toggle(`UnmagicAIChatToolCall--${value}`, value === state)
     if (state === "running") this.setAttribute("aria-busy", "true")
     else this.removeAttribute("aria-busy")
     let glyph = row.querySelector(':scope > [data-tool-call-glyph]')
     if (!glyph) {
       glyph = document.createElement("span")
       glyph.dataset.toolCallGlyph = ""
-      glyph.className = "UnmagicAIChatToolCall__glyph"
       row.prepend(glyph)
     }
     if (row.firstElementChild !== glyph) row.prepend(glyph)
@@ -153,13 +144,10 @@ class UnmagicToolCall extends HTMLElement {
         if (!details) {
           details = document.createElement("details")
           details.setAttribute("data-tool-call-generated", "")
-          details.className = "UnmagicAIChatToolCall__disclosure"
           details.open = this.#open ?? this.hasAttribute("open")
           const summary = document.createElement("summary")
-          summary.className = "UnmagicAIChatToolCall__row"
           const body = document.createElement("div")
           body.setAttribute("data-tool-call-body", "")
-          body.className = "UnmagicAIChatToolCall__body"
           details.append(summary, body)
           row.before(details)
         }
