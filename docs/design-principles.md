@@ -69,25 +69,6 @@ index and detail pages), not marketing pages.
    options. Enumerated options are few and validated. Anything else a caller
    passes lands on the root element.
 
-## Incremental element migrations
-
-An opt-in migration may let a light-DOM element generate presentation structure
-from server-rendered content. Before upgrade all content must remain readable,
-with native links, labels, and stream IDs intact. After comparison and browser
-verification, document the default switch and removed DOM selectors.
-`ai_chat_tool_call` now always renders an element with a row, payloads, and
-results; the element adds a native disclosure and CSS draws connectors. Ruby
-still owns escaping, translated labels, custom icons, and initial state until a
-component explicitly documents a reactive state API. Tool calls now observe `state` and translated
-label attributes; attributes are the source of truth, with reflecting JavaScript
-properties. Keep caller-owned rich content separate from generated presentation.
-
-Public `data-part` nodes belong to the caller. Move them without cloning or
-replacing their content; observers must ignore their own structural edits.
-Generated structure must survive snapshot cloning, reconnection, and streams.
-Document individual imports and no-script behavior. CSS-only custom tags need no
-empty JavaScript registration.
-
 ## Ruby
 
 ### Files
@@ -239,15 +220,15 @@ name, and the host `@import`s it after `tailwindcss`.
 - **Naming** is BEM with a PascalCase block: `UnmagicTooltip`,
   `UnmagicTooltip__popup`, `UnmagicTooltip--term`. Everything is prefixed, so
   nothing collides with host classes.
-  - **A custom element is styled without classes of its own.** Its tag is its
-    block (`unmagic-tool-call`), its parts are the `data-part` names the markup
-    already carries (`[data-part="name"]`), its state is its attribute
-    (`[state="failed"]`), and what the element generates is selected by the
-    data attribute it sets (`[data-tool-call-glyph]`). A part addressed by
-    class and by attribute is addressed twice, and the element then has to
-    paint the class on; selecting by attribute means direct HTML looks right
-    before upgrade and without script. Shared utilities (`UnmagicIcon`,
-    `UnmagicVisuallyHidden`) still apply.
+  - **A custom element is styled without classes or part names of its own.**
+    Its tag is its block (`unmagic-tool-call`), its state is its attribute
+    (`[state="failed"]`), and its parts are the native elements they are: a
+    `<details>` for a fold, a `<figure>` for a captioned block, a `<time>` for
+    a duration, an `<output>` for a line that updates. The markup is HTML a
+    person could write, and it looks right before the element upgrades and
+    without script. The element adds the least it can, and what it does add
+    is selected by the data attribute it sets (`[data-tool-call-glyph]`).
+    Shared utilities (`UnmagicIcon`, `UnmagicVisuallyHidden`) still apply.
 - **State is styled from attributes the markup already carries**: ARIA or
   `data-*`, not state classes. For example `[aria-selected="true"]`,
   `[aria-current="page"]`, `[data-open]`, `[data-copied]`, `[hidden]`

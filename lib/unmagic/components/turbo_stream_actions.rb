@@ -42,6 +42,29 @@ module Unmagic
       def stream_markdown(target, content = nil, **rendering, &block)
         action :stream_markdown, target, content, **rendering, &block
       end
+
+      # Updates a tool call on the page as it goes along, in the words the view
+      # helper uses, one stream per part:
+      #
+      #   render turbo_stream: turbo_stream.ai_chat_tool_call(dom_id(call)) do |tool|
+      #     tool.progress "Frame 13 of 40"
+      #   end
+      #
+      #   render turbo_stream: turbo_stream.ai_chat_tool_call(dom_id(call)) do |tool|
+      #     tool.answered call.response, duration: call.duration
+      #     tool.made { render "previews", blobs: call.blobs }
+      #     tool.state :done
+      #   end
+      #
+      # asked and answered append a payload to the fold, progress updates the row's
+      # output, made appends after the fold, and state sets the host's attribute
+      # through the tool_call_state action. The host never names the children.
+      # Needs import "unmagic/components/tool_call".
+      def ai_chat_tool_call(id, &block)
+        builder = AIChat::ToolCall::Stream.new(self, @view_context, id)
+        @view_context.capture(builder, &block)
+        @view_context.safe_join(builder.streams)
+      end
     end
   end
 end

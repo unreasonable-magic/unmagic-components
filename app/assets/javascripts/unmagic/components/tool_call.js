@@ -1,27 +1,44 @@
-// <unmagic-tool-call> — progressive disclosure, rendered by ai_chat_tool_call.
-// Direct data-part="row", "payload" (repeatable), and "result" nodes are caller-owned.
-// Without JS all content is readable. Append payloads to the host, remove by ID.
-// open is the initial preference; identified calls share ai_chat's reader choice.
-// state/name properties reflect attributes. State changes never replace payloads.
-// label-{state} overrides English labels; formatted readings remain caller-owned.
-import { restoreDisclosureChoices } from "unmagic/components/ai_chat"
-import { toolCallIcons } from "unmagic/components/tool_call_icons"
+// <unmagic-tool-call name="…" state="…"> — one reach for a tool, as a row in a
+// timeline, rendered by `ai_chat_tool_call`.
+//
+// The markup is native and the element leaves it alone: a <details> fold whose
+// <summary> is the row, payloads inside the fold as <figure>s, the result after
+// it. CSS reads the state off the host's attribute, which readings show
+// included. What this adds:
+//
+//   state="queued|running|waiting|done|failed"   reflected as a property; an
+//                                                unknown state reads as queued, and
+//                                                assigning one throws
+//   name="…"                                     reflected as a property; a
+//                                                hand-written summary without a
+//                                                <code> gets one from it
+//   label-<state>="…"                            the translated status words
+//
+// It owns one node, the glyph first in the summary: the state's icon and a
+// visually hidden status word, which it redraws when the state or a label
+// changes, setting aria-busy on the host while running. Ruby seeds the glyph
+// with the state it drew, so the first render changes nothing. A fold with
+// nothing in it is kept out of the tab order until a payload arrives, since a
+// chevron that opens onto nothing is a trap for the keyboard. The fold's open
+// or shut is remembered by ai_chat under the host's id.
+//
+// The tool_call_state Turbo Stream action sets state from the server:
+//
+//   <turbo-stream action="tool_call_state" targets="#call_9" state="done"></turbo-stream>
+import { Turbo } from "@hotwired/turbo-rails"
+import "unmagic/components/ai_chat"
 import "unmagic/components/elapsed"
+import { toolCallIcons } from "unmagic/components/tool_call_icons"
 
+const STATES = ["queued", "running", "waiting", "done", "failed"]
 const LABELS = { queued: "Queued", running: "Running", waiting: "Waiting on you", done: "Done", failed: "Failed" }
-// The parts that belong in the row. Direct HTML may leave them loose on the
-// host, and the element gathers them. Nothing here is a class: CSS styles the
-// element by its tag, its state attribute and these data-part names.
-const ROW_PARTS = ["name", "summary", "progress", "readings", "failures", "elapsed", "duration"]
 
 class UnmagicToolCall extends HTMLElement {
-  static observedAttributes = ["state", "name", ...Object.keys(LABELS).map(state => `label-${state}`)]
+  static observedAttributes = ["state", "name", ...STATES.map(state => `label-${state}`)]
   #observer = new MutationObserver(() => this.#render())
-  #open
-  #details = null
 
   connectedCallback() {
-    // Honor property assignments made before the element definition loaded.
+    // Honour property assignments made before the element definition loaded.
     for (const property of ["state", "name"]) {
       if (!Object.hasOwn(this, property)) continue
       const value = this[property]
@@ -31,160 +48,92 @@ class UnmagicToolCall extends HTMLElement {
     this.#render()
   }
 
-  get state() {
-    const value = this.getAttribute("state")
-    return Object.hasOwn(LABELS, value) ? value : "queued"
-  }
-
-  set state(value) {
-    if (!Object.hasOwn(LABELS, value)) throw new TypeError(`Unknown tool call state: ${value}`)
-    this.setAttribute("state", value)
-  }
-
-  get name() { return this.getAttribute("name") ?? "" }
-  set name(value) { this.setAttribute("name", value) }
-
-  attributeChangedCallback(name, previous, value) {
-    if (previous !== value && this.isConnected) this.#render()
-  }
-
   disconnectedCallback() {
     this.#observer.disconnect()
   }
 
-  #parts(name) {
-    return [...this.querySelectorAll(`[data-part="${name}"]`)]
-      .filter(part => part.closest("unmagic-tool-call") === this)
+  attributeChangedCallback() {
+    if (this.isConnected) this.#render()
   }
 
-  #prepareRow() {
-    let row = this.#parts("row")[0]
-    if (!row) {
-      row = document.createElement("span")
-      row.dataset.part = "row"
-      this.prepend(row)
-    }
-    for (const part of ROW_PARTS) {
-      for (const node of this.#parts(part)) {
-        if (node.parentElement === this) row.append(node)
-      }
-    }
-    let name = this.#parts("name")[0]
-    if (!name && this.hasAttribute("name")) {
-      name = document.createElement("code")
-      name.dataset.part = "name"
-      name.dataset.toolCallName = ""
-      row.prepend(name)
-    }
-    if (name?.hasAttribute("data-tool-call-name") && name.textContent !== this.name) name.textContent = this.name
-    return row
+  get state() {
+    const value = this.getAttribute("state")
+    return STATES.includes(value) ? value : "queued"
   }
 
-  #updateState(row) {
-    const state = this.state
-    if (state === "running") this.setAttribute("aria-busy", "true")
-    else this.removeAttribute("aria-busy")
-    let glyph = row.querySelector(':scope > [data-tool-call-glyph]')
-    if (!glyph) {
-      glyph = document.createElement("span")
-      glyph.dataset.toolCallGlyph = ""
-      row.prepend(glyph)
-    }
-    if (row.firstElementChild !== glyph) row.prepend(glyph)
-    const label = this.getAttribute(`label-${state}`) ?? LABELS[state]
-    const custom = this.#parts("success-icon")[0]
-    const key = `${state}:${label}:${state === "done" ? custom?.innerHTML ?? "" : ""}`
-    if (glyph.dataset.renderKey !== key) {
-      const template = document.createElement("template")
-      template.innerHTML = toolCallIcons[state]
-      const icon = (state === "done" && custom instanceof HTMLTemplateElement && custom.content.querySelector("svg")) || template.content.firstElementChild
-      const clone = icon.cloneNode(true)
-      clone.setAttribute("aria-hidden", "true")
-      clone.classList.add("UnmagicIcon")
-      clone.classList.toggle("UnmagicAIChatSpinner", state === "running")
-      const status = document.createElement("span")
-      status.className = "UnmagicVisuallyHidden"
-      status.textContent = label
-      glyph.replaceChildren(clone, status)
-      glyph.dataset.renderKey = key
-    }
-    for (const node of this.#parts("status")) node.hidden = true
-    const elapsed = this.#parts("elapsed")
-    for (const part of ["progress", "failures", "elapsed", "duration"]) {
-      for (const node of this.#parts(part)) {
-        const visible = part === "progress" ? state === "running" :
-          part === "failures" ? state !== "failed" :
-          part === "elapsed" ? state === "running" : state !== "running" || !elapsed.length
-        if (!visible && node.contains(document.activeElement)) {
-          const focus = this.querySelector(":scope > details > summary") || row
-          if (focus === row) row.tabIndex = -1
-          focus.focus({ preventScroll: true })
-        }
-        node.hidden = !visible
-      }
-    }
-    for (const readings of this.#parts("readings")) readings.hidden = ![...readings.children].some(node => !node.hidden)
+  set state(value) {
+    if (!STATES.includes(value)) throw new TypeError(`Unknown tool call state: ${value}`)
+    this.setAttribute("state", value)
+  }
+
+  get name() {
+    return this.getAttribute("name") ?? ""
+  }
+
+  set name(value) {
+    this.setAttribute("name", value)
   }
 
   #render() {
     this.#observer.disconnect()
     try {
-      const row = this.#prepareRow()
-      this.#updateState(row)
-      let details = this.querySelector(':scope > details[data-tool-call-generated]')
-
-      const payloads = [
-        ...(details?.querySelectorAll(':scope > [data-tool-call-body] > [data-part="payload"]') || []),
-        ...this.querySelectorAll(':scope > [data-part="payload"]')
-      ]
-      const focused = document.activeElement
-      const hadFocus = this.contains(focused)
-
-      if (payloads.length) {
-        if (!details) {
-          details = document.createElement("details")
-          details.setAttribute("data-tool-call-generated", "")
-          details.open = this.#open ?? this.hasAttribute("open")
-          const summary = document.createElement("summary")
-          const body = document.createElement("div")
-          body.setAttribute("data-tool-call-body", "")
-          details.append(summary, body)
-          row.before(details)
-        }
-        if (this.id) details.dataset.aiChatDisclosure = this.id
-        else details.removeAttribute("data-ai-chat-disclosure")
-        const summary = details.querySelector(":scope > summary")
-        const body = details.querySelector(":scope > [data-tool-call-body]")
-        if (row.parentElement !== summary) {
-          summary.replaceChildren(row)
-        }
-        for (const payload of payloads) {
-          if (payload.parentElement !== body) body.append(payload)
-        }
-        // Restore once per disclosure, not on every streamed child update: a
-        // click's native toggle event may still be pending during that update.
-        if (this.#details !== details) restoreDisclosureChoices(details)
-        this.#details = details
-        // Upgrading around a focused control must not hide that control.
-        if (hadFocus && body.contains(focused)) details.open = true
-      } else if (details) {
-        this.#open = details.open
-        const summaryFocused = focused === details.querySelector(":scope > summary")
-        details.replaceWith(row)
-        this.#details = null
-        if (summaryFocused) {
-          row.tabIndex = -1
-          row.focus({ preventScroll: true })
-        }
-      }
-      // DOM moves can blur an input even when its identity is preserved.
-      if (hadFocus && focused.isConnected && document.activeElement !== focused) {
-        focused.focus({ preventScroll: true })
-      }
+      const details = this.querySelector(":scope > details")
+      const summary = details?.querySelector(":scope > summary")
+      if (!summary) return
+      this.#keepName(summary)
+      this.#keepGlyph(summary)
+      // An empty fold has nothing to open onto, so it is not a stop for Tab.
+      const empty = !details.querySelector(":scope > :not(summary)")
+      if (empty) summary.tabIndex = -1
+      else summary.removeAttribute("tabindex")
     } finally {
       if (this.isConnected) this.#observer.observe(this, { childList: true, subtree: true })
     }
   }
+
+  #keepName(summary) {
+    let code = summary.querySelector(":scope > code")
+    if (!code && this.hasAttribute("name")) {
+      code = document.createElement("code")
+      code.dataset.toolCallName = ""
+      summary.querySelector(":scope > [data-tool-call-glyph]")?.after(code) ?? summary.prepend(code)
+    }
+    // Only a name the element wrote follows the attribute; one the server wrote is the server's.
+    if (code?.hasAttribute("data-tool-call-name") && code.textContent !== this.name) code.textContent = this.name
+  }
+
+  #keepGlyph(summary) {
+    const state = this.state
+    const label = this.getAttribute(`label-${state}`) ?? LABELS[state]
+    let glyph = summary.querySelector(":scope > [data-tool-call-glyph]")
+    if (!glyph) {
+      glyph = document.createElement("span")
+      glyph.dataset.toolCallGlyph = ""
+    }
+    if (summary.firstElementChild !== glyph) summary.prepend(glyph)
+    if (state === "running") this.setAttribute("aria-busy", "true")
+    else this.removeAttribute("aria-busy")
+
+    const status = glyph.querySelector(":scope > .UnmagicVisuallyHidden")
+    if (glyph.dataset.toolCallGlyph === state && status?.textContent === label) return
+
+    const custom = glyph.querySelector(":scope > template")
+    const template = document.createElement("template")
+    template.innerHTML = toolCallIcons[state]
+    const icon = ((state === "done" && custom?.content.querySelector("svg")) || template.content.firstElementChild).cloneNode(true)
+    icon.setAttribute("aria-hidden", "true")
+    icon.classList.add("UnmagicIcon")
+    icon.classList.toggle("UnmagicAIChatSpinner", state === "running")
+    const word = document.createElement("span")
+    word.className = "UnmagicVisuallyHidden"
+    word.textContent = label
+    glyph.replaceChildren(icon, ...(custom ? [ custom ] : []), word)
+    glyph.dataset.toolCallGlyph = state
+  }
 }
 
 customElements.get("unmagic-tool-call") || customElements.define("unmagic-tool-call", UnmagicToolCall)
+
+Turbo.StreamActions.tool_call_state = function () {
+  for (const element of this.targetElements) element.setAttribute("state", this.getAttribute("state"))
+}

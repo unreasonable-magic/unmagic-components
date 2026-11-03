@@ -26,10 +26,11 @@
 // each is a <details> the server renders open or shut, and each is broadcast over
 // while the agent works, which would put it back to the server's open: every
 // time. One marked data-ai-chat-disclosure="<id>" (the helpers mark those given
-// an id) keeps what the person last chose, clicking its summary, across a stream
-// that replaces it and a morph that would reset it. Until they choose, the server
-// decides. Without this script the server always decides, as plain <details> do.
-// The choices last until the page is loaded afresh.
+// an id), or the fold of an <unmagic-tool-call> with an id, keeps what the
+// person last chose, clicking its summary, across a stream that replaces it and
+// a morph that would reset it. Until they choose, the server decides. Without
+// this script the server always decides, as plain <details> do. The choices
+// last until the page is loaded afresh.
 
 const INSTALLED = Symbol.for("unmagic.components.ai_chat")
 
@@ -87,14 +88,14 @@ if (!document[INSTALLED]) {
   document.addEventListener("toggle", (event) => {
     if (event.target !== moving) return
     moving = null
-    choices.set(event.target.dataset.aiChatDisclosure, event.target.open)
+    choices.set(keyFor(event.target), event.target.open)
   }, true)
 
   // A morph keeps the element and would set its open attribute back; refuse that.
   document.addEventListener("turbo:before-morph-attribute", (event) => {
     const details = event.target
     if (event.detail.attributeName !== "open" || !(details instanceof HTMLDetailsElement)) return
-    if (details.matches(DISCLOSURE) && choices.has(details.dataset.aiChatDisclosure)) event.preventDefault()
+    if (details.matches(DISCLOSURE) && choices.has(keyFor(details))) event.preventDefault()
   })
 
   let pendingStep = null
@@ -161,23 +162,25 @@ function suggest(button) {
   if (send) form.requestSubmit(send)
 }
 
-const DISCLOSURE = "details[data-ai-chat-disclosure]"
+const DISCLOSURE = "details[data-ai-chat-disclosure], unmagic-tool-call[id] > details"
 
 // What the person last chose for each disclosure, by its id: true for open.
 const choices = new Map()
+
+// A marked disclosure is keyed by its marker; a tool call's fold by the call's id.
+function keyFor(details) {
+  return details.dataset.aiChatDisclosure ?? details.parentElement.id
+}
 
 // Runs from the MutationObserver, before the replacement is painted, so a shut
 // section never flashes open.
 function keepChoices(node) {
   const found = node.matches(DISCLOSURE) ? [ node ] : node.querySelectorAll(DISCLOSURE)
   for (const details of found) {
-    const open = choices.get(details.dataset.aiChatDisclosure)
+    const open = choices.get(keyFor(details))
     if (open !== undefined && details.open !== open) details.open = open
   }
 }
-
-// Element-generated disclosures use the same choice as server-rendered ones.
-export { keepChoices as restoreDisclosureChoices }
 
 const ASKING = ".UnmagicAIChatRequest--waiting[role=alert], .UnmagicAIChatPermission--waiting[role=alert]"
 

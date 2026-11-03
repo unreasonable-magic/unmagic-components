@@ -11,6 +11,9 @@
 //
 // The words match Unmagic::Components::Duration in Ruby — 2s, 3m 5s, 1h 4m 2s —
 // in whole seconds, floored going up and ceiled going down. Change both together.
+//
+// The reading is the element's last text; anything before it, such as a glyph
+// and a label a tool call puts there, is left alone.
 
 class UnmagicElapsed extends HTMLElement {
   static observedAttributes = ["since", "until"]
@@ -41,7 +44,7 @@ class UnmagicElapsed extends HTMLElement {
 
     if (until) {
       const left = Math.max(0, Math.ceil((Date.parse(until) - now) / 1000))
-      this.textContent = reading(left)
+      this.#write(reading(left))
       if (left === 0 && !this.#ended) {
         this.#ended = true
         clearInterval(this.#timer)
@@ -50,8 +53,14 @@ class UnmagicElapsed extends HTMLElement {
     } else {
       const since = Date.parse(this.getAttribute("since"))
       if (Number.isNaN(since)) return
-      this.textContent = reading(Math.max(0, Math.floor((now - since) / 1000)))
+      this.#write(reading(Math.max(0, Math.floor((now - since) / 1000))))
     }
+  }
+
+  #write(text) {
+    const last = this.lastChild
+    if (last?.nodeType === Node.TEXT_NODE) last.data = text
+    else this.append(text)
   }
 }
 

@@ -6,7 +6,9 @@ module Unmagic
   module Components
     module AIChat
       # What went into a tool call or came back out of it, to be read exactly as it
-      # was written. See ActionViewHelpers#ai_chat_payload.
+      # was written. A child of a tool call's fold or a failure's: a <figure> with
+      # a caption and a scrollable block, styled by the parent that holds it. See
+      # ActionViewHelpers#ai_chat_payload.
       class Payload
         def initialize(view, payload, label: nil, language: nil, duration: nil, copy: false, **options)
           @view = view
@@ -25,8 +27,8 @@ module Unmagic
 
           source, language = formatted
 
-          view.content_tag(:div, **@options, class: view.class_names("UnmagicAIChatPayload", @options[:class])) do
-            safe_join [ head(source), code(source, language) ].compact
+          tag.figure(**@options) do
+            safe_join [ caption(source), region(source, language) ].compact
           end
         end
 
@@ -58,20 +60,17 @@ module Unmagic
           string
         end
 
-        def head(source)
+        def caption(source)
           return if @label.blank? && @duration.nil? && !@copy
 
-          tag.div(class: "UnmagicAIChatPayload__head") do
-            safe_join [
-              tag.span(@label, class: "UnmagicAIChatPayload__label"),
-              (timing if @duration),
-              (view.copy_button(source, class: "UnmagicAIChatPayload__copy") if @copy)
-            ].compact
+          tag.figcaption do
+            safe_join [ @label, (timing if @duration), (view.copy_button(source) if @copy) ].compact
           end
         end
 
+        # How long the tool took, as a <time> whose datetime is the duration itself.
         def timing
-          tag.span(class: "UnmagicAIChatPayload__timing") do
+          tag.time(datetime: format("PT%gS", @duration.to_f)) do
             safe_join [
               Icons.svg(view, :timer),
               tag.span(AIChat.t("payload.took", default: "Took"), class: "UnmagicVisuallyHidden"),
@@ -82,10 +81,9 @@ module Unmagic
 
         # Scrollable, so reachable by keyboard and named for it: a region nobody can
         # scroll without a mouse is a trap in reverse.
-        def code(source, language)
+        def region(source, language)
           tag.div(Components.configuration.code_block.call(view, source, language),
-            class: "UnmagicAIChatPayload__code", tabindex: 0, role: "region",
-            "aria-label": @label.presence || AIChat.t("payload.label", default: "Payload"))
+            tabindex: 0, role: "region", "aria-label": @label.presence || AIChat.t("payload.label", default: "Payload"))
         end
       end
     end

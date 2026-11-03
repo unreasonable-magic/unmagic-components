@@ -2103,22 +2103,28 @@ block. Blank content renders nothing. I18n:
 
 ### `ai_chat_tool_call(name:, state:, id: nil, icon: nil, open: false, timeline: true, **options, &block)`
 
-Renders `<unmagic-tool-call>` with readable row, payload, and result parts. The element
-adds/removes a native disclosure when payloads arrive/disappear, keeps results
-outside the fold, and draws connectors through CSS. Without JavaScript all
-content remains readable. The legacy `<div>` renderer and temporary `element:`
-option have been removed; existing builder calls use the element automatically.
-It carries no `UnmagicAIChatToolCall` classes: style it by tag, `state` and
-`data-part`. Update host selectors that depend on those classes, and include the
-element import when importing modules individually.
+Renders `<unmagic-tool-call>` as HTML a person could write: a `<details>` fold
+whose `<summary>` is the row, payloads inside it as `<figure>`s, and the result
+after it. The fold works without JavaScript; the element adds the state glyph,
+keeps an empty fold out of the tab order, and remembers the reader's open or
+shut for a call with an `id:`. Nothing carries a class or a part name: style it
+by tag, `state` and the elements it holds. Import `unmagic/components/tool_call`
+individually or use the aggregate import.
 
-Import `unmagic/components/tool_call` individually or use the aggregate import.
-Set `call.state = "done"` or `call.setAttribute("state", "done")` to update its
-icon, accessible status, busy state, progress, and supplied timing/failure readings
-without replacing payloads or closing disclosures. Ruby provides translated
-labels and formatted values; direct HTML needs no internal CSS classes.
-See the [element API](docs/components/ai_chat/tool_call.md#custom-element-api)
-for direct HTML and stream ownership.
+Set `call.state = "done"` or `call.setAttribute("state", "done")` to change its
+glyph, status word, busy state and which readings show, leaving payloads and the
+fold alone. From the server, `turbo_stream.ai_chat_tool_call(id)` takes the same
+parts as the view helper, one stream each:
+
+```ruby
+render turbo_stream: turbo_stream.ai_chat_tool_call(dom_id(call)) do |tool|
+  tool.progress "Frame 13 of 40"
+  tool.answered call.response, duration: call.duration
+  tool.state :done
+end
+```
+See the [design note](docs/components/ai_chat/tool_call.md) for the markup
+written by hand and for streaming.
 
 ```erb
 <%= ai_chat_tool_call name: call.name, state: call.state, id: dom_id(call), icon: call.category_icon do |tool| %>
@@ -2146,12 +2152,15 @@ I18n under `unmagic.components.ai_chat.tool_call`: `queued`, `running`,
 
 ### `ai_chat_payload(payload, label: nil, language: nil, duration: nil, copy: false, **options)`
 
-What went into a tool call or came back. A Hash, an Array, or a string holding
-JSON is laid out a key to a line as `:json`; anything else is `:plaintext`
-unless `language:` says otherwise. It renders through `config.code_block`,
-scrolls past a height, wraps long lines, and is reachable by keyboard. `copy:
-true` adds a copy button. `nil` renders nothing. I18n:
-`unmagic.components.ai_chat.payload.took` and `.label` ("Payload").
+What went into a tool call or came back, as a `<figure>` with a caption over a
+scrollable block. A child of a tool call's fold or a failure's, with no look of
+its own elsewhere: `tool.asked`, `tool.answered` and `failure.detail` render
+one, and this helper is for streaming one into a running call. A Hash, an
+Array, or a string holding JSON is laid out a key to a line as `:json`;
+anything else is `:plaintext` unless `language:` says otherwise. It renders
+through `config.code_block`, scrolls past a height, wraps long lines, and is
+reachable by keyboard. `copy: true` adds a copy button. `nil` renders nothing.
+I18n: `unmagic.components.ai_chat.payload.took` and `.label` ("Payload").
 
 ### `ai_chat_composer(form:, field:, state: :idle, label: nil, stop_form: "stop_turn", placeholder: nil, rows: 2, **options, &block)`
 
