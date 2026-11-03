@@ -1057,6 +1057,8 @@ Until the script runs, the server's own rendering (in `Time.zone`) shows instead
   updating.
 - **Compact form:** `compact: true` shortens a relative time to "5m" or "3h".
 - **Blank values:** a `nil` time renders an em dash.
+- **Morphs:** a Turbo morph writes the server's fallback back into the element;
+  it localises the time again as soon as the morph is done.
 
 ### `tooltip(content = nil, text:, placement: :top, term: nil, **options, &block)`
 

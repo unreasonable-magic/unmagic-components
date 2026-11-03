@@ -17,6 +17,11 @@
 //
 // A relative time keeps itself current from one shared, minute-aligned clock, and
 // stops ticking once it has settled into a date (a week out).
+//
+// A Turbo morph keeps the element and writes the server's fallback back into its
+// <time>. The attributes are unchanged, so no lifecycle callback runs; the element
+// listens for the morph's own `turbo:morph-element` and localises again. It needs
+// no Turbo otherwise.
 
 const ABSOLUTE = {
   short: { dateStyle: "short", timeStyle: "short" },
@@ -32,6 +37,13 @@ class UnmagicTime extends HTMLElement {
 
   #unsubscribe = null
 
+  constructor() {
+    super()
+    // Turbo dispatches this on each morphed element, and it bubbles up from the
+    // inner <time>, after the morph has overwritten the text.
+    this.addEventListener("turbo:morph-element", this.#morphed)
+  }
+
   connectedCallback() {
     this.#render()
   }
@@ -43,6 +55,8 @@ class UnmagicTime extends HTMLElement {
   attributeChangedCallback() {
     if (this.isConnected) this.#render()
   }
+
+  #morphed = () => this.#render()
 
   get #target() {
     return this.querySelector(":scope > time") ?? this
