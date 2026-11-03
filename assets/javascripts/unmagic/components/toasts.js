@@ -351,6 +351,11 @@ export class UnmagicToasts extends HTMLElement {
   }
 
   #consume() {
+    // A Turbo visit to another page connects the new mount while its permanent
+    // regions are still placeholders: Turbo puts the live regions back only after
+    // the render. Leave the templates until then; the region swap is a child-list
+    // mutation, so the observer consumes them as soon as the regions return.
+    if (!POSITIONS.every(position => this.querySelector(`:scope > .UnmagicToasts__stack[data-position="${position}"]`))) return
     for (const template of this.querySelectorAll(":scope > template[data-unmagic-toast-template]")) {
       template.remove()
       const node = template.content.firstElementChild?.cloneNode(true)
