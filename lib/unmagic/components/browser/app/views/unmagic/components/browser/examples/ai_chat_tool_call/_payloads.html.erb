@@ -1,0 +1,8 @@
+<div class="mx-auto max-w-2xl">
+  <%= ai_chat_tool_call name: "search_files", state: :done, icon: :file, open: true, timeline: false do |tool| %>
+    <% tool.summary "red lantern" %>
+    <% tool.timing duration: 0.64 %>
+    <% tool.asked({ query: "red lantern", shelf: "Props", limit: 20, filters: { animated: false } }, duration: 0.064, copy: true) %>
+    <% tool.answered((1..40).map { |n| "props/lantern-#{n}.glb — a red paper lantern, variant #{n}, with an emissive material" }.join("\n")) %>
+  <% end %>
+</div>

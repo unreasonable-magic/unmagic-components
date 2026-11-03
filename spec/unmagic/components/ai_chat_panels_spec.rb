@@ -180,9 +180,10 @@ RSpec.describe "AI chat plans, workspaces and failures" do
       expect(html(view.ai_chat_workspace(id: "files")).at("details#files")["data-ai-chat-disclosure"]).to eq("files")
     end
 
-    it "marks a tool call's details and reasoning with the id they were given" do
+    it "keys a tool call's fold by the call's own id, with no mark, and marks reasoning" do
       call = html(view.ai_chat_tool_call(name: "search", state: :running, id: "call_1") { |tool| tool.asked "car seat" })
-      expect(call.at("#call_1 details")["data-ai-chat-disclosure"]).to eq("call_1")
+      expect(call.at("unmagic-tool-call")["id"]).to eq("call_1")
+      expect(call.at("unmagic-tool-call > details").attributes.keys).to be_empty
 
       reasoning = html(view.ai_chat_reasoning(id: "thinking_1", streaming: true) { "Considering…" })
       expect(reasoning.at("details")["data-ai-chat-disclosure"]).to eq("thinking_1")
@@ -192,7 +193,7 @@ RSpec.describe "AI chat plans, workspaces and failures" do
       expect(html(view.ai_chat_plan).at("details")["data-ai-chat-disclosure"]).to be_nil
       expect(html(view.ai_chat_plan(id: "plan", collapsible: false)).at("[data-ai-chat-disclosure]")).to be_nil
       call = html(view.ai_chat_tool_call(name: "search", state: :done) { |tool| tool.asked "x" })
-      expect(call.at("details")["data-ai-chat-disclosure"]).to be_nil
+      expect(call.at("unmagic-tool-call")["id"]).to be_nil
       expect(html(view.ai_chat_reasoning { "x" }).at("details")["data-ai-chat-disclosure"]).to be_nil
     end
   end
@@ -214,7 +215,7 @@ RSpec.describe "AI chat plans, workspaces and failures" do
       details = failure.at("details.UnmagicAIChatFailure__details")
       expect(details.key?("open")).to be(false)
       expect(details.at("summary").text).to eq("Details")
-      expect(details.css(".UnmagicAIChatPayload__label").map(&:text)).to eq([ "Provider said", "Where it happened" ])
+      expect(details.css("figure > figcaption").map(&:text)).to eq([ "Provider said", "Where it happened" ])
       expect(failure.at("> .UnmagicAIChatFailure__retry").text).to eq("RETRY")
     end
 

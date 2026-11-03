@@ -4835,15 +4835,15 @@
 
   /* The family's disclosures are rows, not buttons: no marker, a pointer, and the
      shared focus ring. */
-  :is(.UnmagicAIChatToolCall, .UnmagicAIChatReasoning, .UnmagicAIChatFailure, .UnmagicAIChatPlan, .UnmagicAIChatWorkspace) summary {
+  :is(unmagic-tool-call, .UnmagicAIChatReasoning, .UnmagicAIChatFailure, .UnmagicAIChatPlan, .UnmagicAIChatWorkspace) summary {
     @apply cursor-pointer list-none select-none;
   }
 
-  :is(.UnmagicAIChatToolCall, .UnmagicAIChatReasoning, .UnmagicAIChatFailure, .UnmagicAIChatPlan, .UnmagicAIChatWorkspace) summary::-webkit-details-marker {
+  :is(unmagic-tool-call, .UnmagicAIChatReasoning, .UnmagicAIChatFailure, .UnmagicAIChatPlan, .UnmagicAIChatWorkspace) summary::-webkit-details-marker {
     @apply hidden;
   }
 
-  :is(.UnmagicAIChatToolCall, .UnmagicAIChatReasoning, .UnmagicAIChatFailure, .UnmagicAIChatPlan, .UnmagicAIChatWorkspace) summary:focus-visible {
+  :is(unmagic-tool-call, .UnmagicAIChatReasoning, .UnmagicAIChatFailure, .UnmagicAIChatPlan, .UnmagicAIChatWorkspace) summary:focus-visible {
     @apply rounded-xs outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
   }
 
@@ -4887,143 +4887,197 @@
 
   /* ----------------------------------------------------- AI chat tool calls */
 
-  .UnmagicAIChatToolCall {
-    @apply relative text-sm text-neutral-500 dark:text-neutral-400;
+  /* The markup is HTML a person could write, and the stylesheet reads it as
+     such: the element by its tag, its state by its attribute, the fold by its
+     <details> and <summary>, payloads as the <figure>s inside, the result as what
+     follows. Nothing is styled by class, and nothing is generated but the glyph.
+     Child combinators keep a nested call's parts its own. */
+  unmagic-tool-call {
+    @apply relative block text-sm text-neutral-500 dark:text-neutral-400;
+
+    /* The row: glyph, name, summary text, readings, chevron; progress on its own
+       line below, ordered last so the chevron cannot wrap under it. */
+    & > details > summary {
+      @apply flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5;
+
+      &:hover {
+        @apply text-neutral-900 dark:text-neutral-100;
+      }
+
+      &::after {
+        @apply size-1.5 shrink-0 rotate-[-45deg] border-r border-b content-[''];
+      }
+
+      & > [data-tool-call-glyph] {
+        @apply inline-flex shrink-0;
+
+        & .UnmagicIcon {
+          @apply size-3.5;
+        }
+      }
+
+      & > code {
+        @apply font-mono text-xs;
+      }
+
+      & > span {
+        @apply min-w-0 truncate font-medium text-neutral-700 dark:text-neutral-300;
+      }
+
+      /* Each reading leads with a glyph, so a run of small grey numbers can be
+         told apart before the digits are read. Beside the name rather than hard
+         right: there's no box edge to flush them to. */
+      & > :is(time, data, unmagic-elapsed) {
+        @apply inline-flex shrink-0 items-center gap-1 font-mono text-xs text-neutral-400 tabular-nums dark:text-neutral-500;
+
+        & .UnmagicIcon {
+          @apply size-3.5;
+        }
+      }
+
+      & > data {
+        @apply text-amber-600 dark:text-amber-500;
+      }
+
+      & > output {
+        @apply order-1 basis-full pl-5.5 text-xs text-neutral-400 dark:text-neutral-500;
+      }
+    }
+
+    & > details[open] > summary::after {
+      @apply rotate-45;
+    }
+
+    /* A fold with nothing in it is a chevron onto nothing: no chevron, no pointer.
+       The element keeps its summary out of the tab order. */
+    & > details:not(:has(> :not(summary))) > summary {
+      @apply cursor-default;
+      pointer-events: none;
+
+      &::after {
+        @apply hidden;
+      }
+    }
+
+    /* Which readings show, from the state. The clock only while running; the
+       duration not while a clock is beside it; progress only while running; the
+       failure count not once the call has failed outright. */
+    &:not([state="running"]) > details > summary > :is(unmagic-elapsed, output),
+    &[state="running"] > details > summary:has(> unmagic-elapsed) > time,
+    &[state="failed"] > details > summary > data {
+      @apply hidden;
+    }
+
+    /* State colours the glyph, and a failure colours the name with it. */
+    &:is([state="done"], [state="queued"]) > details > summary > [data-tool-call-glyph] {
+      @apply text-neutral-400 dark:text-neutral-500;
+    }
+
+    &[state="waiting"] > details > summary > [data-tool-call-glyph] {
+      @apply text-amber-600 dark:text-amber-500;
+    }
+
+    &[state="failed"] > details > summary > :is([data-tool-call-glyph], code) {
+      @apply text-red-600 dark:text-red-400;
+    }
+
+    /* What hangs under a row sits in the glyph's column: payloads inside the
+       open fold, results after it. */
+    & > details > figure {
+      @apply mt-2 pl-5.5;
+    }
+
+    & > details ~ * {
+      @apply relative mt-2 flex flex-wrap gap-2 pl-5.5;
+    }
   }
 
-  /* The line joining a run: every row draws it, and only a row following another
-     shows it. It reaches up into the gap above, centred on the glyph's column,
-     rather than taking room of its own. */
-  .UnmagicAIChatToolCall__join {
-    @apply absolute hidden w-px -translate-x-1/2 bg-neutral-200 dark:bg-neutral-700;
+  /* Only adjacent timeline participants get a joining line. Every row draws it;
+     only one that follows another shows it, reaching up into the gap above
+     rather than taking space of its own, centred on the glyph's column. */
+  [data-ai-chat-timeline] + unmagic-tool-call[data-ai-chat-timeline]::before {
+    @apply absolute w-px -translate-x-1/2 bg-neutral-200 content-[''];
     left: 0.4375rem;
     top: calc(var(--spacing) * -2.5);
     height: calc(var(--spacing) * 2);
+    @variant dark { @apply bg-neutral-700; }
   }
 
-  [data-ai-chat-timeline] + [data-ai-chat-timeline] > .UnmagicAIChatToolCall__join {
-    @apply block;
-  }
-
-  .UnmagicAIChatToolCall__row {
-    @apply flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5;
-  }
-
-  summary.UnmagicAIChatToolCall__row:hover {
-    @apply text-neutral-900 dark:text-neutral-100;
-  }
-
-  .UnmagicAIChatToolCall__glyph {
-    @apply inline-flex shrink-0;
-  }
-
-  .UnmagicAIChatToolCall__glyph .UnmagicIcon {
-    @apply size-3.5;
-  }
-
-  .UnmagicAIChatToolCall--done .UnmagicAIChatToolCall__glyph,
-  .UnmagicAIChatToolCall--queued .UnmagicAIChatToolCall__glyph {
-    @apply text-neutral-400 dark:text-neutral-500;
-  }
-
-  .UnmagicAIChatToolCall--waiting .UnmagicAIChatToolCall__glyph {
-    @apply text-amber-600 dark:text-amber-500;
-  }
-
-  .UnmagicAIChatToolCall--failed .UnmagicAIChatToolCall__glyph,
-  .UnmagicAIChatToolCall--failed .UnmagicAIChatToolCall__name {
-    @apply text-red-600 dark:text-red-400;
-  }
-
-  .UnmagicAIChatToolCall__name {
-    @apply font-mono text-xs;
-  }
-
-  .UnmagicAIChatToolCall__summary {
-    @apply min-w-0 truncate font-medium text-neutral-700 dark:text-neutral-300;
-  }
-
-  /* Beside the name rather than hard right: there's no box edge to flush them to,
-     and a clock alone at the far side of a wide column belongs to nothing. */
-  .UnmagicAIChatToolCall__readings {
-    @apply inline-flex shrink-0 items-center gap-2.5;
-  }
-
-  .UnmagicAIChatToolCall__reading {
-    @apply inline-flex items-center gap-1 font-mono text-xs text-neutral-400 tabular-nums dark:text-neutral-500;
-  }
-
-  .UnmagicAIChatToolCall__reading .UnmagicIcon {
-    @apply size-3.5;
-  }
-
-  .UnmagicAIChatToolCall__reading--warn {
-    @apply text-amber-600 dark:text-amber-500;
-  }
-
-  .UnmagicAIChatToolCall__progress {
-    @apply basis-full pl-5.5 text-xs text-neutral-400 dark:text-neutral-500;
-  }
-
-  /* An open call keeps the line running down its own body, so it's a stretch of
-     the run rather than a hole in it. Anything under a row hangs off the glyph's
-     column. */
-  .UnmagicAIChatToolCall__body {
-    @apply relative mt-2 flex flex-col gap-3 pb-1 pl-5.5;
-  }
-
-  .UnmagicAIChatToolCall__made {
-    @apply relative mt-2 flex flex-wrap gap-2 pl-5.5;
-  }
-
-  .UnmagicAIChatToolCall__rail {
-    @apply absolute bottom-0 w-px -translate-x-1/2 bg-neutral-200 dark:bg-neutral-700;
+  /* An open fold keeps the line running down its own body, so an open call is a
+     stretch of the run rather than a hole in it; so does each result. */
+  unmagic-tool-call > details[open]::after,
+  unmagic-tool-call > details ~ *::before {
+    @apply absolute w-px -translate-x-1/2 bg-neutral-200 content-[''];
     left: 0.4375rem;
+    @variant dark { @apply bg-neutral-700; }
+  }
+
+  unmagic-tool-call > details {
+    @apply relative;
+  }
+
+  unmagic-tool-call > details[open]::after {
+    top: calc(var(--spacing) * 5.5);
+    bottom: calc(var(--spacing) * -1);
+  }
+
+  unmagic-tool-call > details ~ *::before {
     top: calc(var(--spacing) * -1.5);
+    bottom: 0;
+  }
+
+  @media (forced-colors: active) {
+    [data-ai-chat-timeline] + unmagic-tool-call[data-ai-chat-timeline]::before,
+    unmagic-tool-call > details[open]::after,
+    unmagic-tool-call > details ~ *::before {
+      background-color: CanvasText;
+    }
   }
 
   /* ------------------------------------------------------- AI chat payloads */
 
-  .UnmagicAIChatPayload {
-    @apply flex min-w-0 flex-col gap-1.5;
-  }
-
-  .UnmagicAIChatPayload__head {
-    @apply flex items-center gap-2;
-  }
-
-  .UnmagicAIChatPayload__label {
-    @apply flex-1 text-[10px] font-medium tracking-wide text-neutral-500 uppercase;
-  }
-
-  .UnmagicAIChatPayload__timing {
-    @apply inline-flex items-center gap-1 font-mono text-xs text-neutral-400 tabular-nums;
-  }
-
-  .UnmagicAIChatPayload__timing .UnmagicIcon {
-    @apply size-3.5;
-  }
-
-  /* The box itself scrolls, so a keyboard user focusing it can scroll it; long
-     lines wrap, since one line of a payload can be a whole page. It deliberately
+  /* A payload is a child of the fold that holds it, a tool call's or a failure's:
+     a <figure> captioned with what it is, over a block that scrolls. The box
+     itself scrolls, so a keyboard user focusing it can scroll it; long lines
+     wrap, since one line of a payload can be a whole page. It deliberately
      doesn't contain overscroll: Chrome would apply that to a short payload too,
      and a finger swiping over one couldn't scroll the page. */
-  .UnmagicAIChatPayload__code {
-    @apply max-h-64 overflow-auto rounded-md border border-neutral-200 bg-white text-neutral-800;
-    @apply dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-200;
-  }
+  :is(unmagic-tool-call > details, .UnmagicAIChatFailure__body) > figure {
+    @apply flex min-w-0 flex-col gap-1.5;
 
-  .UnmagicAIChatPayload__code:focus-visible {
-    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
-  }
+    & > figcaption {
+      @apply flex items-center gap-2 text-[10px] font-medium tracking-wide text-neutral-500 uppercase;
 
-  .UnmagicAIChatPayload__code > pre {
-    @apply m-0 bg-transparent p-2.5 font-mono text-xs leading-relaxed break-words whitespace-pre-wrap;
-  }
+      & > :first-child {
+        @apply ml-auto;
+      }
 
-  /* The box is the payload's; the code view inside it brings only its tokens. */
-  .UnmagicAIChatPayload__code > .UnmagicCodeView {
-    @apply rounded-none border-0 bg-transparent;
+      & > time {
+        @apply inline-flex items-center gap-1 font-mono text-xs tracking-normal text-neutral-400 normal-case tabular-nums;
+
+        & .UnmagicIcon {
+          @apply size-3.5;
+        }
+      }
+    }
+
+    & > [role="region"] {
+      @apply max-h-64 overflow-auto rounded-md border border-neutral-200 bg-white text-neutral-800;
+      @apply dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-200;
+
+      &:focus-visible {
+        @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
+      }
+
+      & > pre {
+        @apply m-0 bg-transparent p-2.5 font-mono text-xs leading-relaxed break-words whitespace-pre-wrap;
+      }
+
+      /* The box is the payload's; the code view inside it brings only its tokens. */
+      & > .UnmagicCodeView {
+        @apply rounded-none border-0 bg-transparent;
+      }
+    }
   }
 
   /* ------------------------------------------------------- AI chat failures */

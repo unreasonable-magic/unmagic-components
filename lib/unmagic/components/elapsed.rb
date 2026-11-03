@@ -21,10 +21,15 @@ module Unmagic
       # The server writes the reading the element would, so it is right before the
       # script loads. Whole seconds, floored going up and ceiled going down: a
       # stopwatch says how long it has been, not how long it nearly has been.
+      #
+      # A block puts something before the reading inside the element, such as a
+      # glyph and a visually hidden label; the element keeps it when it redraws.
       def render
         attribute = @direction == :up ? :since : :until
+        reading = Duration.format(seconds)
+        content = block_given? ? yield(reading) : reading
 
-        view.content_tag("unmagic-elapsed", Duration.format(seconds), **@options,
+        view.content_tag("unmagic-elapsed", content, **@options,
           attribute => @time.utc.iso8601(3),
           title: I18n.l(@time, format: :long),
           class: view.class_names("UnmagicElapsed", @options[:class]))

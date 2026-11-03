@@ -4,104 +4,109 @@ RSpec.describe "AI chat tool calls and payloads" do
   let(:view) { build_view }
 
   describe "#ai_chat_tool_call" do
-    it "renders a timeline row with a disclosure of what was asked and answered" do
-      row = html(view.ai_chat_tool_call(name: "search_messages", state: :done, id: "call_1", class: "extra") do |tool|
+    it "renders a native fold: a summary row, payload figures inside, the result after" do
+      call = html(view.ai_chat_tool_call(name: "search_messages", state: :done, id: "call_1", class: "extra") do |tool|
         tool.summary "car seat"
         tool.timing duration: 1.24
         tool.asked({ query: "car seat" })
         tool.answered "No matches"
-      end).at("div#call_1")
+        tool.made { view.link_to "Open", "/result" }
+      end).at("unmagic-tool-call#call_1")
 
-      expect(row["class"]).to eq("UnmagicAIChatToolCall UnmagicAIChatToolCall--done extra")
-      expect(row["data-ai-chat-timeline"]).to eq("row")
-      expect(row.at("> .UnmagicAIChatToolCall__join")["aria-hidden"]).to eq("true")
-
-      summary = row.at("details.UnmagicAIChatToolCall__disclosure > summary.UnmagicAIChatToolCall__row")
-      expect(summary.at("code.UnmagicAIChatToolCall__name").text).to eq("search_messages")
-      expect(summary.at(".UnmagicAIChatToolCall__summary").text).to eq("car seat")
-      expect(summary.at(".UnmagicAIChatToolCall__glyph .UnmagicVisuallyHidden").text).to eq("Done")
-      expect(summary.at(".UnmagicAIChatToolCall__reading").text).to eq("Took1s")
-      expect(summary.at(".UnmagicAIChatChevron")).not_to be_nil
-
-      body = row.at(".UnmagicAIChatToolCall__body")
-      expect(body.at("> .UnmagicAIChatToolCall__rail")).not_to be_nil
-      expect(body.css(".UnmagicAIChatPayload__label").map(&:text)).to eq(%w[Asked Answered])
+      expect(call["class"]).to eq("extra")
+      expect(call["data-ai-chat-timeline"]).to eq("row")
+      expect(call["state"]).to eq("done")
+      expect(call["aria-busy"]).to be_nil
+      expect(call.css("> *").map(&:name)).to eq(%w[details div])
+      expect(call.css("> details > *").map(&:name)).to eq(%w[summary figure figure])
+      expect(call.css("> details > summary > *").map(&:name)).to eq(%w[span code span time])
+      expect(call.at("> details > summary > code").text).to eq("search_messages")
+      expect(call.at("> details > summary > span:not([data-tool-call-glyph])").text).to eq("car seat")
+      expect(call.at("> details > summary > time")["datetime"]).to eq("PT1.24S")
+      expect(call.at("> details > summary > time").text).to eq("Took1s")
+      expect(call.css("> details > figure > figcaption").map(&:text)).to eq(%w[Asked Answered])
+      expect(call.at("> div > a")["href"]).to eq("/result")
+      expect(call.css("[class*='UnmagicAIChatToolCall'], [data-part], [id]").map { |node| node["id"] || node["class"] })
+        .to all(start_with("unmagic_code_view"))
     end
 
-    it "has no disclosure when there's nothing to disclose" do
-      row = html(view.ai_chat_tool_call(name: "ping", state: :queued)).at(".UnmagicAIChatToolCall")
-      expect(row.at("details")).to be_nil
-      expect(row.at("div.UnmagicAIChatToolCall__row .UnmagicAIChatChevron")).to be_nil
+    it "seeds the glyph with the state it drew, its status word and the done icon for later" do
+      call = html(view.ai_chat_tool_call(name: "render", state: :running, icon: :folder)).at("unmagic-tool-call")
+      glyph = call.at("> details > summary > [data-tool-call-glyph]")
+
+      expect(call["aria-busy"]).to eq("true")
+      expect(glyph["data-tool-call-glyph"]).to eq("running")
+      expect(glyph.css("> *").map(&:name)).to eq(%w[svg template span])
+      expect(glyph.at("> svg")["class"]).to include("UnmagicAIChatSpinner")
+      expect(glyph.at("> svg")["aria-hidden"]).to eq("true")
+      expect(glyph.at("> template svg")["data-unmagic-icon"]).to end_with("/folder")
+      expect(glyph.at("> span.UnmagicVisuallyHidden").text).to eq("Running")
+
+      done = html(view.ai_chat_tool_call(name: "render", state: :done, icon: :folder)).at("[data-tool-call-glyph]")
+      expect(done.at("> svg")["data-unmagic-icon"]).to end_with("/folder")
+      expect(done.at("template")).to be_nil
     end
 
-    it "is busy while running, with a live clock and a progress line to replace" do
+    it "renders the readings as the elements they are, and progress as an output" do
       started = Time.current - 7
-      row = html(view.ai_chat_tool_call(name: "render", state: :running, id: "call_2") do |tool|
-        tool.timing started_at: started
-        tool.progress "Frame 12 of 40"
-      end).at("#call_2")
+      call = html(view.ai_chat_tool_call(name: "render", state: :running, id: "call_2") do |tool|
+        tool.timing started_at: started, duration: 0
+        tool.failures 2
+        tool.progress "Still working"
+      end).at("unmagic-tool-call")
+      summary = call.at("> details > summary")
 
-      expect(row["aria-busy"]).to eq("true")
-      expect(row.at(".UnmagicAIChatToolCall__glyph .UnmagicAIChatSpinner")).not_to be_nil
-      expect(row.at("unmagic-elapsed")["since"]).to eq(started.utc.iso8601(3))
-      expect(row.at("#call_2_progress").text).to eq("Frame 12 of 40")
+      expect(summary.css("> *").map(&:name)).to eq(%w[span code data unmagic-elapsed time output])
+      expect(summary.at("> data")["value"]).to eq("2")
+      expect(summary.at("> data").text).to eq("Partly failed2 failed")
+      expect(summary.at("> unmagic-elapsed")["since"]).to eq(started.utc.iso8601(3))
+      expect(summary.at("> unmagic-elapsed").text).to eq("Running for7s")
+      expect(summary.at("> unmagic-elapsed").children.last.text?).to be(true)
+      expect(summary.at("> time").text).to eq("Took0s")
+      expect(summary.at("> output").text).to eq("Still working")
     end
 
-    it "leads a done call with what it was about, and only a done call" do
-      done = html(view.ai_chat_tool_call(name: "a", state: :done, icon: :folder)).at("svg")
-      expect(done["data-unmagic-icon"]).to end_with("/folder")
+    it "always renders the fold, open when asked, and can stand outside the timeline" do
+      call = html(view.ai_chat_tool_call(name: "ping", state: :queued, timeline: false, open: true)).at("unmagic-tool-call")
 
-      waiting = html(view.ai_chat_tool_call(name: "a", state: :waiting, icon: :folder)).at("svg")
-      expect(waiting["data-unmagic-icon"]).to end_with("/circle-question-mark")
+      expect(call.css("> details > *").map(&:name)).to eq(%w[summary])
+      expect(call.at("> details").key?("open")).to be(true)
+      expect(call["data-ai-chat-timeline"]).to be_nil
+      expect(html(view.ai_chat_tool_call(name: "ping", state: :queued)).at("details").key?("open")).to be(false)
     end
 
-    it "counts partial failures, but not on a call that failed outright" do
-      partial = html(view.ai_chat_tool_call(name: "a", state: :done) { |tool| tool.failures 3 })
-      expect(partial.at(".UnmagicAIChatToolCall__reading--warn").text).to eq("Partly failed3 failed")
+    it "escapes the name and supplies every state's translated word" do
+      I18n.backend.store_translations(:en, unmagic: { components: { ai_chat: { tool_call: { running: "En cours" } } } })
+      call = html(view.ai_chat_tool_call(name: "<search>", state: :queued)).at("unmagic-tool-call")
 
-      failed = html(view.ai_chat_tool_call(name: "a", state: :failed) { |tool| tool.failures 3 })
-      expect(failed.at(".UnmagicAIChatToolCall__reading--warn")).to be_nil
-      expect(html(view.ai_chat_tool_call(name: "a", state: :done) { |tool| tool.failures 0 }).at(".UnmagicAIChatToolCall__readings")).to be_nil
-    end
-
-    it "keeps what a call made outside the fold" do
-      row = html(view.ai_chat_tool_call(name: "a", state: :done) do |tool|
-        tool.asked({ a: 1 })
-        tool.made { "<img alt='render'>".html_safe }
-      end).at(".UnmagicAIChatToolCall")
-
-      made = row.at("> .UnmagicAIChatToolCall__made")
-      expect(made.at("img")).not_to be_nil
-      expect(made.at(".UnmagicAIChatToolCall__rail")).not_to be_nil
-    end
-
-    it "can stand outside the timeline, and open" do
-      row = html(view.ai_chat_tool_call(name: "a", state: :done, timeline: false, open: true) { |tool| tool.asked "x" })
-      expect(row.at(".UnmagicAIChatToolCall")["data-ai-chat-timeline"]).to be_nil
-      expect(row.at(".UnmagicAIChatToolCall__join")).to be_nil
-      expect(row.at("details").key?("open")).to be(true)
+      expect(call.at("summary > code").text).to eq("<search>")
+      expect(call.at("search")).to be_nil
+      expect(call["label-running"]).to eq("En cours")
+      expect(call["label-done"]).to eq("Done")
+    ensure
+      I18n.backend.reload!
     end
 
     it "rejects an unknown state" do
-      expect { view.ai_chat_tool_call(name: "a", state: :dozing) }
-        .to raise_error(ArgumentError, /unknown ai_chat_tool_call state :dozing/)
+      expect { view.ai_chat_tool_call(name: "x", state: :lost) }.to raise_error(ArgumentError, /state/)
     end
   end
 
   describe "#ai_chat_payload" do
-    it "lays structured data out a key to a line, as JSON" do
-      payload = html(view.ai_chat_payload({ "query" => "cats", "limit" => 5 }, label: "Asked", class: "extra"))
-      root = payload.at(".UnmagicAIChatPayload")
+    it "is a captioned figure over a scrollable region, laying structured data out as JSON" do
+      figure = html(view.ai_chat_payload({ "query" => "cats", "limit" => 5 }, label: "Asked", class: "extra")).at("figure")
 
-      expect(root["class"]).to eq("UnmagicAIChatPayload extra")
-      code = root.at(".UnmagicAIChatPayload__code")
-      expect([ code["tabindex"], code["role"], code["aria-label"] ]).to eq([ "0", "region", "Asked" ])
-      expect(code.at("pre > code")["class"]).to include("language-json")
-      expect(code.text).to eq(%({\n  "query": "cats",\n  "limit": 5\n}))
+      expect(figure["class"]).to eq("extra")
+      expect(figure.css("> *").map(&:name)).to eq(%w[figcaption div])
+      expect(figure.at("> figcaption").text).to eq("Asked")
+      region = figure.at("> div")
+      expect([ region["tabindex"], region["role"], region["aria-label"] ]).to eq([ "0", "region", "Asked" ])
+      expect(region.at("pre > code")["class"]).to include("language-json")
+      expect(region.text).to eq(%({\n  "query": "cats",\n  "limit": 5\n}))
     end
 
     it "parses a JSON string, and leaves other text as text" do
-      expect(html(view.ai_chat_payload('[1,2]')).at("code")["class"]).to include("language-json")
+      expect(html(view.ai_chat_payload("[1,2]")).at("code")["class"]).to include("language-json")
 
       plain = html(view.ai_chat_payload("<oops> not json")).at("code")
       expect([ plain["class"], plain.text ]).to eq([ "UnmagicCodeView__code language-plaintext", "<oops> not json" ])
@@ -111,29 +116,49 @@ RSpec.describe "AI chat tool calls and payloads" do
       expect(html(view.ai_chat_payload("a\nb", language: :ruby)).at("code")["class"]).to include("language-ruby")
     end
 
-    it "renders nothing for no payload, and no head without a label" do
+    it "renders nothing for no payload, and no caption without a label" do
       expect(view.ai_chat_payload(nil)).to be_blank
-      expect(html(view.ai_chat_payload("x")).at(".UnmagicAIChatPayload__head")).to be_nil
-      expect(html(view.ai_chat_payload("x")).at(".UnmagicAIChatPayload__code")["aria-label"]).to eq("Payload")
+      expect(html(view.ai_chat_payload("x")).at("figcaption")).to be_nil
+      expect(html(view.ai_chat_payload("x")).at("[role=region]")["aria-label"]).to eq("Payload")
     end
 
-    it "shows the duration and a copy button when asked" do
-      head = html(view.ai_chat_payload({ a: 1 }, label: "Answered", duration: 0.048, copy: true)).at(".UnmagicAIChatPayload__head")
-      expect(head.at(".UnmagicAIChatPayload__timing").text).to eq("Took48ms")
-      expect(head.at("unmagic-clipboard")["value"]).to eq(%({\n  "a": 1\n}))
+    it "shows the duration as a time, and a copy button when asked" do
+      caption = html(view.ai_chat_payload({ a: 1 }, label: "Answered", duration: 0.048, copy: true)).at("figcaption")
+
+      expect(caption.at("> time")["datetime"]).to eq("PT0.048S")
+      expect(caption.at("> time").text).to eq("Took48ms")
+      expect(caption.at("> unmagic-clipboard")["value"]).to eq(%({\n  "a": 1\n}))
+    end
+  end
+
+  describe "turbo_stream.ai_chat_tool_call" do
+    let(:streams) { Turbo::Streams::TagBuilder.new(view) }
+
+    it "addresses each part by what it is under the call's id, and the state through its own action" do
+      markup = html(streams.ai_chat_tool_call("call_9") do |tool|
+        tool.progress "Frame 13 of 40"
+        tool.answered "done", duration: 0.5
+        tool.made { view.link_to "Open", "/x" }
+        tool.state :done
+      end)
+      actions = markup.css("turbo-stream")
+
+      expect(actions.map { |action| [ action["action"], action["target"] || action["targets"] ] }).to eq([
+        [ "update", "#call_9 > details > summary > output" ],
+        [ "append", "#call_9 > details" ],
+        [ "append", "call_9" ],
+        [ "tool_call_state", "#call_9" ]
+      ])
+      expect(actions[0].at("template").text).to eq("Frame 13 of 40")
+      expect(actions[1].at("template > figure > figcaption").children.first.text).to eq("Answered")
+      expect(actions[1].at("template > figure > figcaption > time")["datetime"]).to eq("PT0.5S")
+      expect(actions[2].at("template > div > a")["href"]).to eq("/x")
+      expect(actions[3]["state"]).to eq("done")
     end
 
-    it "renders through the code_block seam" do
-      calls = []
-      Unmagic::Components.configure do |config|
-        config.code_block = lambda do |view, source, language|
-          calls << [ source, language ]
-          view.tag.pre("highlighted", class: "hl")
-        end
-      end
-
-      expect(html(view.ai_chat_payload({ a: 1 })).at("pre.hl").text).to eq("highlighted")
-      expect(calls).to eq([ [ %({\n  "a": 1\n}), :json ] ])
+    it "sends nothing for an absent payload, and rejects an unknown state" do
+      expect(html(streams.ai_chat_tool_call("call_9") { |tool| tool.asked nil }).css("turbo-stream")).to be_empty
+      expect { streams.ai_chat_tool_call("call_9") { |tool| tool.state :lost } }.to raise_error(ArgumentError, /state/)
     end
   end
 end

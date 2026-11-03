@@ -2,14 +2,7 @@
 
 > Status: built
 > Tier: 2 (small element)
-> Relates to: [payload](payload.md), [transcript](transcript.md), `<unmagic-elapsed>`
-
-## As built
-
-Where the build differs from this note:
-
-- There is no `data-ai-chat-cluster`; the timeline markers do that job (see [transcript](transcript.md)).
-- `tool.progress` renders only while the call is running.
+> Relates to: [payload](payload.md), [reasoning](reasoning.md), [transcript](transcript.md), `<unmagic-elapsed>`
 
 ## Purpose
 
@@ -32,6 +25,8 @@ say the opposite.
 
 ## API
 
+The Ruby API is unchanged by the redesign.
+
 ```erb
 <%= ai_chat_tool_call name: call.name, state: call.state, id: dom_id(call) do |tool| %>
   <% tool.summary call.summary %>
@@ -51,7 +46,7 @@ say the opposite.
 |---|---|---|---|
 | `name:` | string | required | The tool's own name, unchanged |
 | `state:` | `:queued`, `:running`, `:waiting`, `:done`, `:failed` | required | Validated; raises `ArgumentError` |
-| `id:` | string | `nil` | For `upsert` to reconcile a redraw against |
+| `id:` | string | `nil` | For `upsert` to reconcile a redraw against, and the stream targets below |
 | `icon:` | symbol | `nil` | Overrides the glyph a `:done` call shows |
 | `open:` | boolean | `false` | Open on render |
 | `timeline:` | boolean | `true` | Whether this row joins the run above it |
@@ -71,9 +66,6 @@ Builder parts:
 - `tool.progress(text)` — what the tool is doing while it does it, beside the
   spinner.
 
-With no parts at all it renders the summary row alone and no disclosure, since
-there would be nothing to disclose.
-
 `icon:` exists because of the best small idea in toybox: a call that simply
 worked is the common case and there is no news in it — the whole timeline is
 calls that worked — so instead of a column of identical ticks the glyph says what
@@ -83,66 +75,164 @@ is the seam and a tick is the fallback.
 
 ## Markup
 
+The markup is HTML a person could write, and it means what it says. The fold
+is a `<details>`, its row is the `<summary>`, the payloads are the `<figure>`s
+the details holds, and the result is whatever follows the details. Nothing is
+named by an attribute or a class, nothing is moved or wrapped by script, and
+the only id is the host's.
+
 ```html
-<div id="tool_call_9" class="UnmagicAIChatToolCall" data-ai-chat-timeline="row" data-ai-chat-cluster>
-  <span class="UnmagicAIChatToolCall__join" aria-hidden="true"></span>
-
-  <details class="UnmagicAIChatToolCall__disclosure">
+<unmagic-tool-call name="search_files" state="done" id="call_9" data-ai-chat-timeline="row">
+  <details>
     <summary>
-      <span class="UnmagicAIChatToolCall__glyph">…<span class="UnmagicVisuallyHidden">Done</span></span>
-      <code class="UnmagicAIChatToolCall__name">search_messages</code>
-      <span class="UnmagicAIChatToolCall__summary">car seat</span>
-      <svg class="UnmagicAIChatToolCall__chevron" aria-hidden="true">…</svg>
-      <span class="UnmagicAIChatToolCall__readings">…</span>
+      <code>search_files</code>
+      <span>red lantern</span>
+      <time datetime="PT0.64S">640ms</time>
     </summary>
-
-    <div class="UnmagicAIChatToolCall__body">
-      <span class="UnmagicAIChatToolCall__rail" aria-hidden="true"></span>
-      …asked, answered…
-    </div>
+    <figure>
+      <figcaption>Asked</figcaption>
+      <div role="region" tabindex="0" aria-label="Asked"><pre><code>…</code></pre></div>
+    </figure>
+    <figure>
+      <figcaption>Answered</figcaption>
+      <div role="region" tabindex="0" aria-label="Answered"><pre><code>…</code></pre></div>
+    </figure>
   </details>
-</div>
+  <div><a href="/files/lantern-red.glb">Open the file</a></div>
+</unmagic-tool-call>
 ```
 
-Built on `<details>`, so the disclosure needs no JavaScript. A broadcast
-replaces the element on every state change, though, and would put it back to
-`open:` each time, so a call given an `id:` marks its `<details>` with
-`data-ai-chat-disclosure` and `ai_chat.js` carries the person's own open or shut
-across the replacement (see [plan](plan.md#behaviour-javascript)). Without the
-script, the server's `open:` decides every render.
+Written by hand, the smallest useful call is:
+
+```html
+<unmagic-tool-call name="search_files" state="running">
+  <details>
+    <summary>Finding configuration files <output>Searched 12 directories</output></summary>
+    <pre>…</pre>
+  </details>
+  <a href="/files/config">View configuration</a>
+</unmagic-tool-call>
+```
+
+What each child is, by what it is:
+
+| Child | Of | Is |
+|---|---|---|
+| `details` | the host | the fold |
+| `summary` | the details | the row |
+| `code` | the summary | the tool's name; inserted from `name` if absent |
+| `span` | the summary | the summary text (`tool.summary`), truncated when long |
+| `output` | the summary | progress (`tool.progress`), shown only while running |
+| `unmagic-elapsed` | the summary | the live clock, shown only while running |
+| `time` | the summary | the settled duration, as `datetime="PT…S"`, hidden while a clock is beside it |
+| `data` | the summary | the partial-failure count, as `value="2"`, hidden once failed outright |
+| `figure` | the details | a payload: see [payload](payload.md) |
+| anything after the details | the host | the result (`tool.made`) |
+
+Ruby always renders the details and summary, even for a call with nothing to
+show yet, because `<summary>` has no meaning outside `<details>` and because a
+queued call's payloads will arrive into it. Each reading leads with an icon and
+a visually hidden label ("Took", "Running for", "Partly failed").
+
+The one node the element owns is the glyph, a `<span data-tool-call-glyph>`
+first in the summary, carrying the state it was drawn for. Ruby seeds it with
+the current state's icon, aria-hidden, and the visually hidden status word, so
+the state is read before any script runs and the first render changes nothing.
+For a call given an `icon:` that may become done later, a `<template>` inside
+the glyph keeps that icon for the element to use then. Nobody writes the glyph
+by hand: a hand-written call gets one when the element upgrades.
+
+**An empty fold.** A details that holds only its summary is a chevron that opens
+onto nothing, and a screen reader calls it a collapsed button. CSS hides the
+chevron and takes the pointer off the summary while the details is empty
+(`details:not(:has(> :not(summary)))`), and the element takes the summary out of
+the tab order until a payload arrives. The row still reads as a row. This is the
+cost of native markup, paid once, and it is cheaper than generating the fold.
+
+**Reader's choice.** A call with an `id:` remembers whether the reader opened or
+shut its fold, across a Turbo Stream replace and a morph, in the memory
+`ai_chat.js` keeps for the family's disclosures, keyed by the host's id. Nothing
+marks the details. `open:` decides only until they choose.
+
+### Streaming
+
+A host that broadcasts as a call goes along never names the children. The
+Turbo Stream tag builder gains `ai_chat_tool_call`, with the view helper's
+vocabulary, one stream per part:
+
+```ruby
+render turbo_stream: turbo_stream.ai_chat_tool_call(dom_id(call)) do |tool|
+  tool.progress "Frame 13 of 40"
+end
+
+render turbo_stream: turbo_stream.ai_chat_tool_call(dom_id(call)) do |tool|
+  tool.answered call.response, duration: call.duration
+  tool.made { render "previews", blobs: call.blobs }
+  tool.state :done
+end
+```
+
+| Part | Emits |
+|---|---|
+| `asked` / `answered` | `append_all "#call_9 > details"` with a payload figure |
+| `progress` | `update_all "#call_9 > details > summary > output"`, keeping the node |
+| `made` | `append "call_9"`, after the details |
+| `state` | the `tool_call_state` action, which sets the host's attribute |
+
+`state` is the one part that needs an action of its own, since no standard
+action changes an attribute without replacing the element. From a model, where
+there is no tag builder, `broadcast_action_to` takes the same `targets:`
+selectors, and `tool_call_state` is a tag with a `state` attribute. When the
+call settles, upsert the whole entry as the transcript does for everything else.
 
 ## Accessibility
 
 - `<details>`/`<summary>` is the disclosure pattern; the browser owns the
-  expanded state, the keyboard and the announcement.
+  expanded state, the keyboard and the announcement, with or without script.
 - The state glyph is `aria-hidden` and carries a visually hidden label —
   "Queued", "Running", "Waiting on you", "Failed", "Done" — because the state is
-  the one thing in the row conveyed only by a glyph and a colour.
+  the one thing in the row conveyed only by a glyph and a colour. Ruby renders
+  the initial one; the element keeps it true.
+- Progress is an `<output>`, which is a polite live region by default: the one
+  line in the row that changes while a person watches is the one worth hearing.
+  A host that reports too often for that sets `aria-live="off"` on it.
 - The live clock is not a live region. See [`../elapsed.md`](../elapsed.md).
-- A `:running` call's row carries `aria-busy="true"`.
-- The joining line and the rail are `aria-hidden`: they are the visual grammar of
-  grouping, and the reading order already groups them.
+- A `:running` call's host carries `aria-busy="true"`.
+- Joining lines and rails are empty CSS pseudo-elements, absent from the
+  accessibility tree; the reading order already groups the calls.
 - The chevron rotates rather than changing glyph, so nothing is announced twice.
+- An empty fold's summary is out of the tab order; see Markup.
+- The scrollable payload region is named for its caption; see
+  [payload](payload.md).
 
 ## Styling
 
 CSS section: **AI chat tool calls**.
 
-- `.UnmagicAIChatToolCall`, `__join`, `__disclosure`, `__glyph`, `__name`,
-  `__summary`, `__chevron`, `__readings`, `__body`, `__rail`, `__made`
+Nothing is styled by class, and nothing is styled by a part name. The element
+is its tag, its state is its attribute, and its parts are the elements they
+are: `unmagic-tool-call[state="failed"] > details > summary > code` colours a
+failed call's name. The glyph is `[data-tool-call-glyph]`. Rules reach the
+summary's children through child combinators, so a call nested in another's
+payload keeps its own colours.
 
-The timeline is the interesting CSS:
+The summary is the flex row: glyph, name, summary text, readings, chevron
+(`summary::after`), with progress on a line of its own below (`basis-full`,
+ordered last so the chevron cannot wrap under it). The summary text truncates;
+bare text written without a span still shows, just without truncation.
 
-```css
-.UnmagicAIChatToolCall__join {
-  @apply absolute -top-3.5 left-[0.4375rem] hidden h-3 w-px -translate-x-1/2 bg-neutral-200;
-}
-[data-ai-chat-timeline] + [data-ai-chat-timeline] .UnmagicAIChatToolCall__join { @apply block; }
-```
+Which readings show is CSS, from the state attribute: `output` and
+`unmagic-elapsed` only while running, `time` hidden while running when an
+elapsed clock is beside it (`summary:has(> unmagic-elapsed)`), `data` hidden
+once the call has failed outright. No script toggles `hidden`.
 
-Every row draws the line; only a row that follows another shows it. It reaches up
-into the gap above rather than taking space of its own, so what it connects is
-where it would have been anyway, and it is centred on the glyph's column.
+Payloads are `details > figure`, and everything after the details is a result
+block: `unmagic-tool-call > details ~ *` gets the indent and its own rail. The
+host's `::before` joins adjacent timeline participants; the open details'
+`::after` and each result's `::before` draw the vertical rails. Every row draws
+the line; only a row that follows another shows it. It reaches up into the gap
+above rather than taking space of its own, so what it connects is where it
+would have been anyway, and it is centred on the glyph's column.
 
 `data-ai-chat-timeline="gap"` is the companion the host has to render: a turn's
 entries are not all things you can see. The message that issued three calls said
@@ -152,23 +242,39 @@ nothing cannot be what separates two rows — without them a run reads as broken
 wherever the transcript kept a receipt. The note for [message](message.md) says
 where the host renders these.
 
-`__rail` carries the line down the side of an open row's body, so an open call is
-a stretch of the run rather than a hole in it.
-
 Colours: neutrals throughout, amber for `:waiting`, red for `:failed`, amber for
 the partial-failure count. The `:running` glyph spins, and under
 `prefers-reduced-motion: reduce` it pulses opacity instead — the principles'
-named exception, since a frozen spinner reads as a hang.
+named exception, since a frozen spinner reads as a hang. Under forced colours
+the rails take `CanvasText`.
 
 ## Behaviour (JavaScript)
 
-None of its own. It composes `<unmagic-elapsed>` for a running clock, and
-`<details>` does the rest. `ai_chat.js` keeps a person's open or shut across
-replacements of a call with an `id:`.
+Import `unmagic/components/tool_call`, or the aggregate `unmagic/components`.
+With the fold native, the element is small. It:
 
-`tool.progress(text)` renders an element with its own id
-(`#{id}_progress`) so the host can replace just that line as a tool reports. The
-gem renders it; the host broadcasts to it.
+- observes `state` and the `label-*` attributes, and reflects `state` and
+  `name` as properties. An unknown state reads as queued; assigning one throws
+  without changing the attribute;
+- keeps the glyph: on a state or label change it swaps the icon (the bundled
+  set, or the done icon from the glyph's template) and the status word, and
+  sets or clears `aria-busy` on the host;
+- inserts `<code>` from `name` into a hand-written summary that has none, and
+  updates it when the attribute changes. A name the server wrote is the
+  server's;
+- keeps an empty fold's summary out of the tab order, and puts it back when a
+  payload arrives, watching the fold's children for that;
+- defines the `tool_call_state` Turbo Stream action, which sets `state` on
+  each target.
+
+It does not create, move, wrap or remove anything else. Payloads, results and
+progress are where the server or the stream put them, with their listeners and
+focus intact, and a Turbo morph of the whole call morphs a stable tree. On
+`turbo:before-cache` there is nothing to reset. It composes `<unmagic-elapsed>`
+for the clock, which keeps the glyph and label the row puts before its reading,
+and leans on `ai_chat.js` for the reader's choice, which that script keys by the
+host's id for a tool call's fold as it keys the rest of the family by their
+marker.
 
 ## I18n
 
@@ -182,36 +288,66 @@ gem renders it; the host broadcasts to it.
 | `unmagic.components.ai_chat.tool_call.asked` | "Asked" |
 | `unmagic.components.ai_chat.tool_call.answered` | "Answered" |
 | `unmagic.components.ai_chat.tool_call.failures` | "%{count} failed" |
-| `unmagic.components.ai_chat.tool_call.working` | "Working" |
+| `unmagic.components.ai_chat.tool_call.partly_failed` | "Partly failed" |
+| `unmagic.components.ai_chat.tool_call.running_for` | "Running for" |
+| `unmagic.components.ai_chat.tool_call.took` | "Took" |
 
 ## Specs
 
 `spec/unmagic/components/ai_chat_tool_call_spec.rb`:
 
-- Each state's glyph, classes and visually hidden label.
-- `aria-busy` on a running row only.
-- `data-ai-chat-timeline="row"`, and its absence under `timeline: false`.
-- `icon:` overriding the done glyph, and only the done glyph.
-- Each builder part in its position; `made` outside the `<details>`.
-- No `<details>` at all when no part supplies content.
-- `open:` reaching the `details` element.
-- `ArgumentError` for an unknown state.
-- Passthrough `class:` and attributes.
+- The native shape: details, summary with code, span, readings as
+  `time`/`data`/`unmagic-elapsed`, progress as `output`, figures inside the
+  details, `made` after it, and no class, part or id on any child.
+- The glyph seeded for the state, with its word and the done icon's template.
+- `open:`, `timeline:`, `aria-busy`, translated labels, passthrough `class:`
+  and attributes, escaping, and `ArgumentError` for an unknown state.
+- A call with no parts still renders an empty details and summary.
+- The stream builder: each part's action and target, and the state action.
+
+`spec/e2e/ai_chat_tool_call_spec.rb`, in headless Chrome:
+
+- The markup is left as the server wrote it, plus the glyph.
+- An empty fold shows no chevron and is skipped by Tab; a streamed payload
+  gives it both back.
+- A payload appended to the details, progress updated, a result appended and
+  a state set through the stream actions all land where they should, and the
+  state change leaves them alone.
+- State colours reach the glyph and the name, helper's and hand-written alike.
+- Which readings show in each state, from CSS, including the clock over the
+  duration.
+- The reader's choice survives a replace and a morph of a call with an id, and
+  not of one without.
+- Every state by property and by attribute, relabelling, name reflection, and
+  a clone keeping one glyph.
+- Each consumer on a desktop in light and a phone in dark, with the keyboard.
+- Reduced motion pulses the spinner; forced colours keep the rails visible.
+- Without JavaScript the fold toggles natively, the state reads, and every
+  payload and result is on the page.
 
 ## Preview
 
-Page: `ai_chat`. A run of five calls in every state, with and without summaries,
-one with a partial-failure count, one with `made` content, one open, and one
-standing alone between two messages so the absent join can be seen. A second
-section shows the gap markers between rows.
+Page: `ai_chat_tool_call`. "A run of calls", "Every state" (each with every
+reading, so the state alone decides what shows), "What went in and what came
+back" (the payloads, open), "What a call made", and "Written by hand", which
+shows the hand-written form from Markup beside the helper's output, with
+buttons that change its state and add a payload.
 
-By hand: the line joins a run and breaks between unrelated rows; an open row
-keeps the line running through it; keyboard open/close; dark theme; reduced
-motion (the spinner pulses).
+By hand: open and shut a fold with JavaScript off; Tab past a queued call;
+the line joins a run and breaks between unrelated rows; an open row keeps the
+line running through it; dark theme; reduced motion.
 
 ## Open questions
 
-- Should the gem ship a `ai_chat_tool_calls` wrapper that renders a collection and
-  marks the runs itself? Proposed: no. The marking depends on entries the gem
-  never sees (the empty messages and tool receipts between the rows), so a
+- Should the family's other disclosures (reasoning, plans, workspace sections)
+  be keyed by an id of their own too, so the `data-ai-chat-disclosure` marker
+  goes everywhere? Proposed: yes, as a follow-up, since it touches four
+  components and this note only needed the tool call.
+- Should `code_view` get the same treatment, selected by a tag and its native
+  children rather than classes? Its class is the one that still appears inside
+  a payload's region. Proposed: decide for the whole gem in the principles
+  rather than one component at a time.
+- Should the gem ship an `ai_chat_tool_calls` wrapper that renders a collection
+  and marks the runs itself? Proposed: no. The marking depends on entries the
+  gem never sees (the empty messages and tool receipts between the rows), so a
   wrapper would only work for the simplest case and mislead in the rest.

@@ -16,7 +16,7 @@
     </div>
     <aside class="min-w-0 space-y-6">
       <%= card title: "Run summary" do %><%= detail_list do |list| %><% list.item "Files changed", "1" %><% list.item "Permission", "Read only" %><% list.item "Outcome", "Draft ready" %><% end %><% end %>
-      <%= ai_chat_payload({ run: "docs-review", files_read: 4, drafts: 2, writes: 0 }, label: "Run metadata", language: :json) %>
+      <%= card title: "Run metadata" do %><%= code_view(JSON.pretty_generate({ run: "docs-review", files_read: 4, drafts: 2, writes: 0 }), language: :json, copy: false) %><% end %>
     </aside>
   </div>
   <script type="module">

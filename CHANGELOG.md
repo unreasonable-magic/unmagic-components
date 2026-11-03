@@ -106,6 +106,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `ai_chat_tool_call` now renders `<unmagic-tool-call>` as HTML a person could
+  write: a `<details>` fold whose `<summary>` is the row, payloads inside it as
+  `<figure>`s, the result after it, readings as `<time>`, `<data>` and
+  `<unmagic-elapsed>`, progress as an `<output>`. The fold works without
+  JavaScript. The element adds only the state glyph, keeps an empty fold out of
+  the tab order, and remembers a reader's open or shut for a call with an `id:`.
+  `call.state = "done"` changes the glyph, status word, busy state and which
+  readings show, leaving the fold and payloads alone. Nothing carries a class or
+  a part name: the `UnmagicAIChatToolCall` and `UnmagicAIChatPayload` classes
+  are gone, so update selectors that target them. The Ruby API is unchanged.
+  Import `unmagic/components/tool_call` when not using the aggregate import.
+- `turbo_stream.ai_chat_tool_call(id)` updates a call on the page in the view
+  helper's words: `asked` and `answered` append a payload to the fold,
+  `progress` updates the row's output, `made` appends after the fold, and
+  `state` sets the attribute through the new `tool_call_state` stream action.
+- `ai_chat_payload` is a child of a tool call's fold or a failure's, a
+  captioned `<figure>`, with no look of its own elsewhere. Its browser page is
+  gone; the tool call page shows payloads inside a fold.
+- `elapsed_tag` keeps whatever sits before its reading when it redraws, and
+  `Elapsed#render` takes a block to put something there.
+
 - `ai_chat_message` is now a subclass of `message`: a user's turn is an own
   bubble, an assistant's a row. Its root carries `UnmagicMessage` classes beside
   `UnmagicAIChatMessage`, and `UnmagicAIChatMessage__bubble` and

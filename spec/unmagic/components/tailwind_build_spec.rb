@@ -25,7 +25,7 @@ RSpec.describe "the Tailwind stylesheet" do
       expect(status).to be_success, stderr
       css = File.read(output)
       expect(css).to include(".UnmagicInput", ".UnmagicCard", ".UnmagicMenu__panel", ".UnmagicTooltip__popup",
-        ".UnmagicAvatar--tint-6", ".UnmagicProse", ".UnmagicAIChat", ".UnmagicAIChatToolCall__join", ".UnmagicAIChatPermission__allow",
+        ".UnmagicAvatar--tint-6", ".UnmagicProse", ".UnmagicAIChat", "unmagic-tool-call", ".UnmagicAIChatPermission__allow",
         ".UnmagicBoard__cards", ".UnmagicTimeline__marker--dot", "[data-sortable-dragging]")
       expect(css).to include("@layer components")
       # The page's dark colours follow the host's dark variant, like every component's.

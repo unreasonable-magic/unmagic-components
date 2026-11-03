@@ -45,7 +45,7 @@ module Unmagic
           Block.new(slug: "assistant_workspace", name: "Research assistant", description: "A conversation with sources, slash commands, a composer, plan and files.",
             category: "AI workspaces", components: %w[ai_chat ai_chat_message ai_chat_reasoning ai_chat_tool_call message_attachments ai_chat_citation message_actions ai_chat_welcome ai_chat_composer ai_chat_slash_menu ai_chat_plan ai_chat_workspace tabs page_header]),
           Block.new(slug: "assistant_review", name: "Agent review", description: "Review an agent run with recorded decisions, permissions, drafts and diagnostics.",
-            category: "AI workspaces", components: %w[ai_chat_request ai_chat_permission ai_chat_proposal ai_chat_branch_picker ai_chat_failure ai_chat_payload tabs card detail_list page_header]),
+            category: "AI workspaces", components: %w[ai_chat_request ai_chat_permission ai_chat_proposal ai_chat_branch_picker ai_chat_failure tabs card detail_list page_header]),
           Block.new(slug: "team_inbox", name: "Team inbox", description: "A candidate's email thread beside the team's channel about it, with reactions, actions and someone typing.",
             category: "Messaging", components: %w[message_thread message message_actions message_attachments message_reactions message_separator message_typing text_highlights navbar page_header card avatar badge])
         ].freeze

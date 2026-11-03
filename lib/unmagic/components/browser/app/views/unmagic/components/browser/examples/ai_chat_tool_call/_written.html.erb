@@ -1,0 +1,22 @@
+<div id="tool_call_written" class="mx-auto max-w-2xl space-y-2.5">
+  <%= ai_chat_tool_call name: "search_files", state: :done, id: "written_helper" do |tool| %>
+    <% tool.summary "Configuration files · helper output" %>
+    <% tool.answered "config/database.yml" %>
+    <% tool.made { link_to "View configuration", "#tool_call_written", class: "underline" } %>
+  <% end %>
+  <unmagic-tool-call id="written_direct" name="read_file" state="running" data-ai-chat-timeline="row">
+    <details>
+      <summary>
+        <span>Direct HTML · change its state below</span>
+        <output>Reading configuration…</output>
+      </summary>
+    </details>
+    <a href="#tool_call_written" class="underline">A result, written after the fold</a>
+  </unmagic-tool-call>
+</div>
+<div class="mx-auto mt-4 flex max-w-2xl flex-wrap gap-2">
+  <% %w[queued running waiting done failed].each do |state| %>
+    <button type="button" class="UnmagicButton" onclick="document.getElementById('written_direct').state = '<%= state %>'"><%= state.humanize %></button>
+  <% end %>
+  <button type="button" class="UnmagicButton" onclick="document.querySelector('#written_direct > details').insertAdjacentHTML('beforeend', '<figure><figcaption>Answered</figcaption><div role=&quot;region&quot; tabindex=&quot;0&quot; aria-label=&quot;Answered&quot;><pre>config/database.yml</pre></div></figure>')">Add a payload</button>
+</div>

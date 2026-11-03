@@ -220,6 +220,15 @@ name, and the host `@import`s it after `tailwindcss`.
 - **Naming** is BEM with a PascalCase block: `UnmagicTooltip`,
   `UnmagicTooltip__popup`, `UnmagicTooltip--term`. Everything is prefixed, so
   nothing collides with host classes.
+  - **A custom element is styled without classes or part names of its own.**
+    Its tag is its block (`unmagic-tool-call`), its state is its attribute
+    (`[state="failed"]`), and its parts are the native elements they are: a
+    `<details>` for a fold, a `<figure>` for a captioned block, a `<time>` for
+    a duration, an `<output>` for a line that updates. The markup is HTML a
+    person could write, and it looks right before the element upgrades and
+    without script. The element adds the least it can, and what it does add
+    is selected by the data attribute it sets (`[data-tool-call-glyph]`).
+    Shared utilities (`UnmagicIcon`, `UnmagicVisuallyHidden`) still apply.
 - **State is styled from attributes the markup already carries**: ARIA or
   `data-*`, not state classes. For example `[aria-selected="true"]`,
   `[aria-current="page"]`, `[data-open]`, `[data-copied]`, `[hidden]`
@@ -484,8 +493,16 @@ So that this styling can't clash with a host's own inputs:
   - `ArgumentError` for every validated option (`primitives_spec.rb`).
 - **Configuration is reset after every example.** A spec that changes a seam
   needs no cleanup.
-- **There are no JavaScript tests.** Behaviour is verified by hand in the
-  browser, so the design note lists what to check there.
+- **JavaScript with logic worth pinning down gets an end-to-end spec** in
+  `spec/e2e/`, named for the component (`ai_chat_tool_call_spec.rb`).
+  - `require "e2e_helper"` serves the component browser from the spec
+    application and drives it in headless Chrome through unmagic-browser, so
+    Chrome has to be installed. `HEADFUL=1` runs it in a window.
+  - `visit_browser(path)` opens a page of the browser. `js(body)` runs a script
+    there and returns what it saw: act in JavaScript, assert in Ruby.
+  - Work on the browser's examples, and reach other pages as a reader would.
+- **Everything else is verified by hand in the browser**, so the design note
+  lists what to check there.
 
 ## Browser
 
