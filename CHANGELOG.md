@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- `code_view` line numbers past 999 no longer wrap mid-number and paint over
+  the next line's number. The number is `white-space: nowrap`, and the gutter
+  is sized from the line count through a new `--unmagic-code-view-digits` knob
+  (three digits at least), so a four- or five-digit block still lines up.
 - A table in a flush card no longer paints its header and hovered rows past
   the card's rounded corners. The flush body now clips its content to the
   card's radius, square at a corner that meets a header, bar or footer.

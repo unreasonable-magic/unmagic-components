@@ -54,6 +54,15 @@ RSpec.describe "code view" do
       expect(code.parent.parent["class"]).to include("UnmagicCodeView--lines")
     end
 
+    it "sizes the number gutter from the line count, three digits at least" do
+      expect(html(view.code_view("a\nb", lines: true)).at("div")["style"]).to eq("--unmagic-code-view-digits: 3")
+      expect(html(view.code_view("a\n" * 1500, lines: true)).at("div")["style"]).to eq("--unmagic-code-view-digits: 4")
+      expect(html(view.code_view("a\nb")).at("div")["style"]).to be_nil
+
+      capped = html(view.code_view("a\n" * 1500, lines: true, max_height: "20rem", style: "color: red")).at("div")
+      expect(capped["style"]).to eq("color: red; --unmagic-code-view-max-height: 20rem; --unmagic-code-view-digits: 4")
+    end
+
     it "is a focusable, named region when it can scroll" do
       pre = html(view.code_view("x", max_height: "20rem", label: "Backtrace")).at("pre")
       expect([ pre["tabindex"], pre["role"], pre["aria-label"] ]).to eq([ "0", "region", "Backtrace" ])

@@ -1311,13 +1311,16 @@ switcher or a `card` for a title.
 
 `language:` is a name Rouge knows (`:json`, `"ruby"`, `:erb`) or a lexer;
 unknown or `nil` is plain text. `lines: true` numbers the lines, and the numbers
-are drawn rather than written, so a copy leaves them behind. `wrap: false`
+are drawn rather than written, so a copy leaves them behind; the gutter is as
+wide as the last number, three digits at least. `wrap: false`
 scrolls sideways instead of wrapping. `max_height:` is a CSS length past which
 the block scrolls, and a block that can scroll is a focusable region named
 `label:` ("Code"). `id:` names the wrapper; the `<code>` is `"#{id}_code"`.
 Colouring goes through `config.highlight`; `config.code_block`, which tool
 payloads and prose code blocks render through, is a `code_view` by default.
-Knob: `--unmagic-code-view-max-height`. I18n: `unmagic.components.code_view.label`.
+Knobs: `--unmagic-code-view-max-height`, and `--unmagic-code-view-digits`, the
+width of the line-number gutter in characters, which `lines: true` sets from
+the line count. I18n: `unmagic.components.code_view.label`.
 Needs `import "unmagic/components/clipboard"` for the button.
 
 ## Separators, progress and spinners
