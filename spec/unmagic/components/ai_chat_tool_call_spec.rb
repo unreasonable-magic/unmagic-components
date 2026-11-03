@@ -12,7 +12,7 @@ RSpec.describe "AI chat tool calls and payloads" do
         tool.answered "No matches"
       end).at("unmagic-tool-call#call_1")
 
-      expect(call["class"]).to eq("UnmagicAIChatToolCall UnmagicAIChatToolCall--done extra")
+      expect(call["class"]).to eq("extra")
       expect(call["data-ai-chat-timeline"]).to eq("row")
       expect(call["state"]).to eq("done")
       expect(call["aria-busy"]).to be_nil
@@ -21,7 +21,7 @@ RSpec.describe "AI chat tool calls and payloads" do
       expect(call.at('[data-part="status"]').text).to eq("Done")
       expect(call.at('[data-part="duration"]').text).to eq("Took1s")
       expect(call.css('> [data-part="payload"] .UnmagicAIChatPayload__label').map(&:text)).to eq(%w[Asked Answered])
-      expect(call.at("details, .UnmagicAIChatToolCall__join, .UnmagicAIChatToolCall__rail")).to be_nil
+      expect(call.at("details")).to be_nil
     end
 
     it "supplies a live clock and stable progress stream target" do
@@ -70,7 +70,7 @@ RSpec.describe "AI chat tool calls and payloads" do
       expect(call.at("#element_call_progress").text).to eq("Still working")
       expect(call.css('> [data-part="payload"]').size).to eq(1)
       expect(call.at('> [data-part="result"] a')["href"]).to eq("/result")
-      expect(call.at("details, .UnmagicAIChatToolCall__join, .UnmagicAIChatToolCall__rail")).to be_nil
+      expect(call.at("details")).to be_nil
     end
 
     it "keeps calls without payloads readable and can opt out of the timeline" do
@@ -95,7 +95,7 @@ RSpec.describe "AI chat tool calls and payloads" do
       expect(call.at('[data-part="elapsed"] unmagic-elapsed')).not_to be_nil
       expect(call.at('[data-part="duration"]').text).to eq("Took0s")
       expect(call.at('template[data-part="success-icon"] svg')["data-unmagic-icon"]).to end_with("/folder")
-      expect(call.at(".UnmagicAIChatToolCall__glyph")).to be_nil
+      expect(call.at("[data-tool-call-glyph]")).to be_nil
     end
 
     it "supplies translated labels for future states" do

@@ -239,6 +239,15 @@ name, and the host `@import`s it after `tailwindcss`.
 - **Naming** is BEM with a PascalCase block: `UnmagicTooltip`,
   `UnmagicTooltip__popup`, `UnmagicTooltip--term`. Everything is prefixed, so
   nothing collides with host classes.
+  - **A custom element is styled without classes of its own.** Its tag is its
+    block (`unmagic-tool-call`), its parts are the `data-part` names the markup
+    already carries (`[data-part="name"]`), its state is its attribute
+    (`[state="failed"]`), and what the element generates is selected by the
+    data attribute it sets (`[data-tool-call-glyph]`). A part addressed by
+    class and by attribute is addressed twice, and the element then has to
+    paint the class on; selecting by attribute means direct HTML looks right
+    before upgrade and without script. Shared utilities (`UnmagicIcon`,
+    `UnmagicVisuallyHidden`) still apply.
 - **State is styled from attributes the markup already carries**: ARIA or
   `data-*`, not state classes. For example `[aria-selected="true"]`,
   `[aria-current="page"]`, `[data-open]`, `[data-copied]`, `[hidden]`

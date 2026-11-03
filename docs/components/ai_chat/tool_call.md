@@ -76,9 +76,10 @@ control does not become hidden. This does not overwrite the stored reader choice
 
 CSS pseudo-elements draw the connectors. Physical adjacency includes explicit
 timeline gap markers. Requests and permissions do not participate. Hosts using
-`div.UnmagicAIChatToolCall`, `__join`, or `__rail` selectors must migrate them;
-those nodes no longer exist. Import `unmagic/components/tool_call` before relying
-on disclosures. The aggregate import already includes it.
+any `UnmagicAIChatToolCall` class selector must migrate to the tag, its `state`
+attribute and its `data-part` names; the classes no longer exist. Import
+`unmagic/components/tool_call` before relying on disclosures. The aggregate
+import already includes it.
 
 Verify dynamic payload insertion/removal, results outside the fold, node identity,
 keyboard focus, clone/move/reconnect, ID-keyed replacement, and Turbo cache/morph.
@@ -241,8 +242,15 @@ Without JavaScript the row, payloads and results remain visible, without folding
 
 CSS section: **AI chat tool calls**.
 
-Internal classes style the row, disclosure, glyph, name, summary, readings,
-body and result. Public `data-part` attributes identify caller-owned content.
+Nothing is styled by class. The element is selected by its tag, its state by
+the `state` attribute, and every part by the `data-part` name the markup already
+carries: `unmagic-tool-call[state="failed"] > [data-part="row"] > [data-part="name"]`.
+What the element generates is selected by the data attribute it sets on it:
+`details[data-tool-call-generated]`, `[data-tool-call-body]`,
+`[data-tool-call-glyph]`. So a tool call written as direct HTML looks right
+before the element upgrades, and without JavaScript at all, and the host's
+`class:` is the caller's alone. Rules reach the row's parts through child
+combinators, so a call nested in another's payload keeps its own state colours.
 The host's `::before` joins adjacent timeline participants; the generated body's
 and result's `::before` draw the vertical rails.
 

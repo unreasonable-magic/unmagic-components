@@ -2108,8 +2108,9 @@ adds/removes a native disclosure when payloads arrive/disappear, keeps results
 outside the fold, and draws connectors through CSS. Without JavaScript all
 content remains readable. The legacy `<div>` renderer and temporary `element:`
 option have been removed; existing builder calls use the element automatically.
-Update host selectors that depend on `div.UnmagicAIChatToolCall`, `__join`, or
-`__rail`, and include the element import when importing modules individually.
+It carries no `UnmagicAIChatToolCall` classes: style it by tag, `state` and
+`data-part`. Update host selectors that depend on those classes, and include the
+element import when importing modules individually.
 
 Import `unmagic/components/tool_call` individually or use the aggregate import.
 Set `call.state = "done"` or `call.setAttribute("state", "done")` to update its

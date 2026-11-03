@@ -36,8 +36,7 @@ RSpec.describe Unmagic::Components::Browser do
       %w[/components /components/ai_chat_tool_call /components/ai_chat /blocks/assistant_workspace/preview].each do |path|
         content = page(path)
         expect(content.css("unmagic-tool-call")).not_to be_empty, path
-        expect(content.css("div.UnmagicAIChatToolCall, .UnmagicAIChatToolCall__join, .UnmagicAIChatToolCall__rail"))
-          .to be_empty, path
+        expect(content.css('[class*="UnmagicAIChatToolCall"]')).to be_empty, path
       end
       expect(described_class::Catalog.find("ai_chat_tool_call").import).to eq("unmagic/components/tool_call")
     end

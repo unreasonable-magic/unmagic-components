@@ -108,8 +108,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   native disclosures as payloads arrive, preserves reader choices, and draws
   connectors through CSS. Ruby retains escaping, translations and formatting.
   Remove the temporary `element:` option. Import `unmagic/components/tool_call`
-  when not using the aggregate import. The legacy `div.UnmagicAIChatToolCall`,
-  `__join` and `__rail` nodes are gone; update selectors that target them.
+  when not using the aggregate import. The `UnmagicAIChatToolCall` classes are
+  gone, block, parts and state modifiers alike: the CSS selects the element by
+  tag, its `state` attribute and its `data-part` names, so direct HTML is styled
+  before upgrade and without script. Update selectors that target the classes.
   Without JavaScript all content remains visible, without folding.
 
 - `ai_chat_message` is now a subclass of `message`: a user's turn is an own

@@ -4822,15 +4822,15 @@
 
   /* The family's disclosures are rows, not buttons: no marker, a pointer, and the
      shared focus ring. */
-  :is(.UnmagicAIChatToolCall, .UnmagicAIChatReasoning, .UnmagicAIChatFailure, .UnmagicAIChatPlan, .UnmagicAIChatWorkspace) summary {
+  :is(unmagic-tool-call, .UnmagicAIChatReasoning, .UnmagicAIChatFailure, .UnmagicAIChatPlan, .UnmagicAIChatWorkspace) summary {
     @apply cursor-pointer list-none select-none;
   }
 
-  :is(.UnmagicAIChatToolCall, .UnmagicAIChatReasoning, .UnmagicAIChatFailure, .UnmagicAIChatPlan, .UnmagicAIChatWorkspace) summary::-webkit-details-marker {
+  :is(unmagic-tool-call, .UnmagicAIChatReasoning, .UnmagicAIChatFailure, .UnmagicAIChatPlan, .UnmagicAIChatWorkspace) summary::-webkit-details-marker {
     @apply hidden;
   }
 
-  :is(.UnmagicAIChatToolCall, .UnmagicAIChatReasoning, .UnmagicAIChatFailure, .UnmagicAIChatPlan, .UnmagicAIChatWorkspace) summary:focus-visible {
+  :is(unmagic-tool-call, .UnmagicAIChatReasoning, .UnmagicAIChatFailure, .UnmagicAIChatPlan, .UnmagicAIChatWorkspace) summary:focus-visible {
     @apply rounded-xs outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
   }
 
@@ -4874,91 +4874,119 @@
 
   /* ----------------------------------------------------- AI chat tool calls */
 
-  .UnmagicAIChatToolCall {
-    @apply relative text-sm text-neutral-500 dark:text-neutral-400;
+  /* Styled by tag and by the attributes the markup already carries, never by
+     class: the element's state is its state attribute, and its parts are the
+     data-part nodes the caller owns, so direct HTML looks right before the
+     element upgrades and without any script at all. The row is a plain span
+     until the element folds payloads under it, when it moves inside the
+     disclosure's summary; the summary then takes the row's layout and the row
+     dissolves into it. Child combinators keep a nested call's parts its own. */
+  unmagic-tool-call {
+    @apply relative block text-sm text-neutral-500 dark:text-neutral-400;
+
+    & > [data-part="row"],
+    & > details[data-tool-call-generated] > summary {
+      @apply flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5;
+    }
+
+    & > details[data-tool-call-generated] > summary:hover {
+      @apply text-neutral-900 dark:text-neutral-100;
+    }
+
+    & > details[data-tool-call-generated] > summary > [data-part="row"] {
+      display: contents;
+    }
+
+    & [data-part][hidden] {
+      display: none !important;
+    }
   }
 
-  .UnmagicAIChatToolCall__row {
-    @apply flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5;
+  /* The row's parts, wherever the row is. */
+  :is(unmagic-tool-call > [data-part="row"],
+      unmagic-tool-call > details[data-tool-call-generated] > summary > [data-part="row"]) {
+    & > [data-tool-call-glyph] {
+      @apply inline-flex shrink-0;
+
+      & .UnmagicIcon {
+        @apply size-3.5;
+      }
+    }
+
+    & > [data-part="name"] {
+      @apply font-mono text-xs;
+    }
+
+    & > [data-part="summary"] {
+      @apply min-w-0 truncate font-medium text-neutral-700 dark:text-neutral-300;
+    }
+
+    /* Beside the name rather than hard right: there's no box edge to flush them to,
+       and a clock alone at the far side of a wide column belongs to nothing. */
+    & > [data-part="readings"] {
+      @apply inline-flex shrink-0 items-center gap-2.5;
+
+      /* Each reading leads with a glyph, so a run of small grey numbers can be
+         told apart before the digits are read. */
+      & > [data-part] {
+        @apply inline-flex items-center gap-1 font-mono text-xs text-neutral-400 tabular-nums dark:text-neutral-500;
+
+        & .UnmagicIcon {
+          @apply size-3.5;
+        }
+      }
+
+      & > [data-part="failures"] {
+        @apply text-amber-600 dark:text-amber-500;
+      }
+    }
+
+    & > [data-part="progress"] {
+      @apply basis-full pl-5.5 text-xs text-neutral-400 dark:text-neutral-500;
+    }
   }
 
-  summary.UnmagicAIChatToolCall__row:hover {
-    @apply text-neutral-900 dark:text-neutral-100;
+  /* Progress occupies its own line; the disclosure arrow belongs above it. */
+  unmagic-tool-call > details[data-tool-call-generated] > summary > [data-part="row"] > [data-part="progress"] {
+    order: 1;
   }
 
-  .UnmagicAIChatToolCall__glyph {
-    @apply inline-flex shrink-0;
+  /* State colours the glyph, and a failure colours the name with it. Each rule
+     spells out both of the row's paths: `> :is(a, b > c)` would not do, since
+     a child combinator before `:is()` binds to the subject of every branch. */
+  unmagic-tool-call:is([state="done"], [state="queued"]) {
+    & > [data-part="row"] > [data-tool-call-glyph],
+    & > details[data-tool-call-generated] > summary > [data-part="row"] > [data-tool-call-glyph] {
+      @apply text-neutral-400 dark:text-neutral-500;
+    }
   }
 
-  .UnmagicAIChatToolCall__glyph .UnmagicIcon {
-    @apply size-3.5;
+  unmagic-tool-call[state="waiting"] {
+    & > [data-part="row"] > [data-tool-call-glyph],
+    & > details[data-tool-call-generated] > summary > [data-part="row"] > [data-tool-call-glyph] {
+      @apply text-amber-600 dark:text-amber-500;
+    }
   }
 
-  .UnmagicAIChatToolCall--done .UnmagicAIChatToolCall__glyph,
-  .UnmagicAIChatToolCall--queued .UnmagicAIChatToolCall__glyph {
-    @apply text-neutral-400 dark:text-neutral-500;
-  }
-
-  .UnmagicAIChatToolCall--waiting .UnmagicAIChatToolCall__glyph {
-    @apply text-amber-600 dark:text-amber-500;
-  }
-
-  .UnmagicAIChatToolCall--failed .UnmagicAIChatToolCall__glyph,
-  .UnmagicAIChatToolCall--failed .UnmagicAIChatToolCall__name {
-    @apply text-red-600 dark:text-red-400;
-  }
-
-  .UnmagicAIChatToolCall__name {
-    @apply font-mono text-xs;
-  }
-
-  .UnmagicAIChatToolCall__summary {
-    @apply min-w-0 truncate font-medium text-neutral-700 dark:text-neutral-300;
-  }
-
-  /* Beside the name rather than hard right: there's no box edge to flush them to,
-     and a clock alone at the far side of a wide column belongs to nothing. */
-  .UnmagicAIChatToolCall__readings {
-    @apply inline-flex shrink-0 items-center gap-2.5;
-  }
-
-  .UnmagicAIChatToolCall__reading {
-    @apply inline-flex items-center gap-1 font-mono text-xs text-neutral-400 tabular-nums dark:text-neutral-500;
-  }
-
-  .UnmagicAIChatToolCall__reading .UnmagicIcon {
-    @apply size-3.5;
-  }
-
-  .UnmagicAIChatToolCall__reading--warn {
-    @apply text-amber-600 dark:text-amber-500;
-  }
-
-  .UnmagicAIChatToolCall__progress {
-    @apply basis-full pl-5.5 text-xs text-neutral-400 dark:text-neutral-500;
+  unmagic-tool-call[state="failed"] {
+    & > [data-part="row"] > :is([data-tool-call-glyph], [data-part="name"]),
+    & > details[data-tool-call-generated] > summary > [data-part="row"] > :is([data-tool-call-glyph], [data-part="name"]) {
+      @apply text-red-600 dark:text-red-400;
+    }
   }
 
   /* An open call keeps the line running down its own body, so it's a stretch of
      the run rather than a hole in it. Anything under a row hangs off the glyph's
      column. */
-  .UnmagicAIChatToolCall__body {
+  unmagic-tool-call > details[data-tool-call-generated] > [data-tool-call-body] {
     @apply relative mt-2 flex flex-col gap-3 pb-1 pl-5.5;
   }
 
-  .UnmagicAIChatToolCall__made {
+  unmagic-tool-call > [data-part="result"] {
     @apply relative mt-2 flex flex-wrap gap-2 pl-5.5;
   }
 
-  /* The element owns decoration and disclosure; public parts remain caller-owned
-     stream targets. Only adjacent timeline participants get a joining line. */
-  unmagic-tool-call {
-    @apply block;
-  }
-
-  unmagic-tool-call [data-part][hidden] {
-    display: none !important;
-  }
-
+  /* Only adjacent timeline participants get a joining line. */
   [data-ai-chat-timeline] + unmagic-tool-call[data-ai-chat-timeline]::before {
     @apply absolute w-px -translate-x-1/2 bg-neutral-200 content-[''];
     left: 0.4375rem;
@@ -4969,15 +4997,6 @@
 
   unmagic-tool-call > [data-part="payload"] {
     @apply mt-2 pl-5.5;
-  }
-
-  unmagic-tool-call > details[data-tool-call-generated] > summary > [data-part="row"] {
-    display: contents;
-  }
-
-  /* Progress occupies its own line; the disclosure arrow belongs above it. */
-  unmagic-tool-call > details[data-tool-call-generated] > summary > [data-part="row"] > .UnmagicAIChatToolCall__progress {
-    order: 1;
   }
 
   unmagic-tool-call > details[data-tool-call-generated] > summary::after {

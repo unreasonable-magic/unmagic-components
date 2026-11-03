@@ -4,7 +4,7 @@ require "e2e_helper"
 
 RSpec.describe "ai_chat_tool_call in a browser" do
   states = %w[queued running waiting done failed]
-  legacy = "div.UnmagicAIChatToolCall, .UnmagicAIChatToolCall__join, .UnmagicAIChatToolCall__rail"
+  legacy = '[class*="UnmagicAIChatToolCall"]'
 
   # The direct-HTML example has no payload. Streaming one in is where most of
   # the element's work starts, so the examples below share this opening.
@@ -62,8 +62,38 @@ RSpec.describe "ai_chat_tool_call in a browser" do
 
     it "orders the progress line after the disclosure arrow, so the arrow can't wrap below it" do
       expect(js(<<~JS)).to eq("1")
-        return getComputedStyle(document.querySelector("#tool_call_element_states .UnmagicAIChatToolCall__progress")).order
+        return getComputedStyle(document.querySelector('#tool_call_element_states [data-part="progress"]')).order
       JS
+    end
+
+    # The row sits loose on the host until payloads fold it into a summary, and
+    # the state colours have to reach it down both paths; a selector that only
+    # found the loose row left a folded call's failure grey.
+    it "colours the glyph by state, and the name by failure, folded or not" do
+      seen = js(<<~JS)
+        const colour = node => getComputedStyle(node).color
+        const direct = document.querySelector("#element_direct")
+        direct.state = "failed"
+        await repaint()
+        const folded = Object.fromEntries(#{states.to_json}.map(state => {
+          const call = document.querySelector(`#element_state_${state}`)
+          return [ state, {
+            folded: !!call.querySelector(":scope > details"),
+            glyph: colour(call.querySelector("[data-tool-call-glyph]")),
+            name: colour(call.querySelector('[data-part="name"]'))
+          } ]
+        }))
+        return { folded, direct: { glyph: colour(direct.querySelector("[data-tool-call-glyph]")), name: colour(direct.querySelector('[data-part="name"]')) } }
+      JS
+
+      folded = seen["folded"]
+      expect(folded.values.map { |call| call["folded"] }).to all(be(true))
+      expect(folded["failed"]["glyph"]).to eq(folded["failed"]["name"])
+      expect(folded["failed"]["name"]).to eq(seen["direct"]["name"])
+      expect(folded["failed"]["glyph"]).to eq(seen["direct"]["glyph"])
+      expect([ folded["waiting"]["glyph"], folded["failed"]["glyph"], folded["done"]["glyph"], folded["running"]["glyph"] ].uniq.size).to eq(4)
+      expect(folded["queued"]["glyph"]).to eq(folded["done"]["glyph"])
+      expect(folded.except("failed").values.map { |call| call["name"] }.uniq).to eq([ folded["running"]["name"] ])
     end
 
     it "joins neighbouring calls with a line, and stops at a message or a call outside the timeline" do
