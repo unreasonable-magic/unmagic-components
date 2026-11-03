@@ -51,9 +51,20 @@ module Unmagic
 
       # The height is a knob rather than a class, so a container can set it for
       # every code view inside it (a tool payload does) and an instance can still
-      # name its own.
+      # name its own. The gutter is sized from the longest line number, so a
+      # block past 999 lines still lines up; never narrower than three digits.
       def style
-        [ @options[:style], ("--unmagic-code-view-max-height: #{@max_height}" if @max_height) ].compact.join("; ").presence
+        knobs = []
+        knobs << "--unmagic-code-view-max-height: #{@max_height}" if @max_height
+        knobs << "--unmagic-code-view-digits: #{digits}" if @lines
+
+        [ @options[:style], *knobs ].compact.join("; ").presence
+      end
+
+      def digits = [ lines.length.to_s.length, 3 ].max
+
+      def lines
+        @lines_of_source ||= Components.configuration.highlight.call(@source, @language)
       end
 
       # A block that can scroll is focusable and named, so a keyboard can scroll
@@ -77,8 +88,6 @@ module Unmagic
       # <code>'s text keeps the line breaks and leaves the numbers, which are
       # drawn by CSS, behind.
       def body
-        lines = Components.configuration.highlight.call(@source, @language)
-
         if @lines
           safe_join(lines.map { |line| tag.span(line + "\n", class: "UnmagicCodeView__line") })
         else

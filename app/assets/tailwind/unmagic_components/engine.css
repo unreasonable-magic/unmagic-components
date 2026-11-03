@@ -3541,19 +3541,23 @@
 
   /* Line numbers are drawn, not written, so a copy of the code leaves them
      behind. Each line is a block holding its own newline, so a wrapped line
-     indents under its number and an empty line keeps its height. */
+     indents under its number and an empty line keeps its height. The gutter
+     is as wide as the longest number, in ch of the block's own mono font, from
+     a knob Ruby sets per block; a number never wraps, whatever the width. */
   .UnmagicCodeView--lines .UnmagicCodeView__pre {
     counter-reset: line;
   }
 
   .UnmagicCodeView__line {
-    @apply relative block pl-10;
+    @apply relative block;
+    padding-left: calc(var(--unmagic-code-view-digits, 3) * 1ch + 1rem);
     counter-increment: line;
     min-height: 1lh;
   }
 
   .UnmagicCodeView__line::before {
-    @apply absolute left-0 w-8 pr-2 text-right text-neutral-400 select-none dark:text-neutral-600;
+    @apply absolute left-0 pr-2 text-right whitespace-nowrap text-neutral-400 select-none dark:text-neutral-600;
+    width: calc(var(--unmagic-code-view-digits, 3) * 1ch + 0.5rem);
     content: counter(line);
   }
 

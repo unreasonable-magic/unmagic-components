@@ -31,7 +31,7 @@ control; `FormBuilder#text_area` with a monospace class is that.
 |---|---|---|---|
 | `source` (positional) | String | — | `nil` renders an empty block |
 | `language:` | Symbol, String, Rouge lexer class or instance, `nil` | `nil` | A name Rouge knows (`:json`, `"ruby"`, `:erb`). Unknown or `nil` is plain text, uncoloured |
-| `lines:` | Boolean | `false` | Numbers the lines. The numbers are drawn by CSS, so a copy leaves them behind |
+| `lines:` | Boolean | `false` | Numbers the lines. The numbers are drawn by CSS, so a copy leaves them behind. Sets the `--unmagic-code-view-digits` knob from the line count, three at least |
 | `wrap:` | Boolean | `true` | `false` keeps each line on one line and scrolls sideways |
 | `max_height:` | CSS length or `nil` | `nil` | Past it the block scrolls. Sets the `--unmagic-code-view-max-height` knob |
 | `copy:` | Boolean | `true` | The copy button |
@@ -62,7 +62,9 @@ control; `FormBuilder#text_area` with a monospace class is that.
 
 With `lines: true`, each line is `<span class="UnmagicCodeView__line">…\n</span>`:
 a block holding its own newline, so the text a copy takes still has its line
-breaks, and a wrapped continuation indents under its number.
+breaks, and a wrapped continuation indents under its number. The wrapper's
+`style` carries `--unmagic-code-view-digits: 4` for a block of 1,000 to 9,999
+lines, and the gutter and the lines' left padding are `calc`ed from it in `ch`.
 
 With `max_height:` or `wrap: false` the `<pre>` gains `tabindex="0"
 role="region" aria-label="Code"`.
@@ -96,6 +98,10 @@ Markdown renderer already mean by a code block.
   sky and violet at `700`/`300`.
 - Knob: `--unmagic-code-view-max-height`, read by `__pre`, set by `max_height:`
   or by a container for every code view inside it (`ai_chat_payload` does).
+- Knob: `--unmagic-code-view-digits`, read by `__line` and its `::before`, set
+  by `lines: true` from the number of lines (minimum 3). The number itself is
+  `white-space: nowrap`, so it never breaks across two rows however narrow the
+  gutter is.
 - Motion: the copy button fades in over 150ms; off under reduced motion.
 
 ## Small screens
@@ -124,9 +130,9 @@ None of its own. The copy button needs `import "unmagic/components/clipboard"`.
 `spec/unmagic/components/code_view_spec.rb`: `Highlight.lines` cuts tokens at
 newlines, escapes, keeps empty lines and drops the trailing newline, finds
 lexers by name, class and instance; the view's structure, the copy button's
-`for`, numbered lines carrying their newlines, the region attributes and knob
-when scrollable, passthrough options, the `highlight` seam, and `code_block`'s
-new default.
+`for`, numbered lines carrying their newlines and the digits knob sized from
+the line count, the region attributes and knob when scrollable, passthrough
+options, the `highlight` seam, and `code_block`'s new default.
 
 ## Preview
 
