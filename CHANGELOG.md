@@ -9,6 +9,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `prose(html)`: a host's rendered, sanitised Markdown with each code block
+  redrawn through the new `config.prose_code_block`, by default a `code_view`
+  captioned with its fence's language and a copy button. Before, prose code
+  blocks were whatever the host's renderer made: unhighlighted, uncaptioned and
+  not copyable.
+- `code_view caption:`: a header over the code naming what it holds, with the
+  copy button beside it rather than floating over the first line.
+- `UnmagicAIChatScroller`, for the element `ai_chat`'s `scroller:` names: turns
+  fade out under the header and the composer instead of meeting them at a hard
+  edge.
+- The `square` icon.
+
+### Changed
+
+- The AI chat composer is one rounded card at every width: the field across the
+  top, a quiet toolbar under it (attach and actions as ghost controls, a select
+  as wide as its value), and Send, Stop and Stopping as round icon-only buttons
+  in its corner, their names kept for screen readers and a hover. Send dims while
+  the field is empty. Breaking for a host that styled the old row or relied on
+  the buttons' visible text.
+- A person's turn in an AI chat is a soft neutral bubble rather than the
+  inverted one, and replies are a size up (15px) from the prose default.
+- Reasoning is a quiet line that opens into the thinking beside a hairline,
+  rather than a bordered box.
+- An AI chat failure is a plain card, red only in its icon, its cause in muted
+  monospace.
+- Inline code in prose is lighter, and the jump-to-latest button smaller.
+- `UnmagicPage` themes the scrollbars and text selection from the palette.
+- A confirmation's destructive button (`data-turbo-confirm-variant="danger"`) is
+  filled.
+
+### Added
+
 - `viewport_tag`, the frame for a full-screen app that stays on screen when a
   phone's keyboard opens (`<unmagic-viewport>`). iOS Safari slides a `100dvh`
   page up to show the focused field, taking its header off the top; this frame

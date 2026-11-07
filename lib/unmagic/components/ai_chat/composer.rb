@@ -34,28 +34,31 @@ module Unmagic
 
           private
 
+          # Round, icon-only buttons in the toolbar's corner, as a chat's are. Each keeps
+          # its name, as the button's text for a screen reader and its title for a
+          # hover.
           def send_button(view, form, label)
             label ||= AIChat.t("composer.send", default: "Send")
-            view.tag.button(type: "submit", form: form, class: Button.classes(:primary)) do
-              view.safe_join [ view.tag.span(label), Icons.svg(view, :arrow_up) ]
-            end
+            round_button(view, label, :arrow_up, type: "submit", form: form,
+              class: view.class_names(Button.classes(:primary), "UnmagicAIChatComposer__send"))
           end
 
           def stop_button(view, stop_form)
-            view.tag.button(type: "submit", form: stop_form,
-              class: view.class_names(Button.classes, "UnmagicAIChatComposer__stop")) do
-              view.safe_join [ Icons.svg(view, :circle_stop), AIChat.t("composer.stop", default: "Stop") ]
-            end
+            round_button(view, AIChat.t("composer.stop", default: "Stop"), :square, type: "submit", form: stop_form,
+              class: view.class_names(Button.classes(:primary), "UnmagicAIChatComposer__stop"))
           end
 
-          # Asked, not yet granted: a button still reading Stop looks like one that
+          # Asked, not yet granted: a button still showing Stop looks like one that
           # didn't work, and gets pressed again.
           def stopping_button(view)
-            view.tag.button(type: "button", disabled: true, class: Button.classes) do
-              view.safe_join [
-                Icons.svg(view, :loader_circle, class: "UnmagicAIChatSpinner"),
-                AIChat.t("composer.stopping", default: "Stopping…")
-              ]
+            round_button(view, AIChat.t("composer.stopping", default: "Stopping…"), :loader_circle,
+              icon_class: "UnmagicAIChatSpinner", type: "button", disabled: true,
+              class: view.class_names(Button.classes, "UnmagicAIChatComposer__stopping"))
+          end
+
+          def round_button(view, label, icon, icon_class: nil, **options)
+            view.tag.button(**options, title: label) do
+              view.safe_join [ Icons.svg(view, icon, class: icon_class), view.tag.span(label, class: "UnmagicVisuallyHidden") ]
             end
           end
         end
