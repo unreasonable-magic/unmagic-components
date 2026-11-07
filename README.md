@@ -2201,7 +2201,13 @@ true` adds a copy button. `nil` renders nothing. I18n:
   `ai_chat_composer_action(form:, state:)`.
 - **Keys:** Enter sends and Shift+Enter makes a new line. Enter does nothing
   while there's no Send button. A successful submit resets the form and keeps
-  focus in the field.
+  focus in the field. On a touch screen with no mouse, Return makes a new line
+  and the Send button sends.
+- **It takes the keyboard.** Where there's a mouse the field takes focus as the
+  page loads, unless something else has it, and a printable key pressed while
+  nothing is being typed into goes to the field, that keystroke included.
+  Shortcuts (Cmd, Ctrl, Alt), other fields, an open dialog or popover, and Space
+  on a focused button keep their keys.
 - **Parts:** `composer.optimistic(id:, container:)`, `composer.attach { }`,
   `composer.actions { }` and `composer.menu { }` (an `ai_chat_slash_menu`).
 - **The field** is the composer's own chrome, not a `control_class` control: the
