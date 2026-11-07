@@ -107,4 +107,67 @@ RSpec.describe "code view" do
       expect(block.at("unmagic-clipboard")).to be_nil
     end
   end
+
+  describe "#code_view caption:" do
+    it "names the block over the code and moves the copy button beside the name" do
+      root = html(view.code_view("x = 1", language: :ruby, caption: "ruby", title: "T")).at("div.UnmagicCodeView")
+
+      expect(root["class"]).to eq("UnmagicCodeView UnmagicCodeView--captioned")
+      expect(root["title"]).to eq("T")
+      header = root.at("> .UnmagicCodeView__header")
+      expect(header.at(".UnmagicCodeView__caption").text).to eq("ruby")
+      expect(header.at("unmagic-clipboard")["for"]).to eq("#{root["id"]}_code")
+      expect(root.at("> .UnmagicCodeView__copy")).to be_nil
+      expect(root.at("pre")).not_to be_nil
+    end
+
+    it "keeps the header without the button when copy: false" do
+      header = html(view.code_view("x", caption: "text", copy: false)).at(".UnmagicCodeView__header")
+
+      expect(header.text).to eq("text")
+      expect(header.at("unmagic-clipboard")).to be_nil
+    end
+  end
+
+  describe "#prose" do
+    it "redraws each code block as a captioned code view, by the language its fence named" do
+      doc = html(view.prose(<<~HTML))
+        <p>Run <code>this</code>:</p>
+        <pre lang="ruby"><code>puts 1
+        </code></pre>
+        <pre><code class="language-sh">ls &lt;dir&gt;</code></pre>
+        <pre><code>plain</code></pre>
+      HTML
+
+      blocks = doc.css(".UnmagicProse__code.not-prose > .UnmagicCodeView")
+      expect(blocks.map { |b| b.at(".UnmagicCodeView__caption").text }).to eq(%w[ ruby sh text ])
+      expect(blocks.map { |b| b.at("code").text }).to eq([ "puts 1", "ls <dir>", "plain" ])
+      expect(blocks.first.at("code")["class"]).to eq("UnmagicCodeView__code language-ruby")
+      expect(doc.at("p code").text).to eq("this")
+      expect(doc.to_html).not_to include("<dir>")
+    end
+
+    it "leaves a pre that isn't one code element alone" do
+      doc = html(view.prose("<pre>ascii art</pre><pre><code>a</code><code>b</code></pre>"))
+
+      expect(doc.css(".UnmagicCodeView")).to be_empty
+      expect(doc.css("pre").length).to eq(2)
+    end
+
+    it "renders through config.prose_code_block, and blank as nothing" do
+      calls = []
+      Unmagic::Components.configure do |config|
+        config.prose_code_block = lambda do |v, source, language|
+          calls << [ source, language ]
+          v.tag.pre(source, class: "hl")
+        end
+      end
+
+      expect(html(view.prose("<pre><code>y</code></pre>")).at(".UnmagicProse__code pre.hl").text).to eq("y")
+      expect(calls).to eq([ [ "y", nil ] ])
+      expect(view.prose(nil)).to eq("")
+    ensure
+      Unmagic::Components.configure { |config| config.prose_code_block = nil }
+    end
+  end
 end

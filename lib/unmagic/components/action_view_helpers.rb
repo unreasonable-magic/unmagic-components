@@ -1101,6 +1101,20 @@ module Unmagic
           .render(block ? capture(&block) : nil)
       end
 
+      # Rendered, sanitised Markdown (or any prose HTML) finished for reading: each
+      # code block is redrawn through config.prose_code_block, by default a
+      # code_view captioned with its fence's language and a copy button.
+      #
+      #   <div class="UnmagicProse"><%= prose sanitize(markdown_to_html(reply)) %></div>
+      #
+      # The gem still never parses Markdown: hand it the HTML your renderer made and
+      # your sanitiser passed. Run it after sanitising, or the sanitiser strips the
+      # code view's markup. A <pre> holding anything but one <code> is left alone.
+      # Blank renders nothing.
+      def prose(html)
+        Components::Prose.new(self, html).render
+      end
+
       # A block of source to read or copy: a file, a payload, a command to paste.
       # Coloured with Rouge, wrapping long lines, with a copy button in the corner.
       #
