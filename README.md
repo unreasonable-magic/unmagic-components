@@ -1133,6 +1133,30 @@ The navigation down the side of an app. One `<nav>` for both widths: a popover
 sheet from the edge below `collapse_below:` that the toggle opens with no
 script, inline above it. Needs `import "unmagic/components/sidebar"`.
 
+### `viewport_tag(**options, &block)`
+
+```erb
+<body>
+  <%= viewport_tag class: "flex flex-col" do %>
+    <header>…</header>
+    <main class="min-h-0 flex-1 overflow-y-auto">…</main>
+    <footer>…a composer…</footer>
+  <% end %>
+</body>
+```
+
+The frame for a full-screen app that has to stay put when a phone's keyboard
+opens, such as a chat. The keyboard shrinks the visual viewport but not the
+page, so iOS Safari slides a `100dvh` page up to show the focused field and its
+header goes off the top. `<unmagic-viewport>` keeps this frame fixed over the
+visual viewport instead: as tall as what's above the keyboard, moved with
+Safari's pan. The frame never scrolls; give the part that should `min-h-0` and
+`overflow-y-auto`. While the page is pinch-zoomed it stops following. Without
+script it is `100dvh`. Popovers and dialogs (a `sidebar` drawer, a `modal`) are
+in the top layer and open over it as usual. Ordinary scrolling pages don't
+need it. Other options go on the element. Needs
+`import "unmagic/components/viewport"`.
+
 ### `navbar(label: nil, sticky: false, collapse: :md, **options, &block)`
 
 The bar across the top: `nav.brand`, `nav.link … current:`, `nav.actions`. On a

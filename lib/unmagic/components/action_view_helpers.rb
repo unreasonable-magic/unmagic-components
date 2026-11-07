@@ -1269,6 +1269,26 @@ module Unmagic
         Components::ConfirmTemplate.new(self).render
       end
 
+      # A full-screen app's frame that stays on screen when a phone's keyboard opens:
+      # a chat whose composer sits on the keyboard while its header stays put.
+      #
+      #   <body>
+      #     <%= viewport_tag class: "flex flex-col" do %>…the app…<% end %>
+      #   </body>
+      #
+      # The keyboard shrinks the visual viewport but not the page, so iOS Safari
+      # slides a 100dvh page up to show the focused field and its header scrolls
+      # away. This frame is fixed over the visual viewport instead: as tall as
+      # what's above the keyboard, moved with Safari's pan. Its content scrolls
+      # inside it (give the scrolling part min-h-0 and overflow-y-auto); the
+      # document doesn't scroll. Without script it is 100dvh. Other options go on
+      # the element. Needs import "unmagic/components/viewport".
+      def viewport_tag(**options, &block)
+        content_tag("unmagic-viewport", **options, class: class_names("UnmagicViewport", options[:class])) do
+          capture(&block) if block
+        end
+      end
+
       # A clock counting up from a moment the server named, a second at a time — the
       # difference between work that takes a minute and work that has hung.
       #

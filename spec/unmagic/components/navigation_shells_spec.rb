@@ -3,6 +3,16 @@
 RSpec.describe "sidebars, navbars, comboboxes and the command palette" do
   let(:view) { build_view(path: "/things") }
 
+  describe "#viewport_tag" do
+    it "wraps an app in a frame that follows the visual viewport" do
+      frame = html(view.viewport_tag(class: "flex flex-col", id: "app") { "APP" }).at("unmagic-viewport")
+
+      expect(frame["class"]).to eq("UnmagicViewport flex flex-col")
+      expect(frame["id"]).to eq("app")
+      expect(frame.text).to eq("APP")
+    end
+  end
+
   describe "#sidebar" do
     it "renders a popover nav of sections with icons, badges and the current page" do
       doc = html(view.sidebar(id: "app_nav", label: "Main", class: "extra") do |nav|
