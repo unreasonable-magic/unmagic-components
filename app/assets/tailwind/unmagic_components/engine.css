@@ -1001,6 +1001,16 @@
     @apply pr-9;
   }
 
+  /* iOS Safari zooms the page into a text box or select whose type is under 16px
+     when it takes focus, and leaves it zoomed. On a touch screen every box is
+     16px, whatever its size, so tapping one never moves the page. */
+  @media (pointer: coarse) {
+    .UnmagicInput,
+    .UnmagicSelect {
+      font-size: max(1rem, 16px);
+    }
+  }
+
   /* Checkboxes and radios stay real inputs, drawn with CSS: the box, and a mark
      that shows once checked. Nothing animates, so reduced motion has nothing to
      switch off. The border is darker than a text box's: a box this small is
@@ -4081,8 +4091,12 @@
     @apply block w-max max-w-full border-collapse overflow-x-auto text-left;
   }
 
+  /* break-word, not the anywhere a message body wraps with: anywhere lets a cell's
+     narrowest width be one character, so on a phone a table squeezes `count` to
+     "coun / t". With break-word a word keeps its width and the table scrolls. */
   .UnmagicProse :where(th, td):not(:where(.not-prose *)) {
     @apply border-b border-neutral-200 py-1.5 pr-4 align-top dark:border-neutral-800;
+    overflow-wrap: break-word;
   }
 
   .UnmagicProse :where(th):not(:where(.not-prose *)) {
@@ -5274,6 +5288,54 @@
 
   .UnmagicAIChatComposer__action {
     @apply gap-2;
+  }
+
+  /* In a narrow column (a phone) one row can't hold the field and its controls:
+     the attach button, a select as wide as its longest option and Send leave the
+     field no width at all. So the field takes the whole first row and the
+     controls share the second: attach, then the actions, which give way (a select
+     shrinks and clips its label) so Send always fits at the end. A grid, not a
+     wrapping row, because a wrapping row moves an item to a new line rather than
+     shrink it. Each control has its own column, so one a host leaves out just
+     leaves an empty column. */
+  @container (width < 36rem) {
+    .UnmagicAIChatComposer__box {
+      @apply grid items-center gap-x-1 gap-y-1;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+    }
+
+    .UnmagicAIChatComposer__box > unmagic-uuid-input {
+      @apply contents;
+    }
+
+    .UnmagicAIChatComposer__box > .UnmagicAutogrow {
+      grid-column: 1 / -1;
+    }
+
+    .UnmagicAIChatComposer__attach {
+      grid-column: 1;
+    }
+
+    .UnmagicAIChatComposer__actions {
+      @apply min-w-0;
+      grid-column: 2;
+    }
+
+    .UnmagicAIChatComposer__actions > * {
+      @apply min-w-0 max-w-full;
+    }
+
+    .UnmagicAIChatComposer__action {
+      grid-column: 3;
+    }
+  }
+
+  /* 16px on a touch screen, or iOS zooms the page in when the field takes focus
+     (see UnmagicInput). */
+  @media (pointer: coarse) {
+    .UnmagicAIChatComposer__field {
+      font-size: max(1rem, 16px);
+    }
   }
 
   /* Hidden only visually when the box is narrow: it's in the action region's live
