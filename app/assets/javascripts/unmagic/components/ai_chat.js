@@ -5,7 +5,11 @@
 // The composer (`ai_chat_composer`):
 //   - Enter sends and Shift+Enter makes a new line, but only while the form's Send
 //     button is on the page. While a turn runs it is Stop, so Enter does nothing
-//     rather than failing quietly. Composing text (an IME) is left alone.
+//     rather than failing quietly. Composing text (an IME) is left alone. On a
+//     touch screen with no mouse (a phone), whose keyboard has no Shift+Enter,
+//     Return makes a new line and the Send button sends, as in a phone's messages.
+//   - Pressing Send keeps focus in the field, so a phone's keyboard stays up for
+//     the next message rather than closing on every send.
 //   - After a successful submit the form is reset rather than the field blanked,
 //     so <unmagic-uuid-input> mints the next id and autogrow re-measures. A failed
 //     request leaves what was typed where it was.
@@ -32,6 +36,7 @@
 // The choices last until the page is loaded afresh.
 
 const INSTALLED = Symbol.for("unmagic.components.ai_chat")
+const touchOnly = window.matchMedia("(hover: none) and (pointer: coarse)")
 
 if (!document[INSTALLED]) {
   document[INSTALLED] = true
@@ -40,11 +45,21 @@ if (!document[INSTALLED]) {
     const field = event.target
     if (!(field instanceof HTMLTextAreaElement) || !field.hasAttribute("data-ai-chat-composer-field")) return
     if (event.key !== "Enter" || event.shiftKey || event.isComposing || event.defaultPrevented) return
+    if (touchOnly.matches) return
 
     event.preventDefault()
     const form = field.form
     const send = form && sendButton(form)
     if (send) form.requestSubmit(send)
+  })
+
+  // Focus moves on mousedown, before the click: cancelling it keeps the field
+  // focused (and the keyboard up) while the click still sends.
+  document.addEventListener("mousedown", (event) => {
+    const button = event.target instanceof Element && event.target.closest("button[type=submit]")
+    const field = document.activeElement
+    if (!button || !(field instanceof HTMLTextAreaElement) || !field.hasAttribute("data-ai-chat-composer-field")) return
+    if (field.form && button === sendButton(field.form)) event.preventDefault()
   })
 
   document.addEventListener("turbo:submit-end", (event) => {
