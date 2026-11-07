@@ -10,6 +10,13 @@
 //     Return makes a new line and the Send button sends, as in a phone's messages.
 //   - Pressing Send keeps focus in the field, so a phone's keyboard stays up for
 //     the next message rather than closing on every send.
+//   - The page gives it the keyboard. Where there's a mouse it takes focus as
+//     the page loads, unless something else has it (on a phone that would only
+//     scroll the page: the keyboard needs a tap). And a printable key pressed
+//     while nothing is being typed into goes to the field, that keystroke
+//     included, rather than nowhere. Shortcuts (Cmd, Ctrl, Alt), other fields,
+//     and an open dialog or popover keep their keys; Space still presses a
+//     focused button.
 //   - After a successful submit the form is reset rather than the field blanked,
 //     so <unmagic-uuid-input> mints the next id and autogrow re-measures. A failed
 //     request leaves what was typed where it was.
@@ -60,6 +67,26 @@ if (!document[INSTALLED]) {
     const field = document.activeElement
     if (!button || !(field instanceof HTMLTextAreaElement) || !field.hasAttribute("data-ai-chat-composer-field")) return
     if (field.form && button === sendButton(field.form)) event.preventDefault()
+  })
+
+  const greet = () => {
+    if (touchOnly.matches || !nothingFocused() || overlayOpen()) return
+    composerField()?.focus({ preventScroll: true })
+  }
+
+  document.addEventListener("turbo:load", greet)
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", greet)
+  else greet()
+
+  // Focusing the field during keydown is what carries the key into it: the
+  // browser delivers the keystroke's input to the newly focused element.
+  document.addEventListener("keydown", (event) => {
+    if (event.defaultPrevented || event.isComposing || event.metaKey || event.ctrlKey || event.altKey) return
+    if (event.key.length !== 1 || overlayOpen()) return
+    if (typedInto(document.activeElement)) return
+    if (event.key === " " && !nothingFocused()) return
+
+    composerField()?.focus({ preventScroll: true })
   })
 
   document.addEventListener("turbo:submit-end", (event) => {
@@ -146,6 +173,34 @@ if (!document[INSTALLED]) {
   })
   document.addEventListener("turbo:render", restoreStep)
   document.addEventListener("turbo:frame-render", restoreStep)
+}
+
+function composerField() {
+  for (const field of document.querySelectorAll("[data-ai-chat-composer-field]")) {
+    if (!field.disabled && visible(field)) return field
+  }
+  return null
+}
+
+function visible(element) {
+  return element.checkVisibility ? element.checkVisibility() : element.offsetParent !== null
+}
+
+function nothingFocused() {
+  const active = document.activeElement
+  return !active || active === document.body || active === document.documentElement
+}
+
+function typedInto(element) {
+  return !!element && (element.isContentEditable || element.matches("input, textarea, select"))
+}
+
+function overlayOpen() {
+  try {
+    return !!document.querySelector("dialog[open], :popover-open")
+  } catch {
+    return !!document.querySelector("dialog[open]")
+  }
 }
 
 // The form's own Send button: the one submit that names the form. Stop names a

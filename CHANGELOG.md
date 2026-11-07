@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- An `ai_chat_composer` takes the keyboard. Where there's a mouse its field takes
+  focus as the page loads (or a Turbo visit lands), unless something else has
+  it, and a printable key pressed while nothing is being typed into goes to the
+  field, that keystroke included. Opening a chat and typing used to type into
+  nothing. Shortcuts, other fields, an open dialog or popover, and Space on a
+  focused button keep their keys; phones are left alone, where focusing on load
+  would only scroll the page.
+
 ### Added
 
 - `prose(html)`: a host's rendered, sanitised Markdown with each code block
