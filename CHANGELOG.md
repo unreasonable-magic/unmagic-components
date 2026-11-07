@@ -7,14 +7,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `viewport_tag`, the frame for a full-screen app that stays on screen when a
+  phone's keyboard opens (`<unmagic-viewport>`). iOS Safari slides a `100dvh`
+  page up to show the focused field, taking its header off the top; this frame
+  follows the visual viewport instead, so the header stays put and a composer
+  sits on the keyboard. Needs `import "unmagic/components/viewport"` (in
+  `unmagic/components`).
+
 ### Changed
 
+- On a touch screen with no mouse, Return in an `ai_chat_composer` makes a new
+  line and the Send button sends, as in a phone's messages: the phone keyboard
+  has no Shift+Enter, so Enter-to-send left no way to write a second line.
+  Enter still sends where there is a mouse or trackpad.
+- Pressing an `ai_chat_composer`'s Send keeps focus in the field, so a phone's
+  keyboard stays up for the next message instead of closing on every send.
+- `<unmagic-autoscroll>` (the `ai_chat` transcript) stays at the bottom when its
+  box changes height, as when a phone's keyboard opens, rather than taking the
+  resize for the reader scrolling up and stopping. A message the reader sends
+  into it (an `unmagic-optimistic` insert) takes them to the bottom wherever
+  they were.
 - Add a JSON Forms UI schema subset for control ordering, labels, multiline text,
   and color widgets. Breaking: replace data-schema `format: "color"` with
   UI-schema `options.unmagic.widget: "color"`.
 
 ### Fixed
 
+- `ai_chat_composer` on a phone: one row held the field, the attach button, a
+  select as wide as its longest option and Send, which left the field about
+  one character wide and pushed Send off the edge. In a column narrower than
+  36rem the field takes the first row and the controls share the second, the
+  actions giving way so Send always fits.
+- Text boxes, selects and the composer field are 16px on a touch screen.
+  Smaller type made iOS Safari zoom the page into the field on focus and leave
+  it zoomed.
+- A Markdown table on a phone no longer squeezes a column to one character
+  (`count` as "coun / t"): its cells wrap with `break-word` rather than the
+  message body's `anywhere`, and a table too wide for the column scrolls.
 - `code_view` line numbers past 999 no longer wrap mid-number and paint over
   the next line's number. The number is `white-space: nowrap`, and the gutter
   is sized from the line count through a new `--unmagic-code-view-digits` knob
