@@ -16,7 +16,7 @@ module Unmagic
       end
 
       def initialize(view, source, language: nil, lines: false, wrap: true, max_height: nil, copy: true,
-        label: nil, id: nil, **options)
+        label: nil, caption: nil, id: nil, **options)
         @view = view
         @source = source.to_s
         @language = language
@@ -24,7 +24,8 @@ module Unmagic
         @wrap = wrap
         @max_height = max_height
         @copy = copy
-        @label = label || I18n.t("unmagic.components.code_view.label", default: "Code")
+        @caption = caption.presence
+        @label = label || @caption || I18n.t("unmagic.components.code_view.label", default: "Code")
         @id = id || "unmagic_code_view_#{SecureRandom.hex(4)}"
         @options = options
       end
@@ -33,11 +34,12 @@ module Unmagic
         classes = view.class_names("UnmagicCodeView", {
           "UnmagicCodeView--lines" => @lines,
           "UnmagicCodeView--nowrap" => !@wrap,
-          "UnmagicCodeView--copy" => @copy
+          "UnmagicCodeView--copy" => @copy && !@caption,
+          "UnmagicCodeView--captioned" => @caption
         }, @options[:class])
 
         tag.div(**@options, id: @id, class: classes, style: style) do
-          safe_join [ pre, (copy if @copy) ].compact
+          @caption ? safe_join([ header, pre ]) : safe_join([ pre, (copy if @copy) ].compact)
         end
       end
 
@@ -97,6 +99,14 @@ module Unmagic
 
       def copy
         tag.div(view.copy_button(from: code_id), class: "UnmagicCodeView__copy")
+      end
+
+      # A captioned block names what it holds (a language, a file) above the code,
+      # with the copy button beside the name rather than floating over the first line.
+      def header
+        tag.div(class: "UnmagicCodeView__header") do
+          safe_join [ tag.span(@caption, class: "UnmagicCodeView__caption"), (view.copy_button(from: code_id) if @copy) ].compact
+        end
       end
     end
   end

@@ -25,8 +25,10 @@ RSpec.describe "the AI chat composer" do
     action = root.at("#composer_action")
     expect(action["aria-live"]).to eq("polite")
     send = action.at("button")
-    expect([ send["type"], send["form"], send.text ]).to eq([ "submit", "composer", "Send" ])
-    expect(send["class"]).to eq("UnmagicButton UnmagicButton--primary")
+    expect([ send["type"], send["form"], send["title"] ]).to eq([ "submit", "composer", "Send" ])
+    expect(send.at(".UnmagicVisuallyHidden").text).to eq("Send")
+    expect(send.at("svg")["aria-hidden"]).to eq("true")
+    expect(send["class"]).to eq("UnmagicButton UnmagicButton--primary UnmagicAIChatComposer__send")
     expect(root.at("[data-ai-chat-chips]")).not_to be_nil
   end
 
@@ -39,7 +41,7 @@ RSpec.describe "the AI chat composer" do
       doc = composer(state: state)
       button = doc.at("#composer_action button")
 
-      expect([ button["form"], button.text, button.key?("disabled") ]).to eq([ form, label, disabled ])
+      expect([ button["form"], button.text.strip, button["title"], button.key?("disabled") ]).to eq([ form, label, label, disabled ])
       expect(doc.at("textarea").key?("disabled")).to be(false)
     end
 

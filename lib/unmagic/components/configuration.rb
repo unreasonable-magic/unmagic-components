@@ -8,7 +8,7 @@ module Unmagic
     # versions in an initializer.
     class Configuration
       attr_writer :empty_state, :pagination, :pagy_for, :submit_class, :control_class, :modal_frame_id, :flash_tones,
-        :highlight, :code_block, :sortable_item, :sortable_url, :avatar_fill
+        :highlight, :code_block, :prose_code_block, :sortable_item, :sortable_url, :avatar_fill
 
       # The tone each flash type's toast wears, keyed by the flash type as a string.
       # A type that isn't listed is :info.
@@ -71,6 +71,18 @@ module Unmagic
       #   config.code_block = ->(view, source, language) { view.render("code", source: source, language: language) }
       def code_block
         @code_block ||= ->(view, source, language) { view.code_view(source, language: language, copy: false) }
+      end
+
+      # Frames a code block in prose (see ActionViewHelpers#prose). Called with
+      # (view, source, language), language nil for a fence that named none. The
+      # default is a code_view captioned with the language and a copy button beside
+      # it, as a chat shows code it means to be copied.
+      #
+      #   config.prose_code_block = ->(view, source, language) { view.render("code", source:, language:) }
+      def prose_code_block
+        @prose_code_block ||= lambda do |view, source, language|
+          view.code_view(source, language: language, caption: language.presence || "text")
+        end
       end
 
       # What a sortable item carries for a record: its key and its rank. Called with

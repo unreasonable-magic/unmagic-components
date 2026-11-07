@@ -55,6 +55,21 @@
   .UnmagicPage {
     @apply bg-white text-neutral-900 antialiased;
     @apply dark:bg-neutral-950 dark:text-neutral-100 dark:[color-scheme:dark];
+    scrollbar-color: var(--color-neutral-300) transparent;
+  }
+
+  .UnmagicPage ::selection {
+    background-color: rgb(23 23 23 / 0.12);
+  }
+
+  @variant dark {
+    .UnmagicPage {
+      scrollbar-color: var(--color-neutral-700) transparent;
+    }
+
+    .UnmagicPage ::selection {
+      background-color: rgb(255 255 255 / 0.2);
+    }
   }
 
   /* A full-screen app's frame (viewport_tag): fixed over the visual viewport, so
@@ -1159,6 +1174,16 @@
 
   .UnmagicButton--danger:hover {
     @apply bg-red-50 dark:bg-red-400/10;
+  }
+
+  /* In a confirmation the destructive button is the one thing being asked about,
+     so it's filled rather than outlined. */
+  [data-unmagic-confirm-accept].UnmagicButton--danger {
+    @apply border-transparent bg-red-600 text-white dark:border-transparent dark:bg-red-500 dark:text-white;
+  }
+
+  [data-unmagic-confirm-accept].UnmagicButton--danger:hover {
+    @apply bg-red-700 dark:bg-red-600;
   }
 
   .UnmagicButton--icon {
@@ -3592,6 +3617,19 @@
     @apply opacity-100;
   }
 
+  /* A captioned block: what it holds over the code, the copy button beside it. */
+  .UnmagicCodeView__header {
+    @apply flex items-center justify-between gap-2 border-b border-neutral-200 py-1 pr-1 pl-3 dark:border-neutral-800;
+  }
+
+  .UnmagicCodeView__caption {
+    @apply truncate font-mono text-xs text-neutral-500 dark:text-neutral-400;
+  }
+
+  .UnmagicCodeView__header .UnmagicButton {
+    @apply text-neutral-500 dark:text-neutral-400;
+  }
+
   .UnmagicCodeView__copy .UnmagicButton {
     @apply border border-neutral-200 bg-white shadow-xs dark:border-neutral-700 dark:bg-neutral-800;
   }
@@ -4081,7 +4119,21 @@
   }
 
   .UnmagicProse :where(:not(pre) > code):not(:where(.not-prose *)) {
-    @apply rounded bg-neutral-100 px-1 py-0.5 font-mono text-[0.9em] dark:bg-neutral-800;
+    @apply rounded-md bg-neutral-100 px-1.5 py-0.5 font-mono text-[0.85em] text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200;
+  }
+
+  /* A code block prose redraws (see prose): the prose rhythm around it, a size
+     up from a payload's type inside it. */
+  .UnmagicProse :where(.UnmagicProse__code) {
+    margin-block: 1em;
+  }
+
+  .UnmagicProse__code .UnmagicCodeView {
+    @apply rounded-xl;
+  }
+
+  .UnmagicProse__code .UnmagicCodeView__pre {
+    @apply px-3.5 py-3 text-[0.8125rem] leading-6;
   }
 
   /* The block's chrome only: the tokens are the host's highlighter's, through the
@@ -4796,6 +4848,15 @@
     @apply hidden;
   }
 
+  /* The box a transcript scrolls in (ai_chat's scroller:), when the page has one:
+     turns fade out under what sits above and below it (a header, a composer)
+     rather than meeting them at a hard edge, with room at each end so the first
+     and last turns start clear of the fade. */
+  .UnmagicAIChatScroller {
+    @apply pt-4 pb-2;
+    mask-image: linear-gradient(to bottom, transparent, #000 1.25rem, #000 calc(100% - 1rem), transparent);
+  }
+
   /* A zero-height sticky dock, so the button floats over the transcript's foot
      without taking room in it. A host with a sticky composer lifts it with bottom. */
   .UnmagicAIChat__latest {
@@ -4804,8 +4865,9 @@
 
   .UnmagicAIChat__latestButton {
     font: inherit;
-    @apply pointer-events-auto inline-flex size-9 -translate-y-full cursor-pointer items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-600 shadow-md;
-    @apply dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300;
+    @apply pointer-events-auto inline-flex size-8 -translate-y-full cursor-pointer items-center justify-center rounded-full border border-neutral-200 bg-white/90 text-neutral-600 backdrop-blur-sm;
+    box-shadow: 0 2px 8px -2px rgb(0 0 0 / 0.12);
+    @apply dark:border-neutral-700 dark:bg-neutral-900/90 dark:text-neutral-300;
     transition: opacity 150ms ease;
   }
 
@@ -4879,6 +4941,18 @@
   /* Built on the message component: a user's turn is an own bubble and an
      assistant's a row with no avatar, so the look lives in the Messages section.
      Only the agent's extras are styled here. */
+  /* A person's turn is a soft bubble rather than the inverted one a channel's own
+     message is: the reply is what's read, and the question recedes beside it. */
+  .UnmagicAIChatMessage--user.UnmagicMessage--own .UnmagicMessage__body {
+    @apply rounded-3xl rounded-br-lg bg-neutral-100 px-4 py-2.5 text-[0.9375rem] leading-relaxed text-neutral-900;
+    @apply dark:bg-neutral-800 dark:text-neutral-100;
+  }
+
+  /* Replies are read, not scanned: a size up from the prose default. */
+  .UnmagicAIChatMessage--assistant .UnmagicMessage__body.UnmagicProse {
+    @apply text-[0.9375rem] leading-7;
+  }
+
   .UnmagicAIChatMessage__thinking {
     @apply inline-flex py-0.5 text-neutral-400 dark:text-neutral-500;
   }
@@ -4891,13 +4965,14 @@
 
   /* ------------------------------------------------------ AI chat reasoning */
 
+  /* A quiet line above the reply that opens into the thinking, set off by a hairline
+     rather than boxed: it's the reply's footnote, not a second message. */
   .UnmagicAIChatReasoning {
-    @apply max-w-[85%] rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs text-neutral-500;
-    @apply dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-400;
+    @apply mb-2 text-sm text-neutral-500 dark:text-neutral-400;
   }
 
   .UnmagicAIChatReasoning__head {
-    @apply flex items-center gap-1.5;
+    @apply inline-flex items-center gap-1.5 py-0.5;
   }
 
   .UnmagicAIChatReasoning__head:hover {
@@ -4909,7 +4984,7 @@
   }
 
   .UnmagicAIChatReasoning__block {
-    @apply mt-2 text-xs text-neutral-600 dark:text-neutral-400;
+    @apply mt-2 border-l border-neutral-200 pl-3 text-sm leading-6 text-neutral-500 dark:border-neutral-800 dark:text-neutral-400;
   }
 
   /* ----------------------------------------------------- AI chat tool calls */
@@ -5055,8 +5130,9 @@
 
   /* ------------------------------------------------------- AI chat failures */
 
+  /* The sentence is the news, not an alarm: a plain card, red only in its icon. */
   .UnmagicAIChatFailure {
-    @apply rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm dark:border-red-400/30 dark:bg-red-400/10;
+    @apply rounded-xl border border-neutral-200 bg-white px-3.5 py-3 text-sm dark:border-neutral-800 dark:bg-neutral-900;
   }
 
   .UnmagicAIChatFailure__head {
@@ -5072,12 +5148,12 @@
   }
 
   .UnmagicAIChatFailure__message {
-    @apply m-0 text-red-800 dark:text-red-300;
+    @apply m-0 font-medium text-neutral-900 dark:text-neutral-100;
   }
 
   /* A provider's message runs long and usually holds a URL. */
   .UnmagicAIChatFailure__cause {
-    @apply mt-1 mb-0 font-mono text-xs break-words text-red-700/90 dark:text-red-400/90;
+    @apply mt-1 mb-0 font-mono text-xs break-words text-neutral-500 dark:text-neutral-400;
   }
 
   .UnmagicAIChatFailure__details {
@@ -5085,7 +5161,7 @@
   }
 
   .UnmagicAIChatFailure__summary {
-    @apply inline-flex items-center gap-1.5 text-xs text-red-700/80 dark:text-red-400/80;
+    @apply inline-flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400;
   }
 
   .UnmagicAIChatFailure__body {
@@ -5249,8 +5325,8 @@
 
   /* ------------------------------------------------------- AI chat composer */
 
-  /* A container, so the hint below can give way to the field in a narrow column
-     however wide the page is. */
+  /* A container, so the hint can give way in a narrow column however wide the
+     page is. */
   .UnmagicAIChatComposer {
     @apply relative flex flex-col gap-2;
     container-type: inline-size;
@@ -5264,79 +5340,42 @@
     @apply flex flex-wrap gap-1.5;
   }
 
-  /* The box is the control, so it takes the focus ring; the textarea inside it is
-     bare. */
+  /* One card: the field across the top, a toolbar under it, the one filled thing
+     the round button in its corner. The card is the control, so it takes the
+     focus ring; the textarea inside it is bare. A grid at every width rather than
+     a row: the field always has the card's whole width, and the toolbar's middle
+     column gives way (a select clips its label) so the round button always fits.
+     Each control has its own column, so one a host leaves out leaves an empty
+     column. */
   .UnmagicAIChatComposer__box {
-    @apply flex items-end gap-2 rounded-xl border border-neutral-300 bg-white p-2 shadow-xs;
-    @apply dark:border-neutral-700 dark:bg-neutral-900;
+    @apply grid items-center gap-x-1 gap-y-1 rounded-3xl border border-neutral-200 bg-white p-2;
+    @apply dark:border-neutral-800 dark:bg-neutral-900;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px -12px rgb(0 0 0 / 0.12);
+    transition: border-color 150ms ease;
   }
 
   .UnmagicAIChatComposer__box:focus-within {
-    @apply border-neutral-500 dark:border-neutral-500;
+    @apply border-neutral-300 dark:border-neutral-700;
   }
 
   .UnmagicAIChatComposer__box:has(.UnmagicAIChatComposer__field:focus-visible) {
     @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neutral-500;
   }
 
+  .UnmagicAIChatComposer__box > unmagic-uuid-input {
+    @apply contents;
+  }
+
   .UnmagicAIChatComposer__box > .UnmagicAutogrow {
-    @apply min-w-0 flex-1 self-center;
+    @apply min-w-0;
+    grid-column: 1 / -1;
   }
 
   .UnmagicAIChatComposer__field {
     font: inherit;
-    @apply block max-h-60 w-full border-0 bg-transparent px-2 py-1.5 text-sm text-neutral-900 shadow-none outline-none placeholder:text-neutral-400;
+    @apply block max-h-60 w-full border-0 bg-transparent px-2.5 pt-1.5 pb-1 text-[0.9375rem] leading-6 text-neutral-900 shadow-none outline-none placeholder:text-neutral-400;
     @apply dark:text-neutral-100 dark:placeholder:text-neutral-500;
-  }
-
-  .UnmagicAIChatComposer__attach,
-  .UnmagicAIChatComposer__actions,
-  .UnmagicAIChatComposer__action {
-    @apply flex shrink-0 items-center gap-1;
-  }
-
-  .UnmagicAIChatComposer__action {
-    @apply gap-2;
-  }
-
-  /* In a narrow column (a phone) one row can't hold the field and its controls:
-     the attach button, a select as wide as its longest option and Send leave the
-     field no width at all. So the field takes the whole first row and the
-     controls share the second: attach, then the actions, which give way (a select
-     shrinks and clips its label) so Send always fits at the end. A grid, not a
-     wrapping row, because a wrapping row moves an item to a new line rather than
-     shrink it. Each control has its own column, so one a host leaves out just
-     leaves an empty column. */
-  @container (width < 36rem) {
-    .UnmagicAIChatComposer__box {
-      @apply grid items-center gap-x-1 gap-y-1;
-      grid-template-columns: auto minmax(0, 1fr) auto;
-    }
-
-    .UnmagicAIChatComposer__box > unmagic-uuid-input {
-      @apply contents;
-    }
-
-    .UnmagicAIChatComposer__box > .UnmagicAutogrow {
-      grid-column: 1 / -1;
-    }
-
-    .UnmagicAIChatComposer__attach {
-      grid-column: 1;
-    }
-
-    .UnmagicAIChatComposer__actions {
-      @apply min-w-0;
-      grid-column: 2;
-    }
-
-    .UnmagicAIChatComposer__actions > * {
-      @apply min-w-0 max-w-full;
-    }
-
-    .UnmagicAIChatComposer__action {
-      grid-column: 3;
-    }
   }
 
   /* 16px on a touch screen, or iOS zooms the page in when the field takes focus
@@ -5344,6 +5383,75 @@
   @media (pointer: coarse) {
     .UnmagicAIChatComposer__field {
       font-size: max(1rem, 16px);
+    }
+  }
+
+  .UnmagicAIChatComposer__attach,
+  .UnmagicAIChatComposer__actions,
+  .UnmagicAIChatComposer__action {
+    @apply flex items-center gap-1;
+  }
+
+  .UnmagicAIChatComposer__attach {
+    grid-column: 1;
+  }
+
+  .UnmagicAIChatComposer__actions {
+    @apply min-w-0;
+    grid-column: 2;
+  }
+
+  .UnmagicAIChatComposer__actions > * {
+    @apply min-w-0 max-w-full;
+  }
+
+  /* A model picker is as wide as the model it names, not its longest option. */
+  .UnmagicAIChatComposer__actions .UnmagicSelect {
+    field-sizing: content;
+  }
+
+  .UnmagicAIChatComposer__action {
+    @apply gap-2;
+    grid-column: 3;
+  }
+
+  /* The toolbar is quiet: buttons and selects in it are ghosts until hovered. */
+  :is(.UnmagicAIChatComposer__attach, .UnmagicAIChatComposer__actions) :is(.UnmagicButton, .UnmagicSelect) {
+    @apply rounded-full border-transparent bg-transparent text-neutral-500 shadow-none;
+    @apply dark:border-transparent dark:bg-transparent dark:text-neutral-400;
+  }
+
+  :is(.UnmagicAIChatComposer__attach, .UnmagicAIChatComposer__actions) :is(.UnmagicButton, .UnmagicSelect):hover {
+    @apply bg-neutral-100 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100;
+  }
+
+  /* Send, Stop and Stopping: round and icon-only, their names kept for a screen
+     reader and a hover. Send dims while there's nothing to send; pressing it
+     still asks for a message. */
+  :is(.UnmagicAIChatComposer__send, .UnmagicAIChatComposer__stop, .UnmagicAIChatComposer__stopping) {
+    @apply size-8 shrink-0 rounded-full p-0;
+  }
+
+  .UnmagicAIChatComposer__send .UnmagicIcon {
+    @apply size-4;
+    stroke-width: 2.5;
+  }
+
+  .UnmagicAIChatComposer__stop .UnmagicIcon {
+    @apply size-3 fill-current;
+  }
+
+  .UnmagicAIChatComposer__box:has(.UnmagicAIChatComposer__field:placeholder-shown) .UnmagicAIChatComposer__send {
+    @apply opacity-30;
+  }
+
+  .UnmagicAIChatComposer__send {
+    transition: opacity 150ms ease;
+  }
+
+  @media (pointer: coarse) {
+    :is(.UnmagicAIChatComposer__send, .UnmagicAIChatComposer__stop, .UnmagicAIChatComposer__stopping) {
+      @apply size-10 min-h-10;
     }
   }
 
@@ -5357,10 +5465,6 @@
     .UnmagicAIChatComposer__hint {
       @apply not-sr-only;
     }
-  }
-
-  .UnmagicAIChatComposer__stop:hover {
-    @apply border-red-300 bg-red-50 text-red-700 dark:border-red-400/40 dark:bg-red-400/10 dark:text-red-400;
   }
 
   /* Empty: Stop reaches it by id, and asks nothing of the person. */

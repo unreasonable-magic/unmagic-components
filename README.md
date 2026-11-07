@@ -277,9 +277,14 @@ Unmagic::Components.configure do |config|
   # gem's stylesheet colours.
   config.highlight = ->(source, language) { MyHighlighter.lines(source, language) }
 
-  # Frames a block of code: a tool call's payload, a code block in prose. Called
+  # Frames a block of code: a tool call's payload, a failure's backtrace. Called
   # with (view, source, language); return markup. The default is a code_view.
   config.code_block = ->(view, source, language) { view.render("code", source: source, language: language) }
+
+  # Frames a code block in prose (see `prose`), language nil when the fence named
+  # none. The default is a code_view captioned with the language, with a copy
+  # button beside it.
+  config.prose_code_block = ->(view, source, language) { view.render("code", source:, language:) }
 
   # What a sortable item carries for a record, and where drops post. The
   # unmagic-sortable gem sets both to its signed keys and endpoint.
@@ -1320,7 +1325,21 @@ the edges. Other options go on the outer element. Needs
 Needs `import "unmagic/components/menu"`, `"unmagic/components/tabs"` and
 `"unmagic/components/clipboard"`, or `import "unmagic/components"`.
 
-### `code_view(source, language: nil, lines: false, wrap: true, max_height: nil, copy: true, label: nil, id: nil, **options)`
+### `prose(html)`
+
+```erb
+<div class="UnmagicProse"><%= prose sanitize(markdown_to_html(reply)) %></div>
+```
+
+Rendered, sanitised Markdown (or any prose HTML) finished for reading: each code
+block, a `<pre>` holding one `<code>`, is redrawn through
+`config.prose_code_block`, by default a `code_view` captioned with the language
+its fence named (`<pre lang>` or `language-*` on the `<code>`; "text" when it
+named none) with a copy button beside the caption. The gem still never parses
+Markdown. Run it after your sanitiser, which would strip the code view's markup.
+Blank renders nothing.
+
+### `code_view(source, language: nil, lines: false, wrap: true, max_height: nil, copy: true, label: nil, caption: nil, id: nil, **options)`
 
 A block of source to read or copy: a file, a payload, a command. Coloured with
 Rouge, wrapping long lines, with a copy button in the corner that appears on
@@ -1339,9 +1358,12 @@ are drawn rather than written, so a copy leaves them behind; the gutter is as
 wide as the last number, three digits at least. `wrap: false`
 scrolls sideways instead of wrapping. `max_height:` is a CSS length past which
 the block scrolls, and a block that can scroll is a focusable region named
-`label:` ("Code"). `id:` names the wrapper; the `<code>` is `"#{id}_code"`.
+`label:` ("Code"). `caption:` names what the block holds (a language, a file
+name) in a header over the code, and the copy button moves beside it, where it's
+always shown. `id:` names the wrapper; the `<code>` is `"#{id}_code"`.
 Colouring goes through `config.highlight`; `config.code_block`, which tool
-payloads and prose code blocks render through, is a `code_view` by default.
+payloads render through, is a `code_view` by default, and `prose` redraws prose
+code blocks through `config.prose_code_block`, a captioned one.
 Knobs: `--unmagic-code-view-max-height`, and `--unmagic-code-view-digits`, the
 width of the line-number gutter in characters, which `lines: true` sets from
 the line count. I18n: `unmagic.components.code_view.label`.
@@ -2065,8 +2087,8 @@ They need Turbo and `import "unmagic/components"`, or the modules named below.
   ```
 
 - **The gem never parses Markdown.** Hand it your own rendered, sanitised HTML.
-  `UnmagicProse` styles it, and code blocks, like tool payloads, go through
-  `config.code_block`.
+  `UnmagicProse` styles it, and `prose` (after your sanitiser) redraws its code
+  blocks as captioned, copyable code views, through `config.prose_code_block`.
 - **Only the composer's button changes with the turn's state.** Redraw it with
   `ai_chat_composer_action` so a half-typed draft survives.
 - **Amber means waiting on a person.** A question, a permission request or a plan
@@ -2087,6 +2109,9 @@ no entries of its own; use a partial per entry type.
   `data-ai-chat-timeline="gap"` so the run stays joined.
 - **Welcome:** `chat.welcome` shows while there are no entries, and hides as the
   first one arrives.
+- **The scroller:** give the element `scroller:` names the `UnmagicAIChatScroller`
+  class, and turns fade out under the header and the composer rather than
+  meeting them at a hard edge.
 
 Needs `import "unmagic/components/autoscroll"`. I18n:
 `unmagic.components.ai_chat.transcript.label` ("Conversation") and `.latest`
