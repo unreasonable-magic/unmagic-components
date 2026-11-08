@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- A reply that hasn't said anything yet shows the word "Thinking" beside its
+  spinner, shimmering (pulsing under reduced motion), rather than a small pale
+  spinner alone that read as a blank.
+- The AI chat composer carries a `view-transition-name`, so on a page with view
+  transitions on (Turbo's `<meta name="view-transition">`) it glides between
+  pages, from a new chat's middle to a conversation's foot, rather than
+  vanishing and reappearing. One composer to a page. View transitions don't
+  animate under `prefers-reduced-motion`.
+
+### Changed
+
 - An `ai_chat_composer` takes the keyboard. Where there's a mouse its field takes
   focus as the page loads (or a Turbo visit lands), unless something else has
   it, and a printable key pressed while nothing is being typed into goes to the
