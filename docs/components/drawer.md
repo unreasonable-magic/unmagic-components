@@ -103,10 +103,8 @@ Added to the existing **Dialogs** section:
   - square outer corners, a border only on the inner edge
 - `.UnmagicDialog--drawer .UnmagicDialog__body`: `flex: 1; overflow-y: auto`.
   The footer stays pinned.
-  - **Trade-off:** a centred dialog keeps `overflow: visible` so a `menu`
-    inside isn't clipped; a drawer body scrolls, so a `<details>` menu inside
-    it can be clipped. `popover.md`'s top-layer panel avoids this. Flag this in
-    the README.
+  - A centred dialog's body scrolls the same way, capped at `90dvh`. Menus and
+    combobox lists are top-layer popovers, so neither body clips them.
 - Motion: `@keyframes unmagic-drawer-in-end` slides in from
   `translateX(100%)` (mirrored for `start`, and flipped under
   `:dir(rtl)`) over 200ms. It is switched off under reduced motion, like

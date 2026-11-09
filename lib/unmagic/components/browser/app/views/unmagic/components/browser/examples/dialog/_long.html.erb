@@ -1,0 +1,19 @@
+<%= dialog_button "New project", dialog: "new_project", class: button_classes %>
+
+<%= dialog_tag "new_project", title: "New project" do |dialog| %>
+  <%= form_with scope: :project, url: "#", builder: Unmagic::Components::FormBuilder, class: "grid gap-4" do |form| %>
+    <%= form.field :name, "Project name", placeholder: "Harbour redesign" %>
+    <%= form.field :client, "Client", placeholder: "Acme" %>
+    <%= form.field :code, "Code", placeholder: "HRB-24", hint: "Shown on invoices." %>
+    <%= form.field :budget, "Budget", placeholder: "12,000" %>
+    <%= form.field :starts_on, "Start date", placeholder: "1 March" %>
+    <%= form.field :due_on, "Due date", placeholder: "30 June" %>
+    <%= form.field :notes, "Notes", as: :text_area, rows: 4, placeholder: "Anything the team should know." %>
+    <%= form.field :owner_id, "Owner", as: :combobox, collection: @things, text: :name, placeholder: "Pick someone",
+          hint: "Open this near the bottom of the screen: the list flips above." %>
+  <% end %>
+  <% dialog.footer do %>
+    <%= tag.button "Cancel", type: "button", class: button_classes, data: { unmagic_dialog_close: "" } %>
+    <%= tag.button "Create project", type: "button", class: button_classes(:primary), data: { unmagic_dialog_close: "" } %>
+  <% end %>
+<% end %>

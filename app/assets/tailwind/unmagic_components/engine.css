@@ -1454,8 +1454,9 @@
   /* ---------------------------------------------------------------- Dialogs */
 
   /* The <dialog> itself is only a transparent positioning box; the panel inside is
-     the visible surface. overflow stays visible so a dropdown inside a dialog form
-     isn't clipped, which means a dialog keeps its content short enough to fit. */
+     the visible surface, and it scrolls its own body. overflow stays visible here so
+     the panel's shadow isn't cut off. Menus and combobox lists are top-layer
+     popovers, so the scrolling body never clips them. */
   .UnmagicDialogBox {
     @apply m-auto max-h-[90dvh] max-w-[calc(100vw-2rem)] overflow-visible border-0 bg-transparent p-0;
     color: inherit;
@@ -1497,8 +1498,11 @@
     }
   }
 
+  /* A column capped at the box's height whose body is the one part that scrolls,
+     so a long form keeps its title and its footer's buttons in view. The cap is on
+     the panel, not only the box, because a turbo-frame or form can sit between. */
   .UnmagicDialog {
-    @apply w-[min(100vw-2rem,32rem)] rounded-xl border border-neutral-200 bg-white text-sm leading-normal text-neutral-900 shadow-xl;
+    @apply flex max-h-[90dvh] w-[min(100vw-2rem,32rem)] flex-col rounded-xl border border-neutral-200 bg-white text-sm leading-normal text-neutral-900 shadow-xl;
     @apply dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-100;
   }
 
@@ -1619,7 +1623,7 @@
   }
 
   .UnmagicDialog__body {
-    @apply px-5 py-4;
+    @apply min-h-0 overflow-y-auto px-5 py-4;
   }
 
   .UnmagicDialog__body > :first-child {
